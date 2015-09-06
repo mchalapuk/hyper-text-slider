@@ -8,7 +8,7 @@ module.exports = {
   css: [
     {
       src: [
-        './src/internal/'+ project_name +'.scss',
+        './src/internal/${project_name}.scss',
       ],
     },
     {
@@ -21,7 +21,7 @@ module.exports = {
 
   js: {
     src: [
-      './src/'+ project_name +'.js'
+      './src/${project_name}.js'
     ]
   },
 
