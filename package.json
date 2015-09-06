@@ -1,0 +1,27 @@
+{
+  "name": "hermes",
+  "version": "0.0.1",
+  "description": "Powerful CSS3 Slider",
+  "main": "src/_hermes.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/md-extensions/hermes"
+  },
+  "author": "Maciej Chałapuk",
+  "license": "Apache License 2.0",
+  "devDependencies": {
+    "gulp": "~3.9.0",
+    "gulp-sass": "~2.0.4",
+    "gulp-uglify": "~1.4.0",
+    "gulp-jshint": "~1.11.2",
+    "jshint-stylish": "~2.0.1",
+    "gulp-rename": "~1.2.2",
+    "gulp-cssmin": "~0.1.7",
+    "merge-stream": "~1.0.0",
+    "del": "~2.0.1",
+  },
+  "dependencies": {}
+}

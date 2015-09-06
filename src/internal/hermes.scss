@@ -1,4 +1,4 @@
-@include
+@import
   '_mixins',
   '_base',
   '_upgraded',
@@ -6,7 +6,6 @@
   '_dots',
   '_opacity',
   '_before-transition',
-  '_functions-and-durations',
-  'transitions/_zoom-in-out'
+  '_functions-and-durations'
   ;
 
