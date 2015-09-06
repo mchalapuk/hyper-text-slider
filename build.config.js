@@ -13,9 +13,9 @@ module.exports = {
     },
     {
       src: [
-        './src/transitions/*.scss',
+        './src/transitions/internal/*.scss',
       ],
-      dest: 'transition/'
+      dest: 'transitions/'
     },
   ],
 
