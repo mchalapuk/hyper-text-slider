@@ -1,0 +1,16 @@
+{
+  "name": "hermes",
+  "version": "0.0.1",
+  "authors": [
+    "Maciej Chałapuk <maciej@chalapuk.pl>"
+  ],
+  "main": "src/_hermes.scss",
+  "license": "Apache License 2.0",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    ".gitignore"
+  ],
+  "dependencies": {
+  }
+}
