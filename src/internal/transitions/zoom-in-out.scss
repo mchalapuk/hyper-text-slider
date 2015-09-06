@@ -1,0 +1,23 @@
+
+.hermes-transition-zoom-in-out {
+  &.hermes-before-transition {
+    .hermes-slide-to {
+      .hermes-layout-content {
+        @include transform(scale(1.05, 1.05));
+      }
+    }
+  }
+  &.hermes-during-transition {
+    .hermes-slide-from {
+      .hermes-layout-content {
+        @include transform(scale(1.15, 1.15));
+      }
+    }
+    .hermes-slide-to {
+      .hermes-layout-content {
+        @include transform(scale(1, 1));
+      }
+    }
+  }
+}
+

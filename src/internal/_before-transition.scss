@@ -1,0 +1,11 @@
+
+.hermes-before-transition {
+  .hermes-slide-to {
+    .hermes-layout-background,
+    .hermes-layout-content,
+    .hermes-layout-inner-content {
+       @include transition(all 1ms linear);
+    }
+  }
+}
+

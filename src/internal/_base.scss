@@ -1,0 +1,33 @@
+
+.hermes-layout__slider {
+  width: 100%;
+  overflow-x: visible;
+  overflow-y: hidden;
+  display: block;
+  white-space: nowrap;
+  font-size: 0;
+  position: relative;
+}
+
+.hermes-layout__slide {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  position: relative;
+}
+
+.hermes-layout-background,
+.hermes-layout-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hermes-layout-inner-content {
+  height: 100%;
+  white-space: normal;
+}
+

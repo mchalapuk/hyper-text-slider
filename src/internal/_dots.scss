@@ -1,0 +1,30 @@
+
+.hermes-layout__slider-dots {
+  position: absolute;
+  width: 100%;
+  top: 86%;
+  text-align: center;
+  z-index: 1;
+  font-size: 0;
+  line-height: 1px;
+}
+
+.hermes-layout-dot {
+  $dot-size: 13px;
+
+  width: $dot-size;
+  height: $dot-size;
+  margin: 0 $dot-size/2;
+  border-radius: $dot-size;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 3px solid white;
+  display: inline-block;
+  cursor: pointer;
+
+  @include transition(background ease-in-out 500ms);
+
+  &.is-active {
+    background-color: white;
+  }
+}
+
