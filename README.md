@@ -1,10 +1,4 @@
-# The God of Transitions
-
-There are many CSS3 sliders out there. Most of them are coded purely in CSS
-just because it can be done, but none of them fully utilize the possibilities of [CSS3 transitions
-](http://www.w3.org/TR/css3-transitions/). I belive we need more powerfull slider component that
-focuses on features instead of technology, meets the standards of todays websites and doesn't
-require few days of setting up and coding.
+# Utilize the Possibilities of [CSS3 transitions](http://www.w3.org/TR/css3-transitions/)
 
 Hermes comes with:
 
