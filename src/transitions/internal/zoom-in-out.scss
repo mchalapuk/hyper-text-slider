@@ -1,6 +1,6 @@
 @import '../../internal/_mixins';
 
-.hermes-transition-zoom-in-out {
+.hermes-transition-zoom-in-out.is-upgraded {
   &.hermes-before-transition {
     .hermes-slide-to {
       .hermes-layout-content {

@@ -6,7 +6,7 @@ just because it can be done, but none of them fully utilize the possibilities of
 focuses on features instead of technology, meets the standards of todays websites and doesn't
 require few days of setting up and coding.
 
-**Hermes comes with**:
+Hermes comes with:
 
  * configurable background an content transitions (and big transition library),
  * responsiveness (automatically adjusts it's layout to screen resolution),
