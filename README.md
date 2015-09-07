@@ -17,7 +17,7 @@ bower install hermes-slider --save-dev
 
 You can also clone it with [git](https://git-scm.com/).
 ```
-git clone https://github.com/md-extensions/hermes.git`
+git clone https://github.com/webfront-toolkit/hermes.git
 ```
 
 Package is not published in [npm](https://www.npmjs.com/).
