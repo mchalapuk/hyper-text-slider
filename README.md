@@ -22,3 +22,7 @@ git clone https://github.com/md-extensions/hermes.git`
 
 Package is not published in [npm](https://www.npmjs.com/).
 
+## Hello, Hermes!
+
+Soon...
+
