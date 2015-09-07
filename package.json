@@ -21,7 +21,7 @@
     "gulp-rename": "~1.2.2",
     "gulp-cssmin": "~0.1.7",
     "merge-stream": "~1.0.0",
-    "del": "~2.0.1",
+    "del": "~2.0.1"
   },
   "dependencies": {}
 }

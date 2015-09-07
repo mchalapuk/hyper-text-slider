@@ -3,10 +3,10 @@
 There are many CSS3 sliders out there. Most of them are coded purely in CSS
 just because it can be done, but none of them fully utilize the possibilities of [CSS3 transitions
 ](http://www.w3.org/TR/css3-transitions/). I belive we need more powerfull slider component that
-**focuses on features instead of technology**, meets the standards of todays websites and doesn't
+focuses on features instead of technology, meets the standards of todays websites and doesn't
 require few days of setting up and coding.
 
-Hermes comes with:
+**Hermes comes with**:
 
  * configurable background an content transitions (and big transition library),
  * responsiveness (automatically adjusts it's layout to screen resolution),
@@ -27,5 +27,4 @@ git clone https://github.com/md-extensions/hermes.git`
 ```
 
 Package is not published in [npm](https://www.npmjs.com/).
-
 
