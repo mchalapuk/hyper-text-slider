@@ -62,6 +62,10 @@ describe('DOMTokenList', function() {
       expect(testedList.contains('token0')).toBe(true);
     });
 
+    it('not added token can not be found with #contains', function() {
+      expect(testedList.contains('token1')).toBe(false);
+    });
+
     it('tokenized string contains added token', function() {
       expect(tokenized.string).toEqual('token0');
     });
@@ -80,6 +84,10 @@ describe('DOMTokenList', function() {
     it('both added tokens can be found with #contains', function() {
       expect(testedList.contains('token0')).toBe(true);
       expect(testedList.contains('token1')).toBe(true);
+    });
+
+    it('not added token can not be found with #contains', function() {
+      expect(testedList.contains('token2')).toBe(false);
     });
 
     it('tokenized string contains both added tokens', function() {

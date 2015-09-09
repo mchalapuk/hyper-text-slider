@@ -31,7 +31,7 @@ function DOMTokenList(object, key) {
     object[key] += ((object[key].length? ' ': '') + [].slice.apply(arguments).join(' '));
   };
   that.contains = function(token) {
-    return (object[key].search(new RegExp('(^| )'+ token +'( |$)')) !== -1);
+    return (object[key].search(new RegExp('\\b'+ token +'\\b')) !== -1);
   };
   Object.defineProperty(that, 'length', {
     get: function() {

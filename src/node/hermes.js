@@ -22,7 +22,7 @@ function summonHermes(elem) {
 
 module.exports = summonHermes;
 
-var Phase = {
+var Phase = summonHermes.Phase = {
   BEFORE_TRANSITION: 'hermes-before-transition',
   DURING_TRANSITION: 'hermes-during-transition',
   AFTER_TRANSITION: 'hermes-after-transition',

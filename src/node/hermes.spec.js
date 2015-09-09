@@ -38,18 +38,20 @@ describe('hermes,', function() {
 
   phaseChanges.forEach(function(arg, i) {
     describe('when '+ arg.title, function() {
+      arg.phase = (arg.phase === null ? null: 'hermes-'+ arg.phase);
+      arg.nextPhase = (arg.nextPhase === null ? null: 'hermes-'+ arg.nextPhase);
+
+      var hermesElement;
       var testedInstance;
       beforeEach(function() {
-        testedInstance = hermes(document.createElement('div'));
+        hermesElement = document.createElement('div');
+        testedInstance = hermes(hermesElement);
         for (var j = 0; j !== i; ++j) {
           testedInstance.nextPhase();
         }
       });
 
       it('is in "'+ arg.phase +'" phase', function() {
-        if (arg.phase !== null) {
-          arg.phase = 'hermes-'+ arg.phase;
-        }
         expect(testedInstance.getPhase()).toBe(arg.phase);
       });
 
@@ -58,12 +60,26 @@ describe('hermes,', function() {
         expect(testedInstance.getPhase()).toBe('hermes-before-transition');
       });
 
+      it('calling #startTransition() adds "before-transition" class to element', function() {
+        testedInstance.startTransition();
+        expect(hermesElement.classList.contains('hermes-before-transition')).toBe(true);
+      });
+
       it('calling #nextPhase() moves to "'+ arg.nextPhase +'" phase', function() {
         testedInstance.nextPhase();
-        if (arg.nextPhase !== null) {
-          arg.nextPhase = 'hermes-'+ arg.nextPhase;
-        }
         expect(testedInstance.getPhase()).toBe(arg.nextPhase);
+      });
+
+      values(hermes.Phase).forEach(function(phase) {
+        if (phase === arg.phase) {
+          it('has element with class "'+ phase +'"', function() {
+            expect(hermesElement.classList.contains(phase)).toBe(true);
+          });
+        } else {
+          it('has element without class "'+ phase +'"', function() {
+            expect(hermesElement.classList.contains(phase)).toBe(false);
+          });
+        }
       });
     });
   });
@@ -104,4 +120,12 @@ describe('hermes,', function() {
     });
   });
 });
+
+function values(object) {
+  var retVal = [];
+  for (var key in object) {
+    retVal.push(object[key]);
+  }
+  return retVal;
+}
 
