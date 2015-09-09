@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       src: [
-        './src/transitions/internal/*.scss',
+        './src/transitions/internal/${project_name}.scss',
       ],
       dest: 'transitions/'
     },
@@ -21,7 +21,11 @@ module.exports = {
 
   js: {
     src: [
-      './src/${project_name}.js'
+      './src/**/*.js', '!./src/**/*.spec.js'
+    ],
+    spec: [
+      './src/**/*.spec-helper.js',
+      './src/**/*.spec.js',
     ]
   },
 
@@ -29,6 +33,11 @@ module.exports = {
     globals: {
       'window': {},
       'document': {},
+      'describe': {},
+      'it': {},
+      'expect': {},
+      'beforeEach': {},
+      'afterEach': {},
     },
   },
 };
