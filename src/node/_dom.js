@@ -1,3 +1,4 @@
+'use strict';
 
 // from Modernizr
 function getTransitionEventName() {
@@ -39,16 +40,11 @@ function create(className) {
   return elem;
 }
 
-function removeClass(elem, classRegexp) {
-  elem.className = elem.className.replace(classRegexp, "");
-}
-
 var transitionEventName = getTransitionEventName();
 var transformPropertyName = getTransformPropertyName();
 
 module.exports = {
   create: create,
-  removeClass: removeClass,
   transitionEventName: transitionEventName,
   transformPropertyName: transformPropertyName,
 };

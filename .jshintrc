@@ -12,5 +12,6 @@
   "undef": true,
   "unused": true,
   "strict": true,
-  "trailing": true
+  "trailing": true,
+  "-W040": true
 }

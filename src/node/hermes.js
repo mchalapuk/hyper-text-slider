@@ -28,37 +28,45 @@ var Phase = summonHermes.Phase = {
   AFTER_TRANSITION: 'hermes-after-transition',
 };
 
-var Regexp = {
-  PHASE: /hermes-(before|during|after)-transition/g,
-};
+return;
 
 function getPhase() {
-  return this.phase;
+  var priv = this;
+  return priv.phase;
 }
 
 function setPhase(phase) {
-  dom.removeClass(this.elem, Regexp.PHASE);
-  this.phase = phase;
+  var priv = this;
+
+  if (priv.phase !== null) {
+    priv.elem.classList.remove(priv.phase);
+  }
+  priv.phase = phase;
+
   if (phase !== null) {
-    this.elem.classList.add(phase);
+    priv.elem.classList.add(phase);
   }
 }
 
 function nextPhase() {
-  if (this.phase === null) {
-    this.setPhase(Phase.BEFORE_TRANSITION);
-  } else if (this.phase === Phase.BEFORE_TRANSITION) {
-    this.setPhase(Phase.DURING_TRANSITION);
-  } else if(this.phase === Phase.DURING_TRANSITION) {
-    this.setPhase(Phase.AFTER_TRANSITION);
-  } else if(this.phase === Phase.AFTER_TRANSITION) {
-    this.setPhase(null);
+  var priv = this;
+
+  if (priv.phase === null) {
+    priv.setPhase(Phase.BEFORE_TRANSITION);
+  } else if (priv.phase === Phase.BEFORE_TRANSITION) {
+    priv.setPhase(Phase.DURING_TRANSITION);
+  } else if (priv.phase === Phase.DURING_TRANSITION) {
+    priv.setPhase(Phase.AFTER_TRANSITION);
+  } else if (priv.phase === Phase.AFTER_TRANSITION) {
+    priv.setPhase(null);
   }
 }
 
 function startTransition() {
-  this.setPhase(null);
-  nextPhase.apply(this);
+  var priv = this;
+
+  priv.setPhase(null);
+  nextPhase.apply(priv);
 }
 
 function addPhaseChangeTrigger(elem, transitionProperty) {
@@ -70,12 +78,12 @@ function addPhaseChangeTrigger(elem, transitionProperty) {
     transitionProperty = dom.transformPropertyName; // maybe a prefixed version
   }
 
-  var hermes = this;
+  var pub = this;
   elem.hermesPhaseChangeTrigger = function(event) {
     if (event.propertyName !== transitionProperty || event.target !== this) {
       return;
     }
-    hermes.nextPhase();
+    pub.nextPhase();
   };
   elem.addEventListener(dom.transitionEventName, elem.hermesPhaseChangeTrigger);
 }
