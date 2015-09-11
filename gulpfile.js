@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
+var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
@@ -36,7 +37,9 @@ gulp.task('jshint:javascript', function() {
 });
 
 gulp.task('javascript', [ 'jshint:javascript' ], function() {
+  console.log(config.js.main);
   return gulp.src(config.js.main)
+    .pipe(browserify())
     .pipe(gulp.dest(config.dir.build))
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
@@ -63,9 +66,9 @@ gulp.task('clean', function(cb) {
 gulp.task('dist', ['clean', 'sass', 'spec', 'javascript']);
 
 gulp.task('watch', [ 'dist' ], function() {
-  gulp.watch(config.css.src, ['sass']);
-  gulp.watch([ config.js.src, '.jshintrc', 'build.config.js' ], ['javascript']);
-  gulp.watch(config.js.spec, ['spec']);
+  gulp.watch(config.css.src, [ 'sass' ]);
+  gulp.watch(config.js.src, [ 'javascript', 'spec' ]);
+  gulp.watch(config.js.spec, [ 'spec' ]);
 });
 
 gulp.task('default', ['dist']);

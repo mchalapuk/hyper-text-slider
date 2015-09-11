@@ -8,12 +8,12 @@ module.exports = {
   css: [
     {
       src: [
-        './src/internal/${project_name}.scss',
+        './src/internal/'+ project_name +'.scss',
       ],
     },
     {
       src: [
-        './src/transitions/internal/${project_name}.scss',
+        './src/transitions/internal/*.scss',
       ],
       dest: 'transitions/'
     },
@@ -21,11 +21,14 @@ module.exports = {
 
   js: {
     src: [
-      './src/**/*.js', '!./src/**/*.spec.js'
+      './src/node/**/*.js', '!./src/node/**/*.spec.js'
+    ],
+    main: [
+      './src/'+ project_name +'.js',
     ],
     spec: [
-      './src/**/*.spec-helper.js',
-      './src/**/*.spec.js',
+      './src/node/**/*.spec-helper.js',
+      './src/node/**/*.spec.js',
     ]
   },
 
@@ -33,6 +36,10 @@ module.exports = {
     globals: {
       'window': {},
       'document': {},
+      'Element': {},
+      'DOMTokenList': {},
+      'TransitionEndEvent': {},
+
       'describe': {},
       'it': {},
       'expect': {},

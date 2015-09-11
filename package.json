@@ -15,6 +15,7 @@
   "devDependencies": {
     "del": "~2.0.1",
     "gulp": "~3.9.0",
+    "gulp-browserify": "^0.5.1",
     "gulp-cssmin": "~0.1.7",
     "gulp-jasmine": "^2.0.1",
     "gulp-jshint": "~1.11.2",
