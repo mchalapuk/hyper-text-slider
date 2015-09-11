@@ -1,9 +1,9 @@
 
 .hermes-slide-to:not(.hermes-before-transition) {
-  .hermes-layout-background {
+  .hermes-layout--background {
     opacity: 1;
   }
-  .hermes-layout-content {
+  .hermes-layout--content {
     opacity: 0.8;
   }
 }

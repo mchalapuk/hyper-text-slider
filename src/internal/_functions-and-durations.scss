@@ -1,42 +1,42 @@
-.hermes-layout__slider.is-upgraded {
+.hermes-layout--slider.is-upgraded {
 
   .hermes-slide-time-7-sec {
-    .hermes-layout-background {
+    .hermes-layout--background {
       @include transition(all 5s ease-out 300ms, opacity 750ms ease-in-out 300ms);
     }
-    .hermes-layout-content {
+    .hermes-layout--content {
       @include transition(all 7s ease-out 600ms, opacity 600ms ease-in-out 750ms);
     }
-    .hermes-layout-inner-content {
+    .hermes-layout--inner {
       @include transition(all 7s ease-out);
     }
 
     .hermes-slide-from {
-      .hermes-layout-background {
+      .hermes-layout--background {
         @include transition(all 5s ease-out, opacity 750ms ease-in-out 300ms);
       }
-      .hermes-layout-content {
+      .hermes-layout--content {
         @include transition(all 7s ease-out, opacity 500ms ease-in-out);
       }
     }
   }
 
   .hermes-slide-time-5-sec {
-    .hermes-layout-background {
+    .hermes-layout--background {
       @include transition(all 5s ease-out 300ms, opacity 750ms ease-in-out 300ms);
     }
-    .hermes-layout-content {
+    .hermes-layout--content {
       @include transition(all 5s ease-out 600ms, opacity 600ms ease-in-out 750ms);
     }
-    .hermes-layout-inner-content {
+    .hermes-layout--inner {
       @include transition(all 7s ease-out);
     }
 
     .hermes-slide-from {
-      .hermes-layout-background {
+      .hermes-layout--background {
         @include transition(all 5s ease-out, opacity 750ms ease-in-out 300ms);
       }
-      .hermes-layout-content {
+      .hermes-layout--content {
         @include transition(all 5s ease-out, opacity 500ms ease-in-out);
       }
     }

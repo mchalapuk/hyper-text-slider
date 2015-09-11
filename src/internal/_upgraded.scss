@@ -1,15 +1,15 @@
 
-.hermes-layout__slider.is-upgraded {
+.hermes-layout--slider.is-upgraded {
   overflow: hidden;
 
-  .hermes-layout__slide {
+  .hermes-layout--slide {
     position: absolute;
     top: 0;
     left: 0;
   }
 
-  .hermes-layout-background,
-  .hermes-layout-content {
+  .hermes-layout--background,
+  .hermes-layout--content {
     opacity: 0;
   }
 }

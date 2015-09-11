@@ -1,5 +1,5 @@
 
-.hermes-layout__slider-dots {
+.hermes-layout--dots {
   position: absolute;
   width: 100%;
   top: 86%;
@@ -9,7 +9,7 @@
   line-height: 1px;
 }
 
-.hermes-layout-dot {
+.hermes-layout--dot {
   $dot-size: 13px;
 
   width: $dot-size;
