@@ -1,12 +1,7 @@
 'use strict';
 
-function Element(nodeName) {
+function EventSource() {
   var that = this;
-
-  that.nodeName = nodeName;
-  that.className = "";
-  that.classList = new DOMTokenList(that, 'className');
-  that.style = new CSS2Properties();
 
   var listeners = {};
   that.addEventListener = function(eventType, callback) {
@@ -20,6 +15,28 @@ function Element(nodeName) {
       listener.apply(that, [ event ]);
     });
   };
+
+  return that;
+}
+
+function Node(nodeName) {
+  var that = EventSource.apply(this);
+
+  that.nodeName = nodeName;
+  that.childNodes = [];
+  that.appendChild = function (node) {
+    that.childNodes.push(node);
+  };
+
+  return that;
+}
+
+function Element(nodeName) {
+  var that = Node.apply(this, [ nodeName ]);
+
+  that.className = "";
+  that.classList = new DOMTokenList(that, 'className');
+  that.style = new CSS2Properties();
 
   return that;
 }
@@ -73,6 +90,7 @@ var window = {
 
 global.window = window;
 global.document = document;
+global.Node = Node;
 global.Element = Element;
 global.DOMTokenList = DOMTokenList;
 global.CSS2Properties = CSS2Properties;

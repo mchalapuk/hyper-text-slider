@@ -35,6 +35,41 @@ describe('document', function() {
   });
 });
 
+describe('Node', function() {
+  describe('just after creation', function() {
+    var testedNode;
+    beforeEach(function() {
+      testedNode = new Node('TEST');
+    });
+
+    it ('has proper node name', function() {
+      expect(testedNode.nodeName).toEqual('TEST');
+    });
+
+    it ('has no child nodes', function() {
+      expect(testedNode.childNodes.length).toEqual(0);
+    });
+  });
+
+  describe('after adding one child node', function() {
+    var testedNode;
+    var childNode;
+    beforeEach(function() {
+      testedNode = new Node('TEST');
+      childNode = new Node('CHILD');
+      testedNode.appendChild(childNode);
+    });
+
+    it ('has one child node', function() {
+      expect(testedNode.childNodes.length).toEqual(1);
+    });
+
+    it ('has proper child node on index 0', function() {
+      expect(testedNode.childNodes[0]).toBe(childNode);
+    });
+  });
+});
+
 describe('DOMTokenList', function() {
   var tokenized;
   var testedList;
