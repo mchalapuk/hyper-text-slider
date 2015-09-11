@@ -94,6 +94,30 @@ describe('DOMTokenList', function() {
       expect(tokenized.string).toEqual('token0 token1');
     });
   });
+
+  describe('after removing first token', function() {
+    beforeEach(function() {
+      testedList.add('token0');
+      testedList.add('token1');
+      testedList.remove('token0');
+    });
+
+    it('is of length 1', function() {
+      expect(testedList.length).toEqual(1);
+    });
+
+    it('not removed token can be found with #contains', function() {
+      expect(testedList.contains('token1')).toBe(true);
+    });
+
+    it('removed token can not be found with #contains', function() {
+      expect(testedList.contains('token0')).toBe(false);
+    });
+
+    it('tokenized string does not contain removed token', function() {
+      expect(tokenized.string).toEqual('token1');
+    });
+  });
 });
 
 describe('TransitionEndEvent', function() {

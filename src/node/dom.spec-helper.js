@@ -30,6 +30,9 @@ function DOMTokenList(object, key) {
   that.add = function() {
     object[key] += ((object[key].length? ' ': '') + [].slice.apply(arguments).join(' '));
   };
+  that.remove = function(token) {
+    object[key] = object[key].replace(new RegExp('\\b'+ token +'\\b\\s*'), '').replace(/^\\s*/, '');
+  };
   that.contains = function(token) {
     return (object[key].search(new RegExp('\\b'+ token +'\\b')) !== -1);
   };
