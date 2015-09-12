@@ -8,6 +8,7 @@ function initializeSlider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};
+  priv.elem = elem;
   priv.hermes = hermes(elem);
   priv.slides = searchForSlides(elem);
   priv.transitions = searchForTransitions(elem);

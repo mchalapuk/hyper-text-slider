@@ -19,5 +19,16 @@ describe('Slider', function() {
       });
     });
   });
+
+  describe('given element argument,', function() {
+    describe('when constructor called', function() {
+      it('returns object instance', function() {
+        var testedInstance = slider(document.createElement('div'));
+        expect(testedInstance).toBeDefined();
+      });
+    });
+  });
+
+
 });
 
