@@ -20,7 +20,7 @@ function EventSource() {
 }
 
 function Node(nodeName) {
-  var that = EventSource.apply(this);
+  var that = EventSource.call(this);
 
   that.nodeName = nodeName;
   that.childNodes = [];
@@ -32,11 +32,33 @@ function Node(nodeName) {
 }
 
 function Element(nodeName) {
-  var that = Node.apply(this, [ nodeName ]);
+  var that = Node.call(this, nodeName);
 
   that.className = "";
   that.classList = new DOMTokenList(that, 'className');
   that.style = new CSS2Properties();
+
+  that.querySelectorAll = function (selector) {
+    var match = selector.match(/^\.([^\s]+)$/);
+    if (!match) {
+      throw "only simple class selectors are supported";
+    }
+
+    var className = match[1];
+    var results = [];
+    that.childNodes.forEach(function(node) {
+      if (node.classList.contains(className)) {
+        results.push(node);
+      }
+    });
+
+    return results;
+  };
+
+  that.querySelector = function (selector) {
+    var nodes = that.querySelectorAll(selector);
+    return nodes[0] || null;
+  };
 
   return that;
 }

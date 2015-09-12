@@ -1,40 +1,5 @@
 'use strict';
 
-describe('document', function() {
-  it ('is window.document', function() {
-    expect(document).toBe(window.document);
-  });
-
-  describe('#createElement produces object', function() {
-    var elem;
-    beforeEach(function() {
-      elem = document.createElement('div');
-    });
-
-    it('wich is instance of Element', function() {
-      expect(elem instanceof Element).toBe(true);
-    });
-
-    it('with proper nodeName', function() {
-      expect(elem.nodeName).toBe('div');
-    });
-
-    it('with empty className', function() {
-      expect(elem.className).toBe('');
-    });
-
-    it('with empty classList', function() {
-      expect(elem.classList.length).toEqual(0);
-    });
-
-    it('with empty style list', function() {
-      for (var key in elem.style) {
-        expect(elem.style[key]).toBeNull();
-      }
-    });
-  });
-});
-
 describe('Node', function() {
   describe('just after creation', function() {
     var testedNode;
@@ -66,6 +31,137 @@ describe('Node', function() {
 
     it ('has proper child node on index 0', function() {
       expect(testedNode.childNodes[0]).toBe(childNode);
+    });
+  });
+
+  describe('after adding two child nodes', function() {
+    var testedNode;
+    var firstChild, secondChild;
+    beforeEach(function() {
+      testedNode = new Node('TEST');
+      firstChild = new Node('CHILD');
+      testedNode.appendChild(firstChild);
+      secondChild = new Node('CHILD');
+      testedNode.appendChild(secondChild);
+    });
+
+    it ('has two child nodes', function() {
+      expect(testedNode.childNodes.length).toEqual(2);
+    });
+
+    it ('has proper child node on index 0', function() {
+      expect(testedNode.childNodes[0]).toBe(firstChild);
+    });
+
+    it ('has proper child node on index 1', function() {
+      expect(testedNode.childNodes[1]).toBe(secondChild);
+    });
+  });
+});
+
+describe('Element,', function() {
+  var testedElement;
+  beforeEach(function() {
+    testedElement = new Element('TEST');
+  });
+
+  var nobody = document.createElement('CHILD');
+  var jay = document.createElement('CHILD');
+  jay.className = 'jay';
+  var silentBob = document.createElement('CHILD');
+  silentBob.className = 'silent-bob';
+  var jayAndSilentBob = document.createElement('CHILD');
+  jayAndSilentBob.className = 'jay silent-bob';
+
+  var tests = [
+    {
+      title: 'no children',
+      children: [],
+      querySelector: { '.jay': null, '.silent-bob': null },
+      querySelectorAll: { '.jay': [], '.silent-bob': [] }
+    }, {
+      title: 'one child without className',
+      children: [ nobody ],
+      querySelector: { '.jay': null, '.silent-bob': null },
+      querySelectorAll: { '.jay': [], '.silent-bob': [] }
+    }, {
+      title: 'one child without class ".jay"',
+      children: [ jay ],
+      querySelector: { '.jay': jay, '.silent-bob': null },
+      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [] }
+    }, {
+      title: 'two children with class ".silent-bob"',
+      children: [ silentBob, silentBob ],
+      querySelector: { '.jay': null, '.silent-bob': silentBob },
+      querySelectorAll: { '.jay': [], '.silent-bob': [ silentBob, silentBob ] }
+    }, {
+      title: 'one child with class ".jay", '+
+        'two children with class ".silent-bob", '+
+        'four children wihout className',
+      children: [ nobody, jay, nobody, silentBob, nobody, silentBob, nobody ],
+      querySelector: { '.jay': jay, '.silent-bob': silentBob },
+      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [ silentBob, silentBob ] }
+    },
+  ];
+
+  tests.forEach(function(args) {
+    describe('given '+ args.title +',', function() {
+      beforeEach(function() {
+        args.children.forEach(function(child) {
+          testedElement.appendChild(child);
+        });
+      });
+
+      Object.keys(args.querySelector).forEach(function(selector) {
+        var toBeFound = args.querySelector[selector];
+        it('#querySelector("'+ selector +'") returns '+ toBeFound, function() {
+          var found = testedElement.querySelector(selector);
+          expect(found).toBe(toBeFound);
+        });
+      });
+
+      Object.keys(args.querySelectorAll).forEach(function(selector) {
+        var toBeFound = args.querySelectorAll[selector];
+        it('#querySelectorAll("'+ selector +'") returns '+ toBeFound, function() {
+          var found = testedElement.querySelectorAll(selector);
+          expect(found).toEqual(toBeFound);
+        });
+      });
+    });
+  });
+});
+
+describe('document', function() {
+  it ('is window.document', function() {
+    expect(document).toBe(window.document);
+  });
+
+  describe('#createElement produces object', function() {
+    var testedElement;
+    beforeEach(function() {
+      testedElement = document.createElement('div');
+    });
+
+    it('wich is instance of Element', function() {
+      expect(testedElement instanceof Element).toBe(true);
+    });
+
+    it('with proper nodeName', function() {
+      expect(testedElement.nodeName).toBe('div');
+    });
+
+    it('with empty className', function() {
+      expect(testedElement.className).toBe('');
+    });
+
+    it('with empty classList', function() {
+      expect(testedElement.classList.length).toEqual(0);
+    });
+
+    it('with empty style list', function() {
+      for (var key in testedElement.style) {
+        expect(testedElement.style[key]).toBeNull();
+      }
     });
   });
 });
