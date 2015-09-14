@@ -100,21 +100,55 @@ function TransitionEndEvent(target, propertyName) {
   return that;
 }
 
-var document = {
-  createElement: function(nodeName) {
+
+function Document() {
+  var that = this;
+
+  that.createElement = function(nodeName) {
     return new Element(nodeName);
-  },
-};
+  };
 
-var window = {
-  document: document,
-};
+  return that;
+}
 
-global.window = window;
-global.document = document;
+function Window(document) {
+  var that = this;
+
+  that.document = document;
+
+  var later = [];
+  that.setTimeout = function(f, t) {
+    var i;
+    for (i = 0; i < later.length; ++i) {
+      if (later[i].timeout > t) {
+        break;
+      }
+    }
+    later.splice(i, 0, { func: f, timeout: t, });
+  };
+  that.$applyTimeouts = function() {
+    var work = that.later;
+    that.later = [];
+
+    while (work.length) {
+      work.shift()();
+    }
+  };
+
+  return that;
+}
+
+var document = new Document();
+var window = new Window(document);
+
 global.Node = Node;
 global.Element = Element;
 global.DOMTokenList = DOMTokenList;
 global.CSS2Properties = CSS2Properties;
 global.TransitionEndEvent = TransitionEndEvent;
+global.Document = Document;
+global.Window = Window;
+
+global.window = window;
+global.document = document;
 

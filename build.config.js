@@ -34,11 +34,15 @@ module.exports = {
 
   jshint: {
     globals: {
-      'window': {},
-      'document': {},
+      'Node': {},
       'Element': {},
       'DOMTokenList': {},
       'TransitionEndEvent': {},
+      'Document': {},
+      'Window': {},
+
+      'window': {},
+      'document': {},
 
       'describe': {},
       'it': {},

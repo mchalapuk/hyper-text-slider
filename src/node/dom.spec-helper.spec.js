@@ -65,6 +65,26 @@ describe('Element,', function() {
     testedElement = new Element('TEST');
   });
 
+  describe('just after creation', function() {
+    it('has proper nodeName', function() {
+      expect(testedElement.nodeName).toBe('TEST');
+    });
+
+    it('with empty className', function() {
+      expect(testedElement.className).toBe('');
+    });
+
+    it('with empty classList', function() {
+      expect(testedElement.classList.length).toEqual(0);
+    });
+
+    it('with empty style list', function() {
+      for (var key in testedElement.style) {
+        expect(testedElement.style[key]).toBeNull();
+      }
+    });
+  });
+
   var nobody = document.createElement('CHILD');
   var jay = document.createElement('CHILD');
   jay.className = 'jay';
@@ -127,41 +147,6 @@ describe('Element,', function() {
           expect(found).toEqual(toBeFound);
         });
       });
-    });
-  });
-});
-
-describe('document', function() {
-  it ('is window.document', function() {
-    expect(document).toBe(window.document);
-  });
-
-  describe('#createElement produces object', function() {
-    var testedElement;
-    beforeEach(function() {
-      testedElement = document.createElement('div');
-    });
-
-    it('wich is instance of Element', function() {
-      expect(testedElement instanceof Element).toBe(true);
-    });
-
-    it('with proper nodeName', function() {
-      expect(testedElement.nodeName).toBe('div');
-    });
-
-    it('with empty className', function() {
-      expect(testedElement.className).toBe('');
-    });
-
-    it('with empty classList', function() {
-      expect(testedElement.classList.length).toEqual(0);
-    });
-
-    it('with empty style list', function() {
-      for (var key in testedElement.style) {
-        expect(testedElement.style[key]).toBeNull();
-      }
     });
   });
 });
@@ -269,6 +254,44 @@ describe('TransitionEndEvent', function() {
 
   it('contains proper property name', function() {
     expect(testedEvent.propertyName).toBe('property');
+  });
+});
+
+describe('Document', function() {
+  var testedDocument;
+  beforeEach(function() {
+    testedDocument = new Document();
+  });
+
+  describe('#createElement produces object', function() {
+    var testedElement;
+    beforeEach(function() {
+      testedElement = testedDocument.createElement('div');
+    });
+
+    it('wich is instance of Element', function() {
+      expect(testedElement instanceof Element).toBe(true);
+    });
+
+    it('with proper nodeName', function() {
+      expect(testedElement.nodeName).toBe('div');
+    });
+  });
+});
+
+describe('global.document', function() {
+  it('is instance of Document', function() {
+    expect(document instanceof Document).toBe(true);
+  });
+});
+
+describe('global.window', function() {
+  it('is instance of Window', function() {
+    expect(window instanceof Window).toBe(true);
+  });
+
+  it('has global.document as its document', function() {
+    expect(window.document).toBe(document);
   });
 });
 

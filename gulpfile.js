@@ -37,7 +37,6 @@ gulp.task('jshint:javascript', function() {
 });
 
 gulp.task('javascript', [ 'jshint:javascript' ], function() {
-  console.log(config.js.main);
   return gulp.src(config.js.main)
     .pipe(browserify())
     .pipe(gulp.dest(config.dir.build))
