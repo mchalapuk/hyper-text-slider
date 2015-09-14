@@ -116,6 +116,7 @@ function Window(document) {
 
   that.document = document;
 
+  var idOffset = 0;
   var later = [];
   that.setTimeout = function(f, t) {
     var i;
@@ -124,14 +125,27 @@ function Window(document) {
         break;
       }
     }
-    later.splice(i, 0, { func: f, timeout: t, });
+    var id = idOffset + later.length;
+    later.splice(i, 0, { id: id, func: f, timeout: t, args: [].slice.call(arguments, 2), });
+    return id;
+  };
+  this.clearTimeout = function(id) {
+    for (var i = 0; i < later.length; ++i) {
+      if (later[i].id === id) {
+        later[i].func = function() {};
+        break;
+      }
+    }
   };
   that.$applyTimeouts = function() {
-    var work = that.later;
-    that.later = [];
+    var work = later;
+    later = [];
+
+    idOffset += work.length;
 
     while (work.length) {
-      work.shift()();
+      var w = work.shift();
+      w.func.apply(that, w.args);
     }
   };
 

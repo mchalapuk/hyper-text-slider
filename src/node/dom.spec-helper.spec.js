@@ -279,6 +279,86 @@ describe('Document', function() {
   });
 });
 
+describe('Window,', function() {
+  var testedWindow;
+  beforeEach(function() {
+    testedWindow = new Window(new Document());
+  });
+
+  var timeoutTests = [
+    {
+      timeouts: { a: 100, },
+      results: { a: [ 0 ], '': [], },
+    },
+    {
+      timeouts: { a: 100, b: 200, },
+      results: { ab: [ 0, 1 ], a: [ 0 ], b: [ 1 ], },
+    },
+    {
+      timeouts: { a: 100, b: 50, },
+      results: { ba: [ 0, 1 ], a: [ 0 ], b: [ 1 ], },
+    },
+    {
+      timeouts: { a: 100, b: 100, c: 100, },
+      results: { abc: [ 0, 1, 2 ], b: [ 1 ], '': [], },
+    },
+  ];
+
+  timeoutTests.forEach(function(args) {
+    var setCalls = Object.keys(args.timeouts).map(function(c) {
+      return '#setTimeout(concat, '+ args.timeouts[c] +', '+ c +')';
+    });
+
+    describe('when after calling '+ setCalls.join(', '), function() {
+      var timeoutIds;
+      var timeoutsApplied;
+
+      function concat(c) {
+        timeoutsApplied += c;
+      }
+
+      beforeEach(function() {
+        timeoutsApplied = '';
+        timeoutIds = [];
+
+        Object.keys(args.timeouts).forEach(function(c) {
+          timeoutIds.push(testedWindow.setTimeout(concat, args.timeouts[c], c));
+        });
+      });
+
+      Object.keys(args.results).forEach(function(expected) {
+        var timeoutsNotRemoved = args.results[expected];
+
+        var timeoutsToBeRemoved = [];
+        Object.keys(args.timeouts).forEach(function(_, i) {
+          if (timeoutsNotRemoved.indexOf(i) === -1) {
+            timeoutsToBeRemoved.push(i);
+          }
+        });
+
+        var clearCalls = timeoutsToBeRemoved.map(function(i) {
+          return '#clearTimeout(timeoutIds['+ i +'])';
+        });
+
+        describe(clearCalls.length? 'and after calling '+ clearCalls.join(', '):
+          'and not clearing any timeouts', function() {
+
+          beforeEach(function() {
+            timeoutsToBeRemoved.forEach(function(i) {
+              testedWindow.clearTimeout(timeoutIds[i]);
+            });
+          });
+
+          it('then results string is "'+ expected +'"', function() {
+            testedWindow.$applyTimeouts();
+            expect(timeoutsApplied).toEqual(expected);
+          });
+        });
+      });
+    });
+  });
+});
+
 describe('global.document', function() {
   it('is instance of Document', function() {
     expect(document instanceof Document).toBe(true);
