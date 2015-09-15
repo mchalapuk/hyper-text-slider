@@ -10,18 +10,23 @@ function initializeSlider(elem) {
   priv.elem = elem;
   priv.hermes = hermes(elem);
   priv.slides = searchForSlides(elem);
-  precond.checkState(priv.slides.length !== 0, 'no slides found');
+  precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.transitions = searchForTransitions(elem);
   priv.fromIndex = 1;
   priv.toIndex = 0;
   priv.chooseTransition = chooseTransition;
+  priv.started = false;
 
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
   setOptions(priv);
 
   var pub = {};
   pub.start = start.bind(priv);
-  pub.moveTo = moveTo.bind(priv);
+  pub.slides = priv.slides;
+  Object.defineProperty(pub.slides, 'current', {
+    get: function() { return priv.started? priv.toIndex: null; },
+    set: moveTo.bind(priv),
+  });
   pub.moveToNext = moveToNext.bind(priv);
   pub.moveToPrevious = moveToPrevious.bind(priv);
   return pub;
@@ -76,7 +81,7 @@ return;
 // initialization functions
 
 function searchForSlides(elem) {
-  return elem.querySelectorAll(Selector.SLIDE);
+  return [].slice.call(elem.querySelectorAll(Selector.SLIDE));
 }
 
 function searchForTransitions(elem) {
@@ -156,13 +161,16 @@ function start() {
   // separate start procedure is needed because
   // only one slide is seen in the first transition
   var priv = this;
+  precond.checkState(!priv.started, 'slider is already started');
+  priv.started = true;
 
   var to = priv.slides[priv.toIndex];
   to.classList.add(Flag.SLIDE_TO);
-  to.dot.classList.add(Flag.ACTIVE);
+  if (to.dot !== undefined) {
+    to.dot.classList.add(Flag.ACTIVE);
+  }
 
   priv.elem.classList.add(priv.chooseTransition());
-
   priv.hermes.startTransition();
 }
 
@@ -180,6 +188,7 @@ function moveToPrevious() {
 
 function moveTo(i) {
   var priv = this;
+  precond.checkStatus(priv.started, 'slider not started');
   precond.checkIsNumber(i, 'given index is not a number');
 
   if (i <= priv.slides.length) {
@@ -193,7 +202,7 @@ function moveTo(i) {
   var to = priv.slides[priv.toIndex];
   from.classList.remove(Flag.SLIDE_FROM);
   to.classList.remove(Flag.SLIDE_TO);
-  o.dot.classList.remove(Flag.ACTIVE);
+  to.dot.classList.remove(Flag.ACTIVE);
   priv.elem.classList.remove(Regexp.TRANSITION);
 
   priv.fromIndex = priv.toIndex;
@@ -213,7 +222,7 @@ function moveTo(i) {
 function chooseTransition() {
   var priv = this;
   var match = priv.slides[priv.toIndex].className.match(Regexp.TRANSITION);
-  return match[0] || random(priv.transitions);
+  return (match? match[0]: false) || random(priv.transitions);
 }
 
 function random(array) {
