@@ -1,6 +1,5 @@
 'use strict';
 
-var dom = require('./_dom');
 var hermes = require('./hermes');
 var precond = require('precond');
 
@@ -11,6 +10,7 @@ function initializeSlider(elem) {
   priv.elem = elem;
   priv.hermes = hermes(elem);
   priv.slides = searchForSlides(elem);
+  precond.checkState(priv.slides.length !== 0, 'no slides found');
   priv.transitions = searchForTransitions(elem);
   priv.fromIndex = 1;
   priv.toIndex = 0;
@@ -18,9 +18,9 @@ function initializeSlider(elem) {
 
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
   setOptions(priv);
-  setTimeout(start.bind(priv), 100);
 
   var pub = {};
+  pub.start = start.bind(priv);
   pub.moveTo = moveTo.bind(priv);
   pub.moveToNext = moveToNext.bind(priv);
   pub.moveToPrevious = moveToPrevious.bind(priv);
@@ -53,6 +53,7 @@ var Selector = (function () {
 
 var Option = {
   DEFAULTS: 'hermes-defaults',
+  AUTOSTART: 'hermes-autostart',
   AUTOPLAY: 'hermes-autoplay',
   CREATE_ARROWS: 'hermes-create-arrows',
   CREATE_DOTS: 'hermes-create-dots',
@@ -89,10 +90,17 @@ function searchForTransitions(elem) {
   return transitions;
 }
 
+function create(className) {
+  var elem = document.createElement("div");
+  elem.className = className;
+  return elem;
+}
+
 function setOptions(priv) {
   var cl = priv.elem.classList;
 
   if (cl.contains(Option.DEFAULTS)) {
+    cl.add(Option.AUTOSTART);
     cl.add(Option.AUTOPLAY);
     cl.add(Option.ARROW_KEYS);
     cl.add(Option.CREATE_ARROWS);
@@ -108,24 +116,27 @@ function setOptions(priv) {
   if (cl.contains(Option.ARROW_KEYS)) {
     window.addEventListener('keydown', keyBasedMove.bind(priv));
   }
+  if (cl.contains(Option.AUTOSTART)) {
+    window.setTimeout(start.bind(priv), 100);
+  }
 }
 
 function createArrowButtons(priv) {
-  var previousButton = dom.create(Layout.ARROW_LEFT);
+  var previousButton = create(Layout.ARROW_LEFT);
   previousButton.addEventListener('click', moveToPrevious.bind(priv));
   priv.elem.appendChild(previousButton);
 
-  var nextButton = dom.create(Layout.ARROW_RIGHT);
+  var nextButton = create(Layout.ARROW_RIGHT);
   nextButton.addEventListener('click', moveToNext.bind(priv));
   priv.elem.appendChild(nextButton);
 }
 
 function createDotButtons(priv) {
-  var dots = dom.create(Layout.DOTS);
+  var dots = create(Layout.DOTS);
   priv.elem.appendChild(dots);
 
   for (var i = 0; i < priv.slides.length; ++i) {
-    var dot = dom.create(Layout.DOT);
+    var dot = create(Layout.DOT);
     dot.addEventListener('click', moveTo.bind(priv));
     dots.appendChild(dot);
     priv.slides[i].dot = dot;
@@ -180,10 +191,10 @@ function moveTo(i) {
 
   var from = priv.slides[priv.fromIndex];
   var to = priv.slides[priv.toIndex];
-  dom.removeLayout(from, Flag.SLIDE_FROM);
-  dom.removeLayout(to, Flag.SLIDE_TO);
-  dom.removeLayout(to.dot, Flag.ACTIVE);
-  dom.removeLayout(priv.elem, Regexp.TRANSITION);
+  from.classList.remove(Flag.SLIDE_FROM);
+  to.classList.remove(Flag.SLIDE_TO);
+  o.dot.classList.remove(Flag.ACTIVE);
+  priv.elem.classList.remove(Regexp.TRANSITION);
 
   priv.fromIndex = priv.toIndex;
   priv.toIndex = i;

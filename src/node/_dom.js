@@ -34,17 +34,10 @@ function getTransformPropertyName() {
   }
 }
 
-function create(className) {
-  var elem = document.createElement("div");
-  elem.className = className;
-  return elem;
-}
-
 var transitionEventName = getTransitionEventName();
 var transformPropertyName = getTransformPropertyName();
 
 module.exports = {
-  create: create,
   transitionEventName: transitionEventName,
   transformPropertyName: transformPropertyName,
 };

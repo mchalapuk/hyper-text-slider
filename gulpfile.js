@@ -53,7 +53,7 @@ gulp.task('jshint:spec', function() {
 
 gulp.task('spec', [ 'jshint:spec' ], function() {
   return gulp.src(config.js.spec)
-    .pipe(jasmine({ includeStackTrace: true }))
+    .pipe(jasmine({ /* verbose: true, */ includeStackTrace: true }))
   ;
 });
 
