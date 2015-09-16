@@ -23,9 +23,21 @@ function Node(nodeName) {
   var that = EventSource.call(this);
 
   that.nodeName = nodeName;
+  that.parentNode = null;
   that.childNodes = [];
+
   that.appendChild = function (node) {
+    if (node.parentNode !== null) {
+      node.parentNode.removeChild(node);
+    }
     that.childNodes.push(node);
+    node.parentNode = that;
+  };
+  that.removeChild = function(node) {
+    that.childNodes.splice(that.childNodes.indexOf(node), 1);
+  };
+  that.insertBefore = function(node, before) {
+    that.childNodes.splice(that.childNodes.indexOf(before), 0, node);
   };
 
   return that;

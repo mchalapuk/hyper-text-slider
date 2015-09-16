@@ -14,6 +14,10 @@ describe('Node', function() {
     it ('has no child nodes', function() {
       expect(testedNode.childNodes.length).toEqual(0);
     });
+
+    it ('has no parent node', function() {
+      expect(testedNode.parentNode).toEqual(null);
+    });
   });
 
   describe('after adding one child node', function() {
@@ -31,6 +35,10 @@ describe('Node', function() {
 
     it ('has proper child node on index 0', function() {
       expect(testedNode.childNodes[0]).toBe(childNode);
+    });
+
+    it ('its child node has proper parent node', function() {
+      expect(testedNode.childNodes[0].parentNode).toBe(testedNode);
     });
   });
 
@@ -86,10 +94,15 @@ describe('Element,', function() {
   });
 
   var nobody = document.createElement('CHILD');
+  var nobody2 = document.createElement('CHILD');
+  var nobody3 = document.createElement('CHILD');
+  var nobody4 = document.createElement('CHILD');
   var jay = document.createElement('CHILD');
   jay.className = 'jay';
   var silentBob = document.createElement('CHILD');
   silentBob.className = 'silent-bob';
+  var silentBob2 = document.createElement('CHILD');
+  silentBob2.className = 'silent-bob';
   var jayAndSilentBob = document.createElement('CHILD');
   jayAndSilentBob.className = 'jay silent-bob';
 
@@ -111,16 +124,16 @@ describe('Element,', function() {
       querySelectorAll: { '.jay': [ jay ], '.silent-bob': [] }
     }, {
       title: 'two children with class ".silent-bob"',
-      children: [ silentBob, silentBob ],
+      children: [ silentBob, silentBob2 ],
       querySelector: { '.jay': null, '.silent-bob': silentBob },
-      querySelectorAll: { '.jay': [], '.silent-bob': [ silentBob, silentBob ] }
+      querySelectorAll: { '.jay': [], '.silent-bob': [ silentBob, silentBob2 ] }
     }, {
       title: 'one child with class ".jay", '+
         'two children with class ".silent-bob", '+
         'four children wihout className',
-      children: [ nobody, jay, nobody, silentBob, nobody, silentBob, nobody ],
+      children: [ nobody, jay, nobody2, silentBob, nobody3, silentBob2, nobody4 ],
       querySelector: { '.jay': jay, '.silent-bob': silentBob },
-      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [ silentBob, silentBob ] }
+      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [ silentBob, silentBob2 ] }
     },
   ];
 
