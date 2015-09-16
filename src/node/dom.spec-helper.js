@@ -33,10 +33,10 @@ function Node(nodeName) {
     that.childNodes.push(node);
     node.parentNode = that;
   };
-  that.removeChild = function(node) {
+  that.removeChild = function(node) { // TODO tests
     that.childNodes.splice(that.childNodes.indexOf(node), 1);
   };
-  that.insertBefore = function(node, before) {
+  that.insertBefore = function(node, before) { // TODO tests
     that.childNodes.splice(that.childNodes.indexOf(before), 0, node);
   };
 
