@@ -177,8 +177,8 @@ function keyBasedMove(event) {
   var priv = this;
 
   switch (event.key) {
-    case 'ArrowLeft': moveToPrevious.bind(priv); break;
-    case 'ArrowRight': moveToNext.bind(priv); break;
+    case 'ArrowLeft': moveToPrevious.call(priv); break;
+    case 'ArrowRight': moveToNext.call(priv); break;
   }
 }
 

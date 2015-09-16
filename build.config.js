@@ -38,6 +38,8 @@ module.exports = {
       'Element': {},
       'DOMTokenList': {},
       'TransitionEndEvent': {},
+      'KeyDownEvent': {},
+      'ClickEvent': {},
       'Document': {},
       'Window': {},
 

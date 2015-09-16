@@ -15,6 +15,9 @@ function EventSource() {
       listener.apply(that, [ event ]);
     });
   };
+  that.$clearEventListeners = function() {
+    listeners = {};
+  };
 
   return that;
 }
@@ -112,6 +115,24 @@ function TransitionEndEvent(target, propertyName) {
   return that;
 }
 
+function KeyDownEvent(key) {
+  var that = this;
+
+  that.type = 'keydown';
+  that.key = key;
+
+  return that;
+}
+
+function ClickEvent(target) {
+  var that = this;
+
+  that.type = 'click';
+  that.target = target;
+
+  return that;
+}
+
 function Document() {
   var that = EventSource.call(this);
 
@@ -171,6 +192,8 @@ global.Element = Element;
 global.DOMTokenList = DOMTokenList;
 global.CSS2Properties = CSS2Properties;
 global.TransitionEndEvent = TransitionEndEvent;
+global.KeyDownEvent = KeyDownEvent;
+global.ClickEvent = ClickEvent;
 global.Document = Document;
 global.Window = Window;
 

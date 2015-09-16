@@ -3,6 +3,9 @@
 var slider = require('./slider');
 
 describe('slider', function() {
+  afterEach(function() {
+    window.$clearEventListeners();
+  });
 
   function create(className) {
     var elem = document.createElement('div');
@@ -300,5 +303,36 @@ describe('slider', function() {
     });
   });
 
+  describe('slider with 2 slides and "hermes-arrow-keys" flag', function() {
+    var sliderElement;
+    var testedSlider;
+    beforeEach(function() {
+      sliderElement = createSliderElement(2);
+      sliderElement.classList.add('hermes-arrow-keys');
+      testedSlider = slider(sliderElement);
+    });
+
+    describe('when started and fired keydown event with left arrow key', function() {
+      beforeEach(function() {
+        testedSlider.start();
+      });
+
+      it('then current slide is the second slide', function() {
+        window.dispatchEvent(new KeyDownEvent('ArrowLeft'));
+        expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+      });
+    });
+
+    describe('when started and fired keydown event with right arrow key', function() {
+      beforeEach(function() {
+        testedSlider.start();
+      });
+
+      it('then current slide is the second slide', function() {
+        window.dispatchEvent(new KeyDownEvent('ArrowRight'));
+        expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+      });
+    });
+  });
 });
 
