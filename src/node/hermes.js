@@ -9,11 +9,14 @@ function summonHermes(elem) {
   var priv = {};
   priv.elem = elem;
   priv.phase = null;
+  priv.listeners = [];
   priv.setPhase = setPhase;
 
   var pub = {};
   pub.getPhase = getPhase.bind(priv);
   pub.nextPhase = nextPhase.bind(priv);
+  pub.addPhaseChangeListener = addPhaseChangeListener.bind(priv);
+  pub.removePhaseChangeListener = removePhaseChangeListener.bind(priv);
   pub.addPhaseChangeTrigger = addPhaseChangeTrigger;
   pub.removePhaseChangeTrigger = removePhaseChangeTrigger;
   pub.startTransition = startTransition.bind(priv);
@@ -46,6 +49,19 @@ function setPhase(phase) {
   if (phase !== null) {
     priv.elem.classList.add(phase);
   }
+  priv.listeners.forEach(function(listener) {
+    listener(phase);
+  });
+}
+
+function addPhaseChangeListener(listener) {
+  var priv = this;
+  priv.listeners.push(listener);
+}
+
+function removePhaseChangeListener(listener) {
+  var priv = this;
+  priv.listeners.splice(priv.listeners.indexOf(listener), 1);
 }
 
 function nextPhase() {

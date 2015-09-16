@@ -167,7 +167,7 @@ function createDotButtons(priv) {
 
   for (var i = 0; i < priv.slides.length; ++i) {
     var dot = create(Layout.DOT);
-    dot.addEventListener('click', moveTo.bind(priv));
+    dot.addEventListener('click', moveTo.bind(priv, i));
     dots.appendChild(dot);
     priv.slides[i].dot = dot;
   }

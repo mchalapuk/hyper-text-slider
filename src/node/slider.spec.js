@@ -266,5 +266,39 @@ describe('slider', function() {
     });
   });
 
+  describe('slider with 2 slides and "hermes-create-dots" flag', function() {
+    var sliderElement;
+    var testedSlider;
+    beforeEach(function() {
+      sliderElement = createSliderElement(2);
+      sliderElement.classList.add('hermes-create-dots');
+      testedSlider = slider(sliderElement);
+    });
+
+    describe('when just after creation', function() {
+      it('then slider element contains dots container', function() {
+        expect(sliderElement.querySelector('.hermes-layout--dots')).not.toBe(null);
+      });
+      it('then slider element contains 2 dots', function() {
+        expect(sliderElement.querySelector('.hermes-layout--dots')
+          .querySelectorAll('.hermes-layout--dot').length).toEqual(2);
+      });
+
+      describe('and starting and after click event fired on second dot', function() {
+        beforeEach(function() {
+          testedSlider.start();
+          testedSlider.slides[1].dot.dispatchEvent(new ClickEvent());
+        });
+
+        it('then current slide is the second slide', function() {
+          expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+        });
+        it('then is in "hermes-before-transition" phase', function() {
+          expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+        });
+      });
+    });
+  });
+
 });
 
