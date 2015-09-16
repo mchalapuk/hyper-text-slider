@@ -246,5 +246,25 @@ describe('slider', function() {
       });
     });
   });
+
+  describe('slider with "hermes-create-arrows" flag', function() {
+    var sliderElement;
+    var testedSlider;
+    beforeEach(function() {
+      sliderElement = createSliderElement(2);
+      sliderElement.classList.add('hermes-create-arrows');
+      testedSlider = slider(sliderElement);
+    });
+
+    describe('when just after creation', function() {
+      it('then slider contains left arrow', function() {
+        expect(sliderElement.querySelector('.hermes-layout--arrow-left')).not.toBe(null);
+      });
+      it('then slider contains right arrow', function() {
+        expect(sliderElement.querySelector('.hermes-layout--arrow-right')).not.toBe(null);
+      });
+    });
+  });
+
 });
 
