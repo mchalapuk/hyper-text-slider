@@ -65,8 +65,7 @@ function nextPhase() {
 function startTransition() {
   var priv = this;
 
-  priv.setPhase(null);
-  nextPhase.apply(priv);
+  priv.setPhase(Phase.BEFORE_TRANSITION);
 }
 
 function addPhaseChangeTrigger(elem, transitionProperty) {

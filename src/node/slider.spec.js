@@ -68,6 +68,9 @@ describe('slider', function() {
         expect(testedSlider.slides.length).toEqual(3);
       });
 
+      it('then contains null slides.currentIndex', function() {
+        expect(testedSlider.slides.currentIndex).toBe(null);
+      });
       it('then contains null slides.current', function() {
         expect(testedSlider.slides.current).toBe(null);
       });
@@ -89,8 +92,11 @@ describe('slider', function() {
         expect(sliderElement.classList.contains('hermes-transition--test')).toBe(true);
       });
 
-      it('then contains slides.current of value 0', function() {
-        expect(testedSlider.slides.current).toBe(0);
+      it('then contains slides.currentIndex of value 0', function() {
+        expect(testedSlider.slides.currentIndex).toBe(0);
+      });
+      it('then contains slides.current pointing to slides[0]', function() {
+        expect(testedSlider.slides.current).toBe(testedSlider.slides[0]);
       });
 
       it('then contains first slide with "hermes-slide-to" flag', function() {
@@ -111,7 +117,46 @@ describe('slider', function() {
       it('then throws exception when calling #start again', function() {
         expect(function() { testedSlider.start(); }).toThrow();
       });
+
+      it('then contains "hermes-before-transition" class', function() {
+        expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+      });
     });
+
+    describe('when after setting current slide to 1', function() {
+      beforeEach(function() {
+        testedSlider.start();
+        testedSlider.slides.currentIndex = 1;
+      });
+
+      it('then contains "hermes-before-transition" class', function() {
+        expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+      });
+
+      describe('after firing transitionend event on current slide element', function() {
+        beforeEach(function() {
+          var event = new TransitionEndEvent(testedSlider.slides[1], 'transform');
+          testedSlider.slides.current.dispatchEvent(event);
+        });
+
+        it('slider moves to "hermes-during-transition" phase', function() {
+          expect(sliderElement.classList.contains('hermes-during-transition')).toBe(true);
+        });
+
+        describe('after firing transitionend event on current slide element', function() {
+          beforeEach(function() {
+            var event = new TransitionEndEvent(testedSlider.slides[1], 'transform');
+            testedSlider.slides.current.dispatchEvent(event);
+          });
+
+          it('slider moves to "hermes-after-transition" phase', function() {
+            expect(sliderElement.classList.contains('hermes-after-transition')).toBe(true);
+          });
+        });
+      });
+    });
+
+
   });
 });
 

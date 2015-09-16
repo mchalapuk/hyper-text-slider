@@ -18,14 +18,19 @@ function initializeSlider(elem) {
   priv.started = false;
 
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
+  upgradeSlides(priv);
   setOptions(priv);
 
   var pub = {};
   pub.start = start.bind(priv);
   pub.slides = priv.slides;
-  Object.defineProperty(pub.slides, 'current', {
+  Object.defineProperty(pub.slides, 'currentIndex', {
     get: function() { return priv.started? priv.toIndex: null; },
     set: moveTo.bind(priv),
+  });
+  Object.defineProperty(pub.slides, 'current', {
+    get: function() { return priv.started? priv.slides[priv.toIndex]: null; },
+    set: function() { throw "read only property! please use currentIndex instead"; },
   });
   pub.moveToNext = moveToNext.bind(priv);
   pub.moveToPrevious = moveToPrevious.bind(priv);
@@ -99,6 +104,12 @@ function create(className) {
   var elem = document.createElement("div");
   elem.className = className;
   return elem;
+}
+
+function upgradeSlides(priv) {
+  priv.slides.forEach(function(slide) {
+    priv.hermes.addPhaseChangeTrigger(slide);
+  });
 }
 
 function setOptions(priv) {
@@ -188,7 +199,7 @@ function moveToPrevious() {
 
 function moveTo(i) {
   var priv = this;
-  precond.checkStatus(priv.started, 'slider not started');
+  precond.checkState(priv.started, 'slider not started');
   precond.checkIsNumber(i, 'given index is not a number');
 
   if (i <= priv.slides.length) {
@@ -202,7 +213,9 @@ function moveTo(i) {
   var to = priv.slides[priv.toIndex];
   from.classList.remove(Flag.SLIDE_FROM);
   to.classList.remove(Flag.SLIDE_TO);
-  to.dot.classList.remove(Flag.ACTIVE);
+  if (to.dot !== undefined) {
+    to.dot.classList.remove(Flag.ACTIVE);
+  }
   priv.elem.classList.remove(Regexp.TRANSITION);
 
   priv.fromIndex = priv.toIndex;
@@ -211,7 +224,9 @@ function moveTo(i) {
   to = priv.slides[priv.toIndex];
   from.classList.add(Flag.SLIDE_FROM);
   to.classList.add(Flag.SLIDE_TO);
-  to.dot.classList.add(Flag.ACTIVE);
+  if (to.dot !== undefined) {
+    to.dot.classList.add(Flag.ACTIVE);
+  }
 
   priv.elem.classList.add(priv.chooseTransition());
   priv.hermes.startTransition();
