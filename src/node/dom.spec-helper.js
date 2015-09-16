@@ -112,9 +112,8 @@ function TransitionEndEvent(target, propertyName) {
   return that;
 }
 
-
 function Document() {
-  var that = this;
+  var that = EventSource.call(this);
 
   that.createElement = function(nodeName) {
     return new Element(nodeName);
@@ -124,7 +123,7 @@ function Document() {
 }
 
 function Window(document) {
-  var that = this;
+  var that = EventSource.call(this);
 
   that.document = document;
 
