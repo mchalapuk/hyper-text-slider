@@ -9,6 +9,7 @@ function initializeSlider(elem) {
   var priv = {};
   priv.elem = elem;
   priv.hermes = hermes(elem);
+  priv.hermes.addPhaseChangeListener(onPhaseChange.bind(priv));
   priv.slides = searchForSlides(elem);
   precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.transitions = searchForTransitions(elem);
@@ -202,12 +203,12 @@ function start() {
 
 function moveToNext() {
   var priv = this;
-  priv.moveTo((priv.toIndex + 1) % priv.slides.length);
+  moveTo.call(priv, (priv.toIndex + 1) % priv.slides.length);
 }
 
 function moveToPrevious() {
   var priv = this;
-  priv.moveTo((priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
+  moveTo.call(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
 }
 
 function moveTo(i) {
@@ -243,6 +244,13 @@ function moveTo(i) {
 
   priv.elem.classList.add(priv.chooseTransition());
   priv.hermes.startTransition();
+}
+
+function onPhaseChange(phase) {
+  var priv = this;
+  if (phase === 'hermes-after-transition' && priv.elem.classList.contains(Option.AUTOPLAY)) {
+    moveToNext.call(priv);
+  }
 }
 
 // transition change functions

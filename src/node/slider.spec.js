@@ -216,5 +216,35 @@ describe('slider', function() {
     });
   });
 
+  describe('slider with "hermes-autoplay" flag', function() {
+    var sliderElement;
+    var testedSlider;
+    beforeEach(function() {
+      sliderElement = createSliderElement(2);
+      sliderElement.classList.add('hermes-autoplay');
+      testedSlider = slider(sliderElement);
+    });
+
+    describe('when after starting and firing transitionend event twice', function() {
+      beforeEach(function() {
+        testedSlider.start();
+
+        var target = testedSlider.slides.current.querySelector('.hermes-layout--content');
+        var event = new TransitionEndEvent(target, 'transform');
+        target.dispatchEvent(event);
+        target.dispatchEvent(event);
+      });
+
+      it('then current index is 1', function() {
+        expect(testedSlider.slides.currentIndex).toEqual(1);
+      });
+      it('then current slide is the second slide', function() {
+        expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+      });
+      it('then slider is in "hermes-before-transition" phase', function() {
+        expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+      });
+    });
+  });
 });
 
