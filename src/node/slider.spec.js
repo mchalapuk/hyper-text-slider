@@ -170,7 +170,7 @@ describe('slider', function() {
     });
   });
 
-  describe('slider with "hermes-defaults" class', function() {
+  describe('slider with "hermes-defaults" flag', function() {
     var sliderElement;
     var testedSlider;
     beforeEach(function() {
@@ -189,9 +189,29 @@ describe('slider', function() {
       ];
 
       defaultOptions.forEach(function(option) {
-        it('has "'+ option +'" class', function() {
+        it('then it has "'+ option +'" flag', function() {
           expect(sliderElement.classList.contains(option)).toBe(true);
         });
+      });
+    });
+  });
+
+  describe('slider with "hermes-autostart" flag', function() {
+    var sliderElement;
+    var testedSlider;
+    beforeEach(function() {
+      sliderElement = createSliderElement(2);
+      sliderElement.classList.add('hermes-autostart');
+      testedSlider = slider(sliderElement);
+    });
+
+    describe('when after creation and timeout function applied', function() {
+      beforeEach(function() {
+        window.$applyTimeouts();
+      });
+
+      it('is started', function() {
+        expect(testedSlider.slides.current).not.toBe(null);
       });
     });
   });

@@ -255,7 +255,7 @@ function chooseTransition() {
 
 function random(array) {
   if (array.length === 0) {
-    throw "no transitions declared on slider";
+    return "hermes-no-transition";
   }
   return array[parseInt(Math.random() * array.length)];
 }
