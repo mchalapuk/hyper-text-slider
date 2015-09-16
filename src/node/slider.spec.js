@@ -169,5 +169,32 @@ describe('slider', function() {
       });
     });
   });
+
+  describe('slider with "hermes-defaults" class', function() {
+    var sliderElement;
+    var testedSlider;
+    beforeEach(function() {
+      sliderElement = createSliderElement(2);
+      sliderElement.classList.add('hermes-defaults');
+      testedSlider = slider(sliderElement);
+    });
+
+    describe('when just after creation', function() {
+      var defaultOptions = [
+        'hermes-autostart',
+        'hermes-autoplay',
+        'hermes-create-arrows',
+        'hermes-create-dots',
+        'hermes-arrow-keys',
+      ];
+
+      defaultOptions.forEach(function(option) {
+        it('has "'+ option +'" class', function() {
+          expect(sliderElement.classList.contains(option)).toBe(true);
+        });
+      });
+    });
+  });
+
 });
 
