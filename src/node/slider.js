@@ -108,7 +108,20 @@ function create(className) {
 
 function upgradeSlides(priv) {
   priv.slides.forEach(function(slide) {
-    priv.hermes.addPhaseChangeTrigger(slide);
+    var content = slide.querySelector(Selector.CONTENT);
+    if (content === null) {
+      content = create(Layout.CONTENT);
+      for (var i = 0; i < slide.childNodes.length; ++i) {
+        content.appendChild(slide.childNodes[i]);
+      }
+      slide.appendChild(content);
+    }
+    priv.hermes.addPhaseChangeTrigger(content);
+
+    var background = slide.querySelector(Selector.BACKGROUND);
+    if (background === null) {
+      slide.insertBefore(create(Layout.BACKGROUND), content);
+    }
   });
 }
 

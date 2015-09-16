@@ -75,10 +75,21 @@ describe('slider', function() {
         expect(testedSlider.slides.current).toBe(null);
       });
 
-      it('then contains no slide with "hermes-slide-from" ot "hermes-slide-to" flags', function() {
+      it('then contains no slide with "hermes-slide-from" or "hermes-slide-to" flags', function() {
         testedSlider.slides.forEach(function(slide) {
           expect(slide.classList.contains('hermes-slide-from')).toBe(false);
           expect(slide.classList.contains('hermes-slide-to')).toBe(false);
+        });
+      });
+
+      it('slides contains "hermes-layout--background" element as first child', function() {
+        testedSlider.slides.forEach(function(slide) {
+          expect(slide.childNodes[0].classList.contains('hermes-layout--background')).toBe(true);
+        });
+      });
+      it('slides contains "hermes-layout--content" element as second child', function() {
+        testedSlider.slides.forEach(function(slide) {
+          expect(slide.childNodes[1].classList.contains('hermes-layout--content')).toBe(true);
         });
       });
     });
@@ -135,28 +146,28 @@ describe('slider', function() {
 
       describe('after firing transitionend event on current slide element', function() {
         beforeEach(function() {
-          var event = new TransitionEndEvent(testedSlider.slides[1], 'transform');
-          testedSlider.slides.current.dispatchEvent(event);
+          var target = testedSlider.slides.current.querySelector('.hermes-layout--content');
+          var event = new TransitionEndEvent(target, 'transform');
+          target.dispatchEvent(event);
         });
 
-        it('slider moves to "hermes-during-transition" phase', function() {
+        it('then slider moves to "hermes-during-transition" phase', function() {
           expect(sliderElement.classList.contains('hermes-during-transition')).toBe(true);
         });
 
-        describe('after firing transitionend event on current slide element', function() {
+        describe('and after firing transitionend event second time', function() {
           beforeEach(function() {
-            var event = new TransitionEndEvent(testedSlider.slides[1], 'transform');
-            testedSlider.slides.current.dispatchEvent(event);
+            var target = testedSlider.slides.current.querySelector('.hermes-layout--content');
+            var event = new TransitionEndEvent(target, 'transform');
+            target.dispatchEvent(event);
           });
 
-          it('slider moves to "hermes-after-transition" phase', function() {
+          it('then slider moves to "hermes-after-transition" phase', function() {
             expect(sliderElement.classList.contains('hermes-after-transition')).toBe(true);
           });
         });
       });
     });
-
-
   });
 });
 
