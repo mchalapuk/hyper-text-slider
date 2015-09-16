@@ -872,17 +872,10 @@ function getTransformPropertyName() {
   }
 }
 
-function create(className) {
-  var elem = document.createElement("div");
-  elem.className = className;
-  return elem;
-}
-
 var transitionEventName = getTransitionEventName();
 var transformPropertyName = getTransformPropertyName();
 
 module.exports = {
-  create: create,
   transitionEventName: transitionEventName,
   transformPropertyName: transformPropertyName,
 };
@@ -900,11 +893,14 @@ function summonHermes(elem) {
   var priv = {};
   priv.elem = elem;
   priv.phase = null;
+  priv.listeners = [];
   priv.setPhase = setPhase;
 
   var pub = {};
   pub.getPhase = getPhase.bind(priv);
   pub.nextPhase = nextPhase.bind(priv);
+  pub.addPhaseChangeListener = addPhaseChangeListener.bind(priv);
+  pub.removePhaseChangeListener = removePhaseChangeListener.bind(priv);
   pub.addPhaseChangeTrigger = addPhaseChangeTrigger;
   pub.removePhaseChangeTrigger = removePhaseChangeTrigger;
   pub.startTransition = startTransition.bind(priv);
@@ -937,6 +933,19 @@ function setPhase(phase) {
   if (phase !== null) {
     priv.elem.classList.add(phase);
   }
+  priv.listeners.forEach(function(listener) {
+    listener(phase);
+  });
+}
+
+function addPhaseChangeListener(listener) {
+  var priv = this;
+  priv.listeners.push(listener);
+}
+
+function removePhaseChangeListener(listener) {
+  var priv = this;
+  priv.listeners.splice(priv.listeners.indexOf(listener), 1);
 }
 
 function nextPhase() {
@@ -956,8 +965,7 @@ function nextPhase() {
 function startTransition() {
   var priv = this;
 
-  priv.setPhase(null);
-  nextPhase.apply(priv);
+  priv.setPhase(Phase.BEFORE_TRANSITION);
 }
 
 function addPhaseChangeTrigger(elem, transitionProperty) {
@@ -990,7 +998,6 @@ function removePhaseChangeTrigger(elem) {
 },{"./_dom":9,"precond":5}],11:[function(require,module,exports){
 'use strict';
 
-var dom = require('./_dom');
 var hermes = require('./hermes');
 var precond = require('precond');
 
@@ -998,19 +1005,32 @@ function initializeSlider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};
+  priv.elem = elem;
   priv.hermes = hermes(elem);
+  priv.hermes.addPhaseChangeListener(onPhaseChange.bind(priv));
   priv.slides = searchForSlides(elem);
+  precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.transitions = searchForTransitions(elem);
   priv.fromIndex = 1;
   priv.toIndex = 0;
   priv.chooseTransition = chooseTransition;
+  priv.started = false;
 
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
+  upgradeSlides(priv);
   setOptions(priv);
-  setTimeout(start.bind(priv), 100);
 
   var pub = {};
-  pub.moveTo = moveTo.bind(priv);
+  pub.start = start.bind(priv);
+  pub.slides = priv.slides;
+  Object.defineProperty(pub.slides, 'currentIndex', {
+    get: function() { return priv.started? priv.toIndex: null; },
+    set: moveTo.bind(priv),
+  });
+  Object.defineProperty(pub.slides, 'current', {
+    get: function() { return priv.started? priv.slides[priv.toIndex]: null; },
+    set: function() { throw "read only property! please use currentIndex instead"; },
+  });
   pub.moveToNext = moveToNext.bind(priv);
   pub.moveToPrevious = moveToPrevious.bind(priv);
   return pub;
@@ -1042,6 +1062,7 @@ var Selector = (function () {
 
 var Option = {
   DEFAULTS: 'hermes-defaults',
+  AUTOSTART: 'hermes-autostart',
   AUTOPLAY: 'hermes-autoplay',
   CREATE_ARROWS: 'hermes-create-arrows',
   CREATE_DOTS: 'hermes-create-dots',
@@ -1064,7 +1085,7 @@ return;
 // initialization functions
 
 function searchForSlides(elem) {
-  return elem.querySelectorAll(Selector.SLIDE);
+  return [].slice.call(elem.querySelectorAll(Selector.SLIDE));
 }
 
 function searchForTransitions(elem) {
@@ -1078,10 +1099,36 @@ function searchForTransitions(elem) {
   return transitions;
 }
 
+function create(className) {
+  var elem = document.createElement("div");
+  elem.className = className;
+  return elem;
+}
+
+function upgradeSlides(priv) {
+  priv.slides.forEach(function(slide) {
+    var content = slide.querySelector(Selector.CONTENT);
+    if (content === null) {
+      content = create(Layout.CONTENT);
+      for (var i = 0; i < slide.childNodes.length; ++i) {
+        content.appendChild(slide.childNodes[i]);
+      }
+      slide.appendChild(content);
+    }
+    priv.hermes.addPhaseChangeTrigger(content);
+
+    var background = slide.querySelector(Selector.BACKGROUND);
+    if (background === null) {
+      slide.insertBefore(create(Layout.BACKGROUND), content);
+    }
+  });
+}
+
 function setOptions(priv) {
   var cl = priv.elem.classList;
 
   if (cl.contains(Option.DEFAULTS)) {
+    cl.add(Option.AUTOSTART);
     cl.add(Option.AUTOPLAY);
     cl.add(Option.ARROW_KEYS);
     cl.add(Option.CREATE_ARROWS);
@@ -1097,25 +1144,28 @@ function setOptions(priv) {
   if (cl.contains(Option.ARROW_KEYS)) {
     window.addEventListener('keydown', keyBasedMove.bind(priv));
   }
+  if (cl.contains(Option.AUTOSTART)) {
+    window.setTimeout(start.bind(priv), 100);
+  }
 }
 
 function createArrowButtons(priv) {
-  var previousButton = dom.create(Layout.ARROW_LEFT);
+  var previousButton = create(Layout.ARROW_LEFT);
   previousButton.addEventListener('click', moveToPrevious.bind(priv));
   priv.elem.appendChild(previousButton);
 
-  var nextButton = dom.create(Layout.ARROW_RIGHT);
+  var nextButton = create(Layout.ARROW_RIGHT);
   nextButton.addEventListener('click', moveToNext.bind(priv));
   priv.elem.appendChild(nextButton);
 }
 
 function createDotButtons(priv) {
-  var dots = dom.create(Layout.DOTS);
+  var dots = create(Layout.DOTS);
   priv.elem.appendChild(dots);
 
   for (var i = 0; i < priv.slides.length; ++i) {
-    var dot = dom.create(Layout.DOT);
-    dot.addEventListener('click', moveTo.bind(priv));
+    var dot = create(Layout.DOT);
+    dot.addEventListener('click', moveTo.bind(priv, i));
     dots.appendChild(dot);
     priv.slides[i].dot = dot;
   }
@@ -1125,8 +1175,8 @@ function keyBasedMove(event) {
   var priv = this;
 
   switch (event.key) {
-    case 'ArrowLeft': moveToPrevious.bind(priv); break;
-    case 'ArrowRight': moveToNext.bind(priv); break;
+    case 'ArrowLeft': moveToPrevious.call(priv); break;
+    case 'ArrowRight': moveToNext.call(priv); break;
   }
 }
 
@@ -1134,13 +1184,16 @@ function start() {
   // separate start procedure is needed because
   // only one slide is seen in the first transition
   var priv = this;
+  precond.checkState(!priv.started, 'slider is already started');
+  priv.started = true;
 
   var to = priv.slides[priv.toIndex];
   to.classList.add(Flag.SLIDE_TO);
-  to.dot.classList.add(Flag.ACTIVE);
+  if (to.dot !== undefined) {
+    to.dot.classList.add(Flag.ACTIVE);
+  }
 
   priv.elem.classList.add(priv.chooseTransition());
-
   priv.hermes.startTransition();
 }
 
@@ -1148,16 +1201,17 @@ function start() {
 
 function moveToNext() {
   var priv = this;
-  priv.moveTo((priv.toIndex + 1) % priv.slides.length);
+  moveTo.call(priv, (priv.toIndex + 1) % priv.slides.length);
 }
 
 function moveToPrevious() {
   var priv = this;
-  priv.moveTo((priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
+  moveTo.call(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
 }
 
 function moveTo(i) {
   var priv = this;
+  precond.checkState(priv.started, 'slider not started');
   precond.checkIsNumber(i, 'given index is not a number');
 
   if (i <= priv.slides.length) {
@@ -1169,10 +1223,12 @@ function moveTo(i) {
 
   var from = priv.slides[priv.fromIndex];
   var to = priv.slides[priv.toIndex];
-  dom.removeLayout(from, Flag.SLIDE_FROM);
-  dom.removeLayout(to, Flag.SLIDE_TO);
-  dom.removeLayout(to.dot, Flag.ACTIVE);
-  dom.removeLayout(priv.elem, Regexp.TRANSITION);
+  from.classList.remove(Flag.SLIDE_FROM);
+  to.classList.remove(Flag.SLIDE_TO);
+  if (to.dot !== undefined) {
+    to.dot.classList.remove(Flag.ACTIVE);
+  }
+  priv.elem.classList.remove(Regexp.TRANSITION);
 
   priv.fromIndex = priv.toIndex;
   priv.toIndex = i;
@@ -1180,10 +1236,19 @@ function moveTo(i) {
   to = priv.slides[priv.toIndex];
   from.classList.add(Flag.SLIDE_FROM);
   to.classList.add(Flag.SLIDE_TO);
-  to.dot.classList.add(Flag.ACTIVE);
+  if (to.dot !== undefined) {
+    to.dot.classList.add(Flag.ACTIVE);
+  }
 
   priv.elem.classList.add(priv.chooseTransition());
   priv.hermes.startTransition();
+}
+
+function onPhaseChange(phase) {
+  var priv = this;
+  if (phase === 'hermes-after-transition' && priv.elem.classList.contains(Option.AUTOPLAY)) {
+    moveToNext.call(priv);
+  }
 }
 
 // transition change functions
@@ -1191,15 +1256,15 @@ function moveTo(i) {
 function chooseTransition() {
   var priv = this;
   var match = priv.slides[priv.toIndex].className.match(Regexp.TRANSITION);
-  return match[0] || random(priv.transitions);
+  return (match? match[0]: false) || random(priv.transitions);
 }
 
 function random(array) {
   if (array.length === 0) {
-    throw "no transitions declared on slider";
+    return "hermes-no-transition";
   }
   return array[parseInt(Math.random() * array.length)];
 }
 
 
-},{"./_dom":9,"./hermes":10,"precond":5}]},{},[8])
+},{"./hermes":10,"precond":5}]},{},[8])
