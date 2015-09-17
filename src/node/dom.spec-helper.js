@@ -49,6 +49,7 @@ function Node(nodeName) {
 function Element(nodeName) {
   var that = Node.call(this, nodeName);
 
+  that.id = null;
   that.className = "";
   that.classList = new DOMTokenList(that, 'className');
   that.style = new CSS2Properties();
