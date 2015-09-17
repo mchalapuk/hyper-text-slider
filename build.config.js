@@ -8,11 +8,17 @@ module.exports = {
   css: [
     {
       src: [
+        './src/sass/*.scss',
+      ],
+      main: [
         './src/sass/'+ project_name +'.scss',
       ],
     },
     {
       src: [
+        './src/sass/transitions/**/*.scss',
+      ],
+      main: [
         './src/sass/transitions/internal/*.scss',
       ],
       dest: 'transitions/'

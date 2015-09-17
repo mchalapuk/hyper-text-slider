@@ -19,7 +19,7 @@ gulp.task('sass', function () {
 
   var results = css.map(function(files) {
     var build_dir = config.dir.build + (files.dest || '');
-    return gulp.src(files.src)
+    return gulp.src(files.main)
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(gulp.dest(build_dir))
         .pipe(cssmin())
@@ -66,8 +66,8 @@ gulp.task('clean', function(cb) {
 gulp.task('dist', [ 'clean', 'sass', 'spec', 'javascript' ]);
 
 gulp.task('watch', [ 'dist' ], function() {
-  gulp.watch(config.css.src, [ 'sass' ]);
-  gulp.watch(config.js.src, [ 'javascript', 'spec' ]);
+  gulp.watch(config.css.reduce(function(r, a) { return r.concat(a.main).concat(a.src); }, []), [ 'sass' ]);
+  gulp.watch([ config.js.main, config.js.src ], [ 'javascript', 'spec' ]);
   gulp.watch(config.js.spec, [ 'spec' ]);
 
   connect.server({
