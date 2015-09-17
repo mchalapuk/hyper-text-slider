@@ -819,9 +819,9 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
   'use strict';
 
   // turn off vanilla behavior (vertical scroll bar)
-  var sliderElems = document.querySelectorAll(Selector.SLIDER);
+  var sliderElems = document.querySelectorAll('.hermes-layout--slider');
   for (var i = 0; i < sliderElems.length; ++i) {
-    sliderElems[i].classList.add(Class.UPGRADED);
+    sliderElems[i].classList.add('is-upgraded');
   }
 
   // defer slider initialization
@@ -1011,6 +1011,7 @@ function initializeSlider(elem) {
   priv.slides = searchForSlides(elem);
   precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.transitions = searchForTransitions(elem);
+  priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
   priv.chooseTransition = chooseTransition;
@@ -1046,6 +1047,7 @@ var Layout = {
   BACKGROUND: 'hermes-layout--background',
   CONTENT: 'hermes-layout--content',
   INNER: 'hermes-layout--inner',
+  ARROW: 'hermes-layout--arrow',
   ARROW_LEFT: 'hermes-layout--arrow-left',
   ARROW_RIGHT: 'hermes-layout--arrow-right',
   DOTS: 'hermes-layout--dots',
@@ -1099,9 +1101,9 @@ function searchForTransitions(elem) {
   return transitions;
 }
 
-function create(className) {
+function create() {
   var elem = document.createElement("div");
-  elem.className = className;
+  elem.className = [].join.call(arguments, ' ');
   return elem;
 }
 
@@ -1110,8 +1112,8 @@ function upgradeSlides(priv) {
     var content = slide.querySelector(Selector.CONTENT);
     if (content === null) {
       content = create(Layout.CONTENT);
-      for (var i = 0; i < slide.childNodes.length; ++i) {
-        content.appendChild(slide.childNodes[i]);
+      while (slide.childNodes.length) {
+        content.appendChild(slide.childNodes[0]);
       }
       slide.appendChild(content);
     }
@@ -1150,11 +1152,11 @@ function setOptions(priv) {
 }
 
 function createArrowButtons(priv) {
-  var previousButton = create(Layout.ARROW_LEFT);
+  var previousButton = create(Layout.ARROW, Layout.ARROW_LEFT);
   previousButton.addEventListener('click', moveToPrevious.bind(priv));
   priv.elem.appendChild(previousButton);
 
-  var nextButton = create(Layout.ARROW_RIGHT);
+  var nextButton = create(Layout.ARROW, Layout.ARROW_RIGHT);
   nextButton.addEventListener('click', moveToNext.bind(priv));
   priv.elem.appendChild(nextButton);
 }
@@ -1189,11 +1191,14 @@ function start() {
 
   var to = priv.slides[priv.toIndex];
   to.classList.add(Flag.SLIDE_TO);
+  if (to.id !== null) {
+    addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
+  }
   if (to.dot !== undefined) {
     to.dot.classList.add(Flag.ACTIVE);
   }
 
-  priv.elem.classList.add(priv.chooseTransition());
+  addTempClass.call(priv, priv.chooseTransition());
   priv.hermes.startTransition();
 }
 
@@ -1221,6 +1226,7 @@ function moveTo(i) {
     return;
   }
 
+
   var from = priv.slides[priv.fromIndex];
   var to = priv.slides[priv.toIndex];
   from.classList.remove(Flag.SLIDE_FROM);
@@ -1228,7 +1234,7 @@ function moveTo(i) {
   if (to.dot !== undefined) {
     to.dot.classList.remove(Flag.ACTIVE);
   }
-  priv.elem.classList.remove(Regexp.TRANSITION);
+  removeTempClasses.call(priv);
 
   priv.fromIndex = priv.toIndex;
   priv.toIndex = i;
@@ -1236,12 +1242,29 @@ function moveTo(i) {
   to = priv.slides[priv.toIndex];
   from.classList.add(Flag.SLIDE_FROM);
   to.classList.add(Flag.SLIDE_TO);
+  if (to.id !== null) {
+    addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
+  }
   if (to.dot !== undefined) {
     to.dot.classList.add(Flag.ACTIVE);
   }
 
-  priv.elem.classList.add(priv.chooseTransition());
+  addTempClass.call(priv, priv.chooseTransition());
   priv.hermes.startTransition();
+}
+
+function addTempClass(className) {
+  var priv = this;
+  priv.tempClasses.push(className);
+  priv.elem.classList.add(className);
+}
+
+function removeTempClasses() {
+  var priv = this;
+  priv.tempClasses.forEach(function(className) {
+    priv.elem.classList.remove(className);
+  });
+  priv.tempClasses = [];
 }
 
 function onPhaseChange(phase) {
