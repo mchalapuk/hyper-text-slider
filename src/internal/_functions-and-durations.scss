@@ -1,6 +1,6 @@
 .hermes-layout--slider.is-upgraded {
 
-  .hermes-slide-time-7-sec {
+  &.hermes-slide-time-7-sec {
     .hermes-layout--background {
       @include transition(all 5s ease-out 300ms, opacity 750ms ease-in-out 300ms);
     }
@@ -21,7 +21,7 @@
     }
   }
 
-  .hermes-slide-time-5-sec {
+  &.hermes-slide-time-5-sec {
     .hermes-layout--background {
       @include transition(all 5s ease-out 300ms, opacity 750ms ease-in-out 300ms);
     }
