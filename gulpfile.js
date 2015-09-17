@@ -7,6 +7,7 @@ var jshint = require('gulp-jshint');
 var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
+var connect = require('gulp-connect');
 var rename = require('gulp-rename');
 var merge_stream = require('merge-stream');
 var del = require('del');
@@ -68,6 +69,12 @@ gulp.task('watch', [ 'dist' ], function() {
   gulp.watch(config.css.src, [ 'sass' ]);
   gulp.watch(config.js.src, [ 'javascript', 'spec' ]);
   gulp.watch(config.js.spec, [ 'spec' ]);
+
+  connect.server({
+    root: ['examples', 'dist'],
+    port: 8889,
+    livereload: true
+  });
 });
 
 gulp.task('default', ['dist']);
