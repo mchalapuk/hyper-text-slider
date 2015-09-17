@@ -59,6 +59,9 @@ describe('slider', function() {
     beforeEach(function() {
       sliderElement = createSliderElement(3);
       sliderElement.classList.add('hermes-transition--test');
+      sliderElement.childNodes[0].id = 'first';
+      sliderElement.childNodes[1].id = 'second';
+      sliderElement.childNodes[2].id = 'third';
       testedSlider = slider(sliderElement);
     });
 
@@ -105,6 +108,9 @@ describe('slider', function() {
       it('then contains "hermes-transition--test" class', function() {
         expect(sliderElement.classList.contains('hermes-transition--test')).toBe(true);
       });
+      it('then contains "hermes-slide-id-first" class', function() {
+        expect(sliderElement.classList.contains('hermes-slide-id-first')).toBe(true);
+      });
 
       it('then contains slides.currentIndex of value 0', function() {
         expect(testedSlider.slides.currentIndex).toBe(0);
@@ -145,6 +151,12 @@ describe('slider', function() {
 
       it('then contains "hermes-before-transition" class', function() {
         expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+      });
+      it('then does not contain "hermes-slide-id-first" class', function() {
+        expect(sliderElement.classList.contains('hermes-slide-id-first')).toBe(false);
+      });
+      it('then contains "hermes-slide-id-second" class', function() {
+        expect(sliderElement.classList.contains('hermes-slide-id-second')).toBe(true);
       });
 
       describe('after firing transitionend event on current slide element', function() {

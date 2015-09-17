@@ -13,7 +13,7 @@ function initializeSlider(elem) {
   priv.slides = searchForSlides(elem);
   precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.transitions = searchForTransitions(elem);
-  priv.currentTransition = null;
+  priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
   priv.chooseTransition = chooseTransition;
@@ -192,11 +192,14 @@ function start() {
 
   var to = priv.slides[priv.toIndex];
   to.classList.add(Flag.SLIDE_TO);
+  if (to.id !== null) {
+    addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
+  }
   if (to.dot !== undefined) {
     to.dot.classList.add(Flag.ACTIVE);
   }
 
-  priv.elem.classList.add(priv.transition = priv.chooseTransition());
+  addTempClass.call(priv, priv.chooseTransition());
   priv.hermes.startTransition();
 }
 
@@ -224,6 +227,7 @@ function moveTo(i) {
     return;
   }
 
+
   var from = priv.slides[priv.fromIndex];
   var to = priv.slides[priv.toIndex];
   from.classList.remove(Flag.SLIDE_FROM);
@@ -231,9 +235,7 @@ function moveTo(i) {
   if (to.dot !== undefined) {
     to.dot.classList.remove(Flag.ACTIVE);
   }
-  if (priv.transition !== null) {
-    priv.elem.classList.remove(priv.transition);
-  }
+  removeTempClasses.call(priv);
 
   priv.fromIndex = priv.toIndex;
   priv.toIndex = i;
@@ -241,12 +243,29 @@ function moveTo(i) {
   to = priv.slides[priv.toIndex];
   from.classList.add(Flag.SLIDE_FROM);
   to.classList.add(Flag.SLIDE_TO);
+  if (to.id !== null) {
+    addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
+  }
   if (to.dot !== undefined) {
     to.dot.classList.add(Flag.ACTIVE);
   }
 
-  priv.elem.classList.add(priv.transition = priv.chooseTransition());
+  addTempClass.call(priv, priv.chooseTransition());
   priv.hermes.startTransition();
+}
+
+function addTempClass(className) {
+  var priv = this;
+  priv.tempClasses.push(className);
+  priv.elem.classList.add(className);
+}
+
+function removeTempClasses() {
+  var priv = this;
+  priv.tempClasses.forEach(function(className) {
+    priv.elem.classList.remove(className);
+  });
+  priv.tempClasses = [];
 }
 
 function onPhaseChange(phase) {
