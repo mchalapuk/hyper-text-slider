@@ -1,10 +1,12 @@
 
-.hermes-slide-to:not(.hermes-before-transition) {
-  .hermes-layout--background {
-    opacity: 1;
-  }
-  .hermes-layout--content {
-    opacity: 0.8;
+.hermes-layout--slider:not(.hermes-before-transition) {
+  .hermes-slide-to {
+    .hermes-layout--background {
+      opacity: 1;
+    }
+    .hermes-layout--content {
+      opacity: 0.8;
+    }
   }
 }
 
