@@ -49,6 +49,7 @@ var Layout = {
   BACKGROUND: 'hermes-layout--background',
   CONTENT: 'hermes-layout--content',
   INNER: 'hermes-layout--inner',
+  ARROW: 'hermes-layout--arrow',
   ARROW_LEFT: 'hermes-layout--arrow-left',
   ARROW_RIGHT: 'hermes-layout--arrow-right',
   DOTS: 'hermes-layout--dots',
@@ -102,9 +103,9 @@ function searchForTransitions(elem) {
   return transitions;
 }
 
-function create(className) {
+function create() {
   var elem = document.createElement("div");
-  elem.className = className;
+  elem.className = [].join.call(arguments, ' ');
   return elem;
 }
 
@@ -153,11 +154,11 @@ function setOptions(priv) {
 }
 
 function createArrowButtons(priv) {
-  var previousButton = create(Layout.ARROW_LEFT);
+  var previousButton = create(Layout.ARROW, Layout.ARROW_LEFT);
   previousButton.addEventListener('click', moveToPrevious.bind(priv));
   priv.elem.appendChild(previousButton);
 
-  var nextButton = create(Layout.ARROW_RIGHT);
+  var nextButton = create(Layout.ARROW, Layout.ARROW_RIGHT);
   nextButton.addEventListener('click', moveToNext.bind(priv));
   priv.elem.appendChild(nextButton);
 }

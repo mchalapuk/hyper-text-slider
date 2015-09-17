@@ -273,10 +273,14 @@ describe('slider', function() {
 
     describe('when just after creation', function() {
       it('then slider contains left arrow', function() {
-        expect(sliderElement.querySelector('.hermes-layout--arrow-left')).not.toBe(null);
+        var arrow = sliderElement.querySelector('.hermes-layout--arrow-left');
+        expect(arrow).not.toBe(null);
+        expect(arrow.classList.contains('hermes-layout--arrow')).toBe(true);
       });
       it('then slider contains right arrow', function() {
-        expect(sliderElement.querySelector('.hermes-layout--arrow-right')).not.toBe(null);
+        var arrow = sliderElement.querySelector('.hermes-layout--arrow-right');
+        expect(arrow).not.toBe(null);
+        expect(arrow.classList.contains('hermes-layout--arrow')).toBe(true);
       });
     });
   });
