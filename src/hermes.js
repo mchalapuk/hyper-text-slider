@@ -2,9 +2,9 @@
   'use strict';
 
   // turn off vanilla behavior (vertical scroll bar)
-  var sliderElems = document.querySelectorAll(Selector.SLIDER);
+  var sliderElems = document.querySelectorAll('.hermes-layout--slider');
   for (var i = 0; i < sliderElems.length; ++i) {
-    sliderElems[i].classList.add(Class.UPGRADED);
+    sliderElems[i].classList.add('is-upgraded');
   }
 
   // defer slider initialization

@@ -13,6 +13,7 @@ function initializeSlider(elem) {
   priv.slides = searchForSlides(elem);
   precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.transitions = searchForTransitions(elem);
+  priv.currentTransition = null;
   priv.fromIndex = 1;
   priv.toIndex = 0;
   priv.chooseTransition = chooseTransition;
@@ -112,8 +113,8 @@ function upgradeSlides(priv) {
     var content = slide.querySelector(Selector.CONTENT);
     if (content === null) {
       content = create(Layout.CONTENT);
-      for (var i = 0; i < slide.childNodes.length; ++i) {
-        content.appendChild(slide.childNodes[i]);
+      while (slide.childNodes.length) {
+        content.appendChild(slide.childNodes[0]);
       }
       slide.appendChild(content);
     }
@@ -195,7 +196,7 @@ function start() {
     to.dot.classList.add(Flag.ACTIVE);
   }
 
-  priv.elem.classList.add(priv.chooseTransition());
+  priv.elem.classList.add(priv.transition = priv.chooseTransition());
   priv.hermes.startTransition();
 }
 
@@ -230,7 +231,9 @@ function moveTo(i) {
   if (to.dot !== undefined) {
     to.dot.classList.remove(Flag.ACTIVE);
   }
-  priv.elem.classList.remove(Regexp.TRANSITION);
+  if (priv.transition !== null) {
+    priv.elem.classList.remove(priv.transition);
+  }
 
   priv.fromIndex = priv.toIndex;
   priv.toIndex = i;
@@ -242,7 +245,7 @@ function moveTo(i) {
     to.dot.classList.add(Flag.ACTIVE);
   }
 
-  priv.elem.classList.add(priv.chooseTransition());
+  priv.elem.classList.add(priv.transition = priv.chooseTransition());
   priv.hermes.startTransition();
 }
 
