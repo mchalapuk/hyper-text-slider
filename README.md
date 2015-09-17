@@ -1,6 +1,3 @@
->
-> will be usable in just few commits
->
 
 # Utilizing [CSS3 transitions](http://www.w3.org/TR/css3-transitions/)
 
@@ -28,5 +25,19 @@ Package is not published in [npm](https://www.npmjs.com/).
 
 ## Hello, Hermes!
 
-Soon...
+```html
+<link href=hermes.css rel=stylesheet type=text/css>
+<link href=transitions/zoom-in-out.css rel=stylesheet type=text/css>
+
+<div class="hermes-layout--slider hermes-transition--zoom-in-out hermes-slide-time-5-sec hermes-defaults">
+  <div class="hermes-layout--slide" id="hello">
+    <h1>Hello, Hermes!</h2>
+  </div>
+  <div class="hermes-layout--slide" id="transitions">
+    <p>God of Transitions.</p>
+  </div>
+</div>
+
+<script src=hermes.js type=text/javascript></script>
+```
 
