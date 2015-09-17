@@ -17,7 +17,7 @@ var config = require('./build.config');
 gulp.task('sass', function () {
   var css = (config.css instanceof Array? config.css: [ config.css ]);
 
-  var results = css.map(function (files) {
+  var results = css.map(function(files) {
     var build_dir = config.dir.build + (files.dest || '');
     return gulp.src(files.src)
         .pipe(sass.sync().on('error', sass.logError))
@@ -63,7 +63,7 @@ gulp.task('clean', function(cb) {
   return del([ '${config.dir.build}**/*', '!${config.dir.build}' ], { force: true }, cb);
 });
 
-gulp.task('dist', ['clean', 'sass', 'spec', 'javascript']);
+gulp.task('dist', [ 'clean', 'sass', 'spec', 'javascript' ]);
 
 gulp.task('watch', [ 'dist' ], function() {
   gulp.watch(config.css.src, [ 'sass' ]);
@@ -71,11 +71,11 @@ gulp.task('watch', [ 'dist' ], function() {
   gulp.watch(config.js.spec, [ 'spec' ]);
 
   connect.server({
-    root: ['examples', 'dist'],
+    root: [ 'examples', 'dist' ],
     port: 8889,
     livereload: true
   });
 });
 
-gulp.task('default', ['dist']);
+gulp.task('default', [ 'dist' ]);
 

@@ -8,12 +8,12 @@ module.exports = {
   css: [
     {
       src: [
-        './src/internal/'+ project_name +'.scss',
+        './src/sass/'+ project_name +'.scss',
       ],
     },
     {
       src: [
-        './src/transitions/internal/*.scss',
+        './src/sass/transitions/internal/*.scss',
       ],
       dest: 'transitions/'
     },
