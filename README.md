@@ -37,8 +37,8 @@ slider. This typically goes inside the `<head>` element.
 ```
 
 Slider is controlled by class names set on slider element and its children.
-JavaScript interface is also available, but rarely needed. As CSS for the
-content is not relevant in this example, it will not be included.
+JavaScript interface is also available, but rarely needed. As CSS code for
+slides' content is not relevant in this example, it will not be included.
 
 ```html
 <div class="hermes-layout--slider
