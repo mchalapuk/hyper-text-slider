@@ -1,5 +1,5 @@
 
-# Utilizing [CSS3 transitions](http://www.w3.org/TR/css3-transitions/)
+# Utilizing [CSS3 Transitions](http://www.w3.org/TR/css3-transitions/)
 
 Hermes comes with:
 
@@ -70,4 +70,15 @@ one `<script>` tag to the page, which is typically done at the bottom of the
 <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
 </script>
 ```
+
+## TODO
+
+ * Write documentation
+ * Make time classes optional
+ * Set up continuous integration
+ * Create transition library
+ * Create another project for examples
+ * Create project website
+ * Extract DOM spec helpers to another project
+ * Optimize size of compiled JavaScript
 
