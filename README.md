@@ -13,7 +13,7 @@ Hermes comes with:
 
 Preferred way to get hermes is to use [bower](http://bower.io/).
 ```
-bower install hermes-slider --save-dev
+bower install hermes --save-dev
 ```
 
 You can also clone it with [git](https://git-scm.com/).
@@ -25,7 +25,7 @@ Package is not published in [npm](https://www.npmjs.com/).
 
 ## Hello, Hermes!
 
-First things to do is adding CSS links to hermes.css and declarations of [CSS3
+First things to do is adding CSS links to `hermes.css` and declarations of [CSS3
 transitions](http://www.w3.org/TR/css3-transitions/) that will be used by the
 slider. This typically goes inside the `<head>` element.
 
