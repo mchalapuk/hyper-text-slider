@@ -36,10 +36,9 @@ slider. This typically goes inside the `<head>` element.
       rel=stylesheet type=text/css>
 ```
 
-Slider is controlled by class names set on its element. JavaScript interface is
-also available, but rarely needed. In most cases only HTML declaration of the
-slider and some CSS for slides' content is required. As CSS for the content is
-not relevant in this example, it is not included.
+Slider is controlled by class names set on slider element and its children.
+JavaScript interface is also available, but rarely needed. As CSS for the
+content is not relevant in this example, it will not be included.
 
 ```html
 <div class="hermes-layout--slider
@@ -73,11 +72,11 @@ one `<script>` tag to the page, which is typically done at the bottom of the
 
 ## Contributing
 
-Pull requests that add new transitions to the library are very welcome and will
-be accepted pretty much instantly. If you intend to add new feature, it would be
-better to first create an issue requesting the feature where interface design
-can be talked out before coding, instead of doing code review cycles after pull
-request has been made.
+Pull requests that add new transitions to the library will be accepted pretty
+much instantly. If you intend to add new feature, it would be better to first
+create an issue requesting the feature where design of the interface can be
+talked out, instead of doing code review cycles after pull request has been
+made.
 
 ## TODO List
 
