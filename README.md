@@ -71,7 +71,7 @@ one `<script>` tag to the page, which is typically done at the bottom of the
 </script>
 ```
 
-# Contributing
+## Contributing
 
 Pull requests that add new transitions to the library are very welcome and will
 be accepted pretty much instantly. If you intend to add new feature, it would be
@@ -79,7 +79,7 @@ better to first create an issue requesting the feature where interface design
 can be talked out before coding, instead of doing code review cycles after pull
 request has been made.
 
-## TODO
+## TODO List
 
  * Set up continuous integration
  * Add responsivenessd to options (with configurable breakpoints)
