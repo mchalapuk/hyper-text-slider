@@ -26,8 +26,8 @@ Package is not published in [npm](https://www.npmjs.com/).
 ## Hello, Hermes!
 
 ```html
-<link href=hermes.css rel=stylesheet type=text/css>
-<link href=transitions/zoom-in-out.css rel=stylesheet type=text/css>
+<link href=bower_components/hermes/dist/hermes.min.css rel=stylesheet type=text/css>
+<link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css rel=stylesheet type=text/css>
 
 <div class="hermes-layout--slider
             hermes-transition--zoom-in-out
@@ -41,6 +41,6 @@ Package is not published in [npm](https://www.npmjs.com/).
   </div>
 </div>
 
-<script src=hermes.js type=text/javascript></script>
+<script src=bower_components/hermes/dist/hermes.min.js type=text/javascript></script>
 ```
 
