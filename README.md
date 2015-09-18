@@ -26,9 +26,19 @@ Package is not published in [npm](https://www.npmjs.com/).
 ## Hello, Hermes!
 
 ```html
-<link href=bower_components/hermes/dist/hermes.min.css rel=stylesheet type=text/css>
-<link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css rel=stylesheet type=text/css>
+<!--
+  CSS links (slider + transition to be used).
+  This typically goes inside the <head> element.
+-->
+<link href=bower_components/hermes/dist/hermes.min.css
+      rel=stylesheet type=text/css>
+<link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css
+      rel=stylesheet type=text/css>
 
+<!--
+  Slider is controlled mainly by classnames attached to slider element.
+  JavaScript interface is also available, but rarely needed.
+-->
 <div class="hermes-layout--slider
             hermes-transition--zoom-in-out
             hermes-slide-time-5-sec
@@ -41,6 +51,10 @@ Package is not published in [npm](https://www.npmjs.com/).
   </div>
 </div>
 
+<!--
+  A script that upgrades all sliders on the page.
+  Typically at the bottom of the <body> element.
+-->
 <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript></script>
 ```
 
