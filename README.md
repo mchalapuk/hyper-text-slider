@@ -3,7 +3,7 @@
 
 Hermes comes with:
 
- * configurable background an content transitions (and big transition library),
+ * configurable background and content transitions (and big transition library),
  * responsiveness (automatically adjusts it's layout to screen resolution),
  * extendability (adding new transtitions is very simple),
  * component-based approach (each feature can be enabled separately),
@@ -80,12 +80,13 @@ made.
 
 ## TODO List
 
- * Set up continuous integration
- * Add responsivenessd to options (with configurable breakpoints)
- * Make time classes optional
  * Write documentation
+ * Set up CI
+ * Set up CDN
+ * Extract examples to another project (or use Codepen)
+ * Add responsiveness to options (with configurable breakpoints)
+ * Make time classes optional
  * Create transition library
- * Create another project for examples
  * Create project website
  * Extract DOM spec helpers to another project
  * Optimize size of compiled JavaScript
