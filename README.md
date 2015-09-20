@@ -3,7 +3,7 @@
 [![Dependency Status](https://david-dm.org/webfront-toolkit/hermes.svg?branch=master
 )](https://david-dm.org/webfront-toolkit/hermes)
 [![devDependency Status](https://david-dm.org/webfront-toolkit/hermes/dev-status.svg?branch=master
-)](https://david-dm.org/webfront-toolkit/hermes)
+)](https://david-dm.org/webfront-toolkit/hermes#info=devDependencies)
 
 https://david-dm.org/webfront-toolkit/hermes.svg
 
