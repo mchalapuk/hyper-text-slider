@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/webfront-toolkit/hermes.svg?branch=master
+)](https://travis-ci.org/webfront-toolkit/hermes)
 
 # Utilizing [CSS3 Transitions](http://www.w3.org/TR/css3-transitions/)
 
