@@ -25,37 +25,40 @@ Package is not published in [npm](https://www.npmjs.com/).
 
 ## Hello, Hermes!
 
-Links to `hermes.css` and [transitions](http://www.w3.org/TR/css3-transitions/)
-go inside the `<head>` element.
-
 ```html
-<link href=bower_components/hermes/dist/hermes.min.css
-      rel=stylesheet type=text/css>
-<link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css
-      rel=stylesheet type=text/css>
-```
+<!DOCTYPE html>
+<html>
+<head>
 
-Slider declaration in the `<body>` element.
+  <!-- required links to slider and transition styles -->
+  <link href=bower_components/hermes/dist/hermes.min.css
+        rel=stylesheet type=text/css>
+  <link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css
+        rel=stylesheet type=text/css>
 
-```html
-<div class="hermes-layout--slider
-            hermes-transition--zoom-in-out
-            hermes-slide-time-5-sec
-            hermes-defaults">
-  <div class="hermes-layout--slide" id="hello">
-    <h1>Hello, Hermes!</h2>
+</head>
+<body>
+
+  <!-- slider declaration -->
+  <div class="hermes-layout--slider
+              hermes-transition--zoom-in-out
+              hermes-slide-time-5-sec
+              hermes-defaults">
+    <div class="hermes-layout--slide" id="hello">
+      <h1>Hello, Hermes!</h2>
+    </div>
+    <div class="hermes-layout--slide" id="transitions">
+      <p>God of Transitions.</p>
+    </div>
   </div>
-  <div class="hermes-layout--slide" id="transitions">
-    <p>God of Transitions.</p>
-  </div>
-</div>
-```
 
-Put the bottom of the page, `slider.js` script upgrades all declared sliders.
+  <!-- upgrades all declared sliders -->
+  <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
+  </script>
 
-```html
-<script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
-</script>
+</body>
+</html>
+
 ```
 
 ## Contributing
