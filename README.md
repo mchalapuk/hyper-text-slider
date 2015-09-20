@@ -27,7 +27,6 @@ Package is not published in [npm](https://www.npmjs.com/).
 
 Links to `hermes.css` and [transitions](http://www.w3.org/TR/css3-transitions/)
 go inside the `<head>` element.
-M
 
 ```html
 <link href=bower_components/hermes/dist/hermes.min.css
@@ -36,8 +35,7 @@ M
       rel=stylesheet type=text/css>
 ```
 
-In page's `<body>` slider is controlled by class names set on slider element
-and its children (slides).
+Slider declaration in the `<body>` element.
 
 ```html
 <div class="hermes-layout--slider
@@ -53,8 +51,7 @@ and its children (slides).
 </div>
 ```
 
-`hermes.js`, put the bottom of the `<body>` element, upgrades all sliders on the
-page.
+Put the bottom of the page, `slider.js` script upgrades all declared sliders.
 
 ```html
 <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
