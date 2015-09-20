@@ -1,5 +1,11 @@
 [![Build Status](https://travis-ci.org/webfront-toolkit/hermes.svg?branch=master
 )](https://travis-ci.org/webfront-toolkit/hermes)
+[![Dependency Status](https://david-dm.org/webfront-toolkit/hermes.svg?branch=master
+)](https://david-dm.org/webfront-toolkit/hermes)
+[![devDependency Status](https://david-dm.org/webfront-toolkit/hermes/dev-status.svg?branch=master
+)](https://david-dm.org/webfront-toolkit/hermes)
+
+https://david-dm.org/webfront-toolkit/hermes.svg
 
 # Utilizing [CSS3 Transitions](http://www.w3.org/TR/css3-transitions/)
 
