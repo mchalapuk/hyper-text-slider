@@ -75,7 +75,7 @@ requests are very welcome!
 ## TODO List
 
  * Write documentation
- * -Set up CI-
+ * ~~Set up CI~~
  * Set up CDN
  * Extract examples to another project (or use Codepen)
  * Add responsiveness to options (with configurable breakpoints)
