@@ -25,9 +25,9 @@ Package is not published in [npm](https://www.npmjs.com/).
 
 ## Hello, Hermes!
 
-First things to do is adding CSS links to `hermes.css` and declarations of [CSS3
-transitions](http://www.w3.org/TR/css3-transitions/) that will be used by the
-slider. This typically goes inside the `<head>` element.
+Links to `hermes.css` and [transitions](http://www.w3.org/TR/css3-transitions/)
+go inside the `<head>` element.
+M
 
 ```html
 <link href=bower_components/hermes/dist/hermes.min.css
@@ -36,9 +36,8 @@ slider. This typically goes inside the `<head>` element.
       rel=stylesheet type=text/css>
 ```
 
-Slider is controlled by class names set on slider element and its children.
-JavaScript interface is also available, but rarely needed. As CSS code for
-slides' content is not relevant in this example, it will not be included.
+In page's `<body>` slider is controlled by class names set on slider element
+and its children (slides).
 
 ```html
 <div class="hermes-layout--slider
@@ -54,16 +53,8 @@ slides' content is not relevant in this example, it will not be included.
 </div>
 ```
 
-All `hermes-layout--*` class names are mandatory. They are used to identify
-element roles inside a slider. `hermes-transition--*` classes identify
-transitions that will be used to move from one slide to another. They may be
-used on slider element or on each slide separately. There are a lot of classes
-that turn on Hermes' optional features. `hermes-defaults` is an flag that turns
-on a group of commonly used options. Please see documentation for details.
-
-Last thing to do is upgrading all sliders on the page. This is done by adding
-one `<script>` tag to the page, which is typically done at the bottom of the
-`<body>` element.
+`hermes.js`, put the bottom of the `<body>` element, upgrades all sliders on the
+page.
 
 ```html
 <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
@@ -72,11 +63,8 @@ one `<script>` tag to the page, which is typically done at the bottom of the
 
 ## Contributing
 
-Pull requests that add new transitions to the library will be accepted pretty
-much instantly. If you intend to add new feature, it would be better to first
-create an issue requesting the feature where design of the interface can be
-talked out, instead of doing code review cycles after pull request has been
-made.
+Please read [build.config.js](build.config.js) file before contributing. Pull
+requests are very welcome!
 
 ## TODO List
 
