@@ -14,50 +14,55 @@ var del = require('del');
 
 var config = require('./build.config');
 
-gulp.task('sass', function () {
-  var css = (config.css instanceof Array? config.css: [ config.css ]);
-
-  var results = css.map(function(files) {
-    var build_dir = config.dir.build + (files.dest || '');
-    return gulp.src(files.main)
-        .pipe(sass.sync().on('error', sass.logError))
-        .pipe(gulp.dest(build_dir))
-        .pipe(cssmin())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(build_dir))
-    ;
+function task(name, deps, config, func) {
+  gulp.task(name, deps, function () {
+    config = (config instanceof Array? config: [ config ]);
+    var results = config.map(func.bind(null));
+    return merge_stream.apply(null, results);
   });
-  return merge_stream.apply(null, results);
+};
+
+task('sass', [], config.css, function(files) {
+  var build_dir = config.dir.build + (files.dest || '');
+
+  return gulp.src(files.main)
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(gulp.dest(build_dir))
+    .pipe(cssmin())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest(build_dir))
+  ;
 });
 
-gulp.task('jshint:javascript', function() {
-  return gulp.src(config.js.src)
+task('jshint:javascript', [], config.js, function(files) {
+  return gulp.src(files.src)
     .pipe(jshint(config.jshint))
     .pipe(jshint.reporter('jshint-stylish'))
   ;
 });
 
-gulp.task('javascript', [ 'jshint:javascript' ], function() {
-  return gulp.src(config.js.main)
+task('javascript', [ 'jshint:javascript' ], config.js, function(files) {
+  return gulp.src(files.main)
     .pipe(browserify())
     .pipe(gulp.dest(config.dir.build))
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(config.dir.build))
-});
-
-gulp.task('jshint:spec', function() {
-  return gulp.src(config.js.spec)
-    .pipe(jshint(config.jshint))
-    .pipe(jshint.reporter('jshint-stylish'))
-});
-
-gulp.task('spec', [ 'jshint:spec' ], function() {
-  return gulp.src(config.js.spec)
-    .pipe(jasmine({ /* verbose: true, */ includeStackTrace: true }))
   ;
 });
 
+task('jshint:spec', [], config.js, function(files) {
+  return gulp.src(files.spec)
+    .pipe(jshint(config.jshint))
+    .pipe(jshint.reporter('jshint-stylish'))
+  ;
+});
+
+task('spec', [ 'jshint:spec' ], config.js, function(files) {
+  return gulp.src(files.spec)
+    .pipe(jasmine({ /* verbose: true, */ includeStackTrace: true }))
+  ;
+});
 
 gulp.task('clean', function(cb) {
   return del([ '${config.dir.build}**/*', '!${config.dir.build}' ], { force: true }, cb);
@@ -66,9 +71,13 @@ gulp.task('clean', function(cb) {
 gulp.task('dist', [ 'clean', 'sass', 'spec', 'javascript' ]);
 
 gulp.task('watch', [ 'dist' ], function() {
-  gulp.watch(config.css.reduce(function(r, a) { return r.concat(a.main).concat(a.src); }, []), [ 'sass' ]);
-  gulp.watch([ config.js.main, config.js.src ], [ 'javascript', 'spec' ]);
-  gulp.watch(config.js.spec, [ 'spec' ]);
+  var flatten = function(result, elem) {
+    return result.concat(elem[this]);
+  };
+
+  gulp.watch(config.css.reduce(flatten.bind('src'), []), [ 'sass' ]);
+  gulp.watch(config.js.reduce(flatten.bind('src'), []), [ 'javascript', 'spec' ]);
+  gulp.watch(config.js.reduce(flatten.bind('spec'), []), [ 'spec' ]);
 
   connect.server({
     root: [ 'examples', 'dist' ],
