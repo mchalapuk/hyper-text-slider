@@ -60,7 +60,9 @@ var Layout = {
   CONTENT: 'hermes-layout--content',
 
   /**
-   * May be set on selected elements of content of a slide. Used in some transitions.
+   * May be set on selected elements of content of a slide.
+   *
+   * Used in some transitions.
    *
    * @name hermes-layout--inner
    * @usage transition
@@ -72,7 +74,8 @@ var Layout = {
   /**
    * Set during upgrade on generated arrow buttons.
    *
-   * This class name must not be user in slider declaration.
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
    *
    * @name hermes-layout--arrow
    * @usage styling
@@ -84,7 +87,8 @@ var Layout = {
   /**
    * Set during upgrade on generated left arrow button.
    *
-   * This class name must not be user in slider declaration.
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
    *
    * @name hermes-layout--arrow-left
    * @usage styling
@@ -96,7 +100,8 @@ var Layout = {
   /**
    * Set during upgrade on generated right arrow button.
    *
-   * This class name must not be user in slider declaration.
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
    *
    * @name hermes-layout--arrow-right
    * @usage styling
@@ -108,7 +113,8 @@ var Layout = {
   /**
    * Set during upgrade on container elements that contains dot buttons.
    *
-   * This class name must not be user in slider declaration.
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
    *
    * @name hermes-layout--dots
    * @usage styling
@@ -120,7 +126,8 @@ var Layout = {
   /**
    * Set during upgrade on each dot button element.
    *
-   * This class name must not be user in slider declaration.
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
    *
    * @name hermes-layout--dot
    * @usage styling
