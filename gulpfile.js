@@ -77,20 +77,26 @@ gulp.task('clean:doc', function(cb) {
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
   return gulp.src(files.src)
     .pipe(markdox({
-      formatter: function(docfile) {
-        function findTable(javadoc) {
+      formatter: function(docfile, tagName) {
+        function tagValue(javadoc, tagName) {
           for (var j = 0; j < javadoc.tags.length; ++j) {
             var tag = javadoc.tags[j];
-            if (tag.type === 'table') {
+            if (tag.type === tagName) {
               return tag.string;
             }
           }
         }
 
-        var columns = findTable(docfile.javadoc[0]).split(' ');
+        var columns = tagValue(docfile.javadoc[0], 'table').split(' ');
+        var links = tagValue(docfile.javadoc[0], 'links').split(' ');
         var data = docfile.javadoc.map(function(elem) {
           var retVal = {};
           elem.tags.forEach(function(tag) { retVal[tag.type] = tag.string });
+          retVal.description = elem.description.summary;
+          links.forEach(function(column) {
+            var value = retVal[column];
+            retVal[column] = value !== undefined? '[#'+ value +']('+ value +')': undefined;
+          });
           return retVal;
         }).slice(1);
 

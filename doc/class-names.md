@@ -4,18 +4,18 @@
 
 ## Layout Class Names
 
-name | usage | client | parent
----- | ----- | ------ | ------
-hermes-layout--slider | role-id styling | mandatory | 
-hermes-layout--slide | role-id styling | mandatory | hermes-layout--slider
-hermes-layout--background | role-id styling transition | optional | hermes-layout--slide
-hermes-layout--content | role-id styling transition | optional | hermes-layout--slide
-hermes-layout--inner | transition | optional | hermes-layout--content
-hermes-layout--arrow | styling | forbidden | hermes-layout--slider
-hermes-layout--arrow-left | styling | forbidden | hermes-layout--slider
-hermes-layout--arrow-right | styling | forbidden | hermes-layout--slider
-hermes-layout--dots | styling | forbidden | hermes-layout--slider
-hermes-layout--dot | styling | forbidden | hermes-layout--dots
+name | description | usage | client | parent
+---- | ----------- | ----- | ------ | ------
+[#hermes-layout--slider](hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory | 
+[#hermes-layout--slide](hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory | [#hermes-layout--slider](hermes-layout--slider)
+[#hermes-layout--background](hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional | [#hermes-layout--slide](hermes-layout--slide)
+[#hermes-layout--content](hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional | [#hermes-layout--slide](hermes-layout--slide)
+[#hermes-layout--inner](hermes-layout--inner) | May be set on selected elements of content of a slide. Used in some transitions. | transition | optional | [#hermes-layout--content](hermes-layout--content)
+[#hermes-layout--arrow](hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden | [#hermes-layout--slider](hermes-layout--slider)
+[#hermes-layout--arrow-left](hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden | [#hermes-layout--slider](hermes-layout--slider)
+[#hermes-layout--arrow-right](hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden | [#hermes-layout--slider](hermes-layout--slider)
+[#hermes-layout--dots](hermes-layout--dots) | Set during upgrade on container elements that contains dot buttons. | styling | forbidden | [#hermes-layout--slider](hermes-layout--slider)
+[#hermes-layout--dot](hermes-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden | [#hermes-layout--dots](hermes-layout--dots)
 
 ## hermes-layout--slider
 

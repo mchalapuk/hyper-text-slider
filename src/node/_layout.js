@@ -1,7 +1,8 @@
 /**
  * @name Layout Class Names
  *
- * @table name usage client parent
+ * @table name description usage client parent
+ * @links name parent
  */
 var Layout = {
 
