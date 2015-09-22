@@ -4,8 +4,8 @@
 
 ## Layout Class Names
 
-name | description | usage | client | parent
----- | ----------- | ----- | ------ | ------
+name | description | usage | client-html | parent
+---- | ----------- | ----- | ----------- | ------
 [hermes-layout--slider](#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory | 
 [hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory | [hermes-layout--slider](#hermes-layout--slider)
 [hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional | [hermes-layout--slide](#hermes-layout--slide)

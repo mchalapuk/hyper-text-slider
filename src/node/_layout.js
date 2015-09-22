@@ -1,7 +1,7 @@
 /**
  * @name Layout Class Names
  *
- * @table name description usage client parent
+ * @table name description usage client-html parent
  * @links name parent
  */
 var Layout = {
@@ -14,7 +14,7 @@ var Layout = {
    *
    * @name hermes-layout--slider
    * @usage role-id styling
-   * @client mandatory
+   * @client-html mandatory
    */
   SLIDER: 'hermes-layout--slider',
 
@@ -26,7 +26,7 @@ var Layout = {
    *
    * @name hermes-layout--slide
    * @usage role-id styling
-   * @client mandatory
+   * @client-html mandatory
    * @parent hermes-layout--slider
    */
   SLIDE: 'hermes-layout--slide',
@@ -39,7 +39,7 @@ var Layout = {
    *
    * @name hermes-layout--background
    * @usage role-id styling transition
-   * @client optional
+   * @client-html optional
    * @parent hermes-layout--slide
    */
   BACKGROUND: 'hermes-layout--background',
@@ -54,7 +54,7 @@ var Layout = {
    *
    * @name hermes-layout--content
    * @usage role-id styling transition
-   * @client optional
+   * @client-html optional
    * @parent hermes-layout--slide
    */
   CONTENT: 'hermes-layout--content',
@@ -66,7 +66,7 @@ var Layout = {
    *
    * @name hermes-layout--inner
    * @usage transition
-   * @client optional
+   * @client-html optional
    * @parent hermes-layout--content
    */
   INNER: 'hermes-layout--inner',
@@ -79,7 +79,7 @@ var Layout = {
    *
    * @name hermes-layout--arrow
    * @usage styling
-   * @client forbidden
+   * @client-html forbidden
    * @parent hermes-layout--slider
    */
   ARROW: 'hermes-layout--arrow',
@@ -92,7 +92,7 @@ var Layout = {
    *
    * @name hermes-layout--arrow-left
    * @usage styling
-   * @client forbidden
+   * @client-html forbidden
    * @parent hermes-layout--slider
    */
   ARROW_LEFT: 'hermes-layout--arrow-left',
@@ -105,7 +105,7 @@ var Layout = {
    *
    * @name hermes-layout--arrow-right
    * @usage styling
-   * @client forbidden
+   * @client-html forbidden
    * @parent hermes-layout--slider
    */
   ARROW_RIGHT: 'hermes-layout--arrow-right',
@@ -118,7 +118,7 @@ var Layout = {
    *
    * @name hermes-layout--dots
    * @usage styling
-   * @client forbidden
+   * @client-html forbidden
    * @parent hermes-layout--slider
    */
   DOTS: 'hermes-layout--dots',
@@ -131,7 +131,7 @@ var Layout = {
    *
    * @name hermes-layout--dot
    * @usage styling
-   * @client forbidden
+   * @client-html forbidden
    * @parent hermes-layout--dots
    */
   DOT: 'hermes-layout--dot',
