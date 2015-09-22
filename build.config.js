@@ -1,3 +1,5 @@
+var formatters = require('./formatters');
+
 module.exports = {
   dir: {
     build: './dist/',
@@ -69,6 +71,7 @@ module.exports = {
       src: [
         './src/node/_layout.js'
       ],
+      formatter: formatters.classNames,
     }
   ],
 
