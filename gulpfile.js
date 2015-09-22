@@ -69,6 +69,9 @@ task('spec', [ 'jshint:spec' ], config.js, function(files) {
 gulp.task('clean:dist', function(cb) {
   return del([ '${config.dir.build}**/*', '!${config.dir.build}' ], { force: true }, cb);
 });
+
+gulp.task('dist', [ 'clean:dist', 'sass', 'spec', 'javascript' ]);
+
 gulp.task('clean:doc', function(cb) {
   return del([ '${config.dir.docs}**/*', '!${config.dir.docs}' ], { force: true }, cb);
 });
@@ -81,9 +84,9 @@ task('doc', [ 'clean:doc' ], config.doc, function(files) {
   ;
 });
 
-gulp.task('dist', [ 'clean:dist', 'sass', 'spec', 'javascript' ]);
+gulp.task('default', [ 'dist', 'doc' ]);
 
-gulp.task('watch', [ 'dist' ], function() {
+gulp.task('watch', [ 'default' ], function() {
   var flatten = function(result, elem) {
     return result.concat(elem[this]);
   };
@@ -91,6 +94,7 @@ gulp.task('watch', [ 'dist' ], function() {
   gulp.watch(config.css.reduce(flatten.bind('src'), []), [ 'sass' ]);
   gulp.watch(config.js.reduce(flatten.bind('src'), []), [ 'javascript', 'spec' ]);
   gulp.watch(config.js.reduce(flatten.bind('spec'), []), [ 'spec' ]);
+  gulp.watch(config.doc.reduce(flatten.bind('src'), []), [ 'doc' ]);
 
   connect.server({
     root: [ 'examples', 'dist' ],
@@ -98,6 +102,4 @@ gulp.task('watch', [ 'dist' ], function() {
     livereload: true
   });
 });
-
-gulp.task('default', [ 'dist', 'doc' ]);
 
