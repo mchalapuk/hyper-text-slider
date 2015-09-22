@@ -61,18 +61,7 @@ module.exports = initializeSlider;
 
 // constants
 
-var Layout = {
-  SLIDER: 'hermes-layout--slider',
-  SLIDE: 'hermes-layout--slide',
-  BACKGROUND: 'hermes-layout--background',
-  CONTENT: 'hermes-layout--content',
-  INNER: 'hermes-layout--inner',
-  ARROW: 'hermes-layout--arrow',
-  ARROW_LEFT: 'hermes-layout--arrow-left',
-  ARROW_RIGHT: 'hermes-layout--arrow-right',
-  DOTS: 'hermes-layout--dots',
-  DOT: 'hermes-layout--dot',
-};
+var Layout = require('./_layout');
 
 var Selector = (function () {
   var selectors = {};
