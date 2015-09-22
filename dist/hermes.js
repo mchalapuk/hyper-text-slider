@@ -853,7 +853,7 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
 }());
 
 
-},{"./node/slider":11}],9:[function(require,module,exports){
+},{"./node/slider":12}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -918,6 +918,29 @@ module.exports = {
 
 
 },{}],10:[function(require,module,exports){
+/**
+ * ## Layout Class Names
+ */
+var Layout = {
+  /**
+   * (**Mandatory**) Used in slider declaration to mark main slider element.
+   */
+  SLIDER: 'hermes-layout--slider',
+  SLIDE: 'hermes-layout--slide',
+  BACKGROUND: 'hermes-layout--background',
+  CONTENT: 'hermes-layout--content',
+  INNER: 'hermes-layout--inner',
+  ARROW: 'hermes-layout--arrow',
+  ARROW_LEFT: 'hermes-layout--arrow-left',
+  ARROW_RIGHT: 'hermes-layout--arrow-right',
+  DOTS: 'hermes-layout--dots',
+  DOT: 'hermes-layout--dot',
+};
+
+module.exports = Layout;
+
+
+},{}],11:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1049,7 +1072,7 @@ function removePhaseChangeTrigger(elem) {
 }
 
 
-},{"./_dom":9,"precond":5}],11:[function(require,module,exports){
+},{"./_dom":9,"precond":5}],12:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1113,18 +1136,7 @@ module.exports = initializeSlider;
 
 // constants
 
-var Layout = {
-  SLIDER: 'hermes-layout--slider',
-  SLIDE: 'hermes-layout--slide',
-  BACKGROUND: 'hermes-layout--background',
-  CONTENT: 'hermes-layout--content',
-  INNER: 'hermes-layout--inner',
-  ARROW: 'hermes-layout--arrow',
-  ARROW_LEFT: 'hermes-layout--arrow-left',
-  ARROW_RIGHT: 'hermes-layout--arrow-right',
-  DOTS: 'hermes-layout--dots',
-  DOT: 'hermes-layout--dot',
-};
+var Layout = require('./_layout');
 
 var Selector = (function () {
   var selectors = {};
@@ -1362,4 +1374,4 @@ function random(array) {
 }
 
 
-},{"./hermes":10,"precond":5}]},{},[8])
+},{"./_layout":10,"./hermes":11,"precond":5}]},{},[8])
