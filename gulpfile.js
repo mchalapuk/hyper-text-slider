@@ -67,7 +67,7 @@ task('spec', [ 'jshint:spec' ], config.js, function(files) {
   ;
 });
 
-gulp.task('clean:build', function(cb) {
+gulp.task('clean:dist', function(cb) {
   return del([ '${config.dir.build}**/*', '!${config.dir.build}' ], { force: true }, cb);
 });
 gulp.task('clean:doc', function(cb) {

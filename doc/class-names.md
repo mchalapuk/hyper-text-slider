@@ -10,7 +10,7 @@ name | description | usage | client | parent
 [hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory | [hermes-layout--slider](#hermes-layout--slider)
 [hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional | [hermes-layout--slide](#hermes-layout--slide)
 [hermes-layout--content](#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional | [hermes-layout--slide](#hermes-layout--slide)
-[hermes-layout--inner](#hermes-layout--inner) | May be set on selected elements of content of a slide. Used in some transitions. | transition | optional | [hermes-layout--content](#hermes-layout--content)
+[hermes-layout--inner](#hermes-layout--inner) | May be set on selected elements of content of a slide. | transition | optional | [hermes-layout--content](#hermes-layout--content)
 [hermes-layout--arrow](#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden | [hermes-layout--slider](#hermes-layout--slider)
 [hermes-layout--arrow-left](#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden | [hermes-layout--slider](#hermes-layout--slider)
 [hermes-layout--arrow-right](#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden | [hermes-layout--slider](#hermes-layout--slider)
@@ -49,37 +49,44 @@ If element is present in slider declaration, it must contain all contents of a s
 
 ## hermes-layout--inner
 
-May be set on selected elements of content of a slide. Used in some transitions.
+May be set on selected elements of content of a slide.
+
+Used in some transitions.
 
 ## hermes-layout--arrow
 
 Set during upgrade on generated arrow buttons.
 
-This class name must not be user in slider declaration.
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
 
 ## hermes-layout--arrow-left
 
 Set during upgrade on generated left arrow button.
 
-This class name must not be user in slider declaration.
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
 
 ## hermes-layout--arrow-right
 
 Set during upgrade on generated right arrow button.
 
-This class name must not be user in slider declaration.
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
 
 ## hermes-layout--dots
 
 Set during upgrade on container elements that contains dot buttons.
 
-This class name must not be user in slider declaration.
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
 
 ## hermes-layout--dot
 
 Set during upgrade on each dot button element.
 
-This class name must not be user in slider declaration.
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
 
 <!-- End src/node/_layout.js -->
 
