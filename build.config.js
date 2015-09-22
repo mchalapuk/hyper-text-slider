@@ -1,6 +1,7 @@
 module.exports = {
   dir: {
     build: './dist/',
+    docs: './doc/',
   },
 
   css: [
@@ -54,7 +55,20 @@ module.exports = {
       spec: [
         './src/node/**/*.spec-helper.js',
         './src/node/**/*.spec.js',
-      ]
+      ],
+    }
+  ],
+
+  doc: [
+
+    /*
+      Class Names documentation
+    */
+    {
+      name: 'class-names',
+      src: [
+        './src/node/_layout.js'
+      ],
     }
   ],
 

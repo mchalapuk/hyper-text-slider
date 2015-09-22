@@ -7,7 +7,10 @@ var jshint = require('gulp-jshint');
 var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
+var markdox = require('gulp-markdox');
+var markdox_ = require('markdox');
 var connect = require('gulp-connect');
+var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var merge_stream = require('merge-stream');
 var del = require('del');
@@ -64,11 +67,49 @@ task('spec', [ 'jshint:spec' ], config.js, function(files) {
   ;
 });
 
-gulp.task('clean', function(cb) {
+gulp.task('clean:build', function(cb) {
   return del([ '${config.dir.build}**/*', '!${config.dir.build}' ], { force: true }, cb);
 });
+gulp.task('clean:doc', function(cb) {
+  return del([ '${config.dir.docs}**/*', '!${config.dir.docs}' ], { force: true }, cb);
+});
 
-gulp.task('dist', [ 'clean', 'sass', 'spec', 'javascript' ]);
+task('doc', [ 'clean:doc' ], config.doc, function(files) {
+  return gulp.src(files.src)
+    .pipe(markdox({
+      formatter: function(docfile) {
+        function findTable(javadoc) {
+          for (var j = 0; j < javadoc.tags.length; ++j) {
+            var tag = javadoc.tags[j];
+            if (tag.type === 'table') {
+              return tag.string;
+            }
+          }
+        }
+
+        var columns = findTable(docfile.javadoc[0]).split(' ');
+        var data = docfile.javadoc.map(function(elem) {
+          var retVal = {};
+          elem.tags.forEach(function(tag) { retVal[tag.type] = tag.string });
+          return retVal;
+        }).slice(1);
+
+        function createRow(values) {
+          return columns.map(function(name) { return values[name]; }).join(' | ');
+        }
+
+        docfile.javadoc[0].description.full += columns.join(' | ') +'\n'+
+          columns.map(function(name) { return name.replace(/./g, '-'); }).join(' | ') +'\n'+
+          data.map(createRow).join('\n');
+        return markdox_.defaultFormatter(docfile);
+      }
+    }))
+    .pipe(concat(files.name +'.md'))
+    .pipe(gulp.dest(config.dir.docs))
+  ;
+});
+
+gulp.task('dist', [ 'clean:dist', 'sass', 'spec', 'javascript' ]);
 
 gulp.task('watch', [ 'dist' ], function() {
   var flatten = function(result, elem) {
@@ -86,5 +127,5 @@ gulp.task('watch', [ 'dist' ], function() {
   });
 });
 
-gulp.task('default', [ 'dist' ]);
+gulp.task('default', [ 'dist', 'doc' ]);
 
