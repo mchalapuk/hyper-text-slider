@@ -95,7 +95,7 @@ task('doc', [ 'clean:doc' ], config.doc, function(files) {
           retVal.description = elem.description.summary;
           links.forEach(function(column) {
             var value = retVal[column];
-            retVal[column] = value !== undefined? '[#'+ value +']('+ value +')': undefined;
+            retVal[column] = value !== undefined? '['+ value +'](#'+ value +')': undefined;
           });
           return retVal;
         }).slice(1);
