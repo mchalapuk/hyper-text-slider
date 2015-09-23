@@ -853,7 +853,7 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
 }());
 
 
-},{"./node/slider":12}],9:[function(require,module,exports){
+},{"./node/slider":13}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1061,6 +1061,20 @@ module.exports = Layout;
 
 
 },{}],11:[function(require,module,exports){
+
+var Option = {
+  DEFAULTS: 'hermes-defaults',
+  AUTOSTART: 'hermes-autostart',
+  AUTOPLAY: 'hermes-autoplay',
+  CREATE_ARROWS: 'hermes-create-arrows',
+  CREATE_DOTS: 'hermes-create-dots',
+  ARROW_KEYS: 'hermes-arrow-keys',
+};
+
+module.exports = Option;
+
+
+},{}],12:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1192,7 +1206,7 @@ function removePhaseChangeTrigger(elem) {
 }
 
 
-},{"./_dom":9,"precond":5}],12:[function(require,module,exports){
+},{"./_dom":9,"precond":5}],13:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1256,7 +1270,7 @@ module.exports = initializeSlider;
 
 // constants
 
-var Layout = require('./_layout');
+var Layout = require('./classnames/_layout');
 
 var Selector = (function () {
   var selectors = {};
@@ -1266,14 +1280,7 @@ var Selector = (function () {
   return selectors;
 }());
 
-var Option = {
-  DEFAULTS: 'hermes-defaults',
-  AUTOSTART: 'hermes-autostart',
-  AUTOPLAY: 'hermes-autoplay',
-  CREATE_ARROWS: 'hermes-create-arrows',
-  CREATE_DOTS: 'hermes-create-dots',
-  ARROW_KEYS: 'hermes-arrow-keys',
-};
+var Option = require('./classnames/_options');
 
 var Flag = {
   SLIDE_FROM: 'hermes-slide-from',
@@ -1494,4 +1501,4 @@ function random(array) {
 }
 
 
-},{"./_layout":10,"./hermes":11,"precond":5}]},{},[8])
+},{"./classnames/_layout":10,"./classnames/_options":11,"./hermes":12,"precond":5}]},{},[8])

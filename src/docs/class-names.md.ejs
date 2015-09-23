@@ -1,0 +1,39 @@
+<? docfiles.forEach(function(doc) { ?>
+  <!-- Start <?= doc.filename ?> -->
+  <!-- Template: class-names -->
+
+  <? function link(name) { ?>[<?= name ?>](#<?= name ?>)<? } ?>
+
+  <? doc.javadoc.forEach(function(comment) { ?>
+    <? if (comment.ignore) { return } ?>
+    ## <?= comment.name ?>
+
+    <?= comment.description.full ?>
+
+    Name | Description | Usage | Client HTML
+    ---- | ----------- | ----- | -----------
+    <? comment.children.forEach(function(row) { ?><?
+      link(row.value) ?> | <?= row.description.summary ?> | <?= row.usage ?> | <?= row.clientHTML ?>
+    <? }) ?>
+
+    <? if (comment.see) { ?>
+      See: <?= comment.see ?>
+    <? } ?>
+
+    <? comment.children.forEach(function(className) { ?>
+      ### <?= className.value ?>
+
+      <?= className.description.full ?>
+
+      <? if (className.parentElement) { ?>
+        Parent Element: <? link(className.parentElement.value) ?>
+      <? } ?>
+
+      <? if (className.see) { ?>
+        See: <?= className.see ?>
+      <? } ?>
+    <? }) ?>
+  <? }) ?>
+
+  <!-- End <?= doc.filename ?> -->
+<? }) ?>

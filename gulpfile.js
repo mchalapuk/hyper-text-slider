@@ -78,7 +78,7 @@ gulp.task('clean:doc', function(cb) {
 
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
   return gulp.src(files.src)
-    .pipe(markdox({ formatter: files.formatter }))
+    .pipe(markdox(files.options))
     .pipe(concat(files.name +'.md'))
     .pipe(gulp.dest(config.dir.docs))
   ;

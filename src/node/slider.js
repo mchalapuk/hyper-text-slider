@@ -61,7 +61,7 @@ module.exports = initializeSlider;
 
 // constants
 
-var Layout = require('./_layout');
+var Layout = require('./classnames/_layout');
 
 var Selector = (function () {
   var selectors = {};
@@ -71,14 +71,7 @@ var Selector = (function () {
   return selectors;
 }());
 
-var Option = {
-  DEFAULTS: 'hermes-defaults',
-  AUTOSTART: 'hermes-autostart',
-  AUTOPLAY: 'hermes-autoplay',
-  CREATE_ARROWS: 'hermes-create-arrows',
-  CREATE_DOTS: 'hermes-create-dots',
-  ARROW_KEYS: 'hermes-arrow-keys',
-};
+var Option = require('./classnames/_options');
 
 var Flag = {
   SLIDE_FROM: 'hermes-slide-from',

@@ -1,4 +1,4 @@
-var formatters = require('./formatters');
+var formatter = require('./src/docs/formatter');
 
 module.exports = {
   dir: {
@@ -69,9 +69,12 @@ module.exports = {
     {
       name: 'class-names',
       src: [
-        './src/node/_layout.js'
+        './src/node/classnames/_layout.js'
       ],
-      formatter: formatters.classNames,
+      options: {
+        formatter: formatter,
+        template: './src/docs/class-names.md.ejs',
+      }
     }
   ],
 
