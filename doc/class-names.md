@@ -2,7 +2,7 @@
 
 # Class Names
 
-## Table of Contents
+**Table of Contents**
 
 * [Layout Class Names](#Layout Class Names)<ul>
 <li>[hermes-layout--slider](#hermes-layout--slider)
