@@ -4,17 +4,17 @@
 
 ## Table of Contents
 
-* [Layout Class Names](#Layout Class Names)
-** [hermes-layout--slider](#hermes-layout--slider)
-** [hermes-layout--slide](#hermes-layout--slide)
-** [hermes-layout--background](#hermes-layout--background)
-** [hermes-layout--content](#hermes-layout--content)
-** [hermes-layout--inner](#hermes-layout--inner)
-** [hermes-layout--arrow](#hermes-layout--arrow)
-** [hermes-layout--arrow-left](#hermes-layout--arrow-left)
-** [hermes-layout--arrow-right](#hermes-layout--arrow-right)
-** [hermes-layout--dots](#hermes-layout--dots)
-** [hermes-layout--dot](#hermes-layout--dot)
+* [Layout Class Names](#Layout Class Names)<ul>
+<li>[hermes-layout--slider](#hermes-layout--slider)
+<li>[hermes-layout--slide](#hermes-layout--slide)
+<li>[hermes-layout--background](#hermes-layout--background)
+<li>[hermes-layout--content](#hermes-layout--content)
+<li>[hermes-layout--inner](#hermes-layout--inner)
+<li>[hermes-layout--arrow](#hermes-layout--arrow)
+<li>[hermes-layout--arrow-left](#hermes-layout--arrow-left)
+<li>[hermes-layout--arrow-right](#hermes-layout--arrow-right)
+<li>[hermes-layout--dots](#hermes-layout--dots)
+<li>[hermes-layout--dot](#hermes-layout--dot)</ul>
 
 <!-- Start src/node/classnames/_layout.js -->
 
