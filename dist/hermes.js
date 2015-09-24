@@ -924,7 +924,7 @@ module.exports = {
  * Their usage is limited to:
  *  1. **role-id** - class names are used to identify element's role during slider upgrade,
  *  2. **transition** - class names must be used in transition CSS,
- *  3. **styling** - class names are recommended to used for styling slides.
+ *  3. **styling** - class names are recommended to be used for styling slides.
  */
 var Layout = {
 
