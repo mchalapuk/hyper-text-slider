@@ -1,8 +1,25 @@
+<!-- Start Template class-names.md.ejs -->
+
+# Class Names
+
+## Table of Contents
+
+* [Layout Class Names](#Layout Class Names)
+** [hermes-layout--slider](#hermes-layout--slider)
+** [hermes-layout--slide](#hermes-layout--slide)
+** [hermes-layout--background](#hermes-layout--background)
+** [hermes-layout--content](#hermes-layout--content)
+** [hermes-layout--inner](#hermes-layout--inner)
+** [hermes-layout--arrow](#hermes-layout--arrow)
+** [hermes-layout--arrow-left](#hermes-layout--arrow-left)
+** [hermes-layout--arrow-right](#hermes-layout--arrow-right)
+** [hermes-layout--dots](#hermes-layout--dots)
+** [hermes-layout--dot](#hermes-layout--dot)
 
 <!-- Start src/node/classnames/_layout.js -->
-<!-- Template: class-names -->
 
-## Layout Class Names 
+## Layout Class Names
+
 Their usage is limited to:
  1. **role-id** - class names are used to identify element's role during slider upgrade,
  2. **transition** - class names must be used in transition CSS,
@@ -118,4 +135,6 @@ It may be used in client CSS for styling.
 Parent Element: [hermes-layout--dots](#hermes-layout--dots)
 
 <!-- End src/node/classnames/_layout.js -->
+
+<!-- End Template class-names.md.ejs -->
 

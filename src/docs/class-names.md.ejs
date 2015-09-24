@@ -1,30 +1,44 @@
+<!-- Start Template class-names.md.ejs -->
+<? function link(name) { ?>[<?= name ?>](#<?= name ?>)<? } ?>
+
+# Class Names
+
+## Table of Contents
+
+<? docfiles.forEach(function(doc) { ?>
+  <? doc.javadoc.forEach(function(group) { ?><? if (group.ignore) { return } ?>
+    * <? link(group.name) ?><? group.children.forEach(function(className) { ?><?
+      if (className.ignore) { return } ?>
+      ** <? link(className.value) ?><?
+    }) ?><?
+  }) ?><?
+}) ?>
+
 <? docfiles.forEach(function(doc) { ?>
   <!-- Start <?= doc.filename ?> -->
-  <!-- Template: class-names -->
 
-  <? function link(name) { ?>[<?= name ?>](#<?= name ?>)<? } ?>
+  <? doc.javadoc.forEach(function(group) { ?>
+    <? if (group.ignore) { return } ?>
+    ## <?= group.name ?>
 
-  <? doc.javadoc.forEach(function(comment) { ?>
-    <? if (comment.ignore) { return } ?>
-    ## <?= comment.name ?>
-
-    <?= comment.description.full ?>
+    <?= group.description.full ?>
 
     ### Summary
 
     Name | Description | Usage | Client HTML
     ---- | ----------- | ----- | -----------
-    <? comment.children.forEach(function(row) { ?><?
+    <? group.children.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
       link(row.value) ?> | <?= row.description.summary ?> | <?= row.usage ?> | <?= row.clientHTML ?>
     <? }) ?>
 
-    <? if (comment.see) { ?>
-      See: <?= comment.see ?>
+    <? if (group.see) { ?>
+      See: <?= group.see ?>
     <? } ?>
 
     ### Details
 
-    <? comment.children.forEach(function(className) { ?>
+    <? group.children.forEach(function(className) { ?>
+      <? if (className.ignore) { return } ?>
       #### <?= className.value ?>
 
       <?= className.description.full ?>
@@ -41,3 +55,5 @@
 
   <!-- End <?= doc.filename ?> -->
 <? }) ?>
+<!-- End Template class-names.md.ejs -->
+
