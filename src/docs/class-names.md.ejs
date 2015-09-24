@@ -10,6 +10,8 @@
 
     <?= comment.description.full ?>
 
+    ### Summary
+
     Name | Description | Usage | Client HTML
     ---- | ----------- | ----- | -----------
     <? comment.children.forEach(function(row) { ?><?
@@ -20,8 +22,10 @@
       See: <?= comment.see ?>
     <? } ?>
 
+    ### Details
+
     <? comment.children.forEach(function(className) { ?>
-      ### <?= className.value ?>
+      #### <?= className.value ?>
 
       <?= className.description.full ?>
 
