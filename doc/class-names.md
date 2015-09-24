@@ -4,7 +4,7 @@
 
 **Table of Contents**
 
-* [Layout Class Names](#Layout Class Names)<ul>
+1. [Layout Class Names](#Layout Class Names)<ul>
 <li>[hermes-layout--slider](#hermes-layout--slider)
 <li>[hermes-layout--slide](#hermes-layout--slide)
 <li>[hermes-layout--background](#hermes-layout--background)
