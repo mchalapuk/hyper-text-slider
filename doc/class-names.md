@@ -2,7 +2,11 @@
 <!-- Start src/node/classnames/_layout.js -->
 <!-- Template: class-names -->
 
-## Layout Class Names
+## Layout Class Names 
+Their usage is limited to:
+ 1. **role-id** - class names are used to identify element's role during slider upgrade,
+ 2. **transition** - class names must be used in transition CSS,
+ 3. **styling** - class names are recommended to used for styling slides.
 
 ### Summary
 
@@ -12,7 +16,8 @@ Name | Description | Usage | Client HTML
 [hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
 [hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
-[hermes-layout--inner](#hermes-layout--inner) | May be set on selected elements of content of a slide. | transition | optional
+[hermes-layout--inner](#hermes-layout--inner) | May be set on selected elements of content of a slide in client HTML and used in definitions
+of content transitions. | transition | optional
 [hermes-layout--arrow](#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
 [hermes-layout--arrow-left](#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
 [hermes-layout--arrow-right](#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
@@ -41,8 +46,9 @@ Parent Element: [hermes-layout--slider](#hermes-layout--slider)
 
 Identifies background of a slide.
 
-For slides in which this element is not present in slider declaration, empty background element
-will be generated during slider upgrade.
+For slides in which this element is not present in slider declaration, empty background
+element will be generated during slider upgrade. This class name must be used in all
+definitions of background transitions.
 
 Parent Element: [hermes-layout--slide](#hermes-layout--slide)
 
@@ -51,15 +57,16 @@ Parent Element: [hermes-layout--slide](#hermes-layout--slide)
 Identifies content of a slide.
 
 For slides in which this element is not present in slider declaration, it will be generated
-during slider upgrade. Contents of a slide will be moved inside generated element.
-
-If element is present in slider declaration, it must contain all contents of a slide.
+during slider upgrade. Contents of a slide will be moved inside generated element. If element
+is present in slider declaration, it must contain all contents of a slide. This class name
+must be used in all definitions of content transitions.
 
 Parent Element: [hermes-layout--slide](#hermes-layout--slide)
 
 #### hermes-layout--inner
 
-May be set on selected elements of content of a slide.
+May be set on selected elements of content of a slide in client HTML and used in definitions
+of content transitions.
 
 Used in some transitions.
 

@@ -1,5 +1,10 @@
 /**
  * @name Layout Class Names
+ *
+ * Their usage is limited to:
+ *  1. **role-id** - class names are used to identify element's role during slider upgrade,
+ *  2. **transition** - class names must be used in transition CSS,
+ *  3. **styling** - class names are recommended to used for styling slides.
  */
 var Layout = {
 
@@ -33,8 +38,9 @@ var Layout = {
   /**
    * Identifies background of a slide.
    *
-   * For slides in which this element is not present in slider declaration, empty background element
-   * will be generated during slider upgrade.
+   * For slides in which this element is not present in slider declaration, empty background
+   * element will be generated during slider upgrade. This class name must be used in all
+   * definitions of background transitions.
    *
    * @usage role-id styling transition
    * @client-html optional
@@ -48,9 +54,9 @@ var Layout = {
    * Identifies content of a slide.
    *
    * For slides in which this element is not present in slider declaration, it will be generated
-   * during slider upgrade. Contents of a slide will be moved inside generated element.
-   *
-   * If element is present in slider declaration, it must contain all contents of a slide.
+   * during slider upgrade. Contents of a slide will be moved inside generated element. If element
+   * is present in slider declaration, it must contain all contents of a slide. This class name
+   * must be used in all definitions of content transitions.
    *
    * @usage role-id styling transition
    * @client-html optional
@@ -61,7 +67,8 @@ var Layout = {
   CONTENT: 'hermes-layout--content',
 
   /**
-   * May be set on selected elements of content of a slide.
+   * May be set on selected elements of content of a slide in client HTML and used in definitions
+   * of content transitions.
    *
    * Used in some transitions.
    *
