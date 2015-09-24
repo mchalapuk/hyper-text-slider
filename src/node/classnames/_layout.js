@@ -67,10 +67,10 @@ var Layout = {
   CONTENT: 'hermes-layout--content',
 
   /**
-   * May be set on selected elements of content of a slide in client HTML and used in definitions
-   * of content transitions.
+   * May be used in definitions of content transitions.
    *
-   * Used in some transitions.
+   * In cases when some parts of slide's content need another transition this class name must be
+   * used in definition of the transition and in client HTML.
    *
    * @usage transition
    * @client-html optional

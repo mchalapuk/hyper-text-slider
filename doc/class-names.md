@@ -33,8 +33,7 @@ Name | Description | Usage | Client HTML
 [hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
 [hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
-[hermes-layout--inner](#hermes-layout--inner) | May be set on selected elements of content of a slide in client HTML and used in definitions
-of content transitions. | transition | optional
+[hermes-layout--inner](#hermes-layout--inner) | May be used in definitions of content transitions. | transition | optional
 [hermes-layout--arrow](#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
 [hermes-layout--arrow-left](#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
 [hermes-layout--arrow-right](#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
@@ -82,10 +81,10 @@ Parent Element: [hermes-layout--slide](#hermes-layout--slide)
 
 #### hermes-layout--inner
 
-May be set on selected elements of content of a slide in client HTML and used in definitions
-of content transitions.
+May be used in definitions of content transitions.
 
-Used in some transitions.
+In cases when some parts of slide's content need another transition this class name must be
+used in definition of the transition and in client HTML.
 
 Parent Element: [hermes-layout--content](#hermes-layout--content)
 
