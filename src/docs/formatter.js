@@ -27,6 +27,17 @@ function format(docfile) {
     var fqn = tagValues.fqn !== ''? tagValues.fqn: name;
     name = tagValues.name !== ''? tagValues.name: name
 
+    javadoc.filename = docfile.filename;
+
+    if (fqn in fqnMap) {
+      var first = fqnMap[fqn].raw;
+      var second = javadoc;
+
+      throw 'Two elements of the same fully qualified name (fqn) found:\n'+
+        ' 1. '+ first.filename +':'+ first.line +'\n'+
+        ' 2. '+ second.filename +':'+ second.line;
+    }
+
     fqnMap[fqn] = {
       commentId: nextId++,
       type: type,
