@@ -9,6 +9,7 @@ function format(docfile) {
     var name = (javadoc.ctx && typeof javadoc.ctx.name === 'string') ? javadoc.ctx.name : '';
     var value = (javadoc.ctx? javadoc.ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '');
     var description = javadoc.description;
+    description.summary = description.summary.replace(/\n/g, '');
 
     var tagValues = {
       'name': '',
