@@ -1,8 +1,8 @@
 /**
- * All option ckasses are intended to be set on slider element
+ * All option classes are intended to be set on slider element
  * ([hermes-layout--slider](#hermes-layout--slider));
  *
- * They nay be divided into two categories:
+ * They may be divided into two categories:
  *  1. **single options** - each of which enables one feature,
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
