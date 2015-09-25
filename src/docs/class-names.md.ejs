@@ -25,14 +25,16 @@
 
     ### Summary
 
-    Name | Description | Usage | Client HTML
-    ---- | ----------- | ----- | -----------
+    <? var cols = group.multiTags['summary-column'] ?>
+    Name | Description<? cols.forEach(function(col) { ?> | <?= col.description ?><? }) ?>
+    --- | ---<? cols.forEach(function(col) { ?> | ---<? }) ?>
     <? group.children.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
-      link(row.value) ?> | <?= row.description.summary ?> | <?= row.usage ?> | <?= row.clientHTML ?>
+      link(row.value) ?> | <?= row.description.summary ?><? cols.forEach(function(col) {
+      ?> | <?= row.tags[col.key] ?><? }) ?>
     <? }) ?>
 
-    <? if (group.see) { ?>
-      See: <?= group.see ?>
+    <? if (group.tags.see) { ?>
+      See: <?= group.tags.see ?>
     <? } ?>
 
     ### Details
@@ -46,9 +48,11 @@
       <? if (className.parentElement) { ?>
         Parent Element: <? link(className.parentElement.value) ?>
       <? } ?>
-
-      <? if (className.see) { ?>
-        See: <?= className.see ?>
+      <? if (className.tags['affects-phase']) { ?>
+        Affects Phase: <?= className.tags['affects-phase'] ?>
+      <? } ?>
+      <? if (className.tags.see) { ?>
+        See: <?= className.tags.see ?>
       <? } ?>
     <? }) ?>
   <? }) ?>

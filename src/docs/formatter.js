@@ -17,12 +17,31 @@ function format(docfile) {
       'usage': '',
       'client-html': '',
       'parent-element': '',
+      'affects-phase': '',
       'see': '',
       'deprecated': false,
-    }
+    };
+    var multiTagValues = {
+      'summary-column': [],
+    };
 
     javadoc.tags.forEach(function(tag) {
-      tagValues[tag.type] = tag.url || tag.local || tag.string;
+      var value = tag.url || tag.local || tag.string;
+
+      if (tag.type in tagValues) {
+        tagValues[tag.type] = value;
+      } else if (tag.type in multiTagValues) {
+        multiTagValues[tag.type].push(value);
+      }
+    });
+
+    multiTagValues['summary-column'] = multiTagValues['summary-column'].map(function(tag) {
+      var spaceIndex = tag.indexOf(' ');
+      return {
+        key: spaceIndex !== -1? tag.substring(0, spaceIndex): tag,
+        description: spaceIndex !== -1? tag.substring(spaceIndex + 1): tag,
+        full: tag,
+      };
     });
 
     var fqn = tagValues.fqn !== ''? tagValues.fqn: name;
@@ -46,17 +65,15 @@ function format(docfile) {
       fqn: fqn,
       value: value,
       description: description,
-      usage: tagValues.usage,
-      clientHTML: tagValues['client-html'],
-      parentElement: tagValues['parent-element'],
-      see: tagValues.see,
-      deprecated: tagValues.deprecated,
+      tags: tagValues,
+      multiTags: multiTagValues,
       ignore: javadoc.ignore,
       raw: javadoc,
 
       // set after all elements are defined
       parent: null,
       children: [],
+      parentElement: null,
     };
   });
 
@@ -85,7 +102,7 @@ function format(docfile) {
 
     comment.parent = getParentByFqn(fqn);
     comment.children = getChildrenByFqn(fqn);
-    comment.parentElement = fqnMap[comment.parentElement];
+    comment.parentElement = fqnMap[comment.tags['parent-element']];
 
     if (!comment.parent) {
       toplevel.push(comment);
