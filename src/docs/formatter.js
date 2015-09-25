@@ -17,7 +17,7 @@ function format(docfile) {
       'usage': '',
       'client-html': '',
       'parent-element': '',
-      'affects-phase': '',
+      'checked-in-phase': '',
       'see': '',
       'deprecated': false,
     };

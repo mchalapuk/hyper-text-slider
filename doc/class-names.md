@@ -156,16 +156,22 @@ Parent Element: [hermes-layout--dots](#hermes-layout--dots)
 
 ## Option Class Names
 
-All option ckasses are intended to be set on slider element
+All option classes are intended to be set on slider element
 ([hermes-layout--slider](#hermes-layout--slider));
 
-They nay be divided into two categories:
+They may be divided into two categories:
  1. **single options** - each of which enables one feature,
  2. **option groups** - that adds many option classes to the slider during upgrade.
 
+Each option is read in one of slider's life-cycle phases:
+ 1. **upgrade** - class name should be set in client HTML,
+   slider will check for it only once during upgrade,
+ 2. **runtime** - class name may be added/removed at any time,
+   slider will check for it every time a decission connected with this class is made.
+
 ### Summary
 
-Name | Description | Affects Phase
+Name | Description | Checked During Phase
 --- | --- | ---
 [hermes-defaults](#hermes-defaults) | Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider. | upgrade
 [hermes-autostart](#hermes-autostart) | Shows first slide automatically. | upgrade
@@ -181,13 +187,13 @@ Name | Description | Affects Phase
 Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},
 ${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider.
 
-Affects Phase: upgrade
+Checked During Phase: `upgrade`
 
 #### hermes-autostart
 
 Shows first slide automatically.
 
-Affects Phase: upgrade
+Checked During Phase: `upgrade`
 
 See: Slider.start
 
@@ -197,7 +203,7 @@ Automatically moves slider to next slide.
 
 Slider is moved after content transition of current slide ends.
 
-Affects Phase: runtime
+Checked During Phase: `runtime`
 
 See: Slider.moveToNext
 
@@ -208,7 +214,7 @@ Creates side arrow buttons.
 `click` event on dispatched on left arrow moves slider to previous slide.
 `click` event on dispatched on right arrow moves slider to next slide.
 
-Affects Phase: upgrade
+Checked During Phase: `upgrade`
 
 See: Slider.moveToNext
 
@@ -218,7 +224,7 @@ Creates dot button for each slide.
 
 `click` event displatched on dot button moves slider to slide asociated with this dot button.
 
-Affects Phase: upgrade
+Checked During Phase: `upgrade`
 
 See: Slider.slides.currentIndex
 
@@ -229,7 +235,7 @@ Adds keyboard control to slider.
 `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
 slide, with `RightArrow` key moves slider to next slide.
 
-Affects Phase: upgrade
+Checked During Phase: `upgrade`
 
 See: Slider.slides.currentIndex
 
