@@ -8,9 +8,10 @@
  *
  * Each option is read in one of slider's life-cycle phases:
  *  1. **upgrade** - class name should be set in client HTML,
- *    slider will check for it only once during upgrade,
+ *    slider will check for it only once during upgrade, adding/removing class after upgrade
+ *    make no effect,
  *  2. **runtime** - class name may be added/removed at any time,
- *    slider will check for it every time a decission connected with this class is made.
+ *    slider will check if it is set every time a decission connected with this class is made.
  *
  * @name Option Class Names
  * @summary-column checked-in-phase Checked During Phase
