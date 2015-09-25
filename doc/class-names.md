@@ -28,7 +28,7 @@ Their usage is limited to:
 ### Summary
 
 Name | Description | Usage | Client HTML
----- | ----------- | ----- | -----------
+--- | --- | --- | ---
 [hermes-layout--slider](#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
 [hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
 [hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
@@ -134,6 +134,106 @@ It may be used in client CSS for styling.
 Parent Element: [hermes-layout--dots](#hermes-layout--dots)
 
 <!-- End src/node/classnames/_layout.js -->
+
+<!-- End Template class-names.md.ejs -->
+
+
+<!-- Start Template class-names.md.ejs -->
+
+# Class Names
+
+**Table of Contents**
+
+1. [Option Class Names](#Option Class Names)<ul>
+<li>[hermes-defaults](#hermes-defaults)
+<li>[hermes-autostart](#hermes-autostart)
+<li>[hermes-autoplay](#hermes-autoplay)
+<li>[hermes-create-arrows](#hermes-create-arrows)
+<li>[hermes-create-dots](#hermes-create-dots)
+<li>[hermes-arrow-keys](#hermes-arrow-keys)</ul>
+
+<!-- Start src/node/classnames/_options.js -->
+
+## Option Class Names
+
+All option ckasses are intended to be set on slider element
+([hermes-layout--slider](#hermes-layout--slider));
+
+They nay be divided into two categories:
+ 1. **single options** - each of which enables one feature,
+ 2. **option groups** - that adds many option classes to the slider during upgrade.
+
+### Summary
+
+Name | Description | Affects Phase
+--- | --- | ---
+[hermes-defaults](#hermes-defaults) | Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider. | upgrade
+[hermes-autostart](#hermes-autostart) | Shows first slide automatically. | upgrade
+[hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | runtime
+[hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | upgrade
+[hermes-create-dots](#hermes-create-dots) | Creates dot button for each slide. | upgrade
+[hermes-arrow-keys](#hermes-arrow-keys) | Adds keyboard control to slider. | upgrade
+
+### Details
+
+#### hermes-defaults
+
+Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},
+${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider.
+
+Affects Phase: upgrade
+
+#### hermes-autostart
+
+Shows first slide automatically.
+
+Affects Phase: upgrade
+
+See: Slider.start
+
+#### hermes-autoplay
+
+Automatically moves slider to next slide.
+
+Slider is moved after content transition of current slide ends.
+
+Affects Phase: runtime
+
+See: Slider.moveToNext
+
+#### hermes-create-arrows
+
+Creates side arrow buttons.
+
+`click` event on dispatched on left arrow moves slider to previous slide.
+`click` event on dispatched on right arrow moves slider to next slide.
+
+Affects Phase: upgrade
+
+See: Slider.moveToNext
+
+#### hermes-create-dots
+
+Creates dot button for each slide.
+
+`click` event displatched on dot button moves slider to slide asociated with this dot button.
+
+Affects Phase: upgrade
+
+See: Slider.slides.currentIndex
+
+#### hermes-arrow-keys
+
+Adds keyboard control to slider.
+
+`keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
+slide, with `RightArrow` key moves slider to next slide.
+
+Affects Phase: upgrade
+
+See: Slider.slides.currentIndex
+
+<!-- End src/node/classnames/_options.js -->
 
 <!-- End Template class-names.md.ejs -->
 

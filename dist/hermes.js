@@ -925,6 +925,8 @@ module.exports = {
  *  3. **styling** - class names are recommended for usage in slide's styling.
  *
  * @name Layout Class Names
+ * @summary-column usage Usage
+ * @summary-column client-html Client HTML
  */
 var Layout = {
 
@@ -1084,6 +1086,7 @@ module.exports = Layout;
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
  * @name Option Class Names
+ * @summary-column affects-phase Affects Phase
  */
 var Option = {
 
@@ -1109,6 +1112,7 @@ var Option = {
 
   /**
    * Automatically moves slider to next slide.
+   *
    * Slider is moved after content transition of current slide ends.
    *
    * @affects-phase runtime
@@ -1120,6 +1124,7 @@ var Option = {
 
   /**
    * Creates side arrow buttons.
+   *
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
@@ -1133,6 +1138,7 @@ var Option = {
 
   /**
    * Creates dot button for each slide.
+   *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
    * @affects-phase upgrade
@@ -1144,13 +1150,14 @@ var Option = {
 
   /**
    * Adds keyboard control to slider.
+   *
    * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
    * slide, with `RightArrow` key moves slider to next slide.
    *
    * @affects-phase upgrade
    * @see Slider.slides.currentIndex
    *
-   * @fqn Option.CREATE_DOTS
+   * @fqn Option.CREATE_KEYS
    */
   ARROW_KEYS: 'hermes-arrow-keys',
 };

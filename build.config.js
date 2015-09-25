@@ -69,7 +69,8 @@ module.exports = {
     {
       name: 'class-names',
       src: [
-        './src/node/classnames/_layout.js'
+        './src/node/classnames/_layout.js',
+        './src/node/classnames/_options.js',
       ],
       options: {
         formatter: formatter,

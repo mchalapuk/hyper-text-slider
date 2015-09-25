@@ -5,6 +5,8 @@
  *  3. **styling** - class names are recommended for usage in slide's styling.
  *
  * @name Layout Class Names
+ * @summary-column usage Usage
+ * @summary-column client-html Client HTML
  */
 var Layout = {
 

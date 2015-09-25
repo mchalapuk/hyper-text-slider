@@ -7,6 +7,7 @@
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
  * @name Option Class Names
+ * @summary-column affects-phase Affects Phase
  */
 var Option = {
 
