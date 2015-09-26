@@ -163,23 +163,23 @@ They may be divided into two categories:
  1. **single options** - each of which enables one feature,
  2. **option groups** - that adds many option classes to the slider during upgrade.
 
-Each option is read in one of slider's life-cycle phases:
- 1. **upgrade** - class name should be set in client HTML,
+Each option is checked by the slider in one of two ways:
+ 1. **checked once** - class name should be set in client HTML,
    slider will check for it only once during upgrade, adding/removing class after upgrade
    make no effect,
- 2. **runtime** - class name may be added/removed at any time,
+ 2. **checked continuously** - class name may be added/removed at any time,
    slider will check if it is set every time a decission connected with this class is made.
 
 ### Summary
 
-Name | Description | Checked During Phase
+Name | Description | Checked
 --- | --- | ---
-[hermes-defaults](#hermes-defaults) | Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider. | upgrade
-[hermes-autostart](#hermes-autostart) | Shows first slide automatically. | upgrade
-[hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | runtime
-[hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | upgrade
-[hermes-create-dots](#hermes-create-dots) | Creates dot button for each slide. | upgrade
-[hermes-arrow-keys](#hermes-arrow-keys) | Adds keyboard control to slider. | upgrade
+[hermes-defaults](#hermes-defaults) | Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider. | once
+[hermes-autostart](#hermes-autostart) | Shows first slide automatically. | once
+[hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | continuously
+[hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | once
+[hermes-create-dots](#hermes-create-dots) | Creates dot button for each slide. | once
+[hermes-arrow-keys](#hermes-arrow-keys) | Adds keyboard control to slider. | once
 
 ### Details
 
@@ -188,13 +188,13 @@ Name | Description | Checked During Phase
 Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},
 ${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider.
 
-Checked During Phase: `upgrade`
+Checked: `once`
 
 #### hermes-autostart
 
 Shows first slide automatically.
 
-Checked During Phase: `upgrade`
+Checked: `once`
 
 See: Slider.start
 
@@ -204,7 +204,7 @@ Automatically moves slider to next slide.
 
 Slider is moved after content transition of current slide ends.
 
-Checked During Phase: `runtime`
+Checked: `continuously`
 
 See: Slider.moveToNext
 
@@ -215,7 +215,9 @@ Creates side arrow buttons.
 `click` event on dispatched on left arrow moves slider to previous slide.
 `click` event on dispatched on right arrow moves slider to next slide.
 
-Checked During Phase: `upgrade`
+Checked: `once`
+
+See: Slider.moveToPrevious
 
 See: Slider.moveToNext
 
@@ -225,7 +227,7 @@ Creates dot button for each slide.
 
 `click` event displatched on dot button moves slider to slide asociated with this dot button.
 
-Checked During Phase: `upgrade`
+Checked: `once`
 
 See: Slider.slides.currentIndex
 
@@ -236,7 +238,7 @@ Adds keyboard control to slider.
 `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
 slide, with `RightArrow` key moves slider to next slide.
 
-Checked During Phase: `upgrade`
+Checked: `once`
 
 See: Slider.slides.currentIndex
 

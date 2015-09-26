@@ -1085,15 +1085,15 @@ module.exports = Layout;
  *  1. **single options** - each of which enables one feature,
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
- * Each option is read in one of slider's life-cycle phases:
- *  1. **upgrade** - class name should be set in client HTML,
+ * Each option is checked by the slider in one of two ways:
+ *  1. **checked once** - class name should be set in client HTML,
  *    slider will check for it only once during upgrade, adding/removing class after upgrade
  *    make no effect,
- *  2. **runtime** - class name may be added/removed at any time,
+ *  2. **checked continuously** - class name may be added/removed at any time,
  *    slider will check if it is set every time a decission connected with this class is made.
  *
  * @name Option Class Names
- * @summary-column checked-in-phase Checked During Phase
+ * @summary-column checked Checked
  */
 var Option = {
 
@@ -1101,7 +1101,7 @@ var Option = {
    * Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},
    * ${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider.
    *
-   * @checked-in-phase upgrade
+   * @checked once
    *
    * @fqn Option.DEFAULTS
    */
@@ -1110,7 +1110,7 @@ var Option = {
   /**
    * Shows first slide automatically.
    *
-   * @checked-in-phase upgrade
+   * @checked once
    * @see Slider.start
    *
    * @fqn Option.AUTOSTART
@@ -1122,7 +1122,7 @@ var Option = {
    *
    * Slider is moved after content transition of current slide ends.
    *
-   * @checked-in-phase runtime
+   * @checked continuously
    * @see Slider.moveToNext
    *
    * @fqn Option.AUTOPLAY
@@ -1135,7 +1135,7 @@ var Option = {
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
-   * @checked-in-phase upgrade
+   * @checked once
    * @see Slider.moveToPrevious
    * @see Slider.moveToNext
    *
@@ -1148,7 +1148,7 @@ var Option = {
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
-   * @checked-in-phase upgrade
+   * @checked once
    * @see Slider.slides.currentIndex
    *
    * @fqn Option.CREATE_DOTS
@@ -1161,7 +1161,7 @@ var Option = {
    * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
    * slide, with `RightArrow` key moves slider to next slide.
    *
-   * @checked-in-phase upgrade
+   * @checked once
    * @see Slider.slides.currentIndex
    *
    * @fqn Option.CREATE_KEYS

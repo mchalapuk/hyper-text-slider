@@ -45,15 +45,15 @@
 
       <?= className.description.full ?>
 
-      <? if (className.tags['checked-in-phase']) { ?>
-        Checked During Phase: `<?= className.tags['checked-in-phase'] ?>`
+      <? if (className.tags.checked) { ?>
+        Checked: `<?= className.tags.checked ?>`
       <? } ?>
       <? if (className.parentElement) { ?>
         Parent Element: <? link(className.parentElement.value) ?>
       <? } ?>
-      <? if (className.tags.see) { ?>
-        See: <?= className.tags.see ?>
-      <? } ?>
+      <? className.multiTags.see.forEach(function(see) { ?>
+        See: <?= see ?>
+      <? }) ?>
     <? }) ?>
   <? }) ?>
 

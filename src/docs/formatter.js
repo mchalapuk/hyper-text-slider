@@ -12,26 +12,20 @@ function format(docfile) {
     description.summary = description.summary.replace(/\n/g, '');
 
     var tagValues = {
-      'name': '',
-      'fqn': '',
-      'usage': '',
-      'client-html': '',
-      'parent-element': '',
-      'checked-in-phase': '',
-      'see': '',
       'deprecated': false,
     };
     var multiTagValues = {
       'summary-column': [],
+      'see': [],
     };
 
     javadoc.tags.forEach(function(tag) {
       var value = tag.url || tag.local || tag.string;
 
-      if (tag.type in tagValues) {
-        tagValues[tag.type] = value;
-      } else if (tag.type in multiTagValues) {
+      if (tag.type in multiTagValues) {
         multiTagValues[tag.type].push(value);
+      } else {
+        tagValues[tag.type] = value;
       }
     });
 
@@ -44,8 +38,8 @@ function format(docfile) {
       };
     });
 
-    var fqn = tagValues.fqn !== ''? tagValues.fqn: name;
-    name = tagValues.name !== ''? tagValues.name: name
+    var fqn = tagValues.fqn? tagValues.fqn: name;
+    name = tagValues.name? tagValues.name: name
 
     javadoc.filename = docfile.filename;
 
