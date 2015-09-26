@@ -6,7 +6,7 @@
  *  1. **single options** - each of which enables one feature,
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
- * Each option is checked by the slider in one of two ways:
+ * Presence of each option class is checked by the slider in one of two ways:
  *  1. **checked once** - class name should be set in client HTML,
  *    slider will check for it only once during upgrade, adding/removing class after upgrade
  *    make no effect,
@@ -21,7 +21,7 @@ var Option = {
   /**
    * Adds ${link ${value Option.AUTOSTART}}, ${link ${value Option.AUTOPLAY}},
    *  ${link ${value Option.CREATE_ARROWS}}, ${link ${value Option.CREATE_DOTS}},
-   *  ${link ${value Option.ARROW_KEYS}} classes to the slider during upgrade.
+   *  ${link ${value Option.ARROW_KEYS}} classes to the slider.
    *
    * @checked once
    *

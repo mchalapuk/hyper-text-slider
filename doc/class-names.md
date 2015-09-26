@@ -163,7 +163,7 @@ They may be divided into two categories:
  1. **single options** - each of which enables one feature,
  2. **option groups** - that adds many option classes to the slider during upgrade.
 
-Each option is checked by the slider in one of two ways:
+Presence of each option class is checked by the slider in one of two ways:
  1. **checked once** - class name should be set in client HTML,
    slider will check for it only once during upgrade, adding/removing class after upgrade
    make no effect,
@@ -174,7 +174,7 @@ Each option is checked by the slider in one of two ways:
 
 Name | Description | Checked
 --- | --- | ---
-[hermes-defaults](#hermes-defaults) | Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay), [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots), [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider during upgrade. | once
+[hermes-defaults](#hermes-defaults) | Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay), [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots), [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider. | once
 [hermes-autostart](#hermes-autostart) | Shows first slide automatically. | once
 [hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | continuously
 [hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | once
@@ -187,7 +187,7 @@ Name | Description | Checked
 
 Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay),
  [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots),
- [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider during upgrade.
+ [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider.
 
 Checked: `once`
 
