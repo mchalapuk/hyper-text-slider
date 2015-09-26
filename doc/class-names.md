@@ -174,7 +174,7 @@ Each option is checked by the slider in one of two ways:
 
 Name | Description | Checked
 --- | --- | ---
-[hermes-defaults](#hermes-defaults) | Adds hermes-autostart, hermes-autoplay, hermes-create-arrows, hermes-create-dots, hermes-arrow-keys classes to the slider during upgrade. | once
+[hermes-defaults](#hermes-defaults) | Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay), [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots), [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider during upgrade. | once
 [hermes-autostart](#hermes-autostart) | Shows first slide automatically. | once
 [hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | continuously
 [hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | once
@@ -185,8 +185,9 @@ Name | Description | Checked
 
 #### hermes-defaults
 
-Adds hermes-autostart, hermes-autoplay, hermes-create-arrows,
- hermes-create-dots, hermes-arrow-keys classes to the slider during upgrade.
+Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay),
+ [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots),
+ [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider during upgrade.
 
 Checked: `once`
 

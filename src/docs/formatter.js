@@ -133,22 +133,47 @@ function format(docfile) {
       }
 
       var variable = str.substring(startIndex + 2, endIndex);
-      var hashIndex = variable.indexOf('#');
-      if (hashIndex === -1) {
-        throw 'no hash found in variable: "'+ str +'"';
+      var openBrackets = variable.match(/{/g);
+      if (openBrackets) {
+        for (var i = 0; i < openBrackets.length; ++i) {
+          endIndex = str.indexOf('}', endIndex + 1);
+          if (endIndex === -1) {
+            throw 'unclosed variable: "'+ str +'"';
+          }
+        }
+        variable = str.substring(startIndex + 2, endIndex);
       }
 
-      var fqn = variable.substring(0, hashIndex);
-      var comment = fqnMap[fqn];
-      if (!comment) {
-        throw 'could not find element of fqn: '+ fqn;
+      var spaceIndex = variable.indexOf(' ');
+      if (spaceIndex === -1) {
+        throw 'no space found in variable: "'+ str +'"';
       }
 
-      var key = variable.substring(hashIndex + 1);
-      retVal += comment[key];
+      var command = variable.substring(0, spaceIndex);
+      var argument = interpolate(variable.substring(spaceIndex + 1));
+
+      switch (command) {
+        case 'value': retVal += interpolateValue(argument); break;
+        case 'link': retVal += interpolateLink.apply(null, argument.split(' ')); break;
+        default: throw 'unknown command in: '+ variable;
+      }
+
       i = endIndex + 1;
     }
     return retVal
+  }
+
+  function interpolateValue(fqn) {
+    var comment = fqnMap[fqn];
+    if (!comment) {
+      throw 'could not find element of fqn: '+ fqn;
+    }
+    return comment.value;
+  }
+
+  function interpolateLink(url, anchorText) {
+    anchorText = anchorText || url;
+    return '['+ anchorText +'](#'+ url +')';
   }
 };
 

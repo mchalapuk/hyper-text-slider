@@ -1098,8 +1098,9 @@ module.exports = Layout;
 var Option = {
 
   /**
-   * Adds ${Option.AUTOSTART#value}, ${Option.AUTOPLAY#value}, ${Option.CREATE_ARROWS#value},
-   *  ${Option.CREATE_DOTS#value}, ${Option.ARROW_KEYS#value} classes to the slider during upgrade.
+   * Adds ${link ${value Option.AUTOSTART}}, ${link ${value Option.AUTOPLAY}},
+   *  ${link ${value Option.CREATE_ARROWS}}, ${link ${value Option.CREATE_DOTS}},
+   *  ${link ${value Option.ARROW_KEYS}} classes to the slider during upgrade.
    *
    * @checked once
    *
