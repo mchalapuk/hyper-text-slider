@@ -19,8 +19,8 @@
 var Option = {
 
   /**
-   * Adds ${Option.AUTOSTART}, ${Option.AUTOPLAY}, ${Option.CREATE_ARROWS},
-   * ${Option.CREATE_DOTS}, ${Option.ARROW_KEYS} to the slider.
+   * Adds ${Option.AUTOSTART#value}, ${Option.AUTOPLAY#value}, ${Option.CREATE_ARROWS#value},
+   *  ${Option.CREATE_DOTS#value}, ${Option.ARROW_KEYS#value} classes to the slider during upgrade.
    *
    * @checked once
    *
@@ -85,7 +85,7 @@ var Option = {
    * @checked once
    * @see Slider.slides.currentIndex
    *
-   * @fqn Option.CREATE_KEYS
+   * @fqn Option.ARROW_KEYS
    */
   ARROW_KEYS: 'hermes-arrow-keys',
 };

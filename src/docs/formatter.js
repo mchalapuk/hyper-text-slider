@@ -71,26 +71,6 @@ function format(docfile) {
     };
   });
 
-
-  function getParentByFqn(fqn) {
-    var lastDotIndex = fqn.lastIndexOf('.');
-    if (lastDotIndex !== -1) {
-      var parentFqn = fqn.substring(0, lastDotIndex);
-      return fqnMap[fqn];
-    } else {
-      return null;
-    }
-  }
-  function getChildrenByFqn(fqn) {
-    var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
-
-    return Object.keys(fqnMap)
-      .filter(function(name) { return name.indexOf(fqn) === 0 && level === name.split('.').length; })
-      .map(function(name) { return fqnMap[name]; })
-      .sort(function(a, b) { return a.commentId > b.commentId; })
-      ;
-  }
-
   Object.keys(fqnMap).forEach(function(fqn){
     var comment = fqnMap[fqn];
 
@@ -103,11 +83,73 @@ function format(docfile) {
     }
   });
 
+  Object.keys(fqnMap).forEach(function(fqn){
+    var comment = fqnMap[fqn];
+    comment.description.summary = interpolate(comment.description.summary);
+    comment.description.body = interpolate(comment.description.body);
+    comment.description.full = interpolate(comment.description.full);
+  });
+
   var result = {};
   result.filename = docfile.filename;
   result.javadoc = toplevel;
-//  console.log(JSON.stringify(result, '\n', 2));
   return result;
+
+  function getParentByFqn(fqn) {
+    var lastDotIndex = fqn.lastIndexOf('.');
+    if (lastDotIndex !== -1) {
+      var parentFqn = fqn.substring(0, lastDotIndex);
+      return fqnMap[fqn];
+    } else {
+      return null;
+    }
+  }a
+
+  function getChildrenByFqn(fqn) {
+    var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
+
+    return Object.keys(fqnMap)
+      .filter(function(name) { return name.indexOf(fqn) === 0 && level === name.split('.').length; })
+      .map(function(name) { return fqnMap[name]; })
+      .sort(function(a, b) { return a.commentId > b.commentId; })
+      ;
+  }
+
+  function interpolate(str) {
+    var retVal = '';
+    var i = 0;
+
+    while (true) {
+      var startIndex = str.indexOf('${', i);
+      if (startIndex === -1) {
+        retVal += str.substring(i);
+        break;
+      }
+
+      retVal += str.substring(i, startIndex);
+      var endIndex = str.indexOf('}', startIndex);
+      if (endIndex === -1) {
+        throw 'unclosed variable: "'+ str +'"';
+      }
+
+      var variable = str.substring(startIndex + 2, endIndex);
+      var hashIndex = variable.indexOf('#');
+      if (hashIndex === -1) {
+        throw 'no hash found in variable: "'+ str +'"';
+      }
+
+      var fqn = variable.substring(0, hashIndex);
+      var comment = fqnMap[fqn];
+      if (!comment) {
+        throw 'could not find element of fqn: '+ fqn;
+      }
+
+      var key = variable.substring(hashIndex + 1);
+      retVal += comment[key];
+      i = endIndex + 1;
+    }
+    return retVal
+  }
 };
 
 module.exports = format;
