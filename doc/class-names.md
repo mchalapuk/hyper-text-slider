@@ -163,10 +163,10 @@ They may be divided into two categories:
  2. **option groups** - that adds many option classes to the slider during upgrade.
 
 Presence of each option class is checked by the slider in one of two ways:
- 1. <a href='#checked-once' id='checked-once'>**checked once**</a> - class name should be set
+ 1. <a href='#once' id='once'>**checked once**</a> - class name should be set
    in client HTML, slider will check for it only once during upgrade, adding/removing class
    after upgrade make no effect,
- 2. <a href='#checked-continuously' id='checked-continuously'>**checked continuously**</a> -
+ 2. <a href='#continuously' id='continuously'>**checked continuously**</a> -
    class name may be added/removed at any time, slider will check if it is set every time
    a decission connected with this class is made.
 
@@ -189,13 +189,13 @@ Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay),
  [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots),
  [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider.
 
-*@checked* - once
+*@checked* - [once](#once)
 
 #### hermes-autostart
 
 Shows first slide automatically.
 
-*@checked* - once
+*@checked* - [once](#once)
 
 *@see* - Slider.start
 
@@ -205,7 +205,7 @@ Automatically moves slider to next slide.
 
 Slider is moved after content transition of current slide ends.
 
-*@checked* - continuously
+*@checked* - [continuously](#continuously)
 
 *@see* - Slider.moveToNext
 
@@ -216,7 +216,7 @@ Creates side arrow buttons.
 `click` event on dispatched on left arrow moves slider to previous slide.
 `click` event on dispatched on right arrow moves slider to next slide.
 
-*@checked* - once
+*@checked* - [once](#once)
 
 *@see* - Slider.moveToPrevious
 
@@ -228,7 +228,7 @@ Creates dot button for each slide.
 
 `click` event displatched on dot button moves slider to slide asociated with this dot button.
 
-*@checked* - once
+*@checked* - [once](#once)
 
 *@see* - Slider.slides.currentIndex
 
@@ -239,7 +239,7 @@ Adds keyboard control to slider.
 `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
 slide, with `RightArrow` key moves slider to next slide.
 
-*@checked* - once
+*@checked* - [once](#once)
 
 *@see* - Slider.slides.currentIndex
 
@@ -421,7 +421,7 @@ After upgrade all declared transitions are removed from slider element.
 Transitions may also be declared on [hermes-layout--slide](#hermes-layout--slide) elements. Slider will always
 use transition declared on slide element when moving to this slide. Transition declarations of
 this type are not removed from slide elements, because slider checks for transition class names
-on slides [continuously](#checked-continuously).
+on slides [continuously](#continuously).
 
 *@invariant* - Class name of currently running transition is set on slider element.
 

@@ -48,7 +48,7 @@
       <?= className.description.full ?>
 
       <? if (className.tags.checked) { ?>
-        *@checked* - <?= className.tags.checked ?>
+        *@checked* - <? link(className.tags.checked) ?>
       <? } ?>
       <? if (className.parentElement) { ?>
         *@parent-element* - <? link(className.parentElement.value) ?>
