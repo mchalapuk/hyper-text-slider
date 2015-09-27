@@ -1,10 +1,20 @@
+var fqnMap = {};
+var nextId = 0;
+
+var currentDoc = null;
+
+function err() {
+  throw 'error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
+    [].map.call(arguments, function(line) {return '  '+ line; }).join('\n');
+}
 
 function format(docfile) {
-  var fqnMap = {};
   var toplevel = [];
-  var nextId = 0;
 
   docfile.javadoc.forEach(function(javadoc){
+    javadoc.filename = docfile.filename;
+    currentDoc = javadoc;
+
     var type = (javadoc.ctx && javadoc.ctx.type);
     var name = (javadoc.ctx && typeof javadoc.ctx.name === 'string') ? javadoc.ctx.name : '';
     var value = (javadoc.ctx? javadoc.ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '');
@@ -41,141 +51,150 @@ function format(docfile) {
     var fqn = tagValues.fqn? tagValues.fqn: name;
     name = tagValues.name? tagValues.name: name
 
-    javadoc.filename = docfile.filename;
-
     if (fqn in fqnMap) {
-      var first = fqnMap[fqn].raw;
-      var second = javadoc;
-
-      throw 'Two elements of the same fully qualified name (fqn) found:\n'+
-        ' 1. '+ first.filename +':'+ first.line +'\n'+
-        ' 2. '+ second.filename +':'+ second.line;
+      err('found second element of fqn='+ fqn,
+          'first seen in '+ fqnMap[fqn].raw.filename +':'+ fqnMap[fqn].raw.line,
+          'fqn MUST uniquely identify a comment');
     }
 
-    fqnMap[fqn] = {
+    var formatted = {
       commentId: nextId++,
       type: type,
       name: name,
       fqn: fqn,
       value: value,
-      description: description,
       tags: tagValues,
       multiTags: multiTagValues,
       ignore: javadoc.ignore,
       raw: javadoc,
-
-      // set after all elements are defined
-      parent: null,
-      children: [],
-      parentElement: null,
     };
-  });
 
-  Object.keys(fqnMap).forEach(function(fqn){
-    var comment = fqnMap[fqn];
+    // properties that may need other comments to be formatted are lazy-loaded
+    Object.defineProperty(formatted, 'description', {
+      get: lazy(function() {
+        return {
+          summary: interpolate(description.summary),
+          body: interpolate(description.body),
+          full: interpolate(description.full),
+        };
+      }),
+    });
+    Object.defineProperty(formatted, 'parent', {
+      get: lazy(getParentByFqn.bind(null, fqn)),
+    });
+    Object.defineProperty(formatted, 'children', {
+      get: lazy(getChildrenByFqn.bind(null, fqn)),
+    });
+    Object.defineProperty(formatted, 'parentElement', {
+      get: lazy(function() { return fqnMap[tagValues['parent-element']]; }),
+    });
 
-    comment.parent = getParentByFqn(fqn);
-    comment.children = getChildrenByFqn(fqn);
-    comment.parentElement = fqnMap[comment.tags['parent-element']];
+    fqnMap[fqn] = formatted;
 
-    if (!comment.parent) {
-      toplevel.push(comment);
+    if (fqn.indexOf('.') === -1) {
+      toplevel.push(formatted);
     }
-  });
-
-  Object.keys(fqnMap).forEach(function(fqn){
-    var comment = fqnMap[fqn];
-    comment.description.summary = interpolate(comment.description.summary);
-    comment.description.body = interpolate(comment.description.body);
-    comment.description.full = interpolate(comment.description.full);
   });
 
   var result = {};
   result.filename = docfile.filename;
   result.javadoc = toplevel;
   return result;
-
-  function getParentByFqn(fqn) {
-    var lastDotIndex = fqn.lastIndexOf('.');
-    if (lastDotIndex !== -1) {
-      var parentFqn = fqn.substring(0, lastDotIndex);
-      return fqnMap[fqn];
-    } else {
-      return null;
-    }
-  }a
-
-  function getChildrenByFqn(fqn) {
-    var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
-
-    return Object.keys(fqnMap)
-      .filter(function(name) { return name.indexOf(fqn) === 0 && level === name.split('.').length; })
-      .map(function(name) { return fqnMap[name]; })
-      .sort(function(a, b) { return a.commentId > b.commentId; })
-      ;
-  }
-
-  function interpolate(str) {
-    var retVal = '';
-    var i = 0;
-
-    while (true) {
-      var startIndex = str.indexOf('${', i);
-      if (startIndex === -1) {
-        retVal += str.substring(i);
-        break;
-      }
-
-      retVal += str.substring(i, startIndex);
-      var endIndex = str.indexOf('}', startIndex);
-      if (endIndex === -1) {
-        throw 'unclosed variable: "'+ str +'"';
-      }
-
-      var variable = str.substring(startIndex + 2, endIndex);
-      var openBrackets = variable.match(/{/g);
-      if (openBrackets) {
-        for (var i = 0; i < openBrackets.length; ++i) {
-          endIndex = str.indexOf('}', endIndex + 1);
-          if (endIndex === -1) {
-            throw 'unclosed variable: "'+ str +'"';
-          }
-        }
-        variable = str.substring(startIndex + 2, endIndex);
-      }
-
-      var spaceIndex = variable.indexOf(' ');
-      if (spaceIndex === -1) {
-        throw 'no space found in variable: "'+ str +'"';
-      }
-
-      var command = variable.substring(0, spaceIndex);
-      var argument = interpolate(variable.substring(spaceIndex + 1));
-
-      switch (command) {
-        case 'value': retVal += interpolateValue(argument); break;
-        case 'link': retVal += interpolateLink.apply(null, argument.split(' ')); break;
-        default: throw 'unknown command in: '+ variable;
-      }
-
-      i = endIndex + 1;
-    }
-    return retVal
-  }
-
-  function interpolateValue(fqn) {
-    var comment = fqnMap[fqn];
-    if (!comment) {
-      throw 'could not find element of fqn: '+ fqn;
-    }
-    return comment.value;
-  }
-
-  function interpolateLink(url, anchorText) {
-    anchorText = anchorText || url;
-    return '['+ anchorText +'](#'+ url +')';
-  }
 };
 
 module.exports = format;
+
+return;
+
+function getParentByFqn(fqn) {
+  var lastDotIndex = fqn.lastIndexOf('.');
+  if (lastDotIndex !== -1) {
+    var parentFqn = fqn.substring(0, lastDotIndex);
+    return fqnMap[fqn];
+  } else {
+    return null;
+  }
+}
+
+function getChildrenByFqn(fqn) {
+  var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
+
+  return Object.keys(fqnMap)
+    .filter(function(name) { return name.indexOf(fqn) === 0 && level === name.split('.').length; })
+    .map(function(name) { return fqnMap[name]; })
+    .sort(function(a, b) { return a.commentId > b.commentId; })
+    ;
+}
+
+function interpolate(str) {
+  var retVal = '';
+  var i = 0;
+
+  while (true) {
+    var startIndex = str.indexOf('${', i);
+    if (startIndex === -1) {
+      retVal += str.substring(i);
+      break;
+    }
+
+    retVal += str.substring(i, startIndex);
+    var endIndex = str.indexOf('}', startIndex);
+    if (endIndex === -1) {
+      err('unclosed variable: "'+ str +'"');
+    }
+
+    var variable = str.substring(startIndex + 2, endIndex);
+    var openBrackets = variable.match(/{/g);
+    if (openBrackets) {
+      for (var i = 0; i < openBrackets.length; ++i) {
+        endIndex = str.indexOf('}', endIndex + 1);
+        if (endIndex === -1) {
+          err('unclosed variable: "'+ str +'"');
+        }
+      }
+      variable = str.substring(startIndex + 2, endIndex);
+    }
+
+    var spaceIndex = variable.indexOf(' ');
+    if (spaceIndex === -1) {
+      err('no space found in variable: "'+ str +'"');
+    }
+
+    var command = variable.substring(0, spaceIndex);
+    var argument = interpolate(variable.substring(spaceIndex + 1));
+
+    switch (command) {
+      case 'value': retVal += interpolateValue(argument); break;
+      case 'link': retVal += interpolateLink.apply(null, argument.split(' ')); break;
+      default: err('unknown command in: '+ variable);
+    }
+
+    i = endIndex + 1;
+  }
+  return retVal
+}
+
+function interpolateValue(fqn) {
+  var comment = fqnMap[fqn];
+  if (!comment) {
+    err('could not find element of fqn: '+ fqn);
+  }
+  return comment.value;
+}
+
+function interpolateLink(url, anchorText) {
+  anchorText = anchorText || url;
+  return '['+ anchorText +'](#'+ url +')';
+}
+
+function lazy(loader) {
+  var getter = function() {
+    var retVal = loader();
+    getter = function() { return retVal; };
+    return retVal;
+  }
+  return function() {
+    return getter();
+  }
+}
 
