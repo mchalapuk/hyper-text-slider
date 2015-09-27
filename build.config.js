@@ -72,6 +72,7 @@ module.exports = {
         './src/node/classnames/_layout.js',
         './src/node/classnames/_options.js',
         './src/node/classnames/_phases.js',
+        './src/node/classnames/_markers.js',
       ],
       options: {
         formatter: formatter,
