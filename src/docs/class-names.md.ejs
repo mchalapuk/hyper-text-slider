@@ -46,16 +46,16 @@
       <?= className.description.full ?>
 
       <? if (className.tags.checked) { ?>
-        **@checked** - <?= className.tags.checked ?>
+        *@checked* - <?= className.tags.checked ?>
       <? } ?>
       <? if (className.parentElement) { ?>
-        **@parent-element** - <? link(className.parentElement.value) ?>
+        *@parent-element* - <? link(className.parentElement.value) ?>
       <? } ?>
       <? className.multiTags.invariant.forEach(function(invariant) { ?>
-        **@invariant** - <?= invariant ?>
+        *@invariant* - <?= invariant ?>
       <? }) ?>
       <? className.multiTags.see.forEach(function(see) { ?>
-        **@see** - <?= see ?>
+        *@see* - <?= see ?>
       <? }) ?>
     <? }) ?>
   <? }) ?>
