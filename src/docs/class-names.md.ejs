@@ -45,14 +45,12 @@
 
       <?= className.description.full ?>
 
-      <? if (className.tags.checked) { ?>
-        Checked: `<?= className.tags.checked ?>`
-      <? } ?>
-      <? if (className.parentElement) { ?>
-        Parent Element: <? link(className.parentElement.value) ?>
-      <? } ?>
-      <? className.multiTags.see.forEach(function(see) { ?>
-        See: <?= see ?>
+      <? if (className.tags.checked) {
+        ?>**@checked** | <?= className.tags.checked ?>
+      <? } ?><? if (className.parentElement) {
+        ?>**@parent-element** | <? link(className.parentElement.value) ?>
+      <? }) ?><? className.multiTags.see.forEach(function(see) {
+        ?>**@see** | <?= see ?>
       <? }) ?>
     <? }) ?>
   <? }) ?>
