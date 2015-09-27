@@ -8,6 +8,8 @@
 )](https://david-dm.org/webfront-toolkit/hermes#info=devDependencies)
 [![Documentation Status](http://inch-ci.org/github/webfront-toolkit/hermes.svg?branch=master
 )](http://inch-ci.org/github/webfront-toolkit/hermes)
+[![Code Climate](https://codeclimate.com/github/webfront-toolkit/hermes/badges/gpa.svg
+)](https://codeclimate.com/github/webfront-toolkit/hermes)
 
 Hermes comes with:
 
