@@ -362,7 +362,7 @@ and then set on currently active slide each time it changes.
 ## Flag Class Names
 
 They are automatically set by the slider. Flag class names MUST NOT be manipulated from
-client HTML or JavaScript* and **SHOULD be used only in client CSS**.
+client HTML or JavaScript and **SHOULD be used only in client CSS**.
 
 ### Summary
 
@@ -384,6 +384,47 @@ Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected 
 *@invariant* - This class is set on only one dot button.
 
 <!-- End src/node/classnames/_flags.js -->
+
+<!-- End Template class-names.md.ejs -->
+
+
+<!-- Start Template class-names.md.ejs -->
+
+# Class Names
+
+**Table of Contents**
+
+1. [Other Class Names](#Other Class Names)<ul>
+<li>[/hermes-transition--([^ ]+)/g](#/hermes-transition--([^ ]+)/g)</ul>
+
+<!-- Start src/node/classnames/_regexps.js -->
+
+## Other Class Names
+
+### Summary
+
+Name | Description
+--- | ---
+[/hermes-transition--([^ ]+)/g](#/hermes-transition--([^ ]+)/g) | All transitions used by the slider must match this regular expression.
+
+### Details
+
+#### /hermes-transition--([^ ]+)/g
+
+All transitions used by the slider must match this regular expression.
+
+During slider upgrade [hermes-layout--slider](#hermes-layout--slider) element is checked for presence of
+transition class names. Transitions declared this way will be randomly used by the slider.
+After upgrade all declared transitions are removed from slider element.
+
+Transitions may also be declared on [hermes-layout--slide](#hermes-layout--slide) elements. Slider will always
+use transition declared on slide element when moving to this slide. Transition declarations of
+this type are not removed from slide elements, because slider checks for transition class names
+on slides [continously](#option-class-names).
+
+*@invariant* - Class name of currently running transition is set on slider element.
+
+<!-- End src/node/classnames/_regexps.js -->
 
 <!-- End Template class-names.md.ejs -->
 

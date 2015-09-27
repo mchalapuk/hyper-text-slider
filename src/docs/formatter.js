@@ -165,7 +165,9 @@ function interpolate(str) {
     var argument = interpolate(variable.substring(spaceIndex + 1));
 
     switch (command) {
-      case 'value': retVal += interpolateValue(argument); break;
+      case 'name': retVal += interpolateProperty(argument, 'name'); break;
+      case 'hash': retVal += toGithubHashLink(interpolateProperty(argument, 'name')); break;
+      case 'value': retVal += interpolateProperty(argument, 'value'); break;
       case 'link': retVal += interpolateLink.apply(null, argument.split(' ')); break;
       default: err('unknown command in: '+ variable);
     }
@@ -175,17 +177,21 @@ function interpolate(str) {
   return retVal
 }
 
-function interpolateValue(fqn) {
+function interpolateProperty(fqn, property) {
   var comment = fqnMap[fqn];
   if (!comment) {
     err('could not find element of fqn: '+ fqn);
   }
-  return comment.value;
+  return comment[property];
 }
 
-function interpolateLink(url, anchorText) {
-  anchorText = anchorText || url;
+function interpolateLink(url) {
+  anchorText = [].slice.call(arguments, 1).join(' ') || url;
   return '['+ anchorText +'](#'+ url +')';
+}
+
+function toGithubHashLink(headerName) {
+  return headerName.toLowerCase().replace(/ /g, '-');
 }
 
 function lazy(loader) {

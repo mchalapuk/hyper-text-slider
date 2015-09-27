@@ -1,7 +1,7 @@
 
 /**
  * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
- * client HTML or JavaScript* and **SHOULD be used only in client CSS**.
+ * client HTML or JavaScript and **SHOULD be used only in client CSS**.
  *
  * @name Flag Class Names
  */

@@ -74,6 +74,7 @@ module.exports = {
         './src/node/classnames/_phases.js',
         './src/node/classnames/_markers.js',
         './src/node/classnames/_flags.js',
+        './src/node/classnames/_regexps.js',
       ],
       options: {
         formatter: formatter,
