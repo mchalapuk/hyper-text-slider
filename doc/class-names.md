@@ -156,8 +156,7 @@ Parent Element: [hermes-layout--dots](#hermes-layout--dots)
 
 ## Option Class Names
 
-All option classes are intended to be set on slider element
-([hermes-layout--slider](#hermes-layout--slider));
+All option classes are intended to be set on slider element ([hermes-layout--slider](#hermes-layout--slider)).
 
 They may be divided into two categories:
  1. **single options** - each of which enables one feature,
@@ -244,6 +243,59 @@ Checked: `once`
 See: Slider.slides.currentIndex
 
 <!-- End src/node/classnames/_options.js -->
+
+<!-- End Template class-names.md.ejs -->
+
+
+<!-- Start Template class-names.md.ejs -->
+
+# Class Names
+
+**Table of Contents**
+
+1. [Transition Phase Class Names](#Transition Phase Class Names)<ul>
+<li>[hermes-before-transition](#hermes-before-transition)
+<li>[hermes-during-transition](#hermes-during-transition)
+<li>[hermes-after-transition](#hermes-after-transition)</ul>
+
+<!-- Start src/node/classnames/_phases.js -->
+
+## Transition Phase Class Names
+
+All phase classes are automatically set on slider element ([hermes-layout--slider](#hermes-layout--slider)).
+They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
+in definitions of CSS transitions**.
+
+### Summary
+
+Name | Description
+--- | ---
+[hermes-before-transition](#hermes-before-transition) | Set on slider element just before transition starts.
+[hermes-during-transition](#hermes-during-transition) | Set on slider element while transition of [hermes-layout--content](#hermes-layout--content) element is run.
+[hermes-after-transition](#hermes-after-transition) | Set on slider element after transition of [hermes-layout--content](#hermes-layout--content) element ends.
+
+### Details
+
+#### hermes-before-transition
+
+Set on slider element just before transition starts.
+
+This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
+to initial values before transition.
+
+#### hermes-during-transition
+
+Set on slider element while transition of [hermes-layout--content](#hermes-layout--content) element is run.
+
+#### hermes-after-transition
+
+Set on slider element after transition of [hermes-layout--content](#hermes-layout--content) element ends.
+
+If [hermes-autoplay](#hermes-autoplay) option is on, next transition
+will be started just after hitting this phase, which will move slider
+back to phase [hermes-before-transition](#hermes-before-transition).
+
+<!-- End src/node/classnames/_phases.js -->
 
 <!-- End Template class-names.md.ejs -->
 

@@ -853,7 +853,7 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
 }());
 
 
-},{"./node/slider":13}],9:[function(require,module,exports){
+},{"./node/slider":14}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1078,8 +1078,7 @@ module.exports = Layout;
 
 },{}],11:[function(require,module,exports){
 /**
- * All option classes are intended to be set on slider element
- * ([hermes-layout--slider](#hermes-layout--slider));
+ * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
  *
  * They may be divided into two categories:
  *  1. **single options** - each of which enables one feature,
@@ -1174,6 +1173,48 @@ module.exports = Option;
 
 
 },{}],12:[function(require,module,exports){
+/**
+ * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
+ * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
+ * in definitions of CSS transitions**.
+ *
+ * @name Transition Phase Class Names
+ */
+var Phase = {
+
+  /**
+   * Set on slider element just before transition starts.
+   *
+   * This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
+   * to initial values before transition.
+   *
+   * @fqn Phase.BEFORE_TRANSITION
+   */
+  BEFORE_TRANSITION: 'hermes-before-transition',
+
+  /**
+   * Set on slider element while transition of ${link ${value Layout.CONTENT}} element is run.
+   *
+   * @fqn Phase.DURING_TRANSITION
+   */
+  DURING_TRANSITION: 'hermes-during-transition',
+
+  /**
+   * Set on slider element after transition of ${link ${value Layout.CONTENT}} element ends.
+   *
+   * If ${link ${value Option.AUTOPLAY}} option is on, next transition
+   * will be started just after hitting this phase, which will move slider
+   * back to phase ${link ${value Phase.BEFORE_TRANSITION}}.
+   *
+   * @fqn Phase.AFTER_TRANSITION
+   */
+  AFTER_TRANSITION: 'hermes-after-transition',
+};
+
+module.exports = Phase;
+
+
+},{}],13:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1196,6 +1237,7 @@ module.exports = Option;
 
 var precond = require('precond');
 var dom = require('./_dom');
+var Phase = require('./classnames/_phases');
 
 function summonHermes(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
@@ -1218,12 +1260,7 @@ function summonHermes(elem) {
 }
 
 module.exports = summonHermes;
-
-var Phase = summonHermes.Phase = {
-  BEFORE_TRANSITION: 'hermes-before-transition',
-  DURING_TRANSITION: 'hermes-during-transition',
-  AFTER_TRANSITION: 'hermes-after-transition',
-};
+module.exports.Phase = Phase;
 
 return;
 
@@ -1305,7 +1342,7 @@ function removePhaseChangeTrigger(elem) {
 }
 
 
-},{"./_dom":9,"precond":5}],13:[function(require,module,exports){
+},{"./_dom":9,"./classnames/_phases":12,"precond":5}],14:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1600,4 +1637,4 @@ function random(array) {
 }
 
 
-},{"./classnames/_layout":10,"./classnames/_options":11,"./hermes":12,"precond":5}]},{},[8])
+},{"./classnames/_layout":10,"./classnames/_options":11,"./hermes":13,"precond":5}]},{},[8])

@@ -71,6 +71,7 @@ module.exports = {
       src: [
         './src/node/classnames/_layout.js',
         './src/node/classnames/_options.js',
+        './src/node/classnames/_phases.js',
       ],
       options: {
         formatter: formatter,

@@ -20,6 +20,7 @@
 
 var precond = require('precond');
 var dom = require('./_dom');
+var Phase = require('./classnames/_phases');
 
 function summonHermes(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
@@ -42,12 +43,7 @@ function summonHermes(elem) {
 }
 
 module.exports = summonHermes;
-
-var Phase = summonHermes.Phase = {
-  BEFORE_TRANSITION: 'hermes-before-transition',
-  DURING_TRANSITION: 'hermes-during-transition',
-  AFTER_TRANSITION: 'hermes-after-transition',
-};
+module.exports.Phase = Phase;
 
 return;
 
