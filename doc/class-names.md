@@ -49,6 +49,8 @@ Identifies main slider element.
 This class must be set on all slider elements in client HTML.
 It can be used in client CSS code for styling.
 
+--- | ---
+
 #### hermes-layout--slide
 
 Identifies a slide.
@@ -56,6 +58,7 @@ Identifies a slide.
 At least 2 slides must be defined in each slider.
 It can be used in client CSS code for styling.
 
+--- | ---
 **@parent-element** | [hermes-layout--slider](#hermes-layout--slider)
 
 #### hermes-layout--background
@@ -66,6 +69,7 @@ For slides in which this element is not present in slider declaration, empty bac
 element will be generated during slider upgrade. This class name must be used in all
 definitions of background transitions.
 
+--- | ---
 **@parent-element** | [hermes-layout--slide](#hermes-layout--slide)
 
 #### hermes-layout--content
@@ -77,6 +81,7 @@ during slider upgrade. Contents of a slide will be moved inside generated elemen
 is present in slider declaration, it must contain all contents of a slide. This class name
 must be used in all definitions of content transitions.
 
+--- | ---
 **@parent-element** | [hermes-layout--slide](#hermes-layout--slide)
 
 #### hermes-layout--inner
@@ -86,6 +91,7 @@ May be used in definitions of content transitions.
 In cases when some parts of slide's content need another transition this class name must be
 used in definition of the transition and in client HTML.
 
+--- | ---
 **@parent-element** | [hermes-layout--content](#hermes-layout--content)
 
 #### hermes-layout--arrow
@@ -95,6 +101,7 @@ Set during upgrade on generated arrow buttons.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
+--- | ---
 **@parent-element** | [hermes-layout--slider](#hermes-layout--slider)
 
 #### hermes-layout--arrow-left
@@ -104,6 +111,7 @@ Set during upgrade on generated left arrow button.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
+--- | ---
 **@parent-element** | [hermes-layout--slider](#hermes-layout--slider)
 
 #### hermes-layout--arrow-right
@@ -113,6 +121,7 @@ Set during upgrade on generated right arrow button.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
+--- | ---
 **@parent-element** | [hermes-layout--slider](#hermes-layout--slider)
 
 #### hermes-layout--dots
@@ -122,6 +131,7 @@ Set during upgrade on container elements that contains dot buttons.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
+--- | ---
 **@parent-element** | [hermes-layout--slider](#hermes-layout--slider)
 
 #### hermes-layout--dot
@@ -131,6 +141,7 @@ Set during upgrade on each dot button element.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
+--- | ---
 **@parent-element** | [hermes-layout--dots](#hermes-layout--dots)
 
 <!-- End src/node/classnames/_layout.js -->
@@ -188,12 +199,14 @@ Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay),
  [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots),
  [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider.
 
+--- | ---
 **@checked** | once
 
 #### hermes-autostart
 
 Shows first slide automatically.
 
+--- | ---
 **@checked** | once
 **@see** | Slider.start
 
@@ -203,6 +216,7 @@ Automatically moves slider to next slide.
 
 Slider is moved after content transition of current slide ends.
 
+--- | ---
 **@checked** | continuously
 **@see** | Slider.moveToNext
 
@@ -213,6 +227,7 @@ Creates side arrow buttons.
 `click` event on dispatched on left arrow moves slider to previous slide.
 `click` event on dispatched on right arrow moves slider to next slide.
 
+--- | ---
 **@checked** | once
 **@see** | Slider.moveToPrevious
 **@see** | Slider.moveToNext
@@ -223,6 +238,7 @@ Creates dot button for each slide.
 
 `click` event displatched on dot button moves slider to slide asociated with this dot button.
 
+--- | ---
 **@checked** | once
 **@see** | Slider.slides.currentIndex
 
@@ -233,6 +249,7 @@ Adds keyboard control to slider.
 `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
 slide, with `RightArrow` key moves slider to next slide.
 
+--- | ---
 **@checked** | once
 **@see** | Slider.slides.currentIndex
 
@@ -277,9 +294,13 @@ Set on slider element just before transition starts.
 This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
 to initial values before transition.
 
+--- | ---
+
 #### hermes-during-transition
 
 Set on slider element while transition of [hermes-layout--content](#hermes-layout--content) element is run.
+
+--- | ---
 
 #### hermes-after-transition
 
@@ -288,6 +309,8 @@ Set on slider element after transition of [hermes-layout--content](#hermes-layou
 If [hermes-autoplay](#hermes-autoplay) option is on, next transition
 will be started just after hitting this phase, which will move slider
 back to phase [hermes-before-transition](#hermes-before-transition).
+
+--- | ---
 
 <!-- End src/node/classnames/_phases.js -->
 
@@ -325,6 +348,7 @@ Name | Description
 
 Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
 
+--- | ---
 **@invariant** | After starting first transition this class name is set on only one slide.
 
 #### hermes-slide-to
@@ -334,6 +358,7 @@ Automatically set on currently active [hermes-layout--slide](#hermes-layout--sli
 This class name is set on first slide after starting a slider
 and then set on currently active slide each time it changes.
 
+--- | ---
 **@invariant** | After starting slider this class name is set on only one slide.
 
 <!-- End src/node/classnames/_markers.js -->
