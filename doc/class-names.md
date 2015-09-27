@@ -346,3 +346,44 @@ and then set on currently active slide each time it changes.
 
 <!-- End Template class-names.md.ejs -->
 
+
+<!-- Start Template class-names.md.ejs -->
+
+# Class Names
+
+**Table of Contents**
+
+1. [Flag Class Names](#Flag Class Names)<ul>
+<li>[is-upgraded](#is-upgraded)
+<li>[is-active](#is-active)</ul>
+
+<!-- Start src/node/classnames/_flags.js -->
+
+## Flag Class Names
+
+They are automatically set by the slider. Flag class names MUST NOT be manipulated from
+client HTML or JavaScript* and **SHOULD be used only in client CSS**.
+
+### Summary
+
+Name | Description
+--- | ---
+[is-upgraded](#is-upgraded) | Automatically set on slider after its upgrade.
+[is-active](#is-active) | Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
+
+### Details
+
+#### is-upgraded
+
+Automatically set on slider after its upgrade.
+
+#### is-active
+
+Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
+
+*@invariant* - This class is set on only one dot button.
+
+<!-- End src/node/classnames/_flags.js -->
+
+<!-- End Template class-names.md.ejs -->
+
