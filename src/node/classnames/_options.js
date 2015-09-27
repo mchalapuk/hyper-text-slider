@@ -6,11 +6,12 @@
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
  * Presence of each option class is checked by the slider in one of two ways:
- *  1. **checked once** - class name should be set in client HTML,
- *    slider will check for it only once during upgrade, adding/removing class after upgrade
- *    make no effect,
- *  2. **checked continuously** - class name may be added/removed at any time,
- *    slider will check if it is set every time a decission connected with this class is made.
+ *  1. <a href='#checked-once' id='checked-once'>**checked once**</a> - class name should be set
+ *    in client HTML, slider will check for it only once during upgrade, adding/removing class
+ *    after upgrade make no effect,
+ *  2. <a href='#checked-continuously' id='checked-continuously'>**checked continuously**</a> -
+ *    class name may be added/removed at any time, slider will check if it is set every time
+ *    a decission connected with this class is made.
  *
  * @name Option Class Names
  * @summary-column checked Checked
