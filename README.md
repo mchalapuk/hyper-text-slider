@@ -6,6 +6,8 @@
 )](https://david-dm.org/webfront-toolkit/hermes)
 [![devDependency Status](https://david-dm.org/webfront-toolkit/hermes/dev-status.svg
 )](https://david-dm.org/webfront-toolkit/hermes#info=devDependencies)
+[![Documentation Status](http://inch-ci.org/github/webfront-toolkit/hermes.svg?branch=master
+)](http://inch-ci.org/github/webfront-toolkit/hermes)
 
 Hermes comes with:
 
