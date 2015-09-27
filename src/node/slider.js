@@ -62,6 +62,9 @@ module.exports = initializeSlider;
 // constants
 
 var Layout = require('./classnames/_layout');
+var Option = require('./classnames/_options');
+var Marker = require('./classnames/_markers');
+var Flag = require('./classnames/_flags');
 
 var Selector = (function () {
   var selectors = {};
@@ -70,15 +73,6 @@ var Selector = (function () {
   }
   return selectors;
 }());
-
-var Option = require('./classnames/_options');
-
-var Flag = {
-  SLIDE_FROM: 'hermes-slide-from',
-  SLIDE_TO: 'hermes-slide-to',
-  UPGRADED: 'is-upgraded',
-  ACTIVE: 'is-active',
-};
 
 var Regexp = {
   TRANSITION: new RegExp('hermes-transition--([^ ]+)', 'g'),
@@ -192,7 +186,7 @@ function start() {
   priv.started = true;
 
   var to = priv.slides[priv.toIndex];
-  to.classList.add(Flag.SLIDE_TO);
+  to.classList.add(Marker.SLIDE_TO);
   if (to.id !== null) {
     addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
   }
@@ -231,8 +225,8 @@ function moveTo(i) {
 
   var from = priv.slides[priv.fromIndex];
   var to = priv.slides[priv.toIndex];
-  from.classList.remove(Flag.SLIDE_FROM);
-  to.classList.remove(Flag.SLIDE_TO);
+  from.classList.remove(Marker.SLIDE_FROM);
+  to.classList.remove(Marker.SLIDE_TO);
   if (to.dot !== undefined) {
     to.dot.classList.remove(Flag.ACTIVE);
   }
@@ -242,8 +236,8 @@ function moveTo(i) {
   priv.toIndex = i;
   from = priv.slides[priv.fromIndex];
   to = priv.slides[priv.toIndex];
-  from.classList.add(Flag.SLIDE_FROM);
-  to.classList.add(Flag.SLIDE_TO);
+  from.classList.add(Marker.SLIDE_FROM);
+  to.classList.add(Marker.SLIDE_TO);
   if (to.id !== null) {
     addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
   }

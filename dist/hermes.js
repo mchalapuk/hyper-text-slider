@@ -853,7 +853,7 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
 }());
 
 
-},{"./node/slider":14}],9:[function(require,module,exports){
+},{"./node/slider":16}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -918,6 +918,16 @@ module.exports = {
 
 
 },{}],10:[function(require,module,exports){
+
+var Flag = {
+  UPGRADED: 'is-upgraded',
+  ACTIVE: 'is-active',
+};
+
+module.exports = Flag;
+
+
+},{}],11:[function(require,module,exports){
 /**
  * Their usage is limited to:
  *  1. **role-id** - class names are used to identify element's role during slider upgrade,
@@ -1076,7 +1086,17 @@ var Layout = {
 module.exports = Layout;
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+
+var Marker = {
+  SLIDE_FROM: 'hermes-slide-from',
+  SLIDE_TO: 'hermes-slide-to',
+};
+
+module.exports = Marker;
+
+
+},{}],13:[function(require,module,exports){
 /**
  * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
  *
@@ -1172,7 +1192,7 @@ var Option = {
 module.exports = Option;
 
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
  * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
@@ -1214,7 +1234,7 @@ var Phase = {
 module.exports = Phase;
 
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1342,7 +1362,7 @@ function removePhaseChangeTrigger(elem) {
 }
 
 
-},{"./_dom":9,"./classnames/_phases":12,"precond":5}],14:[function(require,module,exports){
+},{"./_dom":9,"./classnames/_phases":14,"precond":5}],16:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1407,6 +1427,9 @@ module.exports = initializeSlider;
 // constants
 
 var Layout = require('./classnames/_layout');
+var Option = require('./classnames/_options');
+var Marker = require('./classnames/_markers');
+var Flag = require('./classnames/_flags');
 
 var Selector = (function () {
   var selectors = {};
@@ -1415,15 +1438,6 @@ var Selector = (function () {
   }
   return selectors;
 }());
-
-var Option = require('./classnames/_options');
-
-var Flag = {
-  SLIDE_FROM: 'hermes-slide-from',
-  SLIDE_TO: 'hermes-slide-to',
-  UPGRADED: 'is-upgraded',
-  ACTIVE: 'is-active',
-};
 
 var Regexp = {
   TRANSITION: new RegExp('hermes-transition--([^ ]+)', 'g'),
@@ -1537,7 +1551,7 @@ function start() {
   priv.started = true;
 
   var to = priv.slides[priv.toIndex];
-  to.classList.add(Flag.SLIDE_TO);
+  to.classList.add(Marker.SLIDE_TO);
   if (to.id !== null) {
     addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
   }
@@ -1576,8 +1590,8 @@ function moveTo(i) {
 
   var from = priv.slides[priv.fromIndex];
   var to = priv.slides[priv.toIndex];
-  from.classList.remove(Flag.SLIDE_FROM);
-  to.classList.remove(Flag.SLIDE_TO);
+  from.classList.remove(Marker.SLIDE_FROM);
+  to.classList.remove(Marker.SLIDE_TO);
   if (to.dot !== undefined) {
     to.dot.classList.remove(Flag.ACTIVE);
   }
@@ -1587,8 +1601,8 @@ function moveTo(i) {
   priv.toIndex = i;
   from = priv.slides[priv.fromIndex];
   to = priv.slides[priv.toIndex];
-  from.classList.add(Flag.SLIDE_FROM);
-  to.classList.add(Flag.SLIDE_TO);
+  from.classList.add(Marker.SLIDE_FROM);
+  to.classList.add(Marker.SLIDE_TO);
   if (to.id !== null) {
     addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
   }
@@ -1637,4 +1651,4 @@ function random(array) {
 }
 
 
-},{"./classnames/_layout":10,"./classnames/_options":11,"./hermes":13,"precond":5}]},{},[8])
+},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./hermes":15,"precond":5}]},{},[8])
