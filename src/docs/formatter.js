@@ -26,6 +26,7 @@ function format(docfile) {
     };
     var multiTagValues = {
       'summary-column': [],
+      'invariant': [],
       'see': [],
     };
 
