@@ -4,7 +4,7 @@
 
 **Table of Contents**
 
-1. [Layout Class Names](#Layout Class Names)<ul>
+1. [Layout Class Names](#layout-class-names)<ul>
 <li>[hermes-layout--slider](#hermes-layout--slider)
 <li>[hermes-layout--slide](#hermes-layout--slide)
 <li>[hermes-layout--background](#hermes-layout--background)
@@ -144,7 +144,7 @@ It may be used in client CSS for styling.
 
 **Table of Contents**
 
-1. [Option Class Names](#Option Class Names)<ul>
+1. [Option Class Names](#option-class-names)<ul>
 <li>[hermes-defaults](#hermes-defaults)
 <li>[hermes-autostart](#hermes-autostart)
 <li>[hermes-autoplay](#hermes-autoplay)
@@ -253,7 +253,7 @@ slide, with `RightArrow` key moves slider to next slide.
 
 **Table of Contents**
 
-1. [Transition Phase Class Names](#Transition Phase Class Names)<ul>
+1. [Transition Phase Class Names](#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](#hermes-before-transition)
 <li>[hermes-during-transition](#hermes-during-transition)
 <li>[hermes-after-transition](#hermes-after-transition)</ul>
@@ -306,7 +306,7 @@ back to phase [hermes-before-transition](#hermes-before-transition).
 
 **Table of Contents**
 
-1. [Transition Marker Class Names](#Transition Marker Class Names)<ul>
+1. [Transition Marker Class Names](#transition-marker-class-names)<ul>
 <li>[hermes-slide-from](#hermes-slide-from)
 <li>[hermes-slide-to](#hermes-slide-to)</ul>
 
@@ -353,7 +353,7 @@ and then set on currently active slide each time it changes.
 
 **Table of Contents**
 
-1. [Flag Class Names](#Flag Class Names)<ul>
+1. [Flag Class Names](#flag-class-names)<ul>
 <li>[is-upgraded](#is-upgraded)
 <li>[is-active](#is-active)</ul>
 
@@ -394,8 +394,8 @@ Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected 
 
 **Table of Contents**
 
-1. [Other Class Names](#Other Class Names)<ul>
-<li>[/hermes-transition--([^ ]+)/g](#/hermes-transition--([^ ]+)/g)</ul>
+1. [Other Class Names](#other-class-names)<ul>
+<li>[/hermes-transition--([^ ]+)/g](#hermes-transition---g)</ul>
 
 <!-- Start src/node/classnames/_regexps.js -->
 
@@ -405,7 +405,7 @@ Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected 
 
 Name | Description
 --- | ---
-[/hermes-transition--([^ ]+)/g](#/hermes-transition--([^ ]+)/g) | All transitions used by the slider must match this regular expression.
+[/hermes-transition--([^ ]+)/g](#hermes-transition---g) | All transitions used by the slider must match this regular expression.
 
 ### Details
 

@@ -1,5 +1,7 @@
 <!-- Start Template class-names.md.ejs -->
-<? function link(name) { ?>[<?= name ?>](#<?= name ?>)<? } ?>
+<? function link(name) { ?>[<?= name ?>](#<?=
+  name.toLowerCase().replace(/ /g, '-').replace(new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g'), '')
+?>)<? } ?>
 
 # Class Names
 

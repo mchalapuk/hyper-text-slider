@@ -191,7 +191,7 @@ function interpolateLink(url) {
 }
 
 function toGithubHashLink(headerName) {
-  return headerName.toLowerCase().replace(/ /g, '-');
+  return headerName.toLowerCase().replace(/ /g, '-').replace(/[\[\]{}()^$#@!%&*]/g, '');
 }
 
 function lazy(loader) {
