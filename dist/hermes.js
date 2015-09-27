@@ -853,7 +853,7 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
 }());
 
 
-},{"./node/slider":16}],9:[function(require,module,exports){
+},{"./node/slider":17}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1235,6 +1235,15 @@ module.exports = Phase;
 
 
 },{}],15:[function(require,module,exports){
+
+var Regexp = {
+  TRANSITION: /hermes-transition--([^ ]+)/g,
+};
+
+module.exports = Regexp;
+
+
+},{}],16:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1362,7 +1371,7 @@ function removePhaseChangeTrigger(elem) {
 }
 
 
-},{"./_dom":9,"./classnames/_phases":14,"precond":5}],16:[function(require,module,exports){
+},{"./_dom":9,"./classnames/_phases":14,"precond":5}],17:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1430,6 +1439,7 @@ var Layout = require('./classnames/_layout');
 var Option = require('./classnames/_options');
 var Marker = require('./classnames/_markers');
 var Flag = require('./classnames/_flags');
+var Regexp = require('./classnames/_regexps');
 
 var Selector = (function () {
   var selectors = {};
@@ -1438,10 +1448,6 @@ var Selector = (function () {
   }
   return selectors;
 }());
-
-var Regexp = {
-  TRANSITION: new RegExp('hermes-transition--([^ ]+)', 'g'),
-};
 
 return;
 
@@ -1651,4 +1657,4 @@ function random(array) {
 }
 
 
-},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./hermes":15,"precond":5}]},{},[8])
+},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./hermes":16,"precond":5}]},{},[8])

@@ -65,6 +65,7 @@ var Layout = require('./classnames/_layout');
 var Option = require('./classnames/_options');
 var Marker = require('./classnames/_markers');
 var Flag = require('./classnames/_flags');
+var Regexp = require('./classnames/_regexps');
 
 var Selector = (function () {
   var selectors = {};
@@ -73,10 +74,6 @@ var Selector = (function () {
   }
   return selectors;
 }());
-
-var Regexp = {
-  TRANSITION: new RegExp('hermes-transition--([^ ]+)', 'g'),
-};
 
 return;
 
