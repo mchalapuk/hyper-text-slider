@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var jshint = require('gulp-jshint');
+var eslint = require('gulp-eslint');
 var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
@@ -36,14 +36,15 @@ task('sass', [], config.css, function(files) {
   ;
 });
 
-task('jshint:javascript', [], config.js, function(files) {
+task('lint:javascript', [], config.js, function(files) {
   return gulp.src(files.src)
-    .pipe(jshint(config.jshint))
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(eslint(config.jshint))
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
   ;
 });
 
-task('javascript', [ 'jshint:javascript' ], config.js, function(files) {
+task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   return gulp.src(files.main)
     .pipe(browserify())
     .pipe(gulp.dest(config.dir.build))
@@ -53,14 +54,15 @@ task('javascript', [ 'jshint:javascript' ], config.js, function(files) {
   ;
 });
 
-task('jshint:spec', [], config.js, function(files) {
+task('lint:spec', [], config.js, function(files) {
   return gulp.src(files.spec)
-    .pipe(jshint(config.jshint))
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(eslint(config.jshint))
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
   ;
 });
 
-task('spec', [ 'jshint:spec' ], config.js, function(files) {
+task('spec', [ 'lint:spec' ], config.js, function(files) {
   return gulp.src(files.spec)
     .pipe(jasmine({ /* verbose: true, */ includeStackTrace: true }))
   ;
