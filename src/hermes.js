@@ -16,22 +16,24 @@
 
 */
 
-(function () {
-  'use strict';
+'use strict';
+
+(function() {
 
   // turn off vanilla behavior (vertical scroll bar)
-  var sliderElems = document.querySelectorAll('.hermes-layout--slider');
-  for (var i = 0; i < sliderElems.length; ++i) {
-    sliderElems[i].classList.add('is-upgraded');
-  }
+  var sliderElems = [].slice.call(document.querySelectorAll('.hermes-layout--slider'));
+  sliderElems.forEach(function(elem) {
+    elem.classList.add('is-upgraded');
+  });
 
   // defer slider initialization
   window.addEventListener('load', function() {
+    /* eslint global-require: 0 */
     var slider = require('./node/slider');
 
-    for (var i = 0; i < sliderElems.length; ++i) {
-      slider(sliderElems[i]);
-    }
+    sliderElems.forEach(function(elem) {
+      slider(elem);
+    });
   });
 }());
 

@@ -52,7 +52,8 @@ module.exports = {
       src: [
         './src/*.js',
         './src/node/**/*.js',
-        '!./src/node/**/*.spec.js'
+        '!./src/node/**/*.spec.js',
+        '!./src/node/**/*.spec-helper.js',
       ],
       spec: [
         './src/node/**/*.spec-helper.js',
@@ -94,6 +95,7 @@ module.exports = {
         'init-declarations': 0,
         'id-length': 0,
         'no-undefined': 0,
+        "no-unused-vars": 0,
       },
     }
   },
@@ -104,6 +106,7 @@ function getGlobals() {
     /* Node */
     'require': {},
     'global': {},
+    'module': {},
 
     /* DOM  */
     'Node': {},

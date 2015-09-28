@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @name Other Class Names
  */

@@ -45,8 +45,6 @@ function summonHermes(elem) {
 module.exports = summonHermes;
 module.exports.Phase = Phase;
 
-return;
-
 function getPhase() {
   var priv = this;
   return priv.phase;

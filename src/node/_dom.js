@@ -20,34 +20,34 @@
 
 // from Modernizr
 function getTransitionEventName() {
-  var el = document.createElement('fakeelement');
+  var elem = document.createElement('fakeelement');
   var transitions = {
-    'transition': 'transitionend',
-    'OTransition': 'oTransitionEnd',
-    'MozTransition': 'transitionend',
-    'WebkitTransition': 'webkitTransitionEnd'
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
   };
 
-  for (var t in transitions) {
-    if (el.style[t] !== undefined) {
-      return transitions[t];
+  for (var key in transitions) {
+    if (typeof elem.style[key] !== 'undefined') {
+      return transitions[key];
     }
   }
   return 'transitionend';
 }
 
 function getTransformPropertyName() {
-  var el = document.createElement('fakeelement');
+  var elem = document.createElement('fakeelement');
   var transforms = {
-    'transform': 'transform',
-    'OTransform': '-o-transform',
-    'MozTransform': '-moz-transform',
-    'WebkitTransform': '-webkit-transform'
+    transform: 'transform',
+    OTransform: '-o-transform',
+    MozTransform: '-moz-transform',
+    WebkitTransform: '-webkit-transform',
   };
 
-  for (var t in transforms) {
-    if (el.style[t] !== undefined) {
-      return transforms[t];
+  for (var key in transforms) {
+    if (typeof elem.style[key] !== 'undefined') {
+      return transforms[key];
     }
   }
 }

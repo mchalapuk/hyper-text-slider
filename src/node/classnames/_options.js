@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
  *

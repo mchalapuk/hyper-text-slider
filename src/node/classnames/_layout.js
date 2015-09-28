@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Their usage is limited to:
  *  1. **role-id** - class names are used to identify element's role during slider upgrade,

@@ -75,8 +75,6 @@ var Selector = (function () {
   return selectors;
 }());
 
-return;
-
 // initialization functions
 
 function searchForSlides(elem) {
