@@ -23,9 +23,9 @@ var hermes = require('./hermes');
 describe('hermes,', function() {
 
   var illegalArgs = [
-    { name: 'undefined', value: undefined, },
-    { name: 'null', value: null, },
-    { name: 'not element', value: [], },
+    { name: 'undefined', value: undefined },
+    { name: 'null', value: null },
+    { name: 'not element', value: [] },
   ];
 
   illegalArgs.forEach(function(arg) {
@@ -48,16 +48,16 @@ describe('hermes,', function() {
   });
 
   var phaseChanges = [
-    { title: 'just after creation', phase: null, nextPhase: 'before-transition', },
-    { title: 'in "before-transition" phase', phase: 'before-transition', nextPhase: 'during-transition', },
-    { title: 'in "during-transition" phase', phase: 'during-transition', nextPhase: 'after-transition', },
-    { title: 'in "after-transition" phase', phase: 'after-transition', nextPhase: null, },
+    { title: 'just after creation', phase: null, nextPhase: 'before-transition' },
+    { title: 'in "before-transition" phase', phase: 'before-transition', nextPhase: 'during-transition' },
+    { title: 'in "during-transition" phase', phase: 'during-transition', nextPhase: 'after-transition' },
+    { title: 'in "after-transition" phase', phase: 'after-transition', nextPhase: null },
   ];
 
   phaseChanges.forEach(function(arg, i) {
     describe('when '+ arg.title, function() {
-      arg.phase = (arg.phase === null ? null: 'hermes-'+ arg.phase);
-      arg.nextPhase = (arg.nextPhase === null ? null: 'hermes-'+ arg.nextPhase);
+      arg.phase = arg.phase === null ? null: 'hermes-'+ arg.phase;
+      arg.nextPhase = arg.nextPhase === null ? null: 'hermes-'+ arg.nextPhase;
 
       var hermesElement;
       var testedInstance;
