@@ -31,19 +31,19 @@ describe('slider', function() {
     return elem;
   }
   function createSliderElement(slidesCount) {
-    var slider = create('hermes-layout--slider');
+    var sliderElement = create('hermes-layout--slider');
     while (slidesCount--) {
-      slider.appendChild(create('hermes-layout--slide'));
+      sliderElement.appendChild(create('hermes-layout--slide'));
     }
-    return slider;
+    return sliderElement;
   }
 
   var illegalArgs = [
-    { name: 'undefined', value: undefined, },
-    { name: 'null', value: null, },
-    { name: 'not element', value: [], },
-    { name: 'empty element', value: document.createElement('div'), },
-    { name: 'slider element containing one slide', value: createSliderElement(1), },
+    { name: 'undefined', value: undefined },
+    { name: 'null', value: null },
+    { name: 'not element', value: [] },
+    { name: 'empty element', value: document.createElement('div') },
+    { name: 'slider element containing one slide', value: createSliderElement(1) },
   ];
   illegalArgs.forEach(function(arg) {
     describe('given '+ arg.name +' argument,', function() {
@@ -56,9 +56,9 @@ describe('slider', function() {
   });
 
   var legalArgs = [
-    { name: 'slider element containing 2 slides', value: createSliderElement(2), },
-    { name: 'slider element containing 3 slides', value: createSliderElement(3), },
-    { name: 'slider element containing 10 slides', value: createSliderElement(10), },
+    { name: 'slider element containing 2 slides', value: createSliderElement(2) },
+    { name: 'slider element containing 3 slides', value: createSliderElement(3) },
+    { name: 'slider element containing 10 slides', value: createSliderElement(10) },
   ];
   legalArgs.forEach(function(arg) {
     describe('given '+ arg.name +' argument,', function() {
