@@ -85,6 +85,10 @@ module.exports = {
 
   jshint: {
     globals: {
+      /* Node */
+      'require': {},
+      'global': {},
+
       /* DOM  */
       'Node': {},
       'Element': {},

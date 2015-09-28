@@ -41,23 +41,26 @@ function EventSource() {
 }
 
 function Node(nodeName) {
-  var that = EventSource.call(this);
+  var that = this;
+  EventSource.call(that);
 
   that.nodeName = nodeName;
   that.parentNode = null;
   that.childNodes = [];
 
-  that.appendChild = function (node) {
+  that.appendChild = function(node) {
     if (node.parentNode !== null) {
       node.parentNode.removeChild(node);
     }
     that.childNodes.push(node);
     node.parentNode = that;
   };
-  that.removeChild = function(node) { // TODO tests
+  that.removeChild = function(node) {
+    // TODO tests
     that.childNodes.splice(that.childNodes.indexOf(node), 1);
   };
-  that.insertBefore = function(node, before) { // TODO tests
+  that.insertBefore = function(node, before) {
+    // TODO tests
     that.childNodes.splice(that.childNodes.indexOf(before), 0, node);
   };
 
@@ -65,17 +68,18 @@ function Node(nodeName) {
 }
 
 function Element(nodeName) {
-  var that = Node.call(this, nodeName);
+  var that = this;
+  Node.call(that, nodeName);
 
   that.id = null;
-  that.className = "";
+  that.className = '';
   that.classList = new DOMTokenList(that, 'className');
   that.style = new CSS2Properties();
 
-  that.querySelectorAll = function (selector) {
+  that.querySelectorAll = function(selector) {
     var match = selector.match(/^\.([^\s]+)$/);
     if (!match) {
-      throw "only simple class selectors are supported";
+      throw new Error('only simple class selectors are supported');
     }
 
     var className = match[1];
@@ -89,7 +93,7 @@ function Element(nodeName) {
     return results;
   };
 
-  that.querySelector = function (selector) {
+  that.querySelector = function(selector) {
     var nodes = that.querySelectorAll(selector);
     return nodes[0] || null;
   };
@@ -101,13 +105,13 @@ function DOMTokenList(object, key) {
   var that = this;
 
   that.add = function() {
-    object[key] += ((object[key].length? ' ': '') + [].slice.apply(arguments).join(' '));
+    object[key] += (object[key].length ?' ' :'') + [].slice.apply(arguments).join(' ');
   };
   that.remove = function(token) {
     object[key] = object[key].replace(new RegExp('\\b'+ token +'\\b\\s*'), '').replace(/^\\s*/, '');
   };
   that.contains = function(token) {
-    return (object[key].search(new RegExp('\\b'+ token +'\\b')) !== -1);
+    return object[key].search(new RegExp('\\b'+ token +'\\b')) !== -1;
   };
   Object.defineProperty(that, 'length', {
     get: function() {
@@ -121,7 +125,7 @@ function DOMTokenList(object, key) {
 function CSS2Properties() {
 }
 CSS2Properties.prototype = {
-  'transform': null,
+  transform: null,
 };
 
 function TransitionEndEvent(target, propertyName) {
@@ -153,7 +157,8 @@ function ClickEvent(target) {
 }
 
 function Document() {
-  var that = EventSource.call(this);
+  var that = this;
+  EventSource.call(that);
 
   that.createElement = function(nodeName) {
     return new Element(nodeName);
@@ -163,21 +168,22 @@ function Document() {
 }
 
 function Window(document) {
-  var that = EventSource.call(this);
+  var that = this;
+  EventSource.call(that);
 
   that.document = document;
 
   var idOffset = 0;
   var later = [];
-  that.setTimeout = function(f, t) {
-    var i;
-    for (i = 0; i < later.length; ++i) {
-      if (later[i].timeout > t) {
+  that.setTimeout = function(func, timeout) {
+    var i = 0;
+    for (; i < later.length; ++i) {
+      if (later[i].timeout > timeout) {
         break;
       }
     }
     var id = idOffset + later.length;
-    later.splice(i, 0, { id: id, func: f, timeout: t, args: [].slice.call(arguments, 2), });
+    later.splice(i, 0, { id: id, func: func, timeout: timeout, args: [].slice.call(arguments, 2) });
     return id;
   };
   this.clearTimeout = function(id) {
