@@ -25,15 +25,15 @@ describe('Node', function() {
       testedNode = new Node('TEST');
     });
 
-    it ('has proper node name', function() {
+    it('has proper node name', function() {
       expect(testedNode.nodeName).toEqual('TEST');
     });
 
-    it ('has no child nodes', function() {
+    it('has no child nodes', function() {
       expect(testedNode.childNodes.length).toEqual(0);
     });
 
-    it ('has no parent node', function() {
+    it('has no parent node', function() {
       expect(testedNode.parentNode).toEqual(null);
     });
   });
@@ -47,22 +47,22 @@ describe('Node', function() {
       testedNode.appendChild(childNode);
     });
 
-    it ('has one child node', function() {
+    it('has one child node', function() {
       expect(testedNode.childNodes.length).toEqual(1);
     });
 
-    it ('has proper child node on index 0', function() {
+    it('has proper child node on index 0', function() {
       expect(testedNode.childNodes[0]).toBe(childNode);
     });
 
-    it ('its child node has proper parent node', function() {
+    it('its child node has proper parent node', function() {
       expect(testedNode.childNodes[0].parentNode).toBe(testedNode);
     });
   });
 
   describe('after adding two child nodes', function() {
     var testedNode;
-    var firstChild, secondChild;
+    var firstChild = null, secondChild;
     beforeEach(function() {
       testedNode = new Node('TEST');
       firstChild = new Node('CHILD');
@@ -71,15 +71,15 @@ describe('Node', function() {
       testedNode.appendChild(secondChild);
     });
 
-    it ('has two child nodes', function() {
+    it('has two child nodes', function() {
       expect(testedNode.childNodes.length).toEqual(2);
     });
 
-    it ('has proper child node on index 0', function() {
+    it('has proper child node on index 0', function() {
       expect(testedNode.childNodes[0]).toBe(firstChild);
     });
 
-    it ('has proper child node on index 1', function() {
+    it('has proper child node on index 1', function() {
       expect(testedNode.childNodes[1]).toBe(secondChild);
     });
   });
@@ -129,29 +129,29 @@ describe('Element,', function() {
       title: 'no children',
       children: [],
       querySelector: { '.jay': null, '.silent-bob': null },
-      querySelectorAll: { '.jay': [], '.silent-bob': [] }
+      querySelectorAll: { '.jay': [], '.silent-bob': [] },
     }, {
       title: 'one child without className',
       children: [ nobody ],
       querySelector: { '.jay': null, '.silent-bob': null },
-      querySelectorAll: { '.jay': [], '.silent-bob': [] }
+      querySelectorAll: { '.jay': [], '.silent-bob': [] },
     }, {
       title: 'one child without class ".jay"',
       children: [ jay ],
       querySelector: { '.jay': jay, '.silent-bob': null },
-      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [] }
+      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [] },
     }, {
       title: 'two children with class ".silent-bob"',
       children: [ silentBob, silentBob2 ],
       querySelector: { '.jay': null, '.silent-bob': silentBob },
-      querySelectorAll: { '.jay': [], '.silent-bob': [ silentBob, silentBob2 ] }
+      querySelectorAll: { '.jay': [], '.silent-bob': [ silentBob, silentBob2 ] },
     }, {
       title: 'one child with class ".jay", '+
         'two children with class ".silent-bob", '+
         'four children wihout className',
       children: [ nobody, jay, nobody2, silentBob, nobody3, silentBob2, nobody4 ],
       querySelector: { '.jay': jay, '.silent-bob': silentBob },
-      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [ silentBob, silentBob2 ] }
+      querySelectorAll: { '.jay': [ jay ], '.silent-bob': [ silentBob, silentBob2 ] },
     },
   ];
 
@@ -318,20 +318,20 @@ describe('Window,', function() {
 
   var timeoutTests = [
     {
-      timeouts: { a: 100, },
-      results: { a: [ 0 ], '': [], },
+      timeouts: { a: 100 },
+      results: { 'a': [ 0 ], '': [] },
     },
     {
-      timeouts: { a: 100, b: 200, },
-      results: { ab: [ 0, 1 ], a: [ 0 ], b: [ 1 ], },
+      timeouts: { a: 100, b: 200 },
+      results: { ab: [ 0, 1 ], a: [ 0 ], b: [ 1 ] },
     },
     {
-      timeouts: { a: 100, b: 50, },
-      results: { ba: [ 0, 1 ], a: [ 0 ], b: [ 1 ], },
+      timeouts: { a: 100, b: 50 },
+      results: { ba: [ 0, 1 ], a: [ 0 ], b: [ 1 ] },
     },
     {
-      timeouts: { a: 100, b: 100, c: 100, },
-      results: { abc: [ 0, 1, 2 ], b: [ 1 ], '': [], },
+      timeouts: { a: 100, b: 100, c: 100 },
+      results: { 'abc': [ 0, 1, 2 ], 'b': [ 1 ], '': [] },
     },
   ];
 
@@ -371,8 +371,10 @@ describe('Window,', function() {
           return '#clearTimeout(timeoutIds['+ i +'])';
         });
 
-        describe(clearCalls.length? 'and after calling '+ clearCalls.join(', '):
-          'and not clearing any timeouts', function() {
+        var message = clearCalls.length?
+          'and after calling '+ clearCalls.join(', '):
+          'and not clearing any timeouts';
+        describe(message, function() {
 
           beforeEach(function() {
             timeoutsToBeRemoved.forEach(function(i) {

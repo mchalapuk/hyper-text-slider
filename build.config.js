@@ -83,33 +83,48 @@ module.exports = {
     }
   ],
 
-  jshint: {
-    globals: {
-      /* Node */
-      'require': {},
-      'global': {},
-
-      /* DOM  */
-      'Node': {},
-      'Element': {},
-      'DOMTokenList': {},
-      'TransitionEndEvent': {},
-      'KeyDownEvent': {},
-      'ClickEvent': {},
-      'Document': {},
-      'Window': {},
-
-      /* Browser */
-      'window': {},
-      'document': {},
-
-      /* Jasmine */
-      'describe': {},
-      'it': {},
-      'expect': {},
-      'beforeEach': {},
-      'afterEach': {},
+  lint: {
+    js: {
+      globals: getGlobals(),
     },
+    spec: {
+      globals: getGlobals(),
+      rules: {
+        'max-nested-callbacks': 0,
+        'init-declarations': 0,
+        'id-length': 0,
+        'no-undefined': 0,
+      },
+    }
   },
+};
+
+function getGlobals() {
+  return {
+    /* Node */
+    'require': {},
+    'global': {},
+
+    /* DOM  */
+    'Node': {},
+    'Element': {},
+    'DOMTokenList': {},
+    'TransitionEndEvent': {},
+    'KeyDownEvent': {},
+    'ClickEvent': {},
+    'Document': {},
+    'Window': {},
+
+    /* Browser */
+    'window': {},
+    'document': {},
+
+    /* Jasmine */
+    'describe': {},
+    'it': {},
+    'expect': {},
+    'beforeEach': {},
+    'afterEach': {},
+  };
 };
 
