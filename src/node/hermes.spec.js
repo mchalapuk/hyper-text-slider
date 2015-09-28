@@ -108,7 +108,7 @@ describe('hermes,', function() {
     beforeEach(function() {
       testedInstance = hermes(document.createElement('div'));
       triggerElement = document.createElement('trigger');
-      testedInstance.addPhaseChangeTrigger(triggerElement);
+      testedInstance.addPhaseTrigger(triggerElement);
     });
 
     describe('when transitionend event fires on trigger', function() {
@@ -123,7 +123,7 @@ describe('hermes,', function() {
 
     describe('after detaching trigger', function() {
       beforeEach(function() {
-        testedInstance.removePhaseChangeTrigger(triggerElement);
+        testedInstance.removePhaseTrigger(triggerElement);
       });
 
       describe('when transitionend event fires on trigger', function() {

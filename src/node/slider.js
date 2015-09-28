@@ -17,47 +17,10 @@
 */
 
 'use strict';
+module.exports = initializeSlider;
 
 var hermes = require('./hermes');
 var precond = require('precond');
-
-function initializeSlider(elem) {
-  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-
-  var priv = {};
-  priv.elem = elem;
-  priv.hermes = hermes(elem);
-  priv.hermes.addPhaseChangeListener(onPhaseChange.bind(priv));
-  priv.slides = searchForSlides(elem);
-  precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
-  priv.transitions = searchForTransitions(elem);
-  priv.tempClasses = [];
-  priv.fromIndex = 1;
-  priv.toIndex = 0;
-  priv.chooseTransition = chooseTransition;
-  priv.started = false;
-
-  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
-  upgradeSlides(priv);
-  setOptions(priv);
-
-  var pub = {};
-  pub.start = start.bind(priv);
-  pub.slides = priv.slides;
-  Object.defineProperty(pub.slides, 'currentIndex', {
-    get: function() { return priv.started? priv.toIndex: null; },
-    set: moveTo.bind(priv),
-  });
-  Object.defineProperty(pub.slides, 'current', {
-    get: function() { return priv.started? priv.slides[priv.toIndex]: null; },
-    set: function() { throw "read only property! please use currentIndex instead"; },
-  });
-  pub.moveToNext = moveToNext.bind(priv);
-  pub.moveToPrevious = moveToPrevious.bind(priv);
-  return pub;
-}
-
-module.exports = initializeSlider;
 
 // constants
 
@@ -67,13 +30,57 @@ var Marker = require('./classnames/_markers');
 var Flag = require('./classnames/_flags');
 var Regexp = require('./classnames/_regexps');
 
-var Selector = (function () {
+var Selector = (function() {
   var selectors = {};
   for (var name in Layout) {
     selectors[name] = '.' + Layout[name];
   }
   return selectors;
 }());
+
+// constructor
+
+function initializeSlider(elem) {
+  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
+
+  var priv = {};
+  priv.elem = elem;
+  priv.transitions = searchForTransitions(elem);
+  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
+  priv.hermes = hermes(elem);
+  priv.hermes.addPhaseListener(onPhaseChange.bind(null, priv));
+  priv.slides = searchForSlides(elem);
+  precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
+  priv.tempClasses = [];
+  priv.fromIndex = 1;
+  priv.toIndex = 0;
+  priv.started = false;
+
+  expandOptionGroups(priv);
+  enableControls(priv);
+  enableStartupFeatures(priv);
+  upgradeSlides(priv);
+
+  var pub = {};
+  bindMethods(pub, [
+    start,
+    moveTo,
+    moveToNext,
+    moveToPrevious,
+  ], priv);
+
+  pub.slides = priv.slides;
+  Object.defineProperty(pub.slides, 'currentIndex', {
+    get: function() { return priv.started? priv.toIndex: null; },
+    set: pub.moveTo,
+  });
+  Object.defineProperty(pub.slides, 'current', {
+    get: function() { return priv.started? priv.slides[priv.toIndex]: null; },
+    set: function() { throw new Error('read only property! please use currentIndex instead'); },
+  });
+
+  return pub;
+}
 
 // initialization functions
 
@@ -93,7 +100,7 @@ function searchForTransitions(elem) {
 }
 
 function create() {
-  var elem = document.createElement("div");
+  var elem = document.createElement('div');
   elem.className = [].join.call(arguments, ' ');
   return elem;
 }
@@ -108,7 +115,7 @@ function upgradeSlides(priv) {
       }
       slide.appendChild(content);
     }
-    priv.hermes.addPhaseChangeTrigger(content);
+    priv.hermes.addPhaseTrigger(content);
 
     var background = slide.querySelector(Selector.BACKGROUND);
     if (background === null) {
@@ -117,28 +124,37 @@ function upgradeSlides(priv) {
   });
 }
 
-function setOptions(priv) {
-  var cl = priv.elem.classList;
+function expandOptionGroups(priv) {
+  var list = priv.elem.classList;
 
-  if (cl.contains(Option.DEFAULTS)) {
-    cl.add(Option.AUTOSTART);
-    cl.add(Option.AUTOPLAY);
-    cl.add(Option.ARROW_KEYS);
-    cl.add(Option.CREATE_ARROWS);
-    cl.add(Option.CREATE_DOTS);
+  if (list.contains(Option.DEFAULTS)) {
+    list.add(Option.AUTOSTART);
+    list.add(Option.AUTOPLAY);
+    list.add(Option.ARROW_KEYS);
+    list.add(Option.CREATE_ARROWS);
+    list.add(Option.CREATE_DOTS);
   }
+}
 
-  if (cl.contains(Option.CREATE_ARROWS)) {
+function enableControls(priv) {
+  var list = priv.elem.classList;
+
+  if (list.contains(Option.CREATE_ARROWS)) {
     createArrowButtons(priv);
   }
-  if (cl.contains(Option.CREATE_DOTS)) {
+  if (list.contains(Option.CREATE_DOTS)) {
     createDotButtons(priv);
   }
-  if (cl.contains(Option.ARROW_KEYS)) {
-    window.addEventListener('keydown', keyBasedMove.bind(priv));
+  if (list.contains(Option.ARROW_KEYS)) {
+    window.addEventListener('keydown', keyBasedMove.bind(null, priv));
   }
-  if (cl.contains(Option.AUTOSTART)) {
-    window.setTimeout(start.bind(priv), 100);
+}
+
+function enableStartupFeatures(priv) {
+  var list = priv.elem.classList;
+
+  if (list.contains(Option.AUTOSTART)) {
+    window.setTimeout(start.bind(null, priv), 100);
   }
 }
 
@@ -158,125 +174,131 @@ function createDotButtons(priv) {
 
   for (var i = 0; i < priv.slides.length; ++i) {
     var dot = create(Layout.DOT);
-    dot.addEventListener('click', moveTo.bind(priv, i));
+    dot.addEventListener('click', moveTo.bind(null, priv, i));
     dots.appendChild(dot);
     priv.slides[i].dot = dot;
   }
 }
 
-function keyBasedMove(event) {
-  var priv = this;
-
+function keyBasedMove(priv, event) {
   switch (event.key) {
-    case 'ArrowLeft': moveToPrevious.call(priv); break;
-    case 'ArrowRight': moveToNext.call(priv); break;
+    case 'ArrowLeft': moveToPrevious(priv); break;
+    case 'ArrowRight': moveToNext(priv); break;
+    default: break;
   }
 }
 
-function start() {
+function start(priv) {
   // separate start procedure is needed because
   // only one slide is seen in the first transition
-  var priv = this;
   precond.checkState(!priv.started, 'slider is already started');
   priv.started = true;
 
-  var to = priv.slides[priv.toIndex];
-  to.classList.add(Marker.SLIDE_TO);
-  if (to.id !== null) {
-    addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
+  var firstSlide = priv.slides[priv.toIndex];
+  firstSlide.classList.add(Marker.SLIDE_TO);
+  if (firstSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
   }
-  if (to.dot !== undefined) {
-    to.dot.classList.add(Flag.ACTIVE);
+  if (typeof firstSlide.dot !== 'undefined') {
+    firstSlide.dot.classList.add(Flag.ACTIVE);
   }
 
-  addTempClass.call(priv, priv.chooseTransition());
+  addTempClass(priv, chooseTransition(priv));
   priv.hermes.startTransition();
 }
 
 // slide change functions
 
-function moveToNext() {
-  var priv = this;
-  moveTo.call(priv, (priv.toIndex + 1) % priv.slides.length);
+function moveToNext(priv) {
+  moveTo(priv, (priv.toIndex + 1) % priv.slides.length);
 }
 
-function moveToPrevious() {
-  var priv = this;
-  moveTo.call(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
+function moveToPrevious(priv) {
+  moveTo(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
 }
 
-function moveTo(i) {
-  var priv = this;
+function moveTo(priv, index) {
   precond.checkState(priv.started, 'slider not started');
-  precond.checkIsNumber(i, 'given index is not a number');
+  precond.checkIsNumber(index, 'given index is not a number');
 
-  if (i <= priv.slides.length) {
-    i %= priv.slides.length;
-  }
-  if (i === priv.toIndex) {
+  var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
+  if (priv.toIndex === toIndex) {
     return;
   }
 
-
-  var from = priv.slides[priv.fromIndex];
-  var to = priv.slides[priv.toIndex];
-  from.classList.remove(Marker.SLIDE_FROM);
-  to.classList.remove(Marker.SLIDE_TO);
-  if (to.dot !== undefined) {
-    to.dot.classList.remove(Flag.ACTIVE);
-  }
-  removeTempClasses.call(priv);
+  removeMarkersAndFlags(priv);
+  removeTempClasses(priv);
 
   priv.fromIndex = priv.toIndex;
-  priv.toIndex = i;
-  from = priv.slides[priv.fromIndex];
-  to = priv.slides[priv.toIndex];
-  from.classList.add(Marker.SLIDE_FROM);
-  to.classList.add(Marker.SLIDE_TO);
-  if (to.id !== null) {
-    addTempClass.call(priv, 'hermes-slide-id-'+ to.id);
-  }
-  if (to.dot !== undefined) {
-    to.dot.classList.add(Flag.ACTIVE);
-  }
+  priv.toIndex = toIndex;
 
-  addTempClass.call(priv, priv.chooseTransition());
+  addMarkersAndFlags(priv);
+  var toSlide = priv.slides[priv.toIndex];
+  if (toSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ toSlide.id);
+  }
+  addTempClass(priv, chooseTransition(priv));
+
   priv.hermes.startTransition();
 }
 
-function addTempClass(className) {
-  var priv = this;
+function removeMarkersAndFlags(priv) {
+  var fromSlide = priv.slides[priv.fromIndex];
+  var toSlide = priv.slides[priv.toIndex];
+  fromSlide.classList.remove(Marker.SLIDE_FROM);
+  toSlide.classList.remove(Marker.SLIDE_TO);
+  if (typeof toSlide.dot !== 'undefined') {
+    toSlide.dot.classList.remove(Flag.ACTIVE);
+  }
+}
+
+function addMarkersAndFlags(priv) {
+  var fromSlide = priv.slides[priv.fromIndex];
+  var toSlide = priv.slides[priv.toIndex];
+  fromSlide.classList.add(Marker.SLIDE_FROM);
+  toSlide.classList.add(Marker.SLIDE_TO);
+  if (typeof toSlide.dot !== 'undefined') {
+    toSlide.dot.classList.add(Flag.ACTIVE);
+  }
+}
+
+function addTempClass(priv, className) {
   priv.tempClasses.push(className);
   priv.elem.classList.add(className);
 }
 
-function removeTempClasses() {
-  var priv = this;
+function removeTempClasses(priv) {
   priv.tempClasses.forEach(function(className) {
     priv.elem.classList.remove(className);
   });
   priv.tempClasses = [];
 }
 
-function onPhaseChange(phase) {
-  var priv = this;
+function onPhaseChange(priv, phase) {
   if (phase === 'hermes-after-transition' && priv.elem.classList.contains(Option.AUTOPLAY)) {
-    moveToNext.call(priv);
+    moveToNext(priv);
   }
 }
 
 // transition change functions
 
-function chooseTransition() {
-  var priv = this;
+function chooseTransition(priv) {
   var match = priv.slides[priv.toIndex].className.match(Regexp.TRANSITION);
   return (match? match[0]: false) || random(priv.transitions);
 }
 
 function random(array) {
   if (array.length === 0) {
-    return "hermes-no-transition";
+    return 'hermes-no-transition';
   }
-  return array[parseInt(Math.random() * array.length)];
+  return array[parseInt(Math.random() * array.length, 10)];
+}
+
+// utilities
+
+function bindMethods(wrapper, methods, arg) {
+  methods.forEach(function(method) {
+    wrapper[method.name] = method.bind(wrapper, arg);
+  });
 }
 

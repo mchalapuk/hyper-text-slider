@@ -28,7 +28,7 @@
 
   // defer slider initialization
   window.addEventListener('load', function() {
-    /* eslint global-require: 0 */
+    /* eslint global-require: 0, lines-around-comment: 0 */
     var slider = require('./node/slider');
 
     sliderElems.forEach(function(elem) {

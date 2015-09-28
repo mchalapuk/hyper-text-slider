@@ -29,30 +29,28 @@ function summonHermes(elem) {
   priv.elem = elem;
   priv.phase = null;
   priv.listeners = [];
-  priv.setPhase = setPhase;
 
   var pub = {};
-  pub.getPhase = getPhase.bind(priv);
-  pub.nextPhase = nextPhase.bind(priv);
-  pub.addPhaseChangeListener = addPhaseChangeListener.bind(priv);
-  pub.removePhaseChangeListener = removePhaseChangeListener.bind(priv);
-  pub.addPhaseChangeTrigger = addPhaseChangeTrigger;
-  pub.removePhaseChangeTrigger = removePhaseChangeTrigger;
-  pub.startTransition = startTransition.bind(priv);
+  bindMethods(pub, [
+    getPhase,
+    nextPhase,
+    addPhaseListener,
+    removePhaseListener,
+    addPhaseTrigger,
+    removePhaseTrigger,
+    startTransition,
+  ], priv);
   return pub;
 }
 
 module.exports = summonHermes;
 module.exports.Phase = Phase;
 
-function getPhase() {
-  var priv = this;
+function getPhase(priv) {
   return priv.phase;
 }
 
-function setPhase(phase) {
-  var priv = this;
-
+function setPhase(priv, phase) {
   if (priv.phase !== null) {
     priv.elem.classList.remove(priv.phase);
   }
@@ -66,59 +64,52 @@ function setPhase(phase) {
   });
 }
 
-function addPhaseChangeListener(listener) {
-  var priv = this;
+function addPhaseListener(priv, listener) {
   priv.listeners.push(listener);
 }
 
-function removePhaseChangeListener(listener) {
-  var priv = this;
+function removePhaseListener(priv, listener) {
   priv.listeners.splice(priv.listeners.indexOf(listener), 1);
 }
 
-function nextPhase() {
-  var priv = this;
-
-  if (priv.phase === null) {
-    priv.setPhase(Phase.BEFORE_TRANSITION);
-  } else if (priv.phase === Phase.BEFORE_TRANSITION) {
-    priv.setPhase(Phase.DURING_TRANSITION);
-  } else if (priv.phase === Phase.DURING_TRANSITION) {
-    priv.setPhase(Phase.AFTER_TRANSITION);
-  } else if (priv.phase === Phase.AFTER_TRANSITION) {
-    priv.setPhase(null);
-  }
+function nextPhase(priv) {
+  var phases = [ null, Phase.BEFORE_TRANSITION, Phase.DURING_TRANSITION, Phase.AFTER_TRANSITION ];
+  setPhase(priv, phases[(phases.indexOf(priv.phase) + 1) % phases.length]);
 }
 
-function startTransition() {
-  var priv = this;
-
-  priv.setPhase(Phase.BEFORE_TRANSITION);
+function startTransition(priv) {
+  setPhase(priv, Phase.BEFORE_TRANSITION);
 }
 
-function addPhaseChangeTrigger(elem, transitionProperty) {
+function addPhaseTrigger(priv, elem, transitionProperty) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-  transitionProperty = transitionProperty || 'transform';
-  precond.checkIsString(transitionProperty, 'transitionProperty is not a String');
+  var property = transitionProperty || 'transform';
+  precond.checkIsString(property, 'transitionProperty is not a String');
 
-  if (transitionProperty === "transform") {
-    transitionProperty = dom.transformPropertyName; // maybe a prefixed version
+  if (property === 'transform') {
+    // maybe a prefixed version
+    property = dom.transformPropertyName;
   }
 
-  var pub = this;
-  elem.hermesPhaseChangeTrigger = function(event) {
-    if (event.propertyName !== transitionProperty || event.target !== this) {
+  elem.hermesPhaseTrigger = function(event) {
+    if (event.propertyName !== property || event.target !== this) {
       return;
     }
-    pub.nextPhase();
+    nextPhase(priv);
   };
-  elem.addEventListener(dom.transitionEventName, elem.hermesPhaseChangeTrigger);
+  elem.addEventListener(dom.transitionEventName, elem.hermesPhaseTrigger);
 }
 
-function removePhaseChangeTrigger(elem) {
+function removePhaseTrigger(priv, elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-  precond.checkIsFunction(elem.hermesPhaseChangeTrigger, 'no trigger found on given element');
+  precond.checkIsFunction(elem.hermesPhaseTrigger, 'no trigger found on given element');
 
-  elem.removeEventListener(dom.transitionEventName, elem.hermesPhaseChangeTrigger);
+  elem.removeEventListener(dom.transitionEventName, elem.hermesPhaseTrigger);
+}
+
+function bindMethods(wrapper, methods, arg) {
+  methods.forEach(function(method) {
+    wrapper[method.name] = method.bind(wrapper, arg);
+  });
 }
 

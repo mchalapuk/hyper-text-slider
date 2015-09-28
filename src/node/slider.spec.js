@@ -32,7 +32,7 @@ describe('slider', function() {
   }
   function createSliderElement(slidesCount) {
     var sliderElement = create('hermes-layout--slider');
-    while (slidesCount--) {
+    for (var i = 0; i < slidesCount; ++i) {
       sliderElement.appendChild(create('hermes-layout--slide'));
     }
     return sliderElement;
