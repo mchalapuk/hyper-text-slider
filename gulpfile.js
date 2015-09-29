@@ -7,7 +7,7 @@ var eslint = require('gulp-eslint');
 var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
-var markdox = require('gulp-markdox');
+var markdox = require('gulp-markdox2');
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
@@ -81,7 +81,6 @@ gulp.task('clean:doc', function(cb) {
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
   return gulp.src(files.src)
     .pipe(markdox(files.options))
-    .pipe(concat(files.name +'.md'))
     .pipe(gulp.dest(config.dir.docs))
   ;
 });

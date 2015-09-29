@@ -68,7 +68,6 @@ module.exports = {
       Class Names documentation
     */
     {
-      name: 'class-names',
       src: [
         './src/node/classnames/_layout.js',
         './src/node/classnames/_options.js',
@@ -80,6 +79,7 @@ module.exports = {
       options: {
         formatter: formatter,
         template: './src/docs/class-names.md.ejs',
+        concat: 'class-names.md',
       }
     }
   ],

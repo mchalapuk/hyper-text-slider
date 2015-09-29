@@ -4,7 +4,10 @@
 
 **Table of Contents**
 
-1. [Layout Class Names](#layout-class-names)<ul>
+1. [Flag Class Names](#flag-class-names)<ul>
+<li>[is-upgraded](#is-upgraded)
+<li>[is-active](#is-active)</ul>
+2. [Layout Class Names](#layout-class-names)<ul>
 <li>[hermes-layout--slider](#hermes-layout--slider)
 <li>[hermes-layout--slide](#hermes-layout--slide)
 <li>[hermes-layout--background](#hermes-layout--background)
@@ -15,6 +18,50 @@
 <li>[hermes-layout--arrow-right](#hermes-layout--arrow-right)
 <li>[hermes-layout--dots](#hermes-layout--dots)
 <li>[hermes-layout--dot](#hermes-layout--dot)</ul>
+3. [Transition Marker Class Names](#transition-marker-class-names)<ul>
+<li>[hermes-slide-from](#hermes-slide-from)
+<li>[hermes-slide-to](#hermes-slide-to)</ul>
+4. [Option Class Names](#option-class-names)<ul>
+<li>[hermes-defaults](#hermes-defaults)
+<li>[hermes-autostart](#hermes-autostart)
+<li>[hermes-autoplay](#hermes-autoplay)
+<li>[hermes-create-arrows](#hermes-create-arrows)
+<li>[hermes-create-dots](#hermes-create-dots)
+<li>[hermes-arrow-keys](#hermes-arrow-keys)</ul>
+5. [Transition Phase Class Names](#transition-phase-class-names)<ul>
+<li>[hermes-before-transition](#hermes-before-transition)
+<li>[hermes-during-transition](#hermes-during-transition)
+<li>[hermes-after-transition](#hermes-after-transition)</ul>
+6. [Other Class Names](#other-class-names)<ul>
+<li>[/hermes-transition--([^ ]+)/g](#hermes-transition---g)</ul>
+
+<!-- Start src/node/classnames/_flags.js -->
+
+## Flag Class Names
+
+They are automatically set by the slider. Flag class names MUST NOT be manipulated from
+client HTML or JavaScript and **SHOULD be used only in client CSS**.
+
+### Summary
+
+Name | Description
+--- | ---
+[is-upgraded](#is-upgraded) | Automatically set on slider after its upgrade.
+[is-active](#is-active) | Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
+
+### Details
+
+#### is-upgraded
+
+Automatically set on slider after its upgrade.
+
+#### is-active
+
+Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
+
+*@invariant* - This class is set on only one dot button.
+
+<!-- End src/node/classnames/_flags.js -->
 
 <!-- Start src/node/classnames/_layout.js -->
 
@@ -135,22 +182,39 @@ It may be used in client CSS for styling.
 
 <!-- End src/node/classnames/_layout.js -->
 
-<!-- End Template class-names.md.ejs -->
+<!-- Start src/node/classnames/_markers.js -->
 
+## Transition Marker Class Names
 
-<!-- Start Template class-names.md.ejs -->
+They are automatically set on slide elements ([hermes-layout--slide](#hermes-layout--slide)).
+Marker class names MUST NOT be manipulated from client HTML or JavaScript
+and **SHOULD be used only in definitions of CSS transitions**.
 
-# Class Names
+### Summary
 
-**Table of Contents**
+Name | Description
+--- | ---
+[hermes-slide-from](#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
+[hermes-slide-to](#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](#hermes-layout--slide).
 
-1. [Option Class Names](#option-class-names)<ul>
-<li>[hermes-defaults](#hermes-defaults)
-<li>[hermes-autostart](#hermes-autostart)
-<li>[hermes-autoplay](#hermes-autoplay)
-<li>[hermes-create-arrows](#hermes-create-arrows)
-<li>[hermes-create-dots](#hermes-create-dots)
-<li>[hermes-arrow-keys](#hermes-arrow-keys)</ul>
+### Details
+
+#### hermes-slide-from
+
+Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
+
+*@invariant* - After starting first transition this class name is set on only one slide.
+
+#### hermes-slide-to
+
+Automatically set on currently active [hermes-layout--slide](#hermes-layout--slide).
+
+This class name is set on first slide after starting a slider
+and then set on currently active slide each time it changes.
+
+*@invariant* - After starting slider this class name is set on only one slide.
+
+<!-- End src/node/classnames/_markers.js -->
 
 <!-- Start src/node/classnames/_options.js -->
 
@@ -245,20 +309,6 @@ slide, with `RightArrow` key moves slider to next slide.
 
 <!-- End src/node/classnames/_options.js -->
 
-<!-- End Template class-names.md.ejs -->
-
-
-<!-- Start Template class-names.md.ejs -->
-
-# Class Names
-
-**Table of Contents**
-
-1. [Transition Phase Class Names](#transition-phase-class-names)<ul>
-<li>[hermes-before-transition](#hermes-before-transition)
-<li>[hermes-during-transition](#hermes-during-transition)
-<li>[hermes-after-transition](#hermes-after-transition)</ul>
-
 <!-- Start src/node/classnames/_phases.js -->
 
 ## Transition Phase Class Names
@@ -297,106 +347,6 @@ will be started just after hitting this phase, which will move slider
 back to phase [hermes-before-transition](#hermes-before-transition).
 
 <!-- End src/node/classnames/_phases.js -->
-
-<!-- End Template class-names.md.ejs -->
-
-
-<!-- Start Template class-names.md.ejs -->
-
-# Class Names
-
-**Table of Contents**
-
-1. [Transition Marker Class Names](#transition-marker-class-names)<ul>
-<li>[hermes-slide-from](#hermes-slide-from)
-<li>[hermes-slide-to](#hermes-slide-to)</ul>
-
-<!-- Start src/node/classnames/_markers.js -->
-
-## Transition Marker Class Names
-
-They are automatically set on slide elements ([hermes-layout--slide](#hermes-layout--slide)).
-Marker class names MUST NOT be manipulated from client HTML or JavaScript
-and **SHOULD be used only in definitions of CSS transitions**.
-
-### Summary
-
-Name | Description
---- | ---
-[hermes-slide-from](#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
-[hermes-slide-to](#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](#hermes-layout--slide).
-
-### Details
-
-#### hermes-slide-from
-
-Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
-
-*@invariant* - After starting first transition this class name is set on only one slide.
-
-#### hermes-slide-to
-
-Automatically set on currently active [hermes-layout--slide](#hermes-layout--slide).
-
-This class name is set on first slide after starting a slider
-and then set on currently active slide each time it changes.
-
-*@invariant* - After starting slider this class name is set on only one slide.
-
-<!-- End src/node/classnames/_markers.js -->
-
-<!-- End Template class-names.md.ejs -->
-
-
-<!-- Start Template class-names.md.ejs -->
-
-# Class Names
-
-**Table of Contents**
-
-1. [Flag Class Names](#flag-class-names)<ul>
-<li>[is-upgraded](#is-upgraded)
-<li>[is-active](#is-active)</ul>
-
-<!-- Start src/node/classnames/_flags.js -->
-
-## Flag Class Names
-
-They are automatically set by the slider. Flag class names MUST NOT be manipulated from
-client HTML or JavaScript and **SHOULD be used only in client CSS**.
-
-### Summary
-
-Name | Description
---- | ---
-[is-upgraded](#is-upgraded) | Automatically set on slider after its upgrade.
-[is-active](#is-active) | Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
-
-### Details
-
-#### is-upgraded
-
-Automatically set on slider after its upgrade.
-
-#### is-active
-
-Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
-
-*@invariant* - This class is set on only one dot button.
-
-<!-- End src/node/classnames/_flags.js -->
-
-<!-- End Template class-names.md.ejs -->
-
-
-<!-- Start Template class-names.md.ejs -->
-
-# Class Names
-
-**Table of Contents**
-
-1. [Other Class Names](#other-class-names)<ul>
-<li>[/hermes-transition--([^ ]+)/g](#hermes-transition---g)</ul>
 
 <!-- Start src/node/classnames/_regexps.js -->
 
