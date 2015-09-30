@@ -76,7 +76,7 @@ Package is not published in [npm](https://www.npmjs.com/).
 Please read [build.config.js](build.config.js) file before contributing. Pull
 requests are very welcome!
 
-# License
+## License
 
 [Apache License Version 2.0](LICENSE)
 
