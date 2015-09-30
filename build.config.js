@@ -80,6 +80,7 @@ module.exports = {
         formatter: formatter,
         template: './src/docs/class-names.md.ejs',
         concat: 'class-names.md',
+        skipSingleStar: true,
       }
     }
   ],

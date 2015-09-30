@@ -1,3 +1,24 @@
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+module.exports = format;
+
 var fqnMap = {};
 var nextId = 0;
 
@@ -90,7 +111,9 @@ function format(docfile) {
       get: lazy(function() { return fqnMap[tagValues['parent-element']]; }),
     });
 
-    fqnMap[fqn] = formatted;
+    if (fqn !== '') {
+      fqnMap[fqn] = formatted;
+    }
 
     if (fqn.indexOf('.') === -1) {
       toplevel.push(formatted);
@@ -102,10 +125,6 @@ function format(docfile) {
   result.javadoc = toplevel;
   return result;
 };
-
-module.exports = format;
-
-return;
 
 function getParentByFqn(fqn) {
   var lastDotIndex = fqn.lastIndexOf('.');
@@ -186,7 +205,7 @@ function interpolateProperty(fqn, property) {
 }
 
 function interpolateLink(url) {
-  anchorText = [].slice.call(arguments, 1).join(' ') || url;
+  var anchorText = [].slice.call(arguments, 1).join(' ') || url;
   return '['+ anchorText +'](#'+ url +')';
 }
 
