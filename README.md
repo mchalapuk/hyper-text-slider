@@ -89,3 +89,7 @@ requests are very welcome!
  * Extract DOM spec helpers to another project
  * Optimize size of compiled JavaScript
 
+# License
+
+[Apache 2.0](LICENSE)
+
