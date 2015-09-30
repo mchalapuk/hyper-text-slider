@@ -76,6 +76,10 @@ Package is not published in [npm](https://www.npmjs.com/).
 Please read [build.config.js](build.config.js) file before contributing. Pull
 requests are very welcome!
 
+# License
+
+[Apache License Version 2.0](LICENSE)
+
 ## TODO List
 
  * Write documentation
@@ -88,8 +92,4 @@ requests are very welcome!
  * Create project website
  * Extract DOM spec helpers to another project
  * Optimize size of compiled JavaScript
-
-# License
-
-[Apache License Version 2.0](LICENSE)
 
