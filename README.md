@@ -58,7 +58,7 @@ Package is not published in [npm](https://www.npmjs.com/).
       <h1>Hello, Hermes!</h2>
     </div>
     <div class="hermes-layout--slide" id="transitions">
-      <p>God of Transitions.</p>
+      <p>How's the waether?</p>
     </div>
   </div>
 
