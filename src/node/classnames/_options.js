@@ -20,11 +20,11 @@
 /**
  * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
  *
- * They may be divided into two categories:
+ * Two categories:
  *  1. **single options** - each of which enables one feature,
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
  *
- * Presence of each option class is checked by the slider in one of two ways:
+ * Each option class is checked by the slider in one of two ways:
  *  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
  *    in client HTML, slider will check for it only once during upgrade, adding/removing class
  *    after upgrade make no effect,

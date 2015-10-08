@@ -178,11 +178,11 @@ It may be used in client CSS for styling.
 
 All option classes are intended to be set on slider element ([hermes-layout--slider](#hermes-layout--slider)).
 
-They may be divided into two categories:
+Two categories:
  1. **single options** - each of which enables one feature,
  2. **option groups** - that adds many option classes to the slider during upgrade.
 
-Presence of each option class is checked by the slider in one of two ways:
+Each option class is checked by the slider in one of two ways:
  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
    in client HTML, slider will check for it only once during upgrade, adding/removing class
    after upgrade make no effect,
@@ -388,8 +388,8 @@ After upgrade all declared transitions are removed from slider element.
 
 Transitions may also be declared on [hermes-layout--slide](#hermes-layout--slide) elements. Slider will always
 use transition declared on slide element when moving to this slide. Transition declarations of
-this type are not removed from slide elements, because slider checks for transition class names
-on slides [continuously](#continuously).
+this type are [checked continuously](#continuously), therefore they may be added/removed
+on slides at runtime (client JavaScript).
 
 *@invariant* - Class name of currently running transition is set on slider element.
 
