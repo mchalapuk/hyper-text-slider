@@ -56,6 +56,8 @@ function format(docfile) {
     var multiTagValues = {
       'param': [],
       'summary-column': [],
+      'precondition': [],
+      'postcondition': [],
       'invariant': [],
       'see': [],
     };
@@ -76,6 +78,31 @@ function format(docfile) {
         key: spaceIndex !== -1? tag.substring(0, spaceIndex): tag,
         description: spaceIndex !== -1? tag.substring(spaceIndex + 1): tag,
         full: tag,
+      };
+    });
+    multiTagValues['param'] = multiTagValues['param'].map(function(tag) {
+      var full = tag;
+
+      var type = 'Unkonwn';
+      if (tag.indexOf('{') !== -1) {
+        var typeEnd = tag.indexOf('}');
+        type = tag.substring(1, typeEnd);
+        tag = tag.substring(typeEnd + 2);
+      }
+
+      var name = tag;
+      var description = "";
+      var spaceIndex = tag.indexOf(' ');
+      if (spaceIndex !== -1) {
+        name = tag.substring(0, spaceIndex);
+        description = tag.substring(spaceIndex + 1);
+      }
+
+      return {
+        type: type,
+        name: name,
+        description: description,
+        full: full,
       };
     });
 
@@ -110,9 +137,6 @@ function format(docfile) {
         };
       }),
     });
-    Object.defineProperty(formatted, 'parent', {
-      get: lazy(getParentByFqn.bind(null, fqn)),
-    });
     Object.defineProperty(formatted, 'children', {
       get: lazy(getChildrenByFqn.bind(null, fqn)),
     });
@@ -141,21 +165,18 @@ function format(docfile) {
   return result;
 };
 
-function getParentByFqn(fqn) {
-  var lastDotIndex = fqn.lastIndexOf('.');
-  if (lastDotIndex !== -1) {
-    var parentFqn = fqn.substring(0, lastDotIndex);
-    return fqnMap[fqn];
-  } else {
-    return null;
-  }
-}
-
 function getChildrenByFqn(fqn) {
   var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
 
+  function isChild(name) {
+    return name.indexOf(fqn) === 0 && level === name.split('.').length;
+  }
+  function isChildOfPrototype(name) {
+    return name.indexOf(fqn +'.prototype') === 0 && level === name.split('.').length - 1;
+  }
+
   return Object.keys(fqnMap)
-    .filter(function(name) { return name.indexOf(fqn) === 0 && level === name.split('.').length; })
+    .filter(function(name) { return isChild(name) || isChildOfPrototype(name); })
     .map(function(name) { return fqnMap[name]; })
     .sort(function(a, b) { return a.commentId > b.commentId; })
     ;

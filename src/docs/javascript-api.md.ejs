@@ -21,13 +21,20 @@
   name.toLowerCase().replace(/ /g, '-').replace(new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g'), '')
 ?>)<? } ?>
 
-<? function fieldSignature(comment) { ?><?= comment.fqn ?>)<? } ?>
-<? function methodSignature(comment) { ?><?= comment.fqn ?>)<? } ?>
-<? function signature(comment) { ?><?=
-  comment.type === 'property'? fieldSignature(comment): methodSignature(comment)
-?><? } ?>
+<? function fieldSignature(comment) { return comment.fqn; } ?>
+<? function paramList(comment) { return comment.multiTags.param.map(function(p) { return p.name; }).join(', '); } ?>
+<? function methodSignature(comment) { return comment.fqn +'('+ paramList(comment) +')'; } ?>
+<? function signature(comment) {
+  return comment.type === 'property'? fieldSignature(comment): methodSignature(comment);
+} ?>
 
 <? function printMultitags(comment) { ?>
+  <? comment.multiTags.precondition.forEach(function(precondition) { ?>
+    *@precondition* - <?= precondition ?>
+  <? }) ?>
+  <? comment.multiTags.postcondition.forEach(function(postcondition) { ?>
+    *@postcondition* - <?= postcondition ?>
+  <? }) ?>
   <? comment.multiTags.invariant.forEach(function(invariant) { ?>
     *@invariant* - <?= invariant ?>
   <? }) ?>
@@ -44,7 +51,7 @@
   <? doc.javadoc.forEach(function(type) { ?><? if (type.ignore) { return } ?><?= ++i
     ?>. <? link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
       if (child.ignore) { return } ?>
-      <li><? signature(child) ?><?
+      <li><?= signature(child) ?><?
     }) ?></ul><?
   }) ?><?
 }) ?>
@@ -62,10 +69,10 @@
     ### Summary
 
     Name | Description
-    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
+    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
       fieldSignature(row) ?> | <?= row.description.summary ?>
     <? }) ?>
-    <? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
+    <? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
       methodSignature(row) ?> | <?= row.description.summary ?>
     <? }) ?>
 
