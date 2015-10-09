@@ -1583,6 +1583,11 @@ var Selector = (function() {
 
 // constructor
 
+/**
+ * Slider controller.
+ *
+ * @fqn Slider
+ */
 function initializeSlider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 

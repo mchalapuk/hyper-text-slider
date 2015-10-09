@@ -116,6 +116,21 @@ module.exports = {
         skipSingleStar: true,
       }
     },
+
+    /*
+      Slider JavaScript API
+    */
+    {
+      src: [
+        './src/node/slider.js',
+      ],
+      options: {
+        formatter: formatter,
+        template: './src/docs/javascript-api.md.ejs',
+        concat: 'javascript-api.md',
+        skipSingleStar: true,
+      }
+    },
   ],
 
   lint: {
