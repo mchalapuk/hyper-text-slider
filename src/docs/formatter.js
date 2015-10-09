@@ -54,6 +54,7 @@ function format(docfile) {
       'deprecated': false,
     };
     var multiTagValues = {
+      'param': [],
       'summary-column': [],
       'invariant': [],
       'see': [],
@@ -115,6 +116,12 @@ function format(docfile) {
     Object.defineProperty(formatted, 'children', {
       get: lazy(getChildrenByFqn.bind(null, fqn)),
     });
+    Object.defineProperty(formatted, 'fields', {
+      get: lazy(filterChildrenByType.bind(null, formatted, 'property')),
+    });
+    Object.defineProperty(formatted, 'methods', {
+      get: lazy(filterChildrenByType.bind(null, formatted, 'function')),
+    });
     Object.defineProperty(formatted, 'parentElement', {
       get: lazy(function() { return fqnMap[tagValues['parent-element']]; }),
     });
@@ -152,6 +159,10 @@ function getChildrenByFqn(fqn) {
     .map(function(name) { return fqnMap[name]; })
     .sort(function(a, b) { return a.commentId > b.commentId; })
     ;
+}
+
+function filterChildrenByType(comment, type) {
+  return comment.children.filter(function(child) { return child.type === type; });
 }
 
 function interpolate(str) {
