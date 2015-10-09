@@ -1,0 +1,100 @@
+<!--
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+
+<!-- Start Template javascript-api.md.ejs -->
+<? function link(name) { ?>[<?= name ?>](#<?=
+  name.toLowerCase().replace(/ /g, '-').replace(new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g'), '')
+?>)<? } ?>
+
+<? function fieldSignature(comment) { ?><?= comment.fqn ?>)<? } ?>
+<? function methodSignature(comment) { ?><?= comment.fqn ?>)<? } ?>
+<? function signature(comment) { ?><?=
+  comment.type === 'property'? fieldSignature(comment): methodSignature(comment)
+?><? } ?>
+
+<? function printMultitags(comment) { ?>
+  <? comment.multiTags.invariant.forEach(function(invariant) { ?>
+    *@invariant* - <?= invariant ?>
+  <? }) ?>
+  <? comment.multiTags.see.forEach(function(see) { ?>
+    *@see* - <?= see ?>
+  <? }) ?>
+<? } ?>
+
+# Slider JavaScript API
+
+**Table of Contents**
+
+<? var i = 0; docfiles.forEach(function(doc) { ?>
+  <? doc.javadoc.forEach(function(type) { ?><? if (type.ignore) { return } ?><?= ++i
+    ?>. <? link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
+      if (child.ignore) { return } ?>
+      <li><? signature(child) ?><?
+    }) ?></ul><?
+  }) ?><?
+}) ?>
+
+<? docfiles.forEach(function(doc) { ?>
+  <!-- Start <?= doc.filename ?> -->
+
+  <? doc.javadoc.forEach(function(type) { ?>
+    <? if (type.ignore) { return } ?>
+    ## <?= type.fqn ?>
+
+    <?= type.description.full ?>
+    <? printMultitags(type) ?>
+
+    ### Summary
+
+    Name | Description
+    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
+      fieldSignature(row) ?> | <?= row.description.summary ?>
+    <? }) ?>
+    <? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
+      methodSignature(row) ?> | <?= row.description.summary ?>
+    <? }) ?>
+
+    ### Fields
+
+    <? type.fields.forEach(function(field) { ?>
+      <? if (field.ignore) { return } ?>
+      #### <?= fieldSignature(field) ?>
+
+      <?= field.description.full ?>
+      <? printMultitags(field) ?>
+    <? }) ?>
+
+    ### Methods
+
+    <? type.methods.forEach(function(method) { ?>
+      <? if (method.ignore) { return } ?>
+      #### <?= methodSignature(method) ?>
+
+      <? method.multiTags.param.forEach(function(param) { ?>
+        *@param* `{<?= param.type ?>}` <?= param.name ?> - <?= param.description ?>
+      <? }) ?>
+
+      <?= method.description.full ?>
+      <? printMultitags(method) ?>
+    <? }) ?>
+  <? }) ?>
+
+  <!-- End <?= doc.filename ?> -->
+<? }) ?>
+<!-- End Template javascript-api.md.ejs -->
+
