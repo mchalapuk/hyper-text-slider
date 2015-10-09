@@ -18,7 +18,7 @@ limitations under the License.
 
 <!-- Start Template class-names.md.ejs -->
 
-# Class Names
+# CSS Class Names
 
 **Table of Contents**
 
