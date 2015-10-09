@@ -1558,8 +1558,13 @@ function bindMethods(wrapper, methods, arg) {
    limitations under the License.
 
 */
-
 'use strict';
+
+/**
+ * Slider controller.
+ *
+ * @fqn Slider
+ */
 module.exports = initializeSlider;
 
 var hermes = require('./hermes');
@@ -1584,9 +1589,15 @@ var Selector = (function() {
 // constructor
 
 /**
- * Slider controller.
+ * Constructs the slider.
  *
- * @fqn Slider
+ * ```javascript
+ * var slider = new Slider(document.getElementById('my-slider'));
+ * ```
+ *
+ * @param {Element} elem DOM element for the slider
+ *
+ * @fqn Slider.prototype.constructor
  */
 function initializeSlider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
@@ -1736,6 +1747,17 @@ function keyBasedMove(priv, event) {
   }
 }
 
+/**
+ * Shows first slide.
+ *
+ * Starts the slider mechanism.
+ *
+ * @precondition ${link Slider.start} was not called on this slider
+ * @postcondition calling ${link Slider.start} again will throw exception
+ * @see ${value Option.AUTOSTART}
+ *
+ * @fqn Slider.prototype.start
+ */
 function start(priv) {
   // separate start procedure is needed because
   // only one slide is seen in the first transition
@@ -1757,14 +1779,37 @@ function start(priv) {
 
 // slide change functions
 
+/**
+ * Moves slider to next slide.
+ *
+ * @precondition ${link Slider.start} was called on this slider
+ * @see ${value Option.AUTOPLAY}
+ *
+ * @fqn Slider.prototype.moveToNext
+ */
 function moveToNext(priv) {
   moveTo(priv, (priv.toIndex + 1) % priv.slides.length);
 }
 
+/**
+ * Moves slider previous slide.
+ *
+ * @precondition ${link Slider.start} was called on this slider
+ *
+ * @fqn Slider.prototype.moveToPrevious
+ */
 function moveToPrevious(priv) {
   moveTo(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
 }
 
+/**
+ * Moves slider slide of given index.
+ *
+ * @param {Number} index index of the slide that slider will be moved to
+ * @precondition ${link Slider.start} was called on this slider
+ *
+ * @fqn Slider.prototype.moveTo
+ */
 function moveTo(priv, index) {
   precond.checkState(priv.started, 'slider not started');
   precond.checkIsNumber(index, 'given index is not a number');
