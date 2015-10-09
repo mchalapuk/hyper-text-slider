@@ -74,8 +74,8 @@ gulp.task('clean:dist', function(cb) {
 
 gulp.task('dist', [ 'clean:dist', 'sass', 'spec', 'javascript' ]);
 
-gulp.task('clean:doc', function(cb) {
-  return del([ '${config.dir.docs}**/*', '!${config.dir.docs}' ], { force: true }, cb);
+gulp.task('clean:doc', function(callback) {
+  return del([ '${config.dir.docs}**/*', '!${config.dir.docs}' ], { force: true }, callback);
 });
 
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
@@ -89,13 +89,14 @@ gulp.task('default', [ 'dist', 'doc' ]);
 
 gulp.task('watch', [ 'default' ], function() {
   var flatten = function(result, elem) {
-    return result.concat(elem[this]);
+    return result.concat(this.reduce(function(elem, key) { return elem[key]; }, elem));
   };
 
-  gulp.watch(config.css.reduce(flatten.bind('src'), []), [ 'sass' ]);
-  gulp.watch(config.js.reduce(flatten.bind('src'), []), [ 'javascript', 'spec' ]);
-  gulp.watch(config.js.reduce(flatten.bind('spec'), []), [ 'spec' ]);
-  gulp.watch(config.doc.reduce(flatten.bind('src'), []), [ 'doc' ]);
+  gulp.watch(config.css.reduce(flatten.bind([ 'src' ]), []), [ 'sass' ]);
+  gulp.watch(config.js.reduce(flatten.bind([ 'src' ]), []), [ 'javascript', 'spec' ]);
+  gulp.watch(config.js.reduce(flatten.bind([ 'spec' ]), []), [ 'spec' ]);
+  gulp.watch(config.doc.reduce(flatten.bind([ 'src' ]), []), [ 'doc' ]);
+  gulp.watch(config.doc.reduce(flatten.bind([ 'options', 'template' ]), []), [ 'doc' ]);
 
   connect.server({
     root: [ 'examples', 'dist' ],
