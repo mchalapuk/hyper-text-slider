@@ -79,6 +79,8 @@ gulp.task('clean:doc', function(callback) {
 });
 
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
+  config.doc.formatter.reset();
+
   return gulp.src(files.src)
     .pipe(markdox(files.options))
     .pipe(gulp.dest(config.dir.docs))

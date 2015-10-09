@@ -1,4 +1,34 @@
+'use strict';
+
 var formatter = require('./src/docs/formatter');
+
+var lintGlobals = {
+  /* Node */
+  'require': {},
+  'global': {},
+  'module': {},
+
+  /* DOM  */
+  'Node': {},
+  'Element': {},
+  'DOMTokenList': {},
+  'TransitionEndEvent': {},
+  'KeyDownEvent': {},
+  'ClickEvent': {},
+  'Document': {},
+  'Window': {},
+
+  /* Browser */
+  'window': {},
+  'document': {},
+
+  /* Jasmine */
+  'describe': {},
+  'it': {},
+  'expect': {},
+  'beforeEach': {},
+  'afterEach': {},
+};
 
 module.exports = {
   dir: {
@@ -62,10 +92,13 @@ module.exports = {
     }
   ],
 
+  /*
+    Documentation:
+   */
   doc: [
 
     /*
-      Class Names documentation
+      CSS Class Names
     */
     {
       src: [
@@ -82,15 +115,15 @@ module.exports = {
         concat: 'class-names.md',
         skipSingleStar: true,
       }
-    }
+    },
   ],
 
   lint: {
     js: {
-      globals: getGlobals(),
+      globals: lintGlobals,
     },
     spec: {
-      globals: getGlobals(),
+      globals: lintGlobals,
       rules: {
         'max-nested-callbacks': 0,
         'init-declarations': 0,
@@ -102,33 +135,5 @@ module.exports = {
   },
 };
 
-function getGlobals() {
-  return {
-    /* Node */
-    'require': {},
-    'global': {},
-    'module': {},
-
-    /* DOM  */
-    'Node': {},
-    'Element': {},
-    'DOMTokenList': {},
-    'TransitionEndEvent': {},
-    'KeyDownEvent': {},
-    'ClickEvent': {},
-    'Document': {},
-    'Window': {},
-
-    /* Browser */
-    'window': {},
-    'document': {},
-
-    /* Jasmine */
-    'describe': {},
-    'it': {},
-    'expect': {},
-    'beforeEach': {},
-    'afterEach': {},
-  };
-};
+module.exports.doc.formatter = formatter;
 

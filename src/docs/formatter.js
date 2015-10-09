@@ -18,11 +18,19 @@
 
 'use strict';
 module.exports = format;
+module.exports.reset = reset;
 
-var fqnMap = {};
-var nextId = 0;
+reset();
 
-var currentDoc = null;
+var fqnMap;
+var nextId;
+var currentDoc;
+
+function reset() {
+  fqnMap = {};
+  nextId = 0;
+  currentDoc = null;
+}
 
 function err() {
   throw 'error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
@@ -38,7 +46,7 @@ function format(docfile) {
 
     var type = (javadoc.ctx && javadoc.ctx.type);
     var name = (javadoc.ctx && typeof javadoc.ctx.name === 'string') ? javadoc.ctx.name : '';
-    var value = (javadoc.ctx? javadoc.ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '');
+    var value = (javadoc.ctx && javadoc.ctx.value? javadoc.ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '');
     var description = javadoc.description;
     description.summary = description.summary.replace(/\n/g, '');
 
