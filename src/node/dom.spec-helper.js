@@ -15,9 +15,11 @@
    limitations under the License.
 
 */
-
 'use strict';
 
+/*
+  eslint-env node
+*/
 function EventSource() {
   var that = this;
 

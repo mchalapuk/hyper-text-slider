@@ -2,34 +2,6 @@
 
 var formatter = require('./src/docs/formatter');
 
-var lintGlobals = {
-  /* Node */
-  'require': {},
-  'global': {},
-  'module': {},
-
-  /* DOM  */
-  'Node': {},
-  'Element': {},
-  'DOMTokenList': {},
-  'TransitionEndEvent': {},
-  'KeyDownEvent': {},
-  'ClickEvent': {},
-  'Document': {},
-  'Window': {},
-
-  /* Browser */
-  'window': {},
-  'document': {},
-
-  /* Jasmine */
-  'describe': {},
-  'it': {},
-  'expect': {},
-  'beforeEach': {},
-  'afterEach': {},
-};
-
 module.exports = {
   dir: {
     build: './dist/',
@@ -70,6 +42,9 @@ module.exports = {
     },
   ],
 
+  /*
+    Entries with `main` property will be conpiled (browserified and minified) into build folder.
+  */
   js: [
 
     /*
@@ -89,7 +64,7 @@ module.exports = {
         './src/node/**/*.spec-helper.js',
         './src/node/**/*.spec.js',
       ],
-    }
+    },
   ],
 
   /*
@@ -132,22 +107,6 @@ module.exports = {
       }
     },
   ],
-
-  lint: {
-    js: {
-      globals: lintGlobals,
-    },
-    spec: {
-      globals: lintGlobals,
-      rules: {
-        'max-nested-callbacks': 0,
-        'init-declarations': 0,
-        'id-length': 0,
-        'no-undefined': 0,
-        "no-unused-vars": 0,
-      },
-    }
-  },
 };
 
 module.exports.doc.formatter = formatter;

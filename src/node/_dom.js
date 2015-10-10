@@ -15,8 +15,11 @@
    limitations under the License.
 
 */
-
 'use strict';
+
+/*
+  eslint-env node, browser
+*/
 
 // from Modernizr
 function getTransitionEventName() {

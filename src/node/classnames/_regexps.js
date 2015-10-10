@@ -15,7 +15,12 @@
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * @name Other Class Names

@@ -832,9 +832,11 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
    limitations under the License.
 
 */
-
 'use strict';
 
+/*
+  eslint-env node, browser
+*/
 (function() {
 
   // turn off vanilla behavior (vertical scroll bar)
@@ -873,8 +875,11 @@ module.exports.IllegalArgumentError = IllegalArgumentError;
    limitations under the License.
 
 */
-
 'use strict';
+
+/*
+  eslint-env node, browser
+*/
 
 // from Modernizr
 function getTransitionEventName() {
@@ -937,7 +942,12 @@ module.exports = {
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
@@ -985,7 +995,12 @@ module.exports = Flag;
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * Their usage is limited to:
@@ -1163,7 +1178,12 @@ module.exports = Layout;
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * They are automatically set on slide elements (${link ${value Layout.SLIDE}}).
@@ -1217,7 +1237,12 @@ module.exports = Marker;
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
@@ -1333,7 +1358,12 @@ module.exports = Option;
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
@@ -1394,7 +1424,12 @@ module.exports = Phase;
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * @name Other Class Names
@@ -1441,9 +1476,11 @@ module.exports = Regexp;
    limitations under the License.
 
 */
-
 'use strict';
 
+/*
+  eslint-env node, browser
+*/
 var precond = require('precond');
 var dom = require('./_dom');
 var Phase = require('./classnames/_phases');
@@ -1560,15 +1597,18 @@ function bindMethods(wrapper, methods, arg) {
 */
 'use strict';
 
+/*
+  eslint-env node, browser
+*/
+var hermes = require('./hermes');
+var precond = require('precond');
+
 /**
  * Slider controller.
  *
  * @fqn Slider
  */
 module.exports = initializeSlider;
-
-var hermes = require('./hermes');
-var precond = require('precond');
 
 // constants
 

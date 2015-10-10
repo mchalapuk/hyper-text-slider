@@ -15,7 +15,12 @@
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * They are automatically set on slide elements (${link ${value Layout.SLIDE}}).

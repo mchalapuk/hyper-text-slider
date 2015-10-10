@@ -38,7 +38,7 @@ task('sass', [], config.css, function(files) {
 
 task('lint:javascript', [], config.js, function(files) {
   return gulp.src(files.src)
-    .pipe(eslint(config.lint.js))
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
   ;
@@ -56,7 +56,7 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
 
 task('lint:spec', [], config.js, function(files) {
   return gulp.src(files.spec)
-    .pipe(eslint(config.lint.spec))
+    .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError())
   ;

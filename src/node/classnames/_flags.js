@@ -15,7 +15,12 @@
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * They are automatically set by the slider. Flag class names MUST NOT be manipulated from

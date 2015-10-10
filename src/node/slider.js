@@ -17,15 +17,18 @@
 */
 'use strict';
 
+/*
+  eslint-env node, browser
+*/
+var hermes = require('./hermes');
+var precond = require('precond');
+
 /**
  * Slider controller.
  *
  * @fqn Slider
  */
 module.exports = initializeSlider;
-
-var hermes = require('./hermes');
-var precond = require('precond');
 
 // constants
 

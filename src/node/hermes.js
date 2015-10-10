@@ -15,9 +15,11 @@
    limitations under the License.
 
 */
-
 'use strict';
 
+/*
+  eslint-env node, browser
+*/
 var precond = require('precond');
 var dom = require('./_dom');
 var Phase = require('./classnames/_phases');

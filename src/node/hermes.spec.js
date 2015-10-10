@@ -15,8 +15,22 @@
    limitations under the License.
 
 */
-
 'use strict';
+
+/*
+  eslint-env node, browser, jasmine
+*/
+/*
+  global TransitionEndEvent
+*/
+/*
+  eslint
+    max-nested-callbacks: 0,
+    init-declarations: 0,
+    id-length: 0,
+    no-undefined: 0,
+    no-unused-vars: 0
+*/
 
 var hermes = require('./hermes');
 

@@ -15,7 +15,12 @@
    limitations under the License.
 
 */
+
 'use strict';
+
+/*
+  eslint-env node
+*/
 
 /**
  * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
