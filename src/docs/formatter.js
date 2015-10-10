@@ -17,14 +17,17 @@
 */
 
 'use strict';
+
+/*
+  eslint-env node
+*/
+
 module.exports = format;
 module.exports.reset = reset;
 
-reset();
-
-var fqnMap;
-var nextId;
-var currentDoc;
+var fqnMap = {};
+var nextId = 0;
+var currentDoc = null;
 
 function reset() {
   fqnMap = {};
@@ -33,25 +36,29 @@ function reset() {
 }
 
 function err() {
-  throw 'error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
-    [].map.call(arguments, function(line) {return '  '+ line; }).join('\n');
+  throw new Error('error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
+    [].map.call(arguments, function(line) { return '    '+ line; }).join('\n'));
+}
+function check(condition) {
+  if (!condition) {
+    err.apply(null, [].slice.call(arguments, 1));
+  }
+  return condition;
 }
 
 function format(docfile) {
   var toplevel = [];
 
-  docfile.javadoc.forEach(function(javadoc){
+  docfile.javadoc.forEach(function(javadoc) {
     javadoc.filename = docfile.filename;
     currentDoc = javadoc;
 
-    var type = (javadoc.ctx && javadoc.ctx.type);
-    var name = (javadoc.ctx && typeof javadoc.ctx.name === 'string') ? javadoc.ctx.name : '';
-    var value = (javadoc.ctx && javadoc.ctx.value? javadoc.ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '');
-    var description = javadoc.description;
-    description.summary = description.summary.replace(/\n/g, '');
+    var type = getType(javadoc.ctx);
+    var name = getName(javadoc.ctx);
+    var value = getValue(javadoc.ctx);
 
     var tagValues = {
-      'deprecated': false,
+      deprecated: false,
     };
     var multiTagValues = {
       'param': [],
@@ -63,51 +70,22 @@ function format(docfile) {
     };
 
     javadoc.tags.forEach(function(tag) {
-      var value = tag.url || tag.local || tag.string;
+      var tagValue = tag.url || tag.local || tag.string;
 
       if (tag.type in multiTagValues) {
-        multiTagValues[tag.type].push(value);
+        multiTagValues[tag.type].push(tagValue);
       } else {
-        tagValues[tag.type] = value;
+        tagValues[tag.type] = tagValue;
       }
     });
 
-    multiTagValues['summary-column'] = multiTagValues['summary-column'].map(function(tag) {
-      var spaceIndex = tag.indexOf(' ');
-      return {
-        key: spaceIndex !== -1? tag.substring(0, spaceIndex): tag,
-        description: spaceIndex !== -1? tag.substring(spaceIndex + 1): tag,
-        full: tag,
-      };
-    });
-    multiTagValues['param'] = multiTagValues['param'].map(function(tag) {
-      var full = tag;
-
-      var type = 'Unkonwn';
-      if (tag.indexOf('{') !== -1) {
-        var typeEnd = tag.indexOf('}');
-        type = tag.substring(1, typeEnd);
-        tag = tag.substring(typeEnd + 2);
-      }
-
-      var name = tag;
-      var description = "";
-      var spaceIndex = tag.indexOf(' ');
-      if (spaceIndex !== -1) {
-        name = tag.substring(0, spaceIndex);
-        description = tag.substring(spaceIndex + 1);
-      }
-
-      return {
-        type: type,
-        name: name,
-        description: description,
-        full: full,
-      };
+    processMultiTags(multiTagValues, {
+      'summary-column': processSummaryColumnTags,
+      'param': processParamTags,
     });
 
-    var fqn = tagValues.fqn? tagValues.fqn: name;
-    name = tagValues.name? tagValues.name: name
+    var fqn = tagValues.fqn || name;
+    name = tagValues.name || name;
 
     if (fqn in fqnMap) {
       err('found second element of fqn='+ fqn,
@@ -127,43 +105,52 @@ function format(docfile) {
       raw: javadoc,
     };
 
-    // properties that may need other comments to be formatted are lazy-loaded
-    Object.defineProperty(formatted, 'description', {
-      get: lazy(function() {
+    register(formatted);
+
+    // properties, that may need other comments
+    // to be registered, are lazy-loaded
+    defineProperties(formatted, {
+      description: lazy(function() {
         return {
-          summary: interpolate(description.summary),
-          body: interpolate(description.body),
-          full: interpolate(description.full),
+          summary: interpolate(javadoc.description.summary.replace(/\n/g, '')),
+          body: interpolate(javadoc.description.body),
+          full: interpolate(javadoc.description.full),
         };
       }),
+      children: lazy(getChildrenByFqn.bind(null, fqn)),
+      fields: lazy(filterChildrenByType.bind(null, formatted, 'property')),
+      methods: lazy(filterChildrenByType.bind(null, formatted, 'function')),
+      parentElement: lazy(function() { return fqnMap[tagValues['parent-element']]; }),
     });
-    Object.defineProperty(formatted, 'children', {
-      get: lazy(getChildrenByFqn.bind(null, fqn)),
-    });
-    Object.defineProperty(formatted, 'fields', {
-      get: lazy(filterChildrenByType.bind(null, formatted, 'property')),
-    });
-    Object.defineProperty(formatted, 'methods', {
-      get: lazy(filterChildrenByType.bind(null, formatted, 'function')),
-    });
-    Object.defineProperty(formatted, 'parentElement', {
-      get: lazy(function() { return fqnMap[tagValues['parent-element']]; }),
-    });
+  });
 
-    if (fqn !== '') {
-      fqnMap[fqn] = formatted;
+  function register(formatted) {
+    var fqn = formatted.fqn;
+    if (fqn === '') {
+      return;
     }
+    fqnMap[fqn] = formatted;
 
     if (fqn.indexOf('.') === -1) {
       toplevel.push(formatted);
     }
-  });
+  }
 
   var result = {};
   result.filename = docfile.filename;
   result.javadoc = toplevel;
   return result;
-};
+}
+
+function getType(ctx) {
+  return ctx && ctx.type? ctx.type: '';
+}
+function getName(ctx) {
+  return ctx && ctx.name? ctx.name: '';
+}
+function getValue(ctx) {
+  return ctx && ctx.value? ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '';
+}
 
 function getChildrenByFqn(fqn) {
   var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
@@ -178,7 +165,7 @@ function getChildrenByFqn(fqn) {
   return Object.keys(fqnMap)
     .filter(function(name) { return isChild(name) || isChildOfPrototype(name); })
     .map(function(name) { return fqnMap[name]; })
-    .sort(function(a, b) { return a.commentId > b.commentId; })
+    .sort(function(left, right) { return left.commentId > right.commentId; })
     ;
 }
 
@@ -186,54 +173,137 @@ function filterChildrenByType(comment, type) {
   return comment.children.filter(function(child) { return child.type === type; });
 }
 
-function interpolate(str) {
-  var retVal = '';
-  var i = 0;
+function processMultiTags(multiTagValues, processFunctions) {
+  Object.keys(processFunctions).forEach(function(tagName) {
+    multiTagValues[tagName] = multiTagValues[tagName].map(processFunctions[tagName]);
+  });
+}
 
-  while (true) {
-    var startIndex = str.indexOf('${', i);
-    if (startIndex === -1) {
-      retVal += str.substring(i);
-      break;
-    }
+function processSummaryColumnTags(tag) {
+  var spaceIndex = tag.indexOf(' ');
+  return {
+    key: spaceIndex !== -1? tag.substring(0, spaceIndex): tag,
+    description: spaceIndex !== -1? tag.substring(spaceIndex + 1): tag,
+    full: tag,
+  };
+}
 
-    retVal += str.substring(i, startIndex);
-    var endIndex = str.indexOf('}', startIndex);
-    if (endIndex === -1) {
-      err('unclosed variable: "'+ str +'"');
-    }
-
-    var variable = str.substring(startIndex + 2, endIndex);
-    var openBrackets = variable.match(/{/g);
-    if (openBrackets) {
-      for (var i = 0; i < openBrackets.length; ++i) {
-        endIndex = str.indexOf('}', endIndex + 1);
-        if (endIndex === -1) {
-          err('unclosed variable: "'+ str +'"');
-        }
-      }
-      variable = str.substring(startIndex + 2, endIndex);
-    }
-
-    var spaceIndex = variable.indexOf(' ');
-    if (spaceIndex === -1) {
-      err('no space found in variable: "'+ str +'"');
-    }
-
-    var command = variable.substring(0, spaceIndex);
-    var argument = interpolate(variable.substring(spaceIndex + 1));
-
-    switch (command) {
-      case 'name': retVal += interpolateProperty(argument, 'name'); break;
-      case 'hash': retVal += toGithubHashLink(interpolateProperty(argument, 'name')); break;
-      case 'value': retVal += interpolateProperty(argument, 'value'); break;
-      case 'link': retVal += interpolateLink.apply(null, argument.split(' ')); break;
-      default: err('unknown command in: '+ variable);
-    }
-
-    i = endIndex + 1;
+function processParamTags(tag) {
+  var type = 'Unkonwn';
+  var nameAndDesc = tag;
+  if (tag.indexOf('{') !== -1) {
+    var typeEnd = tag.indexOf('}');
+    type = tag.substring(1, typeEnd);
+    nameAndDesc = tag.substring(typeEnd + 2);
   }
-  return retVal
+
+  var name = nameAndDesc;
+  var description = '';
+  var spaceIndex = nameAndDesc.indexOf(' ');
+  if (spaceIndex !== -1) {
+    name = nameAndDesc.substring(0, spaceIndex);
+    description = nameAndDesc.substring(spaceIndex + 1);
+  }
+
+  return {
+    type: type,
+    name: name,
+    description: description,
+    full: tag,
+  };
+}
+
+function interpolate(str) {
+  var commands = {
+    name: function(arg) { return interpolateProperty(arg, 'name'); },
+    hash: function(arg) { return toGithubHashLink(interpolateProperty(arg, 'name')); },
+    value: function(arg) { return interpolateProperty(arg, 'value'); },
+    link: function(arg) { return interpolateLink.apply(null, arg.split(' ')); },
+  };
+
+  return replaceExpressions(str, function(commandName, argument) {
+    var command = check(commands[commandName], 'unknown command: '+ commandName);
+    return command(interpolate(argument));
+  });
+}
+
+function replaceExpressions(str, replaceFunction) {
+  var retVal = '';
+  var worker = null;
+
+  function textWorker() {
+    var maybeExpression = false;
+
+    function appendCharacter(c) {
+      if (maybeExpression) {
+        maybeExpression = false;
+        retVal += '$';
+      }
+      retVal += c;
+    }
+
+    function startExpression(c) {
+      if (maybeExpression) {
+        worker = expressionWorker();
+      } else {
+        retVal += c;
+      }
+    }
+
+    return function(c) {
+      switch (c) {
+        default:
+          appendCharacter(c);
+          break;
+        case '$':
+          maybeExpression = true;
+          break;
+        case '{':
+          startExpression(c);
+          break;
+      }
+    };
+  }
+
+  function expressionWorker() {
+    var expressionString = '';
+    var opened = 1;
+
+    function replace() {
+      var spaceIndex = expressionString.indexOf(' ');
+      if (spaceIndex === -1) {
+        return replaceFunction(expressionString, '');
+      }
+      var commandName = expressionString.substring(0, spaceIndex);
+      var argument = expressionString.substring(spaceIndex + 1);
+      return replaceFunction(commandName, argument);
+    }
+
+    return function(c) {
+      switch (c) {
+        default:
+          expressionString += c;
+          break;
+        case '{':
+          opened += 1;
+          expressionString += c;
+          break;
+        case '}':
+          opened -= 1;
+          if (opened !== 0) {
+            expressionString += c;
+          } else {
+            retVal += replace();
+            worker = textWorker();
+          }
+          break;
+      }
+    };
+  }
+
+  worker = textWorker();
+  str.split('').forEach(function(c) { worker(c); });
+  return retVal;
 }
 
 function interpolateProperty(fqn, property) {
@@ -258,9 +328,15 @@ function lazy(loader) {
     var retVal = loader();
     getter = function() { return retVal; };
     return retVal;
-  }
+  };
   return function() {
     return getter();
-  }
+  };
+}
+
+function defineProperties(object, propertyGetters) {
+  Object.keys(propertyGetters).forEach(function(key) {
+    Object.defineProperty(object, key, { get: propertyGetters[key], enumerable: true });
+  });
 }
 

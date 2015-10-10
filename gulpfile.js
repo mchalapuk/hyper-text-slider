@@ -19,7 +19,7 @@ var config = require('./build.config');
 function task(name, deps, config, func) {
   gulp.task(name, deps, function () {
     config = (config instanceof Array? config: [ config ]);
-    var results = config.map(func.bind(null));
+    var results = config.map(func.bind(null)).filter(function(arg) { return arg != null; });
     return merge_stream.apply(null, results);
   });
 };
@@ -45,6 +45,9 @@ task('lint:javascript', [], config.js, function(files) {
 });
 
 task('javascript', [ 'lint:javascript' ], config.js, function(files) {
+  if (!files.main) {
+    return;
+  }
   return gulp.src(files.main)
     .pipe(browserify())
     .pipe(gulp.dest(config.dir.build))
@@ -55,6 +58,9 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
 });
 
 task('lint:spec', [], config.js, function(files) {
+  if (!files.spec) {
+    return;
+  }
   return gulp.src(files.spec)
     .pipe(eslint())
     .pipe(eslint.format())
@@ -63,6 +69,9 @@ task('lint:spec', [], config.js, function(files) {
 });
 
 task('spec', [ 'lint:spec' ], config.js, function(files) {
+  if (!files.spec) {
+    return;
+  }
   return gulp.src(files.spec)
     .pipe(jasmine({ /* verbose: true, */ includeStackTrace: true }))
   ;

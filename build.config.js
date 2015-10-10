@@ -65,6 +65,15 @@ module.exports = {
         './src/node/**/*.spec.js',
       ],
     },
+
+    /*
+      Documentation formatter script.
+    */
+    {
+      src: [
+        './src/docs/**/*.js',
+      ],
+    },
   ],
 
   /*

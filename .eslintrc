@@ -115,7 +115,12 @@
     "func-style": 0,
     "id-length": [
       1,
-      { "min": 3, "max": 24, "properties": "never", "exceptions": ["x", "y", "z", "w", "i", "j", "e", "id"] }
+      {
+        "min": 3,
+        "max": 24,
+        "properties": "never",
+        "exceptions": ["w", "a", "b", "c", "e", "i", "j", "x", "y", "z", "id"]
+      }
     ],
     "id-match": 0,
     "indent": [2, 2, {"SwitchCase": 1}],
