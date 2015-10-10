@@ -54,14 +54,13 @@ window.addEventListener('load', function() {
 ### Summary
 
 Name | Description
+--- | ---
 
 Slider.prototype.constructor(elem) | Constructs the slider.
 Slider.prototype.start() | Shows first slide.
 Slider.prototype.moveToNext() | Moves slider to next slide.
 Slider.prototype.moveToPrevious() | Moves slider previous slide.
 Slider.prototype.moveTo(index) | Moves slider slide of given index.
-
-### Fields
 
 ### Methods
 
