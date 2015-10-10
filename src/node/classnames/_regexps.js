@@ -18,10 +18,6 @@
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 /**
  * @name Other Class Names
  */
@@ -47,4 +43,8 @@ var Regexp = {
 };
 
 module.exports = Regexp;
+
+/*
+  eslint-env node
+*/
 

@@ -945,10 +945,6 @@ module.exports = {
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 /**
  * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
  * client HTML or JavaScript and **SHOULD be used only in client CSS**.
@@ -976,6 +972,10 @@ var Flag = {
 
 module.exports = Flag;
 
+/*
+  eslint-env node
+*/
+
 
 },{}],11:[function(require,module,exports){
 /*!
@@ -997,10 +997,6 @@ module.exports = Flag;
 */
 
 'use strict';
-
-/*
-  eslint-env node
-*/
 
 /**
  * Their usage is limited to:
@@ -1159,6 +1155,10 @@ var Layout = {
 
 module.exports = Layout;
 
+/*
+  eslint-env node
+*/
+
 
 },{}],12:[function(require,module,exports){
 /*!
@@ -1180,10 +1180,6 @@ module.exports = Layout;
 */
 
 'use strict';
-
-/*
-  eslint-env node
-*/
 
 /**
  * They are automatically set on slide elements (${link ${value Layout.SLIDE}}).
@@ -1218,6 +1214,10 @@ var Marker = {
 
 module.exports = Marker;
 
+/*
+  eslint-env node
+*/
+
 
 },{}],13:[function(require,module,exports){
 /*!
@@ -1239,10 +1239,6 @@ module.exports = Marker;
 */
 
 'use strict';
-
-/*
-  eslint-env node
-*/
 
 /**
  * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
@@ -1339,6 +1335,10 @@ var Option = {
 
 module.exports = Option;
 
+/*
+  eslint-env node
+*/
+
 
 },{}],14:[function(require,module,exports){
 /*!
@@ -1360,10 +1360,6 @@ module.exports = Option;
 */
 
 'use strict';
-
-/*
-  eslint-env node
-*/
 
 /**
  * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
@@ -1405,6 +1401,10 @@ var Phase = {
 
 module.exports = Phase;
 
+/*
+  eslint-env node
+*/
+
 
 },{}],15:[function(require,module,exports){
 /*!
@@ -1426,10 +1426,6 @@ module.exports = Phase;
 */
 
 'use strict';
-
-/*
-  eslint-env node
-*/
 
 /**
  * @name Other Class Names
@@ -1456,6 +1452,10 @@ var Regexp = {
 };
 
 module.exports = Regexp;
+
+/*
+  eslint-env node
+*/
 
 
 },{}],16:[function(require,module,exports){
@@ -1597,9 +1597,6 @@ function bindMethods(wrapper, methods, arg) {
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
 var hermes = require('./hermes');
 var precond = require('precond');
 
@@ -1934,6 +1931,10 @@ function bindMethods(wrapper, methods, arg) {
     wrapper[method.name] = method.bind(wrapper, arg);
   });
 }
+
+/*
+  eslint-env node, browser
+*/
 
 
 },{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./hermes":16,"precond":5}]},{},[8])

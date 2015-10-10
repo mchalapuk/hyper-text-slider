@@ -17,9 +17,6 @@
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
 var hermes = require('./hermes');
 var precond = require('precond');
 
@@ -354,4 +351,8 @@ function bindMethods(wrapper, methods, arg) {
     wrapper[method.name] = method.bind(wrapper, arg);
   });
 }
+
+/*
+  eslint-env node, browser
+*/
 

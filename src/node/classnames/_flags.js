@@ -18,10 +18,6 @@
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 /**
  * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
  * client HTML or JavaScript and **SHOULD be used only in client CSS**.
@@ -48,4 +44,8 @@ var Flag = {
 };
 
 module.exports = Flag;
+
+/*
+  eslint-env node
+*/
 

@@ -18,10 +18,6 @@
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 /**
  * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
  *
@@ -116,4 +112,8 @@ var Option = {
 };
 
 module.exports = Option;
+
+/*
+  eslint-env node
+*/
 

@@ -18,10 +18,6 @@
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 /**
  * They are automatically set on slide elements (${link ${value Layout.SLIDE}}).
  * Marker class names MUST NOT be manipulated from client HTML or JavaScript
@@ -54,4 +50,8 @@ var Marker = {
 };
 
 module.exports = Marker;
+
+/*
+  eslint-env node
+*/
 

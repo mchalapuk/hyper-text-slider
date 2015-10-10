@@ -18,10 +18,6 @@
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 /**
  * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
  * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
@@ -61,4 +57,8 @@ var Phase = {
 };
 
 module.exports = Phase;
+
+/*
+  eslint-env node
+*/
 
