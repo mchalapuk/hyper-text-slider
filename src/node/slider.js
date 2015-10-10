@@ -21,7 +21,17 @@ var hermes = require('./hermes');
 var precond = require('precond');
 
 /**
- * Slider controller.
+ * ### Example
+ *
+ * ```javascript
+ * // browserify is supported
+ * var hermes = require('hermes');
+ *
+ * window.addEventListener('load', function() {
+ *   var slider = new hermes.Slider(document.getElementById('my-slider'));
+ *   slider.start();
+ * });
+ * ```
  *
  * @fqn Slider
  */
@@ -47,10 +57,6 @@ var Selector = (function() {
 
 /**
  * Constructs the slider.
- *
- * ```javascript
- * var slider = new Slider(document.getElementById('my-slider'));
- * ```
  *
  * @param {Element} elem DOM element for the slider
  *

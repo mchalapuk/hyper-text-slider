@@ -33,7 +33,17 @@ limitations under the License.
 
 ## Slider
 
-Slider controller.
+### Example
+
+```javascript
+// browserify is supported
+var hermes = require('hermes');
+
+window.addEventListener('load', function() {
+  var slider = new hermes.Slider(document.getElementById('my-slider'));
+  slider.start();
+});
+```
 
 ### Summary
 
@@ -54,10 +64,6 @@ Slider.prototype.moveTo(index) | Moves slider slide of given index.
 *@param* `{Element}` elem - DOM element for the slider
 
 Constructs the slider.
-
-```javascript
-var slider = new Slider(document.getElementById('my-slider'));
-```
 
 #### Slider.prototype.start()
 
