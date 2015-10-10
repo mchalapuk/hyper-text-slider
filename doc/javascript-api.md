@@ -35,11 +35,9 @@ limitations under the License.
 
 > **DISCLAIMER**
 >
-> Slider JS API should be used only when in need of:
->  * complex or very specific initialization,
->  * integration with other parts of the website.
->
-> In other cases please consider using [declarative API](doc/class-names.md).
+> Hermes JavaScript API should be used only when specific initialization or integration
+> with other parts of the website is required. In other (simpler) cases please consider
+> using [declarative API](doc/class-names.md).
 
 ### Example
 
