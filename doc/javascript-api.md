@@ -33,13 +33,13 @@ limitations under the License.
 
 ## Slider
 
-| **DISCLAIMER**
-|
-| Slider JS API should be used only when in need of:
-|  * complex or very specific initialization,
-|  * integration with other parts of the website.
-|
-| In other cases please consider using [declarative API](doc/class-names.md).
+> **DISCLAIMER**
+>
+> Slider JS API should be used only when in need of:
+>  * complex or very specific initialization,
+>  * integration with other parts of the website.
+>
+> In other cases please consider using [declarative API](doc/class-names.md).
 
 ### Example
 
