@@ -55,7 +55,6 @@ window.addEventListener('load', function() {
 
 Name | Description
 --- | ---
-
 Slider.prototype.constructor(elem) | Constructs the slider.
 Slider.prototype.start() | Shows first slide.
 Slider.prototype.moveToNext() | Moves slider to next slide.
