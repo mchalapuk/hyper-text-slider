@@ -17,10 +17,28 @@
 -->
 
 <!-- Start Template javascript-api.md.ejs -->
-<? function link(name) { ?>[<?= name ?>](#<?=
+<? function link(name, anchor) { anchor = anchor || name; ?>[<?= anchor ?>](#<?=
   name.toLowerCase().replace(/ /g, '-').replace(new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g'), '')
 ?>)<? } ?>
 
+<?
+
+var DOT = '.';
+var PROTO = '.prototype';
+
+function shorten(fqn) {
+  var matches = {};
+  [DOT, PROTO].forEach(function(key) {
+    var index = -1;
+    while ((index = fqn.indexOf(key, index + 1)) !== -1) {
+      matches[key] = index;
+    }
+  });
+  var startIndex = matches[PROTO] || matches[DOT] || 0;
+  return fqn.substring(startIndex);
+}
+
+?>
 <? function fieldSignature(comment) { return comment.fqn; } ?>
 <? function paramList(comment) { return comment.multiTags.param.map(function(p) { return p.name; }).join(', '); } ?>
 <? function methodSignature(comment) { return comment.fqn +'('+ paramList(comment) +')'; } ?>
@@ -51,7 +69,7 @@
   <? doc.javadoc.forEach(function(type) { ?><? if (type.ignore) { return } ?><?= ++i
     ?>. <? link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
       if (child.ignore) { return } ?>
-      <li><?= signature(child) ?><?
+      <li><? link(signature(child), shorten(signature(child))) ?><?
     }) ?></ul><?
   }) ?><?
 }) ?>
@@ -72,10 +90,10 @@
 
     Name | Description
     --- | ---
-    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
-      fieldSignature(row) ?> | <?= row.description.summary ?>
+    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
+      link(fieldSignature(row), shorten(fieldSignature(row))) ?> | <?= row.description.summary ?>
     <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
-      methodSignature(row) ?> | <?= row.description.summary ?>
+      link(methodSignature(row), shorten(methodSignature(row))) ?> | <?= row.description.summary ?>
     <? }) ?>
 
     <? if (type.fields.length) { ?>

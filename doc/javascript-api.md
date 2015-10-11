@@ -23,11 +23,11 @@ limitations under the License.
 **Table of Contents**
 
 1. [Slider](#slider)<ul>
-<li>Slider.prototype.constructor(elem)
-<li>Slider.prototype.start()
-<li>Slider.prototype.moveToNext()
-<li>Slider.prototype.moveToPrevious()
-<li>Slider.prototype.moveTo(index)</ul>
+<li>[.prototype.constructor(elem)](#sliderprototypeconstructorelem)
+<li>[.prototype.start()](#sliderprototypestart)
+<li>[.prototype.moveToNext()](#sliderprototypemovetonext)
+<li>[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)
+<li>[.prototype.moveTo(index)](#sliderprototypemovetoindex)</ul>
 
 <!-- Start src/node/slider.js -->
 
@@ -55,11 +55,11 @@ window.addEventListener('load', function() {
 
 Name | Description
 --- | ---
-Slider.prototype.constructor(elem) | Constructs the slider.
-Slider.prototype.start() | Shows first slide.
-Slider.prototype.moveToNext() | Moves slider to next slide.
-Slider.prototype.moveToPrevious() | Moves slider previous slide.
-Slider.prototype.moveTo(index) | Moves slider slide of given index.
+[.prototype.constructor(elem)](#sliderprototypeconstructorelem)undefined | Constructs the slider.
+[.prototype.start()](#sliderprototypestart)undefined | Shows first slide.
+[.prototype.moveToNext()](#sliderprototypemovetonext)undefined | Moves slider to next slide.
+[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)undefined | Moves slider previous slide.
+[.prototype.moveTo(index)](#sliderprototypemovetoindex)undefined | Moves slider slide of given index.
 
 ### Methods
 
