@@ -126,7 +126,7 @@ function signature(comment) {
         #### <?= methodSignature(method) ?>
 
         <? method.multiTags.param.forEach(function(param) { ?>
-          *@param* `{<?= param.type ?>}` <?= param.name ?> - <?= param.description ?>
+          *@param* {<?= param.type ?>} **<?= param.name ?>** - <?= param.description ?>
         <? }) ?>
 
         <?= method.description.full ?>

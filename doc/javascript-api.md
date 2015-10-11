@@ -65,7 +65,7 @@ Name | Description
 
 #### Slider.prototype.constructor(elem)
 
-*@param* `{Element}` elem - DOM element for the slider
+*@param* {Element} **elem** - DOM element for the slider
 
 Constructs the slider.
 
@@ -97,7 +97,7 @@ Moves slider previous slide.
 
 #### Slider.prototype.moveTo(index)
 
-*@param* `{Number}` index - index of the slide that slider will be moved to
+*@param* {Number} **index** - index of the slide that slider will be moved to
 
 Moves slider slide of given index.
 
