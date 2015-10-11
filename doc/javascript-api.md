@@ -55,11 +55,11 @@ window.addEventListener('load', function() {
 
 Name | Description
 --- | ---
-[.prototype.constructor(elem)](#sliderprototypeconstructorelem)undefined | Constructs the slider.
-[.prototype.start()](#sliderprototypestart)undefined | Shows first slide.
-[.prototype.moveToNext()](#sliderprototypemovetonext)undefined | Moves slider to next slide.
-[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)undefined | Moves slider previous slide.
-[.prototype.moveTo(index)](#sliderprototypemovetoindex)undefined | Moves slider slide of given index.
+[Slider.prototype.constructor(elem)](#sliderprototypeconstructorelem) | Constructs the slider.
+[Slider.prototype.start()](#sliderprototypestart) | Shows first slide.
+[Slider.prototype.moveToNext()](#sliderprototypemovetonext) | Moves slider to next slide.
+[Slider.prototype.moveToPrevious()](#sliderprototypemovetoprevious) | Moves slider previous slide.
+[Slider.prototype.moveTo(index)](#sliderprototypemovetoindex) | Moves slider slide of given index.
 
 ### Methods
 

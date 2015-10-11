@@ -17,16 +17,20 @@
 -->
 
 <!-- Start Template javascript-api.md.ejs -->
-<? function link(name, anchor) { anchor = anchor || name; ?>[<?= anchor ?>](#<?=
-  name.toLowerCase().replace(/ /g, '-').replace(new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g'), '')
-?>)<? } ?>
-
 <?
+function toGithubHash(hash) {
+  var GITHUB_ILLEGAL = new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g');
+  return hash.toLowerCase().replace(/ /g, '-').replace(GITHUB_ILLEGAL, '');
+}
 
-var DOT = '.';
-var PROTO = '.prototype';
+function link(name, anchor) {
+  return '['+ (anchor || name) +'](#'+ toGithubHash(name) +')';
+}
 
 function shorten(fqn) {
+  var DOT = '.';
+  var PROTO = '.prototype';
+
   var matches = {};
   [DOT, PROTO].forEach(function(key) {
     var index = -1;
@@ -34,18 +38,24 @@ function shorten(fqn) {
       matches[key] = index;
     }
   });
+
   var startIndex = matches[PROTO] || matches[DOT] || 0;
   return fqn.substring(startIndex);
 }
 
-?>
-<? function fieldSignature(comment) { return comment.fqn; } ?>
-<? function paramList(comment) { return comment.multiTags.param.map(function(p) { return p.name; }).join(', '); } ?>
-<? function methodSignature(comment) { return comment.fqn +'('+ paramList(comment) +')'; } ?>
-<? function signature(comment) {
+function fieldSignature(comment) {
+  return comment.fqn;
+}
+function paramList(comment) {
+  return comment.multiTags.param.map(function(p) { return p.name; }).join(', ');
+}
+function methodSignature(comment) {
+  return comment.fqn +'('+ paramList(comment) +')';
+}
+function signature(comment) {
   return comment.type === 'property'? fieldSignature(comment): methodSignature(comment);
-} ?>
-
+}
+?>
 <? function printMultitags(comment) { ?>
   <? comment.multiTags.precondition.forEach(function(precondition) { ?>
     *@precondition* - <?= precondition ?>
@@ -67,9 +77,9 @@ function shorten(fqn) {
 
 <? var i = 0; docfiles.forEach(function(doc) { ?>
   <? doc.javadoc.forEach(function(type) { ?><? if (type.ignore) { return } ?><?= ++i
-    ?>. <? link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
+    ?>. <?= link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
       if (child.ignore) { return } ?>
-      <li><? link(signature(child), shorten(signature(child))) ?><?
+      <li><?= link(signature(child), shorten(signature(child))) ?><?
     }) ?></ul><?
   }) ?><?
 }) ?>
@@ -90,10 +100,10 @@ function shorten(fqn) {
 
     Name | Description
     --- | ---
-    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
-      link(fieldSignature(row), shorten(fieldSignature(row))) ?> | <?= row.description.summary ?>
+    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
+      link(fieldSignature(row)) ?> | <?= row.description.summary ?>
     <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
-      link(methodSignature(row), shorten(methodSignature(row))) ?> | <?= row.description.summary ?>
+      link(methodSignature(row)) ?> | <?= row.description.summary ?>
     <? }) ?>
 
     <? if (type.fields.length) { ?>
