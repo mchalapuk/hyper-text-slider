@@ -16,13 +16,17 @@ var del = require('del');
 
 var config = require('./build.config');
 
-function task(name, deps, config, func) {
+function task(name, deps, config, func, merged_callback) {
   gulp.task(name, deps, function () {
     config = (config instanceof Array? config: [ config ]);
     var results = config.map(func.bind(null)).filter(function(arg) { return arg != null; });
-    return merge_stream.apply(null, results);
+    return (merged_callback || pass)(merge_stream.apply(null, results));
   });
-};
+}
+
+function pass(arg) {
+  return arg;
+}
 
 task('sass', [], config.css, function(files) {
   var build_dir = config.dir.build + (files.dest || '');
@@ -84,14 +88,18 @@ gulp.task('clean:dist', function(cb) {
 gulp.task('dist', [ 'clean:dist', 'sass', 'spec', 'javascript' ]);
 
 gulp.task('clean:doc', function(callback) {
+  config.doc.formatter.reset();
   return del([ '${config.dir.docs}**/*', '!${config.dir.docs}' ], { force: true }, callback);
 });
 
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
-  config.doc.formatter.reset();
-
   return gulp.src(files.src)
-    .pipe(markdox(files.options))
+    .pipe(markdox.parse(files.options))
+    .pipe(markdox.format())
+  ;
+}, function(merged) {
+  return merged
+    .pipe(markdox.render())
     .pipe(gulp.dest(config.dir.docs))
   ;
 });
