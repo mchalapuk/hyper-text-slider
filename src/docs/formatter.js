@@ -339,7 +339,7 @@ function interpolateHash(context, fqn) {
   check(comment, 'couldn\'t find element of fqn='+ fqn);
 
   if (!anchorText) {
-    var prefix = fqn.startsWith(context.fqn)? context.fqn:
+    var prefix = fqn.startsWith(context.fqn) && fqn !== context.fqn? context.fqn:
       context.parent && fqn.startsWith(context.parent.fqn)? context.parent.fqn:
       '';
     anchorText = fqn.substring(prefix.length);

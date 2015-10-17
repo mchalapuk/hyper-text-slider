@@ -75,9 +75,9 @@ Shows first slide.
 
 Starts the slider mechanism.
 
-*@precondition* - [sliderprototypestart](#sliderprototypestart) was not called on this slider
+*@precondition* - [.prototype.start](#sliderprototypestart) was not called on this slider
 
-*@postcondition* - calling [sliderprototypestart](#sliderprototypestart) again will throw exception
+*@postcondition* - calling [.prototype.start](#sliderprototypestart) again will throw exception
 
 *@see* - hermes-autostart
 
