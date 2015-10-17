@@ -1690,6 +1690,96 @@ function initializeSlider(elem) {
   return pub;
 }
 
+// public
+
+/**
+ * Shows first slide.
+ *
+ * Starts the slider mechanism.
+ *
+ * @precondition ${hash Slider.prototype.start} was not called on this slider
+ * @postcondition calling ${hash Slider.prototype.start} again will throw exception
+ * @see ${value Option.AUTOSTART}
+ *
+ * @fqn Slider.prototype.start
+ */
+function start(priv) {
+  // separate start procedure is needed because
+  // only one slide is seen in the first transition
+  precond.checkState(!priv.started, 'slider is already started');
+  priv.started = true;
+
+  var firstSlide = priv.slides[priv.toIndex];
+  firstSlide.classList.add(Marker.SLIDE_TO);
+  if (firstSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
+  }
+  if (typeof firstSlide.dot !== 'undefined') {
+    firstSlide.dot.classList.add(Flag.ACTIVE);
+  }
+
+  addTempClass(priv, chooseTransition(priv));
+  priv.hermes.startTransition();
+}
+
+/**
+ * Moves slider to next slide.
+ *
+ * @precondition ${hash Slider.start} was called on this slider
+ * @see ${value Option.AUTOPLAY}
+ *
+ * @fqn Slider.prototype.moveToNext
+ */
+function moveToNext(priv) {
+  moveTo(priv, (priv.toIndex + 1) % priv.slides.length);
+}
+
+/**
+ * Moves slider previous slide.
+ *
+ * @precondition ${hash Slider.start} was called on this slider
+ *
+ * @fqn Slider.prototype.moveToPrevious
+ */
+function moveToPrevious(priv) {
+  moveTo(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
+}
+
+/**
+ * Moves slider slide of given index.
+ *
+ * @param {Number} index index of the slide that slider will be moved to
+ * @precondition ${hash Slider.start} was called on this slider
+ *
+ * @fqn Slider.prototype.moveTo
+ */
+function moveTo(priv, index) {
+  precond.checkState(priv.started, 'slider not started');
+  precond.checkIsNumber(index, 'given index is not a number');
+
+  var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
+  if (priv.toIndex === toIndex) {
+    return;
+  }
+
+  removeMarkersAndFlags(priv);
+  removeTempClasses(priv);
+
+  priv.fromIndex = priv.toIndex;
+  priv.toIndex = toIndex;
+
+  addMarkersAndFlags(priv);
+  var toSlide = priv.slides[priv.toIndex];
+  if (toSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ toSlide.id);
+  }
+  addTempClass(priv, chooseTransition(priv));
+
+  priv.hermes.startTransition();
+}
+
+// private
+
 // initialization functions
 
 function searchForSlides(elem) {
@@ -1794,94 +1884,6 @@ function keyBasedMove(priv, event) {
     case 'ArrowRight': moveToNext(priv); break;
     default: break;
   }
-}
-
-/**
- * Shows first slide.
- *
- * Starts the slider mechanism.
- *
- * @precondition ${link Slider.start} was not called on this slider
- * @postcondition calling ${link Slider.start} again will throw exception
- * @see ${value Option.AUTOSTART}
- *
- * @fqn Slider.prototype.start
- */
-function start(priv) {
-  // separate start procedure is needed because
-  // only one slide is seen in the first transition
-  precond.checkState(!priv.started, 'slider is already started');
-  priv.started = true;
-
-  var firstSlide = priv.slides[priv.toIndex];
-  firstSlide.classList.add(Marker.SLIDE_TO);
-  if (firstSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
-  }
-  if (typeof firstSlide.dot !== 'undefined') {
-    firstSlide.dot.classList.add(Flag.ACTIVE);
-  }
-
-  addTempClass(priv, chooseTransition(priv));
-  priv.hermes.startTransition();
-}
-
-// slide change functions
-
-/**
- * Moves slider to next slide.
- *
- * @precondition ${link Slider.start} was called on this slider
- * @see ${value Option.AUTOPLAY}
- *
- * @fqn Slider.prototype.moveToNext
- */
-function moveToNext(priv) {
-  moveTo(priv, (priv.toIndex + 1) % priv.slides.length);
-}
-
-/**
- * Moves slider previous slide.
- *
- * @precondition ${link Slider.start} was called on this slider
- *
- * @fqn Slider.prototype.moveToPrevious
- */
-function moveToPrevious(priv) {
-  moveTo(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
-}
-
-/**
- * Moves slider slide of given index.
- *
- * @param {Number} index index of the slide that slider will be moved to
- * @precondition ${link Slider.start} was called on this slider
- *
- * @fqn Slider.prototype.moveTo
- */
-function moveTo(priv, index) {
-  precond.checkState(priv.started, 'slider not started');
-  precond.checkIsNumber(index, 'given index is not a number');
-
-  var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
-  if (priv.toIndex === toIndex) {
-    return;
-  }
-
-  removeMarkersAndFlags(priv);
-  removeTempClasses(priv);
-
-  priv.fromIndex = priv.toIndex;
-  priv.toIndex = toIndex;
-
-  addMarkersAndFlags(priv);
-  var toSlide = priv.slides[priv.toIndex];
-  if (toSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ toSlide.id);
-  }
-  addTempClass(priv, chooseTransition(priv));
-
-  priv.hermes.startTransition();
 }
 
 function removeMarkersAndFlags(priv) {

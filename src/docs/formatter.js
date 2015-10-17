@@ -18,33 +18,12 @@
 
 'use strict';
 
-/*
-  eslint-env node
-*/
-
 module.exports = format;
 module.exports.reset = reset;
 
 var fqnMap = {};
 var nextId = 0;
 var currentDoc = null;
-
-function reset() {
-  fqnMap = {};
-  nextId = 0;
-  currentDoc = null;
-}
-
-function err() {
-  throw new Error('error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
-    [].map.call(arguments, function(line) { return '    '+ line; }).join('\n'));
-}
-function check(condition) {
-  if (!condition) {
-    err.apply(null, [].slice.call(arguments, 1));
-  }
-  return condition;
-}
 
 function format(docfile) {
   var toplevel = [];
@@ -79,11 +58,6 @@ function format(docfile) {
       }
     });
 
-    processMultiTags(multiTagValues, {
-      'summary-column': processSummaryColumnTags,
-      'param': processParamTags,
-    });
-
     var fqn = tagValues.fqn || name;
     name = tagValues.name || name;
 
@@ -106,22 +80,10 @@ function format(docfile) {
     };
 
     register(formatted);
-
     // properties, that may need other comments
     // to be registered, are lazy-loaded
-    defineProperties(formatted, {
-      description: lazy(function() {
-        return {
-          summary: interpolate(javadoc.description.summary.replace(/\n/g, '')),
-          body: interpolate(javadoc.description.body),
-          full: interpolate(javadoc.description.full),
-        };
-      }),
-      children: lazy(getChildrenByFqn.bind(null, fqn)),
-      fields: lazy(filterChildrenByType.bind(null, formatted, 'property')),
-      methods: lazy(filterChildrenByType.bind(null, formatted, 'function')),
-      parentElement: lazy(function() { return fqnMap[tagValues['parent-element']]; }),
-    });
+    lazyInterpolateExpr(formatted);
+    lazyBuildObjectTree(formatted);
   });
 
   function register(formatted) {
@@ -140,6 +102,47 @@ function format(docfile) {
   result.filename = docfile.filename;
   result.javadoc = toplevel;
   return result;
+}
+
+function reset() {
+  fqnMap = {};
+  nextId = 0;
+  currentDoc = null;
+}
+
+function lazyInterpolateExpr(formatted) {
+  var description = formatted.raw.description;
+  var multiTagValues = formatted.multiTags;
+
+  definePropertyGetters(formatted, {
+    description: lazy(function() {
+      return {
+        summary: interpolate(description.summary.replace(/\n/g, '')),
+        body: interpolate(description.body),
+        full: interpolate(description.full),
+      };
+    }),
+    multiTags: lazy(function() {
+      var values = multiTagValues;
+      Object.keys(values).forEach(function(tagName) {
+        values[tagName] = values[tagName].map(interpolate);
+      });
+      return processMultiTags(values, {
+        'summary-column': processSummaryColumnTags,
+        'param': processParamTags,
+      });
+    }),
+  });
+}
+
+// sets parent->child relations
+function lazyBuildObjectTree(formatted) {
+  definePropertyGetters(formatted, {
+    children: lazy(getChildrenByFqn.bind(null, formatted.fqn)),
+    fields: lazy(filterChildrenByType.bind(null, formatted, 'property')),
+    methods: lazy(filterChildrenByType.bind(null, formatted, 'function')),
+    parentElement: lazy(function() { return fqnMap[formatted.tags['parent-element']]; }),
+  });
 }
 
 function getType(ctx) {
@@ -173,10 +176,16 @@ function filterChildrenByType(comment, type) {
   return comment.children.filter(function(child) { return child.type === type; });
 }
 
+function pass(arg) {
+  return arg;
+}
+
 function processMultiTags(multiTagValues, processFunctions) {
-  Object.keys(processFunctions).forEach(function(tagName) {
-    multiTagValues[tagName] = multiTagValues[tagName].map(processFunctions[tagName]);
+  var retVal = {};
+  Object.keys(multiTagValues).forEach(function(tagName) {
+    retVal[tagName] = multiTagValues[tagName].map(processFunctions[tagName] || pass);
   });
+  return retVal;
 }
 
 function processSummaryColumnTags(tag) {
@@ -216,9 +225,9 @@ function processParamTags(tag) {
 function interpolate(str) {
   var commands = {
     name: function(arg) { return interpolateProperty(arg, 'name'); },
-    hash: function(arg) { return toGithubHashLink(interpolateProperty(arg, 'name')); },
     value: function(arg) { return interpolateProperty(arg, 'value'); },
     link: function(arg) { return interpolateLink.apply(null, arg.split(' ')); },
+    hash: function(arg) { return interpolateHash.apply(null, arg.split(' ')); },
   };
 
   return replaceExpressions(str, function(commandName, argument) {
@@ -228,8 +237,12 @@ function interpolate(str) {
 }
 
 function replaceExpressions(str, replaceFunction) {
+  check(typeof str === 'string', 'passed argument is not a string: '+ str);
+
   var retVal = '';
-  var worker = null;
+  var worker = textWorker();
+  str.split('').forEach(function(c) { worker(c); });
+  return retVal;
 
   function textWorker() {
     var maybeExpression = false;
@@ -252,15 +265,9 @@ function replaceExpressions(str, replaceFunction) {
 
     return function(c) {
       switch (c) {
-        default:
-          appendCharacter(c);
-          break;
-        case '$':
-          maybeExpression = true;
-          break;
-        case '{':
-          startExpression(c);
-          break;
+        default: appendCharacter(c); break;
+        case '$': maybeExpression = true; break;
+        case '{': startExpression(c); break;
       }
     };
   }
@@ -279,31 +286,24 @@ function replaceExpressions(str, replaceFunction) {
       return replaceFunction(commandName, argument);
     }
 
+    function maybeFlush(c) {
+      opened -= 1;
+      if (opened !== 0) {
+        expressionString += c;
+        return;
+      }
+      retVal += replace();
+      worker = textWorker();
+    }
+
     return function(c) {
       switch (c) {
-        default:
-          expressionString += c;
-          break;
-        case '{':
-          opened += 1;
-          expressionString += c;
-          break;
-        case '}':
-          opened -= 1;
-          if (opened !== 0) {
-            expressionString += c;
-          } else {
-            retVal += replace();
-            worker = textWorker();
-          }
-          break;
+        default: expressionString += c; break;
+        case '{': opened += 1; expressionString += c; break;
+        case '}': maybeFlush(c); break;
       }
     };
   }
-
-  worker = textWorker();
-  str.split('').forEach(function(c) { worker(c); });
-  return retVal;
 }
 
 function interpolateProperty(fqn, property) {
@@ -317,6 +317,10 @@ function interpolateProperty(fqn, property) {
 function interpolateLink(url) {
   var anchorText = [].slice.call(arguments, 1).join(' ') || url;
   return '['+ anchorText +'](#'+ url +')';
+}
+function interpolateHash(url) {
+  var anchorText = [].slice.call(arguments, 1).join(' ') || url;
+  return '['+ anchorText +'](#'+ toGithubHashLink(url) +')';
 }
 
 function toGithubHashLink(headerName) {
@@ -334,9 +338,25 @@ function lazy(loader) {
   };
 }
 
-function defineProperties(object, propertyGetters) {
+function definePropertyGetters(object, propertyGetters) {
   Object.keys(propertyGetters).forEach(function(key) {
     Object.defineProperty(object, key, { get: propertyGetters[key], enumerable: true });
   });
 }
+
+function err() {
+  throw new Error('error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
+    [].map.call(arguments, function(line) { return '    '+ line; }).join('\n'));
+}
+
+function check(condition) {
+  if (!condition) {
+    err.apply(null, [].slice.call(arguments, 1));
+  }
+  return condition;
+}
+
+/*
+  eslint-env node
+*/
 

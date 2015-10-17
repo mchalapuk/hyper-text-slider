@@ -75,25 +75,25 @@ Shows first slide.
 
 Starts the slider mechanism.
 
-*@precondition* - ${link Slider.start} was not called on this slider
+*@precondition* - [Slider.prototype.start](#sliderprototypestart) was not called on this slider
 
-*@postcondition* - calling ${link Slider.start} again will throw exception
+*@postcondition* - calling [Slider.prototype.start](#sliderprototypestart) again will throw exception
 
-*@see* - ${value Option.AUTOSTART}
+*@see* - hermes-autostart
 
 #### Slider.prototype.moveToNext()
 
 Moves slider to next slide.
 
-*@precondition* - ${link Slider.start} was called on this slider
+*@precondition* - [Slider.start](#sliderstart) was called on this slider
 
-*@see* - ${value Option.AUTOPLAY}
+*@see* - hermes-autoplay
 
 #### Slider.prototype.moveToPrevious()
 
 Moves slider previous slide.
 
-*@precondition* - ${link Slider.start} was called on this slider
+*@precondition* - [Slider.start](#sliderstart) was called on this slider
 
 #### Slider.prototype.moveTo(index)
 
@@ -101,7 +101,7 @@ Moves slider previous slide.
 
 Moves slider slide of given index.
 
-*@precondition* - ${link Slider.start} was called on this slider
+*@precondition* - [Slider.start](#sliderstart) was called on this slider
 
 <!-- End src/node/slider.js -->
 
