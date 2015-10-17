@@ -122,17 +122,21 @@ function lazyInterpolateExpr(formatted) {
         full: interpolate(formatted, description.full),
       };
     }),
-    multiTags: lazy(function() {
-      var values = multiTagValues;
-      Object.keys(values).forEach(function(tagName) {
-        values[tagName] = values[tagName].map(interpolate.bind(null, formatted));
-      });
-      return processMultiTags(values, {
-        'summary-column': processSummaryColumnTags,
-        'param': processParamTags,
-      });
-    }),
   });
+
+  var multiTags = {};
+  Object.keys(multiTagValues).forEach(function(tagName) {
+    multiTags[tagName] = lazy([].map.bind(multiTagValues[tagName], function(tagValue) {
+      var process = null;
+      switch (tagName) {
+        default: process = pass; break;
+        case 'summary-column': process = processSummaryColumnTags; break;
+        case 'param': process = processParamTags; break;
+      }
+      return process(interpolate(formatted, tagValue));
+    }));
+  });
+  definePropertyGetters(formatted.multiTags, multiTags);
 }
 
 // sets parent->child relations
@@ -192,14 +196,6 @@ function getParentByFqn(fqn) {
 
 function pass(arg) {
   return arg;
-}
-
-function processMultiTags(multiTagValues, processFunctions) {
-  var retVal = {};
-  Object.keys(multiTagValues).forEach(function(tagName) {
-    retVal[tagName] = multiTagValues[tagName].map(processFunctions[tagName] || pass);
-  });
-  return retVal;
 }
 
 function processSummaryColumnTags(tag) {
@@ -334,17 +330,27 @@ function interpolateLink(url) {
 }
 
 function interpolateHash(context, fqn) {
-  var anchorText = [].slice.call(arguments, 2).join(' ');
-  var comment = fqnMap[fqn];
-  check(comment, 'couldn\'t find element of fqn='+ fqn);
-
-  if (!anchorText) {
-    var prefix = fqn.startsWith(context.fqn) && fqn !== context.fqn? context.fqn:
-      context.parent && fqn.startsWith(context.parent.fqn)? context.parent.fqn:
-      '';
-    anchorText = fqn.substring(prefix.length);
-  }
+  var comment = check(fqnMap[fqn], 'couldn\'t find element of fqn='+ fqn);
+  var anchorText = [].slice.call(arguments, 2).join(' ') || getAnchorText(context, comment);
   return interpolateLink(toGithubHashLink(fqn), anchorText);
+}
+
+function getAnchorText(context, comment) {
+  var fqn = comment.fqn;
+
+  var prefix = fqn.startsWith(context.fqn) && fqn !== context.fqn? context.fqn:
+    context.parent && fqn.startsWith(context.parent.fqn)? context.parent.fqn:
+    '';
+  var anchorText = fqn.substring(prefix.length);
+  if (comment.type === 'function') {
+    anchorText += '('+ paramList(comment) +')';
+  }
+
+  return anchorText;
+}
+
+function paramList(comment) {
+  return comment.multiTags.param.map(function(param) { return param.name; }).join(', ');
 }
 
 function toGithubHashLink(headerName) {
