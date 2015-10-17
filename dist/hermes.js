@@ -1605,7 +1605,7 @@ var precond = require('precond');
  * >
  * > Hermes JavaScript API should be used only when specific initialization or integration
  * > with other parts of the website is required. In other (simpler) cases please consider
- * > using [declarative API](doc/class-names.md).
+ * > using [declarative API](class-names.md).
  *
  * ### Example
  *
