@@ -145,7 +145,7 @@ function start(priv) {
 /**
  * Moves slider to next slide.
  *
- * @precondition ${hash Slider.start} was called on this slider
+ * @precondition ${hash Slider.prototype.start} was called on this slider
  * @see ${value Option.AUTOPLAY}
  *
  * @fqn Slider.prototype.moveToNext
@@ -157,7 +157,7 @@ function moveToNext(priv) {
 /**
  * Moves slider previous slide.
  *
- * @precondition ${hash Slider.start} was called on this slider
+ * @precondition ${hash Slider.prototype.start} was called on this slider
  *
  * @fqn Slider.prototype.moveToPrevious
  */
@@ -169,7 +169,7 @@ function moveToPrevious(priv) {
  * Moves slider slide of given index.
  *
  * @param {Number} index index of the slide that slider will be moved to
- * @precondition ${hash Slider.start} was called on this slider
+ * @precondition ${hash Slider.prototype.start} was called on this slider
  *
  * @fqn Slider.prototype.moveTo
  */

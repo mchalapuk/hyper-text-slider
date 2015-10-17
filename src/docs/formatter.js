@@ -117,15 +117,15 @@ function lazyInterpolateExpr(formatted) {
   definePropertyGetters(formatted, {
     description: lazy(function() {
       return {
-        summary: interpolate(description.summary.replace(/\n/g, '')),
-        body: interpolate(description.body),
-        full: interpolate(description.full),
+        summary: interpolate(formatted, description.summary.replace(/\n/g, '')),
+        body: interpolate(formatted, description.body),
+        full: interpolate(formatted, description.full),
       };
     }),
     multiTags: lazy(function() {
       var values = multiTagValues;
       Object.keys(values).forEach(function(tagName) {
-        values[tagName] = values[tagName].map(interpolate);
+        values[tagName] = values[tagName].map(interpolate.bind(null, formatted));
       });
       return processMultiTags(values, {
         'summary-column': processSummaryColumnTags,
@@ -141,6 +141,7 @@ function lazyBuildObjectTree(formatted) {
     children: lazy(getChildrenByFqn.bind(null, formatted.fqn)),
     fields: lazy(filterChildrenByType.bind(null, formatted, 'property')),
     methods: lazy(filterChildrenByType.bind(null, formatted, 'function')),
+    parent: lazy(getParentByFqn.bind(null, formatted.fqn)),
     parentElement: lazy(function() { return fqnMap[formatted.tags['parent-element']]; }),
   });
 }
@@ -174,6 +175,19 @@ function getChildrenByFqn(fqn) {
 
 function filterChildrenByType(comment, type) {
   return comment.children.filter(function(child) { return child.type === type; });
+}
+
+function getParentByFqn(fqn) {
+  var lastDotIndex = fqn.indexOf('.', -1);
+  if (lastDotIndex === -1) {
+    return null;
+  }
+  var parentFqn = fqn.substring(0, lastDotIndex);
+  if (parentFqn.endsWith('.prototype')) {
+    parentFqn = parentFqn.substring(0, -'.prototype'.length);
+  }
+  return check(fqnMap[parentFqn],
+      'couldn\'t find parent element of fqn='+ fqn +' parentfqn='+ parentFqn);
 }
 
 function pass(arg) {
@@ -222,17 +236,17 @@ function processParamTags(tag) {
   };
 }
 
-function interpolate(str) {
+function interpolate(context, str) {
   var commands = {
     name: function(arg) { return interpolateProperty(arg, 'name'); },
     value: function(arg) { return interpolateProperty(arg, 'value'); },
     link: function(arg) { return interpolateLink.apply(null, arg.split(' ')); },
-    hash: function(arg) { return interpolateHash.apply(null, arg.split(' ')); },
+    hash: function(arg) { return interpolateHash.apply(null, [ context ].concat(arg.split(' '))); },
   };
 
   return replaceExpressions(str, function(commandName, argument) {
     var command = check(commands[commandName], 'unknown command: '+ commandName);
-    return command(interpolate(argument));
+    return command(interpolate(context, argument));
   });
 }
 
@@ -318,9 +332,19 @@ function interpolateLink(url) {
   var anchorText = [].slice.call(arguments, 1).join(' ') || url;
   return '['+ anchorText +'](#'+ url +')';
 }
-function interpolateHash(url) {
-  var anchorText = [].slice.call(arguments, 1).join(' ') || url;
-  return '['+ anchorText +'](#'+ toGithubHashLink(url) +')';
+
+function interpolateHash(context, fqn) {
+  var anchorText = [].slice.call(arguments, 2).join(' ');
+  var comment = fqnMap[fqn];
+  check(comment, 'couldn\'t find element of fqn='+ fqn);
+
+  if (!anchorText) {
+    var prefix = fqn.startsWith(context.fqn)? context.fqn:
+      context.parent && fqn.startsWith(context.parent.fqn)? context.parent.fqn:
+      '';
+    anchorText = fqn.substring(prefix.length);
+  }
+  return interpolateLink(toGithubHashLink(fqn), anchorText);
 }
 
 function toGithubHashLink(headerName) {
