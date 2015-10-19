@@ -15,22 +15,37 @@
    limitations under the License.
 
 */
-
 'use strict';
 
-module.exports = format;
-module.exports.reset = reset;
+var _ = require('underscore');
 
-var fqnMap = {};
-var nextId = 0;
-var currentDoc = null;
+var check = require('./check');
+var FqnMap = require('./fqn-map');
+var Interpolator = require('./interpolator');
 
-function format(docfile) {
+module.exports = Formatter;
+
+function Formatter(options) {
+  var priv = {};
+  priv.fqnMap = new FqnMap();
+  priv.interpolator = new Interpolator(priv.fqnMap, options);
+  priv.nextId = 0;
+  priv.options = options;
+
+  var pub = {};
+  pub.format = _.partial(format, priv);
+  pub.reset = _.partial(reset, priv);
+  return pub;
+}
+
+// public
+
+function format(priv, docfile) {
   var toplevel = [];
 
   docfile.javadoc.forEach(function(javadoc) {
     javadoc.filename = docfile.filename;
-    currentDoc = javadoc;
+    check.setCurrentDoc(javadoc);
 
     var type = getType(javadoc.ctx);
     var name = getName(javadoc.ctx);
@@ -60,15 +75,10 @@ function format(docfile) {
 
     var fqn = tagValues.fqn || name;
     name = tagValues.name || name;
-
-    if (fqn in fqnMap) {
-      err('found second element of fqn='+ fqn,
-          'first seen in '+ fqnMap[fqn].raw.filename +':'+ fqnMap[fqn].raw.line,
-          'fqn MUST uniquely identify a comment');
-    }
+    checkNotDefined(priv, fqn);
 
     var formatted = {
-      commentId: nextId++,
+      commentId: priv.nextId++,
       type: type,
       name: name,
       fqn: fqn,
@@ -76,27 +86,19 @@ function format(docfile) {
       tags: tagValues,
       multiTags: multiTagValues,
       ignore: javadoc.ignore,
+      options: priv.options,
       raw: javadoc,
     };
 
-    register(formatted);
-    // properties, that may need other comments
-    // to be registered, are lazy-loaded
-    lazyInterpolateExpr(formatted);
-    lazyBuildObjectTree(formatted);
-  });
-
-  function register(formatted) {
-    var fqn = formatted.fqn;
-    if (fqn === '') {
-      return;
-    }
-    fqnMap[fqn] = formatted;
-
-    if (fqn.indexOf('.') === -1) {
+    priv.fqnMap.put(formatted);
+    if (isTopLevel(fqn)) {
       toplevel.push(formatted);
     }
-  }
+    // properties, that may need other comments
+    // to be registered, are lazy-loaded
+    lazyInterpolateExpr(priv, formatted);
+    lazyBuildObjectTree(priv, formatted);
+  });
 
   var result = {};
   result.filename = docfile.filename;
@@ -104,22 +106,23 @@ function format(docfile) {
   return result;
 }
 
-function reset() {
-  fqnMap = {};
-  nextId = 0;
-  currentDoc = null;
+function reset(priv) {
+  priv.fqnMap = new FqnMap();
+  priv.interpolator = new Interpolator(priv.fqnMap, priv.options);
 }
 
-function lazyInterpolateExpr(formatted) {
+// private
+
+function lazyInterpolateExpr(priv, formatted) {
   var description = formatted.raw.description;
   var multiTagValues = formatted.multiTags;
 
   definePropertyGetters(formatted, {
     description: lazy(function() {
       return {
-        summary: interpolate(formatted, description.summary.replace(/\n/g, '')),
-        body: interpolate(formatted, description.body),
-        full: interpolate(formatted, description.full),
+        summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, '')),
+        body: priv.interpolator.interpolate(formatted, description.body),
+        full: priv.interpolator.interpolate(formatted, description.full),
       };
     }),
   });
@@ -133,20 +136,20 @@ function lazyInterpolateExpr(formatted) {
         case 'summary-column': process = processSummaryColumnTags; break;
         case 'param': process = processParamTags; break;
       }
-      return process(interpolate(formatted, tagValue));
+      return process(priv.interpolator.interpolate(formatted, tagValue));
     }));
   });
   definePropertyGetters(formatted.multiTags, multiTags);
 }
 
 // sets parent->child relations
-function lazyBuildObjectTree(formatted) {
+function lazyBuildObjectTree(priv, formatted) {
   definePropertyGetters(formatted, {
-    children: lazy(getChildrenByFqn.bind(null, formatted.fqn)),
-    fields: lazy(filterChildrenByType.bind(null, formatted, 'property')),
-    methods: lazy(filterChildrenByType.bind(null, formatted, 'function')),
-    parent: lazy(getParentByFqn.bind(null, formatted.fqn)),
-    parentElement: lazy(function() { return fqnMap[formatted.tags['parent-element']]; }),
+    children: lazy(function() { return priv.fqnMap.getChildrenOf(formatted.fqn); }),
+    fields: lazy(function() { return formatted.children.filter(ofType('property')); }),
+    methods: lazy(function() { return formatted.children.filter(ofType('function')); }),
+    parent: lazy(function() { return priv.fqnMap.getParentOf(formatted.fqn); }),
+    parentElement: lazy(function() { return priv.fqnMap.get(formatted.tags['parent-element']); }),
   });
 }
 
@@ -160,38 +163,22 @@ function getValue(ctx) {
   return ctx && ctx.value? ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '';
 }
 
-function getChildrenByFqn(fqn) {
-  var level = (fqn !== ''? fqn.split('.').length: 0) + 1;
-
-  function isChild(name) {
-    return name.indexOf(fqn) === 0 && level === name.split('.').length;
+function checkNotDefined(priv, fqn) {
+  if (priv.fqnMap.contains(fqn)) {
+    check(false, 'found second element of fqn='+ fqn,
+        'first seen in '+ priv.fqnMap.get(fqn).raw.filename +':'+ priv.fqnMap.get(fqn).raw.line,
+        'fqn MUST uniquely identify a comment');
   }
-  function isChildOfPrototype(name) {
-    return name.indexOf(fqn +'.prototype') === 0 && level === name.split('.').length - 1;
-  }
-
-  return Object.keys(fqnMap)
-    .filter(function(name) { return isChild(name) || isChildOfPrototype(name); })
-    .map(function(name) { return fqnMap[name]; })
-    .sort(function(left, right) { return left.commentId > right.commentId; })
-    ;
 }
 
-function filterChildrenByType(comment, type) {
-  return comment.children.filter(function(child) { return child.type === type; });
+function isTopLevel(fqn) {
+  return fqn !== '' && fqn.indexOf('.') === -1;
 }
 
-function getParentByFqn(fqn) {
-  var lastDotIndex = fqn.indexOf('.', -1);
-  if (lastDotIndex === -1) {
-    return null;
-  }
-  var parentFqn = fqn.substring(0, lastDotIndex);
-  if (parentFqn.endsWith('.prototype')) {
-    parentFqn = parentFqn.substring(0, -'.prototype'.length);
-  }
-  return check(fqnMap[parentFqn],
-      'couldn\'t find parent element of fqn='+ fqn +' parentfqn='+ parentFqn);
+function ofType(type) {
+  return function(comment) {
+    return comment.type === type;
+  };
 }
 
 function pass(arg) {
@@ -232,131 +219,6 @@ function processParamTags(tag) {
   };
 }
 
-function interpolate(context, str) {
-  var commands = {
-    name: function(arg) { return interpolateProperty(arg, 'name'); },
-    value: function(arg) { return interpolateProperty(arg, 'value'); },
-    link: function(arg) { return interpolateLink.apply(null, arg.split(' ')); },
-    hash: function(arg) { return interpolateHash.apply(null, [ context ].concat(arg.split(' '))); },
-  };
-
-  return replaceExpressions(str, function(commandName, argument) {
-    var command = check(commands[commandName], 'unknown command: '+ commandName);
-    return command(interpolate(context, argument));
-  });
-}
-
-function replaceExpressions(str, replaceFunction) {
-  check(typeof str === 'string', 'passed argument is not a string: '+ str);
-
-  var retVal = '';
-  var worker = textWorker();
-  str.split('').forEach(function(c) { worker(c); });
-  return retVal;
-
-  function textWorker() {
-    var maybeExpression = false;
-
-    function appendCharacter(c) {
-      if (maybeExpression) {
-        maybeExpression = false;
-        retVal += '$';
-      }
-      retVal += c;
-    }
-
-    function startExpression(c) {
-      if (maybeExpression) {
-        worker = expressionWorker();
-      } else {
-        retVal += c;
-      }
-    }
-
-    return function(c) {
-      switch (c) {
-        default: appendCharacter(c); break;
-        case '$': maybeExpression = true; break;
-        case '{': startExpression(c); break;
-      }
-    };
-  }
-
-  function expressionWorker() {
-    var expressionString = '';
-    var opened = 1;
-
-    function replace() {
-      var spaceIndex = expressionString.indexOf(' ');
-      if (spaceIndex === -1) {
-        return replaceFunction(expressionString, '');
-      }
-      var commandName = expressionString.substring(0, spaceIndex);
-      var argument = expressionString.substring(spaceIndex + 1);
-      return replaceFunction(commandName, argument);
-    }
-
-    function maybeFlush(c) {
-      opened -= 1;
-      if (opened !== 0) {
-        expressionString += c;
-        return;
-      }
-      retVal += replace();
-      worker = textWorker();
-    }
-
-    return function(c) {
-      switch (c) {
-        default: expressionString += c; break;
-        case '{': opened += 1; expressionString += c; break;
-        case '}': maybeFlush(c); break;
-      }
-    };
-  }
-}
-
-function interpolateProperty(fqn, property) {
-  var comment = fqnMap[fqn];
-  if (!comment) {
-    err('could not find element of fqn: '+ fqn);
-  }
-  return comment[property];
-}
-
-function interpolateLink(url) {
-  var anchorText = [].slice.call(arguments, 1).join(' ') || url;
-  return '['+ anchorText +'](#'+ url +')';
-}
-
-function interpolateHash(context, fqn) {
-  var comment = check(fqnMap[fqn], 'couldn\'t find element of fqn='+ fqn);
-  var anchorText = [].slice.call(arguments, 2).join(' ') || getAnchorText(context, comment);
-  return interpolateLink(toGithubHashLink(fqn), anchorText);
-}
-
-function getAnchorText(context, comment) {
-  var fqn = comment.fqn;
-
-  var prefix = fqn.startsWith(context.fqn) && fqn !== context.fqn? context.fqn:
-    context.parent && fqn.startsWith(context.parent.fqn)? context.parent.fqn:
-    '';
-  var anchorText = fqn.substring(prefix.length);
-  if (comment.type === 'function') {
-    anchorText += '('+ paramList(comment) +')';
-  }
-
-  return anchorText;
-}
-
-function paramList(comment) {
-  return comment.multiTags.param.map(function(param) { return param.name; }).join(', ');
-}
-
-function toGithubHashLink(headerName) {
-  return headerName.toLowerCase().replace(/ /g, '-').replace(/[\[\]{}()<>^$#@!%&*+\/\\|~`"':;,.]/g, '');
-}
-
 function lazy(loader) {
   var getter = function() {
     var retVal = loader();
@@ -372,18 +234,6 @@ function definePropertyGetters(object, propertyGetters) {
   Object.keys(propertyGetters).forEach(function(key) {
     Object.defineProperty(object, key, { get: propertyGetters[key], enumerable: true });
   });
-}
-
-function err() {
-  throw new Error('error while processing '+ currentDoc.filename +':'+ currentDoc.line +'\n'+
-    [].map.call(arguments, function(line) { return '    '+ line; }).join('\n'));
-}
-
-function check(condition) {
-  if (!condition) {
-    err.apply(null, [].slice.call(arguments, 1));
-  }
-  return condition;
 }
 
 /*
