@@ -59,7 +59,7 @@ var Selector = (function() {
   return selectors;
 }());
 
-// constructor
+// public
 
 /**
  * Constructs the slider.
@@ -109,8 +109,6 @@ function initializeSlider(elem) {
 
   return pub;
 }
-
-// public
 
 /**
  * Shows first slide.
