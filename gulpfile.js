@@ -10,23 +10,12 @@ var cssmin = require('gulp-cssmin');
 var markdox = require('gulp-markdox2');
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');
+var sequence = require('gulp-sequence');
 var rename = require('gulp-rename');
 var merge_stream = require('merge-stream');
 var del = require('del');
 
 var config = require('./build.config');
-
-function task(name, deps, config, func, merged_callback) {
-  gulp.task(name, deps, function () {
-    config = (config instanceof Array? config: [ config ]);
-    var results = config.map(func.bind(null)).filter(function(arg) { return arg != null; });
-    return (merged_callback || pass)(merge_stream.apply(null, results));
-  });
-}
-
-function pass(arg) {
-  return arg;
-}
 
 task('sass', [], config.css, function(files) {
   var build_dir = config.dir.build + (files.dest || '');
@@ -82,14 +71,14 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
 });
 
 gulp.task('clean:dist', function(cb) {
-  return del([ '${config.dir.build}**/*', '!${config.dir.build}' ], { force: true }, cb);
+  return del([ config.dir.build +'**/*', '!'+ config.dir.build ], { force: true }, cb);
 });
 
-gulp.task('dist', [ 'clean:dist', 'sass', 'spec', 'javascript' ]);
+gulp.task('dist', [ 'clean:dist' ], sequence('sass', 'spec', 'javascript'));
 
 gulp.task('clean:doc', function(callback) {
   config.doc.formatter.reset();
-  return del([ '${config.dir.docs}**/*', '!${config.dir.docs}' ], { force: true }, callback);
+  return del([ config.dir.docs +'**/*', '!'+ config.dir.docs ], { force: true }, callback);
 });
 
 task('doc', [ 'clean:doc' ], config.doc, function(files) {
@@ -123,4 +112,16 @@ gulp.task('watch', [ 'default' ], function() {
     livereload: true
   });
 });
+
+function task(name, deps, config, func, merged_callback) {
+  gulp.task(name, deps, function () {
+    config = (config instanceof Array? config: [ config ]);
+    var results = config.map(func.bind(null)).filter(function(arg) { return arg != null; });
+    return (merged_callback || pass)(merge_stream.apply(null, results));
+  });
+}
+
+function pass(arg) {
+  return arg;
+}
 
