@@ -103,10 +103,10 @@ function typeOf(comment) {
 
     Type | Name | Description
     --- | --- | ---
-    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?>{<?= typeOf(row)
-      ?>} | <?= link(fieldSignature(row), fieldSignature(row)) ?> | <?= row.description.summary ?>
-    <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?>{<?= typeOf(row)
-      ?>} | <?= link(methodSignature(row),  methodSignature(row)) ?> | <?= row.description.summary ?>
+    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
+      ?> | <?= link(fieldSignature(row), fieldSignature(row)) ?> | <?= row.description.summary ?>
+    <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
+      ?> | <?= link(methodSignature(row),  methodSignature(row)) ?> | <?= row.description.summary ?>
     <? }) ?>
 
     <? if (type.fields.length) { ?>
@@ -118,7 +118,7 @@ function typeOf(comment) {
 
         <?= field.description.full ?>
 
-        *@type* - {<?= field.tags.type ?>}
+        *@type* - <?= field.tags.type ?>
 
         *@access* - `<?= field.tags.access ?>`
 
@@ -138,7 +138,9 @@ function typeOf(comment) {
         <? method.multiTags.param.forEach(function(param) { ?>
           *@param* {<?= param.type ?>} **<?= param.name ?>** - <?= param.description ?>
         <? }) ?>
-        *@return* - {<?= method.tags.return ?>}
+        <? if (method.tags.return !== 'void') { ?>
+          *@return* - <?= method.tags.return ?>
+        <? } ?>
         <? printMultitags(method) ?>
       <? }) ?>
     <? } ?>
