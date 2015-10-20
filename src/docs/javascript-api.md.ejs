@@ -55,6 +55,9 @@ function methodSignature(comment) {
 function signature(comment) {
   return comment.type === 'property'? fieldSignature(comment): methodSignature(comment);
 }
+function typeOf(comment) {
+  return comment.type === 'property'? comment.tags.type: comment.tags['return'];
+}
 ?>
 <? function printMultitags(comment) { ?>
   <? comment.multiTags.precondition.forEach(function(precondition) { ?>
@@ -98,12 +101,12 @@ function signature(comment) {
 
     ### Summary
 
-    Name | Description
-    --- | ---
-    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
-      link(fieldSignature(row)) ?> | <?= row.description.summary ?>
-    <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
-      link(methodSignature(row)) ?> | <?= row.description.summary ?>
+    Type | Name | Description
+    --- | --- | ---
+    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?>{<?= typeOf(row)
+      ?>} | <?= link(fieldSignature(row), fieldSignature(row)) ?> | <?= row.description.summary ?>
+    <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?>{<?= typeOf(row)
+      ?>} | <?= link(methodSignature(row),  methodSignature(row)) ?> | <?= row.description.summary ?>
     <? }) ?>
 
     <? if (type.fields.length) { ?>
@@ -114,6 +117,11 @@ function signature(comment) {
         #### <?= fieldSignature(field) ?>
 
         <?= field.description.full ?>
+
+        *@type* - {<?= field.tags.type ?>}
+
+        *@access* - `<?= field.tags.access ?>`
+
         <? printMultitags(field) ?>
       <? }) ?>
     <? } ?>
@@ -125,11 +133,12 @@ function signature(comment) {
         <? if (method.ignore) { return } ?>
         #### <?= methodSignature(method) ?>
 
+        <?= method.description.full ?>
+
         <? method.multiTags.param.forEach(function(param) { ?>
           *@param* {<?= param.type ?>} **<?= param.name ?>** - <?= param.description ?>
         <? }) ?>
-
-        <?= method.description.full ?>
+        *@return* - {<?= method.tags.return ?>}
         <? printMultitags(method) ?>
       <? }) ?>
     <? } ?>

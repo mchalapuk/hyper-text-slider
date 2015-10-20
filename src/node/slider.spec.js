@@ -106,11 +106,11 @@ describe('slider', function() {
         expect(testedSlider.slides.length).toEqual(3);
       });
 
-      it('then contains null slides.currentIndex', function() {
-        expect(testedSlider.slides.currentIndex).toBe(null);
+      it('then contains null currentIndex', function() {
+        expect(testedSlider.currentIndex).toBe(null);
       });
-      it('then contains null slides.current', function() {
-        expect(testedSlider.slides.current).toBe(null);
+      it('then contains null currentSlide', function() {
+        expect(testedSlider.currentSlide).toBe(null);
       });
 
       it('then contains no slide with "hermes-slide-from" or "hermes-slide-to" flags', function() {
@@ -144,11 +144,11 @@ describe('slider', function() {
         expect(sliderElement.classList.contains('hermes-slide-id-first')).toBe(true);
       });
 
-      it('then contains slides.currentIndex of value 0', function() {
-        expect(testedSlider.slides.currentIndex).toBe(0);
+      it('then contains currentIndex of value 0', function() {
+        expect(testedSlider.currentIndex).toBe(0);
       });
-      it('then contains slides.current pointing to slides[0]', function() {
-        expect(testedSlider.slides.current).toBe(testedSlider.slides[0]);
+      it('then contains currentSlide pointing to slides[0]', function() {
+        expect(testedSlider.currentSlide).toBe(testedSlider.slides[0]);
       });
 
       it('then contains first slide with "hermes-slide-to" flag', function() {
@@ -178,7 +178,7 @@ describe('slider', function() {
     describe('when after setting current slide to 1', function() {
       beforeEach(function() {
         testedSlider.start();
-        testedSlider.slides.currentIndex = 1;
+        testedSlider.currentIndex = 1;
       });
 
       it('then contains "hermes-before-transition" class', function() {
@@ -193,7 +193,7 @@ describe('slider', function() {
 
       describe('after firing transitionend event on current slide element', function() {
         beforeEach(function() {
-          var target = testedSlider.slides.current.querySelector('.hermes-layout--content');
+          var target = testedSlider.currentSlide.querySelector('.hermes-layout--content');
           var event = new TransitionEndEvent(target, 'transform');
           target.dispatchEvent(event);
         });
@@ -204,7 +204,7 @@ describe('slider', function() {
 
         describe('and after firing transitionend event second time', function() {
           beforeEach(function() {
-            var target = testedSlider.slides.current.querySelector('.hermes-layout--content');
+            var target = testedSlider.currentSlide.querySelector('.hermes-layout--content');
             var event = new TransitionEndEvent(target, 'transform');
             target.dispatchEvent(event);
           });
@@ -258,7 +258,7 @@ describe('slider', function() {
       });
 
       it('is started', function() {
-        expect(testedSlider.slides.current).not.toBe(null);
+        expect(testedSlider.currentSlide).not.toBe(null);
       });
     });
   });
@@ -276,17 +276,17 @@ describe('slider', function() {
       beforeEach(function() {
         testedSlider.start();
 
-        var target = testedSlider.slides.current.querySelector('.hermes-layout--content');
+        var target = testedSlider.currentSlide.querySelector('.hermes-layout--content');
         var event = new TransitionEndEvent(target, 'transform');
         target.dispatchEvent(event);
         target.dispatchEvent(event);
       });
 
       it('then current index is 1', function() {
-        expect(testedSlider.slides.currentIndex).toEqual(1);
+        expect(testedSlider.currentIndex).toEqual(1);
       });
       it('then current slide is the second slide', function() {
-        expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+        expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
       });
       it('then slider is in "hermes-before-transition" phase', function() {
         expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
@@ -342,7 +342,7 @@ describe('slider', function() {
         });
 
         it('then current slide is the second slide', function() {
-          expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+          expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
         });
         it('then is in "hermes-before-transition" phase', function() {
           expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
@@ -367,7 +367,7 @@ describe('slider', function() {
 
       it('then current slide is the second slide', function() {
         window.dispatchEvent(new KeyDownEvent('ArrowLeft'));
-        expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+        expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
       });
     });
 
@@ -378,7 +378,7 @@ describe('slider', function() {
 
       it('then current slide is the second slide', function() {
         window.dispatchEvent(new KeyDownEvent('ArrowRight'));
-        expect(testedSlider.slides.current).toBe(testedSlider.slides[1]);
+        expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
       });
     });
   });

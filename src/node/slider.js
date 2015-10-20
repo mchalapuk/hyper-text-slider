@@ -97,12 +97,44 @@ function initializeSlider(elem) {
     moveToPrevious,
   ], priv);
 
+  /**
+   * Array containing all slide elements.
+   *
+   * @type Array
+   * @access read-only
+   *
+   * @fqn Slider.prototype.slides
+   */
   pub.slides = priv.slides;
-  Object.defineProperty(pub.slides, 'currentIndex', {
+
+  /**
+   * Index of currently active slide.
+   *
+   * `null` if ${link Slider.prototype.start} was not called on this slider.
+   *
+   * @type Number
+   * @access read-write
+   *
+   * @fqn Slider.prototype.currentIndex
+   */
+  pub.currentIndex = null;
+  Object.defineProperty(pub, 'currentIndex', {
     get: function() { return priv.started? priv.toIndex: null; },
     set: pub.moveTo,
   });
-  Object.defineProperty(pub.slides, 'current', {
+
+  /**
+   * Currently active slide element.
+   *
+   * `null` if ${link Slider.prototype.start} was not called on this slider.
+   *
+   * @type Element
+   * @access read-write
+   *
+   * @fqn Slider.prototype.currentSlide
+   */
+  pub.currentSlide = null;
+  Object.defineProperty(pub, 'currentSlide', {
     get: function() { return priv.started? priv.slides[priv.toIndex]: null; },
     set: function() { throw new Error('read only property! please use currentIndex instead'); },
   });

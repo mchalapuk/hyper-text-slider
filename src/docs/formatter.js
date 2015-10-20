@@ -52,7 +52,9 @@ function format(priv, docfile) {
     var value = getValue(javadoc.ctx);
 
     var tagValues = {
-      deprecated: false,
+      'deprecated': false,
+      'return': 'void',
+      'type': 'unknown',
     };
     var multiTagValues = {
       'param': [],

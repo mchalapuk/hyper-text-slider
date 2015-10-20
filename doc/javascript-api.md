@@ -24,6 +24,9 @@ limitations under the License.
 
 1. [Slider](#slider)<ul>
 <li>[.prototype.constructor(elem)](#sliderprototypeconstructorelem)
+<li>[.prototype.slides](#sliderprototypeslides)
+<li>[.prototype.currentIndex](#sliderprototypecurrentindex)
+<li>[.prototype.currentSlide](#sliderprototypecurrentslide)
 <li>[.prototype.start()](#sliderprototypestart)
 <li>[.prototype.moveToNext()](#sliderprototypemovetonext)
 <li>[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)
@@ -53,27 +56,64 @@ window.addEventListener('load', function() {
 
 ### Summary
 
-Name | Description
---- | ---
-[Slider.prototype.constructor(elem)](#sliderprototypeconstructorelem) | Constructs the slider.
-[Slider.prototype.start()](#sliderprototypestart) | Shows first slide.
-[Slider.prototype.moveToNext()](#sliderprototypemovetonext) | Moves slider to next slide.
-[Slider.prototype.moveToPrevious()](#sliderprototypemovetoprevious) | Moves slider previous slide.
-[Slider.prototype.moveTo(index)](#sliderprototypemovetoindex) | Moves slider slide of given index.
+Type | Name | Description
+--- | --- | ---
+{Array} | [Slider.prototype.slides](#sliderprototypeslides) | Array containing all slide elements.
+{Number} | [Slider.prototype.currentIndex](#sliderprototypecurrentindex) | Index of currently active slide.
+{Element} | [Slider.prototype.currentSlide](#sliderprototypecurrentslide) | Currently active slide element.
+{void} | [Slider.prototype.constructor(elem)](#sliderprototypeconstructorelem) | Constructs the slider.
+{void} | [Slider.prototype.start()](#sliderprototypestart) | Shows first slide.
+{void} | [Slider.prototype.moveToNext()](#sliderprototypemovetonext) | Moves slider to next slide.
+{void} | [Slider.prototype.moveToPrevious()](#sliderprototypemovetoprevious) | Moves slider previous slide.
+{void} | [Slider.prototype.moveTo(index)](#sliderprototypemovetoindex) | Moves slider slide of given index.
+
+### Fields
+
+#### Slider.prototype.slides
+
+Array containing all slide elements.
+
+*@type* - {Array}
+
+*@access* - `read-only`
+
+#### Slider.prototype.currentIndex
+
+Index of currently active slide.
+
+`null` if [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider.
+
+*@type* - {Number}
+
+*@access* - `read-write`
+
+#### Slider.prototype.currentSlide
+
+Currently active slide element.
+
+`null` if [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider.
+
+*@type* - {Element}
+
+*@access* - `read-write`
 
 ### Methods
 
 #### Slider.prototype.constructor(elem)
 
+Constructs the slider.
+
 *@param* {Element} **elem** - DOM element for the slider
 
-Constructs the slider.
+*@return* - {void}
 
 #### Slider.prototype.start()
 
 Shows first slide.
 
 Starts the slider mechanism.
+
+*@return* - {void}
 
 *@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider
 
@@ -85,6 +125,8 @@ Starts the slider mechanism.
 
 Moves slider to next slide.
 
+*@return* - {void}
+
 *@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
 
 *@see* - [hermes-autoplay](class-names.md#hermes-autoplay)
@@ -93,13 +135,17 @@ Moves slider to next slide.
 
 Moves slider previous slide.
 
+*@return* - {void}
+
 *@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
 
 #### Slider.prototype.moveTo(index)
 
+Moves slider slide of given index.
+
 *@param* {Number} **index** - index of the slide that slider will be moved to
 
-Moves slider slide of given index.
+*@return* - {void}
 
 *@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
 
