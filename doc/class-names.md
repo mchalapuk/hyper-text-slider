@@ -217,7 +217,7 @@ Shows first slide automatically.
 
 *@checked* - [once](#once)
 
-*@see* - [Slider.prototype.start](javascript-api.md#sliderprototypestart)
+*@see* - [Slider.prototype.start()](javascript-api.md#sliderprototypestart)
 
 #### hermes-autoplay
 
@@ -227,7 +227,7 @@ Slider is moved after content transition of current slide ends.
 
 *@checked* - [continuously](#continuously)
 
-*@see* - [Slider.prototype.moveToNext](javascript-api.md#sliderprototypemovetonext)
+*@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
 #### hermes-create-arrows
 
@@ -238,9 +238,9 @@ Creates side arrow buttons.
 
 *@checked* - [once](#once)
 
-*@see* - [Slider.prototype.moveToPrevious](javascript-api.md#sliderprototypemovetoprevious)
+*@see* - [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
 
-*@see* - [Slider.prototype.moveToNext](javascript-api.md#sliderprototypemovetonext)
+*@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
 #### hermes-create-dots
 

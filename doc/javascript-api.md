@@ -81,7 +81,7 @@ Array containing all slide elements.
 
 Index of currently active slide.
 
-`null` if [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider.
+Set to `null` if [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider.
 
 *@type* - Number
 
@@ -91,7 +91,7 @@ Index of currently active slide.
 
 Currently active slide element.
 
-`null` if [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider.
+Set to `null` if [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider.
 
 *@type* - Element
 
@@ -111,9 +111,9 @@ Shows first slide.
 
 Starts the slider mechanism.
 
-*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider
+*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider
 
-*@postcondition* - calling [Slider.prototype.start](javascript-api.md#sliderprototypestart) again will throw exception
+*@postcondition* - calling [.prototype.start()](javascript-api.md#sliderprototypestart) again will throw exception
 
 *@see* - [hermes-autostart](class-names.md#hermes-autostart)
 
@@ -121,7 +121,7 @@ Starts the slider mechanism.
 
 Moves slider to next slide.
 
-*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
+*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
 
 *@see* - [hermes-autoplay](class-names.md#hermes-autoplay)
 
@@ -129,7 +129,7 @@ Moves slider to next slide.
 
 Moves slider previous slide.
 
-*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
+*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
 
 #### Slider.prototype.moveTo(index)
 
@@ -137,7 +137,7 @@ Moves slider slide of given index.
 
 *@param* {Number} **index** - index of the slide that slider will be moved to
 
-*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
+*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
 
 <!-- End src/node/slider.js -->
 

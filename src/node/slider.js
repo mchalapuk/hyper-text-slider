@@ -110,7 +110,7 @@ function initializeSlider(elem) {
   /**
    * Index of currently active slide.
    *
-   * `null` if ${link Slider.prototype.start} was not called on this slider.
+   * Set to `null` if ${link Slider.prototype.start} was not called on this slider.
    *
    * @type Number
    * @access read-write
@@ -126,7 +126,7 @@ function initializeSlider(elem) {
   /**
    * Currently active slide element.
    *
-   * `null` if ${link Slider.prototype.start} was not called on this slider.
+   * Set to `null` if ${link Slider.prototype.start} was not called on this slider.
    *
    * @type Element
    * @access read-write

@@ -136,7 +136,7 @@ function interpolateLink(priv, context, fqn, anchor) {
     },
   };
 
-  var anchorText = anchor || anchorFactory[title] && anchorFactory[title]();
+  var anchorText = anchor || anchorFactory[titleProperty] && anchorFactory[titleProperty]();
   var url = priv.options.urlBase(comment) +'#'+ toGithubHashLink(title);
   return '['+ (anchorText || title) +']('+ url +')';
 }
