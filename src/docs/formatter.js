@@ -64,7 +64,7 @@ function format(priv, docfile) {
     };
 
     javadoc.tags.forEach(function(tag) {
-      var tagValue = tag.url || tag.local || tag.string;
+      var tagValue = (tag.url || tag.local || tag.string).trim();
 
       if (tag.type in multiTagValues) {
         multiTagValues[tag.type].push(tagValue);
@@ -130,24 +130,31 @@ function lazyInterpolateExpr(priv, formatted) {
   var multiTags = {};
   Object.keys(multiTagValues).forEach(function(tagName) {
     multiTags[tagName] = lazy([].map.bind(multiTagValues[tagName], function(tagValue) {
-      var process = null;
       switch (tagName) {
-        default: process = pass; break;
-        case 'summary-column': process = processSummaryColumnTags; break;
-        case 'param': process = processParamTags; break;
+        default: return priv.interpolator.interpolate(formatted, tagValue);
+        case 'summary-column': return processSummaryColumnTag(priv, formatted, tagValue);
+        case 'param': return processParamTag(priv, formatted, tagValue);
+        case 'see': return processSeeTag(priv, formatted, tagValue);
       }
-      return process(priv.interpolator.interpolate(formatted, tagValue));
     }));
   });
   definePropertyGetters(formatted.multiTags, multiTags);
 }
 
+var Filter = {
+  ofType: function(type) {
+    return function(comment) {
+      return comment.type === type;
+    };
+  },
+};
+
 // sets parent->child relations
 function lazyBuildObjectTree(priv, formatted) {
   definePropertyGetters(formatted, {
     children: lazy(function() { return priv.fqnMap.getChildrenOf(formatted.fqn); }),
-    fields: lazy(function() { return formatted.children.filter(ofType('property')); }),
-    methods: lazy(function() { return formatted.children.filter(ofType('function')); }),
+    fields: lazy(function() { return formatted.children.filter(Filter.ofType('property')); }),
+    methods: lazy(function() { return formatted.children.filter(Filter.ofType('function')); }),
     parent: lazy(function() { return priv.fqnMap.getParentOf(formatted.fqn); }),
     parentElement: lazy(function() { return priv.fqnMap.get(formatted.tags['parent-element']); }),
   });
@@ -175,32 +182,25 @@ function isTopLevel(fqn) {
   return fqn !== '' && fqn.indexOf('.') === -1;
 }
 
-function ofType(type) {
-  return function(comment) {
-    return comment.type === type;
-  };
-}
-
-function pass(arg) {
-  return arg;
-}
-
-function processSummaryColumnTags(tag) {
-  var spaceIndex = tag.indexOf(' ');
+function processSummaryColumnTag(priv, formatted, value) {
+  var interpolated = priv.interpolator.interpolate(formatted, value);
+  var spaceIndex = interpolated.indexOf(' ');
   return {
-    key: spaceIndex !== -1? tag.substring(0, spaceIndex): tag,
-    description: spaceIndex !== -1? tag.substring(spaceIndex + 1): tag,
-    full: tag,
+    key: spaceIndex !== -1? interpolated.substring(0, spaceIndex): value,
+    description: spaceIndex !== -1? interpolated.substring(spaceIndex + 1): value,
+    full: interpolated,
   };
 }
 
-function processParamTags(tag) {
+function processParamTag(priv, formatted, value) {
+  var interpolated = priv.interpolator.interpolate(formatted, value);
+
   var type = 'Unkonwn';
-  var nameAndDesc = tag;
-  if (tag.indexOf('{') !== -1) {
-    var typeEnd = tag.indexOf('}');
-    type = tag.substring(1, typeEnd);
-    nameAndDesc = tag.substring(typeEnd + 2);
+  var nameAndDesc = interpolated;
+  if (interpolated.indexOf('{') !== -1) {
+    var typeEnd = interpolated.indexOf('}');
+    type = interpolated.substring(1, typeEnd);
+    nameAndDesc = interpolated.substring(typeEnd + 2);
   }
 
   var name = nameAndDesc;
@@ -215,8 +215,15 @@ function processParamTags(tag) {
     type: type,
     name: name,
     description: description,
-    full: tag,
+    full: interpolated,
   };
+}
+
+function processSeeTag(priv, formatted, value) {
+  if (priv.fqnMap.contains(value)) {
+    return priv.interpolator.interpolate(formatted, '${link '+ value +'}');
+  }
+  return priv.interpolator.interpolate(formatted, value);
 }
 
 function lazy(loader) {

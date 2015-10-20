@@ -48,7 +48,7 @@ function interpolate(priv, context, str) {
 }
 
 function replaceExpressions(str, replaceFunction) {
-  check(typeof str === 'string', 'passed argument is not a string: '+ str);
+  check(typeof str === 'string', 'passed argument is not a string: '+ JSON.stringify(str));
 
   var retVal = '';
   var worker = textWorker();

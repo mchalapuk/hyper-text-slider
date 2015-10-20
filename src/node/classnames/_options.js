@@ -53,7 +53,7 @@ var Option = {
    * Shows first slide automatically.
    *
    * @checked once
-   * @see Slider.start
+   * @see Slider.prototype.start
    *
    * @fqn Option.AUTOSTART
    */
@@ -65,7 +65,7 @@ var Option = {
    * Slider is moved after content transition of current slide ends.
    *
    * @checked continuously
-   * @see Slider.moveToNext
+   * @see Slider.prototype.moveToNext
    *
    * @fqn Option.AUTOPLAY
    */
@@ -78,8 +78,8 @@ var Option = {
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
    * @checked once
-   * @see Slider.moveToPrevious
-   * @see Slider.moveToNext
+   * @see Slider.prototype.moveToPrevious
+   * @see Slider.prototype.moveToNext
    *
    * @fqn Option.CREATE_ARROWS
    */
@@ -91,7 +91,7 @@ var Option = {
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
    * @checked once
-   * @see Slider.slides.currentIndex
+   * @see Slider.prototype.slides.currentIndex
    *
    * @fqn Option.CREATE_DOTS
    */
@@ -104,7 +104,7 @@ var Option = {
    * slide, with `RightArrow` key moves slider to next slide.
    *
    * @checked once
-   * @see Slider.slides.currentIndex
+   * @see Slider.prototype.slides.currentIndex
    *
    * @fqn Option.ARROW_KEYS
    */

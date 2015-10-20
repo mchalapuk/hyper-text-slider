@@ -37,7 +37,7 @@ function FqnMap() {
 }
 
 function contains(priv, fqn) {
-  return fqn in priv.data;
+  return priv.data.hasOwnProperty(fqn);
 }
 
 function get(priv, fqn) {
