@@ -1313,7 +1313,7 @@ var Option = {
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
    * @checked once
-   * @see Slider.prototype.slides.currentIndex
+   * @see Slider.prototype.currentIndex
    *
    * @fqn Option.CREATE_DOTS
    */
@@ -1326,7 +1326,7 @@ var Option = {
    * slide, with `RightArrow` key moves slider to next slide.
    *
    * @checked once
-   * @see Slider.prototype.slides.currentIndex
+   * @see Slider.prototype.currentIndex
    *
    * @fqn Option.ARROW_KEYS
    */

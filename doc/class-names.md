@@ -250,7 +250,7 @@ Creates dot button for each slide.
 
 *@checked* - [once](#once)
 
-*@see* - Slider.prototype.slides.currentIndex
+*@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
 #### hermes-arrow-keys
 
@@ -261,7 +261,7 @@ slide, with `RightArrow` key moves slider to next slide.
 
 *@checked* - [once](#once)
 
-*@see* - Slider.prototype.slides.currentIndex
+*@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
 <!-- End src/node/classnames/_options.js -->
 
