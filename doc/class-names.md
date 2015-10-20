@@ -176,7 +176,7 @@ It may be used in client CSS for styling.
 
 ## Option Class Names
 
-All option classes are intended to be set on slider element ([hermes-layout--slider](#hermes-layout--slider)).
+All option classes are intended to be set on slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
 
 Two categories:
  1. **single options** - each of which enables one feature,
@@ -194,7 +194,7 @@ Each option class is checked by the slider in one of two ways:
 
 Name | Description | Checked
 --- | --- | ---
-[hermes-defaults](#hermes-defaults) | Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay), [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots), [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider. | once
+[hermes-defaults](#hermes-defaults) | Adds [hermes-autostart](class-names.md#hermes-autostart), [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys) classes to the slider. | once
 [hermes-autostart](#hermes-autostart) | Shows first slide automatically. | once
 [hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | continuously
 [hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | once
@@ -205,9 +205,9 @@ Name | Description | Checked
 
 #### hermes-defaults
 
-Adds [hermes-autostart](#hermes-autostart), [hermes-autoplay](#hermes-autoplay),
- [hermes-create-arrows](#hermes-create-arrows), [hermes-create-dots](#hermes-create-dots),
- [hermes-arrow-keys](#hermes-arrow-keys) classes to the slider.
+Adds [hermes-autostart](class-names.md#hermes-autostart), [hermes-autoplay](class-names.md#hermes-autoplay),
+ [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots),
+ [hermes-arrow-keys](class-names.md#hermes-arrow-keys) classes to the slider.
 
 *@checked* - [once](#once)
 
@@ -269,7 +269,7 @@ slide, with `RightArrow` key moves slider to next slide.
 
 ## Transition Phase Class Names
 
-All phase classes are automatically set on slider element ([hermes-layout--slider](#hermes-layout--slider)).
+All phase classes are automatically set on slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
 They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
 in definitions of CSS transitions**.
 
@@ -278,8 +278,8 @@ in definitions of CSS transitions**.
 Name | Description
 --- | ---
 [hermes-before-transition](#hermes-before-transition) | Set on slider element just before transition starts.
-[hermes-during-transition](#hermes-during-transition) | Set on slider element while transition of [hermes-layout--content](#hermes-layout--content) element is run.
-[hermes-after-transition](#hermes-after-transition) | Set on slider element after transition of [hermes-layout--content](#hermes-layout--content) element ends.
+[hermes-during-transition](#hermes-during-transition) | Set on slider element while transition of [hermes-layout--content](class-names.md#hermes-layout--content) element is run.
+[hermes-after-transition](#hermes-after-transition) | Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
 
 ### Details
 
@@ -292,15 +292,15 @@ to initial values before transition.
 
 #### hermes-during-transition
 
-Set on slider element while transition of [hermes-layout--content](#hermes-layout--content) element is run.
+Set on slider element while transition of [hermes-layout--content](class-names.md#hermes-layout--content) element is run.
 
 #### hermes-after-transition
 
-Set on slider element after transition of [hermes-layout--content](#hermes-layout--content) element ends.
+Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
 
-If [hermes-autoplay](#hermes-autoplay) option is on, next transition
+If [hermes-autoplay](class-names.md#hermes-autoplay) option is on, next transition
 will be started just after hitting this phase, which will move slider
-back to phase [hermes-before-transition](#hermes-before-transition).
+back to phase [hermes-before-transition](class-names.md#hermes-before-transition).
 
 <!-- End src/node/classnames/_phases.js -->
 
@@ -308,7 +308,7 @@ back to phase [hermes-before-transition](#hermes-before-transition).
 
 ## Transition Marker Class Names
 
-They are automatically set on slide elements ([hermes-layout--slide](#hermes-layout--slide)).
+They are automatically set on slide elements ([hermes-layout--slide](class-names.md#hermes-layout--slide)).
 Marker class names MUST NOT be manipulated from client HTML or JavaScript
 and **SHOULD be used only in definitions of CSS transitions**.
 
@@ -316,20 +316,20 @@ and **SHOULD be used only in definitions of CSS transitions**.
 
 Name | Description
 --- | ---
-[hermes-slide-from](#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
-[hermes-slide-to](#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](#hermes-layout--slide).
+[hermes-slide-from](#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](class-names.md#hermes-layout--slide).
+[hermes-slide-to](#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](class-names.md#hermes-layout--slide).
 
 ### Details
 
 #### hermes-slide-from
 
-Automatically set on previously active [hermes-layout--slide](#hermes-layout--slide).
+Automatically set on previously active [hermes-layout--slide](class-names.md#hermes-layout--slide).
 
 *@invariant* - After starting first transition this class name is set on only one slide.
 
 #### hermes-slide-to
 
-Automatically set on currently active [hermes-layout--slide](#hermes-layout--slide).
+Automatically set on currently active [hermes-layout--slide](class-names.md#hermes-layout--slide).
 
 This class name is set on first slide after starting a slider
 and then set on currently active slide each time it changes.
@@ -350,7 +350,7 @@ client HTML or JavaScript and **SHOULD be used only in client CSS**.
 Name | Description
 --- | ---
 [is-upgraded](#is-upgraded) | Automatically set on slider after its upgrade.
-[is-active](#is-active) | Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
+[is-active](#is-active) | Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) button connected with currently active slide.
 
 ### Details
 
@@ -360,7 +360,7 @@ Automatically set on slider after its upgrade.
 
 #### is-active
 
-Automatically set on [hermes-layout--dot](#hermes-layout--dot) button connected with currently active slide.
+Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) button connected with currently active slide.
 
 *@invariant* - This class is set on only one dot button.
 
@@ -382,11 +382,11 @@ Name | Description
 
 All transitions used by the slider must match this regular expression.
 
-During slider upgrade [hermes-layout--slider](#hermes-layout--slider) element is checked for presence of
+During slider upgrade [hermes-layout--slider](class-names.md#hermes-layout--slider) element is checked for presence of
 transition class names. Transitions declared this way will be randomly used by the slider.
 After upgrade all declared transitions are removed from slider element.
 
-Transitions may also be declared on [hermes-layout--slide](#hermes-layout--slide) elements. Slider will always
+Transitions may also be declared on [hermes-layout--slide](class-names.md#hermes-layout--slide) elements. Slider will always
 use transition declared on slide element when moving to this slide. Transition declarations of
 this type are [checked continuously](#continuously), therefore they may be added/removed
 on slides at runtime (client JavaScript).

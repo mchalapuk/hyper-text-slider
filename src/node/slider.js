@@ -115,9 +115,9 @@ function initializeSlider(elem) {
  *
  * Starts the slider mechanism.
  *
- * @precondition ${hash Slider.prototype.start} was not called on this slider
- * @postcondition calling ${hash Slider.prototype.start} again will throw exception
- * @see ${value Option.AUTOSTART}
+ * @precondition ${link Slider.prototype.start} was not called on this slider
+ * @postcondition calling ${link Slider.prototype.start} again will throw exception
+ * @see ${link Option.AUTOSTART}
  *
  * @fqn Slider.prototype.start
  */
@@ -143,8 +143,8 @@ function start(priv) {
 /**
  * Moves slider to next slide.
  *
- * @precondition ${hash Slider.prototype.start} was called on this slider
- * @see ${value Option.AUTOPLAY}
+ * @precondition ${link Slider.prototype.start} was called on this slider
+ * @see ${link Option.AUTOPLAY}
  *
  * @fqn Slider.prototype.moveToNext
  */
@@ -155,7 +155,7 @@ function moveToNext(priv) {
 /**
  * Moves slider previous slide.
  *
- * @precondition ${hash Slider.prototype.start} was called on this slider
+ * @precondition ${link Slider.prototype.start} was called on this slider
  *
  * @fqn Slider.prototype.moveToPrevious
  */
@@ -167,7 +167,7 @@ function moveToPrevious(priv) {
  * Moves slider slide of given index.
  *
  * @param {Number} index index of the slide that slider will be moved to
- * @precondition ${hash Slider.prototype.start} was called on this slider
+ * @precondition ${link Slider.prototype.start} was called on this slider
  *
  * @fqn Slider.prototype.moveTo
  */

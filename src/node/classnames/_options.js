@@ -19,7 +19,7 @@
 'use strict';
 
 /**
- * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
+ * All option classes are intended to be set on slider element (${link Layout.SLIDER}).
  *
  * Two categories:
  *  1. **single options** - each of which enables one feature,
@@ -39,9 +39,9 @@
 var Option = {
 
   /**
-   * Adds ${link ${value Option.AUTOSTART}}, ${link ${value Option.AUTOPLAY}},
-   *  ${link ${value Option.CREATE_ARROWS}}, ${link ${value Option.CREATE_DOTS}},
-   *  ${link ${value Option.ARROW_KEYS}} classes to the slider.
+   * Adds ${link Option.AUTOSTART}, ${link Option.AUTOPLAY},
+   *  ${link Option.CREATE_ARROWS}, ${link Option.CREATE_DOTS},
+   *  ${link Option.ARROW_KEYS} classes to the slider.
    *
    * @checked once
    *

@@ -961,7 +961,7 @@ var Flag = {
   UPGRADED: 'is-upgraded',
 
   /**
-   * Automatically set on ${link ${value Layout.DOT}} button connected with currently active slide.
+   * Automatically set on ${link Layout.DOT} button connected with currently active slide.
    *
    * @invariant This class is set on only one dot button.
    *
@@ -1182,7 +1182,7 @@ module.exports = Layout;
 'use strict';
 
 /**
- * They are automatically set on slide elements (${link ${value Layout.SLIDE}}).
+ * They are automatically set on slide elements (${link Layout.SLIDE}).
  * Marker class names MUST NOT be manipulated from client HTML or JavaScript
  * and **SHOULD be used only in definitions of CSS transitions**.
  *
@@ -1191,7 +1191,7 @@ module.exports = Layout;
 var Marker = {
 
   /**
-   * Automatically set on previously active ${link ${value Layout.SLIDE}}.
+   * Automatically set on previously active ${link Layout.SLIDE}.
    *
    * @invariant After starting first transition this class name is set on only one slide.
    *
@@ -1200,7 +1200,7 @@ var Marker = {
   SLIDE_FROM: 'hermes-slide-from',
 
   /**
-   * Automatically set on currently active ${link ${value Layout.SLIDE}}.
+   * Automatically set on currently active ${link Layout.SLIDE}.
    *
    * This class name is set on first slide after starting a slider
    * and then set on currently active slide each time it changes.
@@ -1241,7 +1241,7 @@ module.exports = Marker;
 'use strict';
 
 /**
- * All option classes are intended to be set on slider element (${link ${value Layout.SLIDER}}).
+ * All option classes are intended to be set on slider element (${link Layout.SLIDER}).
  *
  * Two categories:
  *  1. **single options** - each of which enables one feature,
@@ -1261,9 +1261,9 @@ module.exports = Marker;
 var Option = {
 
   /**
-   * Adds ${link ${value Option.AUTOSTART}}, ${link ${value Option.AUTOPLAY}},
-   *  ${link ${value Option.CREATE_ARROWS}}, ${link ${value Option.CREATE_DOTS}},
-   *  ${link ${value Option.ARROW_KEYS}} classes to the slider.
+   * Adds ${link Option.AUTOSTART}, ${link Option.AUTOPLAY},
+   *  ${link Option.CREATE_ARROWS}, ${link Option.CREATE_DOTS},
+   *  ${link Option.ARROW_KEYS} classes to the slider.
    *
    * @checked once
    *
@@ -1362,7 +1362,7 @@ module.exports = Option;
 'use strict';
 
 /**
- * All phase classes are automatically set on slider element (${link ${value Layout.SLIDER}}).
+ * All phase classes are automatically set on slider element (${link Layout.SLIDER}).
  * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
  * in definitions of CSS transitions**.
  *
@@ -1381,18 +1381,18 @@ var Phase = {
   BEFORE_TRANSITION: 'hermes-before-transition',
 
   /**
-   * Set on slider element while transition of ${link ${value Layout.CONTENT}} element is run.
+   * Set on slider element while transition of ${link Layout.CONTENT} element is run.
    *
    * @fqn Phase.DURING_TRANSITION
    */
   DURING_TRANSITION: 'hermes-during-transition',
 
   /**
-   * Set on slider element after transition of ${link ${value Layout.CONTENT}} element ends.
+   * Set on slider element after transition of ${link Layout.CONTENT} element ends.
    *
-   * If ${link ${value Option.AUTOPLAY}} option is on, next transition
+   * If ${link Option.AUTOPLAY} option is on, next transition
    * will be started just after hitting this phase, which will move slider
-   * back to phase ${link ${value Phase.BEFORE_TRANSITION}}.
+   * back to phase ${link Phase.BEFORE_TRANSITION}.
    *
    * @fqn Phase.AFTER_TRANSITION
    */
@@ -1435,13 +1435,13 @@ var Regexp = {
   /**
    * All transitions used by the slider must match this regular expression.
    *
-   * During slider upgrade ${link ${value Layout.SLIDER}} element is checked for presence of
+   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
    * transition class names. Transitions declared this way will be randomly used by the slider.
    * After upgrade all declared transitions are removed from slider element.
    *
-   * Transitions may also be declared on ${link ${value Layout.SLIDE}} elements. Slider will always
+   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
    * use transition declared on slide element when moving to this slide. Transition declarations of
-   * this type are ${link continuously checked continuously}, therefore they may be added/removed
+   * this type are [checked continuously](#continuously), therefore they may be added/removed
    * on slides at runtime (client JavaScript).
    *
    * @invariant Class name of currently running transition is set on slider element.
@@ -1695,9 +1695,9 @@ function initializeSlider(elem) {
  *
  * Starts the slider mechanism.
  *
- * @precondition ${hash Slider.prototype.start} was not called on this slider
- * @postcondition calling ${hash Slider.prototype.start} again will throw exception
- * @see ${value Option.AUTOSTART}
+ * @precondition ${link Slider.prototype.start} was not called on this slider
+ * @postcondition calling ${link Slider.prototype.start} again will throw exception
+ * @see ${link Option.AUTOSTART}
  *
  * @fqn Slider.prototype.start
  */
@@ -1723,8 +1723,8 @@ function start(priv) {
 /**
  * Moves slider to next slide.
  *
- * @precondition ${hash Slider.prototype.start} was called on this slider
- * @see ${value Option.AUTOPLAY}
+ * @precondition ${link Slider.prototype.start} was called on this slider
+ * @see ${link Option.AUTOPLAY}
  *
  * @fqn Slider.prototype.moveToNext
  */
@@ -1735,7 +1735,7 @@ function moveToNext(priv) {
 /**
  * Moves slider previous slide.
  *
- * @precondition ${hash Slider.prototype.start} was called on this slider
+ * @precondition ${link Slider.prototype.start} was called on this slider
  *
  * @fqn Slider.prototype.moveToPrevious
  */
@@ -1747,7 +1747,7 @@ function moveToPrevious(priv) {
  * Moves slider slide of given index.
  *
  * @param {Number} index index of the slide that slider will be moved to
- * @precondition ${hash Slider.prototype.start} was called on this slider
+ * @precondition ${link Slider.prototype.start} was called on this slider
  *
  * @fqn Slider.prototype.moveTo
  */

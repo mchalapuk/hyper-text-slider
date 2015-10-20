@@ -98,6 +98,7 @@ module.exports = {
         template: 'src/docs/class-names.md.ejs',
         concat: 'class-names.md',
         skipSingleStar: true,
+        titleProperty: 'value',
       }
     },
 
@@ -113,6 +114,7 @@ module.exports = {
         template: 'src/docs/javascript-api.md.ejs',
         concat: 'javascript-api.md',
         skipSingleStar: true,
+        titleProperty: 'fqn',
       }
     },
   ],
@@ -120,17 +122,28 @@ module.exports = {
 
 var formatterConfig = (function() {
   var path__src2doc = {};
+  var doc2title = {};
   module.exports.doc.forEach(function(files) {
     files.src.forEach(function(src) {
       path__src2doc[src] = files.options.concat;
     });
+    doc2title[files.options.concat] = files.options.titleProperty;
   });
 
+
   return {
-    getUrlBase: function(context) {
+    urlBase: function(context) {
       var retVal =  path__src2doc[context.raw.filename];
       if (!retVal) {
         throw new Error('no base found for '+ context.raw.filename);
+      }
+      return retVal;
+    },
+    titleProperty: function(context) {
+      var retVal = doc2title[formatterConfig.urlBase(context)];
+      if (!retVal) {
+        throw new Error('"titleProperty" not defined for document: '+
+            formatterConfig.urlBase(context) +' source='+ context.raw.filename);
       }
       return retVal;
     },

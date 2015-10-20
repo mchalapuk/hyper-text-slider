@@ -26,13 +26,13 @@ var Regexp = {
   /**
    * All transitions used by the slider must match this regular expression.
    *
-   * During slider upgrade ${link ${value Layout.SLIDER}} element is checked for presence of
+   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
    * transition class names. Transitions declared this way will be randomly used by the slider.
    * After upgrade all declared transitions are removed from slider element.
    *
-   * Transitions may also be declared on ${link ${value Layout.SLIDE}} elements. Slider will always
+   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
    * use transition declared on slide element when moving to this slide. Transition declarations of
-   * this type are ${link continuously checked continuously}, therefore they may be added/removed
+   * this type are [checked continuously](#continuously), therefore they may be added/removed
    * on slides at runtime (client JavaScript).
    *
    * @invariant Class name of currently running transition is set on slider element.

@@ -34,7 +34,7 @@ var Flag = {
   UPGRADED: 'is-upgraded',
 
   /**
-   * Automatically set on ${link ${value Layout.DOT}} button connected with currently active slide.
+   * Automatically set on ${link Layout.DOT} button connected with currently active slide.
    *
    * @invariant This class is set on only one dot button.
    *

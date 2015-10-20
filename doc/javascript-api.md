@@ -75,25 +75,25 @@ Shows first slide.
 
 Starts the slider mechanism.
 
-*@precondition* - [.prototype.start()](#sliderprototypestart) was not called on this slider
+*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was not called on this slider
 
-*@postcondition* - calling [.prototype.start()](#sliderprototypestart) again will throw exception
+*@postcondition* - calling [Slider.prototype.start](javascript-api.md#sliderprototypestart) again will throw exception
 
-*@see* - hermes-autostart
+*@see* - [hermes-autostart](class-names.md#hermes-autostart)
 
 #### Slider.prototype.moveToNext()
 
 Moves slider to next slide.
 
-*@precondition* - [.prototype.start()](#sliderprototypestart) was called on this slider
+*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
 
-*@see* - hermes-autoplay
+*@see* - [hermes-autoplay](class-names.md#hermes-autoplay)
 
 #### Slider.prototype.moveToPrevious()
 
 Moves slider previous slide.
 
-*@precondition* - [.prototype.start()](#sliderprototypestart) was called on this slider
+*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
 
 #### Slider.prototype.moveTo(index)
 
@@ -101,7 +101,7 @@ Moves slider previous slide.
 
 Moves slider slide of given index.
 
-*@precondition* - [.prototype.start()](#sliderprototypestart) was called on this slider
+*@precondition* - [Slider.prototype.start](javascript-api.md#sliderprototypestart) was called on this slider
 
 <!-- End src/node/slider.js -->
 
