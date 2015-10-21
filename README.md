@@ -22,16 +22,14 @@ Hermes comes with:
 ## Getting the Code
 
 Preferred way to get hermes is to use [bower](http://bower.io/).
-```
+```shell
 bower install hermes --save-dev
 ```
 
-You can also clone it with [git](https://git-scm.com/).
+You can also use [npm](https://www.npmjs.com/) (especially if using browserify).
+```shell
+npm install --save hermes-slider
 ```
-git clone https://github.com/webfront-toolkit/hermes.git
-```
-
-Package is not published in [npm](https://www.npmjs.com/).
 
 ## Documentation
 
