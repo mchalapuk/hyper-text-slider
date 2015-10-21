@@ -33,6 +33,11 @@ git clone https://github.com/webfront-toolkit/hermes.git
 
 Package is not published in [npm](https://www.npmjs.com/).
 
+# Documentation
+
+ * [Declarative API](doc/class-names.md)
+ * [JavaScript API](doc/javascript-api.md)
+
 ## Hello, Hermes!
 
 ```html
@@ -82,14 +87,17 @@ requests are very welcome!
 
 ## TODO List
 
- * Write documentation
+ * ~~Write documentation~~
  * ~~Set up CI~~
  * Set up CDN
  * Extract examples to another project (or use Codepen)
+ * Examples in the documentation
  * Add responsiveness to options (with configurable breakpoints)
  * Make time classes optional
  * Create transition library
+ * Documentation for transition authors
  * Create project website
  * Extract DOM spec helpers to another project
+ * Extract documentation generator to another project
  * Optimize size of compiled JavaScript
 
