@@ -33,7 +33,7 @@ git clone https://github.com/webfront-toolkit/hermes.git
 
 Package is not published in [npm](https://www.npmjs.com/).
 
-# Documentation
+## Documentation
 
  * [Declarative API](doc/class-names.md)
  * [JavaScript API](doc/javascript-api.md)
