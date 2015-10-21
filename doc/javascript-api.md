@@ -40,9 +40,12 @@ limitations under the License.
 >
 > Hermes JavaScript API should be used only when specific initialization or integration
 > with other parts of the website is required. In other (simpler) cases please consider
-> using [declarative API](class-names.md). JavaScript API is also in **alpha stage** and
-> may change in the future, while future versions of declarative API will be
-> backward-compatible.
+> using [declarative API](class-names.md).
+
+> **DISCLAIMER**
+>
+> JavaScript API is in early **alpha stage** and may change in the future.
+> [Declarative API](class-names.md) is stable (future versions will be backward-compatibile).
 
 ### Example
 
