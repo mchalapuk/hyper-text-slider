@@ -1,8 +1,17 @@
 {
-  "name": "hermes",
-  "version": "0.2.0",
+  "name": "hermes-slider",
+  "version": "0.2.1",
   "description": "Powerful CSS3 Slider",
-  "main": "src/_hermes.scss",
+  "main": "index.js",
+  "keywords": [
+    "slider",
+    "slideshow",
+    "slide",
+    "css3",
+    "transitions",
+    "animations",
+    "background"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
