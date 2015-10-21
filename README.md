@@ -26,7 +26,8 @@ Preferred way to get hermes is to use [bower](http://bower.io/).
 bower install hermes --save-dev
 ```
 
-You can also use [npm](https://www.npmjs.com/) (especially if using browserify).
+You can also use [npm](https://www.npmjs.com/) (especially if using
+[browserify](https://github.com/substack/node-browserify)).
 ```shell
 npm install --save hermes-slider
 ```
