@@ -39,7 +39,8 @@ limitations under the License.
 <li>[hermes-autoplay](#hermes-autoplay)
 <li>[hermes-create-arrows](#hermes-create-arrows)
 <li>[hermes-create-dots](#hermes-create-dots)
-<li>[hermes-arrow-keys](#hermes-arrow-keys)</ul>
+<li>[hermes-arrow-keys](#hermes-arrow-keys)
+<li>[hermes-responsive-controls](#hermes-responsive-controls)</ul>
 3. [Transition Phase Class Names](#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](#hermes-before-transition)
 <li>[hermes-during-transition](#hermes-during-transition)
@@ -200,6 +201,7 @@ Name | Description | Checked
 [hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | once
 [hermes-create-dots](#hermes-create-dots) | Creates dot button for each slide. | once
 [hermes-arrow-keys](#hermes-arrow-keys) | Adds keyboard control to slider. | once
+[hermes-responsive-controls](#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once
 
 ### Details
 
@@ -262,6 +264,31 @@ slide, with `RightArrow` key moves slider to next slide.
 *@checked* - [once](#once)
 
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
+
+#### hermes-responsive-controls
+
+Adds screen responsiveness to slider controls.
+
+Slider controls come in 3 different layouts. Each for different range of screen width.
+Applying this class turns on default breakpoints ([Slider.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal),
+[Slider.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)).
+
+Breakpoints may also be set declaratively by adding two css values after a dash.
+<pre>
+<div class="hermes-slider
+            hermes-defaults
+            hermes-responsive-controls-16em-40em">
+  ...
+</div>
+</pre>
+
+*@checked* - [once](#once)
+
+*@see* - [renponsiveness.md Screen Responsiveness]
+
+*@see* - [Slider.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal)
+
+*@see* - [Slider.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)
 
 <!-- End src/node/classnames/_options.js -->
 

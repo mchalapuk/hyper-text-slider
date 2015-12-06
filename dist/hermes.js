@@ -24,6 +24,135 @@ if (typeof Object.create === 'function') {
 }
 
 },{}],2:[function(require,module,exports){
+/*
+ * Copyright (c) 2012 Mathieu Turcotte
+ * Licensed under the MIT license.
+ */
+
+module.exports = require('./lib/checks');
+},{"./lib/checks":3}],3:[function(require,module,exports){
+/*
+ * Copyright (c) 2012 Mathieu Turcotte
+ * Licensed under the MIT license.
+ */
+
+var util = require('util');
+
+var errors = module.exports = require('./errors');
+
+function failCheck(ExceptionConstructor, callee, messageFormat, formatArgs) {
+    messageFormat = messageFormat || '';
+    var message = util.format.apply(this, [messageFormat].concat(formatArgs));
+    var error = new ExceptionConstructor(message);
+    Error.captureStackTrace(error, callee);
+    throw error;
+}
+
+function failArgumentCheck(callee, message, formatArgs) {
+    failCheck(errors.IllegalArgumentError, callee, message, formatArgs);
+}
+
+function failStateCheck(callee, message, formatArgs) {
+    failCheck(errors.IllegalStateError, callee, message, formatArgs);
+}
+
+module.exports.checkArgument = function(value, message) {
+    if (!value) {
+        failArgumentCheck(arguments.callee, message,
+            Array.prototype.slice.call(arguments, 2));
+    }
+};
+
+module.exports.checkState = function(value, message) {
+    if (!value) {
+        failStateCheck(arguments.callee, message,
+            Array.prototype.slice.call(arguments, 2));
+    }
+};
+
+module.exports.checkIsDef = function(value, message) {
+    if (value !== undefined) {
+        return value;
+    }
+
+    failArgumentCheck(arguments.callee, message ||
+        'Expected value to be defined but was undefined.',
+        Array.prototype.slice.call(arguments, 2));
+};
+
+module.exports.checkIsDefAndNotNull = function(value, message) {
+    // Note that undefined == null.
+    if (value != null) {
+        return value;
+    }
+
+    failArgumentCheck(arguments.callee, message ||
+        'Expected value to be defined and not null but got "' +
+        typeOf(value) + '".', Array.prototype.slice.call(arguments, 2));
+};
+
+// Fixed version of the typeOf operator which returns 'null' for null values
+// and 'array' for arrays.
+function typeOf(value) {
+    var s = typeof value;
+    if (s == 'object') {
+        if (!value) {
+            return 'null';
+        } else if (value instanceof Array) {
+            return 'array';
+        }
+    }
+    return s;
+}
+
+function typeCheck(expect) {
+    return function(value, message) {
+        var type = typeOf(value);
+
+        if (type == expect) {
+            return value;
+        }
+
+        failArgumentCheck(arguments.callee, message ||
+            'Expected "' + expect + '" but got "' + type + '".',
+            Array.prototype.slice.call(arguments, 2));
+    };
+}
+
+module.exports.checkIsString = typeCheck('string');
+module.exports.checkIsArray = typeCheck('array');
+module.exports.checkIsNumber = typeCheck('number');
+module.exports.checkIsBoolean = typeCheck('boolean');
+module.exports.checkIsFunction = typeCheck('function');
+module.exports.checkIsObject = typeCheck('object');
+
+},{"./errors":4,"util":7}],4:[function(require,module,exports){
+/*
+ * Copyright (c) 2012 Mathieu Turcotte
+ * Licensed under the MIT license.
+ */
+
+var util = require('util');
+
+function IllegalArgumentError(message) {
+    Error.call(this, message);
+    this.message = message;
+}
+util.inherits(IllegalArgumentError, Error);
+
+IllegalArgumentError.prototype.name = 'IllegalArgumentError';
+
+function IllegalStateError(message) {
+    Error.call(this, message);
+    this.message = message;
+}
+util.inherits(IllegalStateError, Error);
+
+IllegalStateError.prototype.name = 'IllegalStateError';
+
+module.exports.IllegalStateError = IllegalStateError;
+module.exports.IllegalArgumentError = IllegalArgumentError;
+},{"util":7}],5:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -88,14 +217,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],3:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -684,137 +813,8 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":3,"1YiZ5S":2,"inherits":1}],5:[function(require,module,exports){
-/*
- * Copyright (c) 2012 Mathieu Turcotte
- * Licensed under the MIT license.
- */
-
-module.exports = require('./lib/checks');
-},{"./lib/checks":6}],6:[function(require,module,exports){
-/*
- * Copyright (c) 2012 Mathieu Turcotte
- * Licensed under the MIT license.
- */
-
-var util = require('util');
-
-var errors = module.exports = require('./errors');
-
-function failCheck(ExceptionConstructor, callee, messageFormat, formatArgs) {
-    messageFormat = messageFormat || '';
-    var message = util.format.apply(this, [messageFormat].concat(formatArgs));
-    var error = new ExceptionConstructor(message);
-    Error.captureStackTrace(error, callee);
-    throw error;
-}
-
-function failArgumentCheck(callee, message, formatArgs) {
-    failCheck(errors.IllegalArgumentError, callee, message, formatArgs);
-}
-
-function failStateCheck(callee, message, formatArgs) {
-    failCheck(errors.IllegalStateError, callee, message, formatArgs);
-}
-
-module.exports.checkArgument = function(value, message) {
-    if (!value) {
-        failArgumentCheck(arguments.callee, message,
-            Array.prototype.slice.call(arguments, 2));
-    }
-};
-
-module.exports.checkState = function(value, message) {
-    if (!value) {
-        failStateCheck(arguments.callee, message,
-            Array.prototype.slice.call(arguments, 2));
-    }
-};
-
-module.exports.checkIsDef = function(value, message) {
-    if (value !== undefined) {
-        return value;
-    }
-
-    failArgumentCheck(arguments.callee, message ||
-        'Expected value to be defined but was undefined.',
-        Array.prototype.slice.call(arguments, 2));
-};
-
-module.exports.checkIsDefAndNotNull = function(value, message) {
-    // Note that undefined == null.
-    if (value != null) {
-        return value;
-    }
-
-    failArgumentCheck(arguments.callee, message ||
-        'Expected value to be defined and not null but got "' +
-        typeOf(value) + '".', Array.prototype.slice.call(arguments, 2));
-};
-
-// Fixed version of the typeOf operator which returns 'null' for null values
-// and 'array' for arrays.
-function typeOf(value) {
-    var s = typeof value;
-    if (s == 'object') {
-        if (!value) {
-            return 'null';
-        } else if (value instanceof Array) {
-            return 'array';
-        }
-    }
-    return s;
-}
-
-function typeCheck(expect) {
-    return function(value, message) {
-        var type = typeOf(value);
-
-        if (type == expect) {
-            return value;
-        }
-
-        failArgumentCheck(arguments.callee, message ||
-            'Expected "' + expect + '" but got "' + type + '".',
-            Array.prototype.slice.call(arguments, 2));
-    };
-}
-
-module.exports.checkIsString = typeCheck('string');
-module.exports.checkIsArray = typeCheck('array');
-module.exports.checkIsNumber = typeCheck('number');
-module.exports.checkIsBoolean = typeCheck('boolean');
-module.exports.checkIsFunction = typeCheck('function');
-module.exports.checkIsObject = typeCheck('object');
-
-},{"./errors":7,"util":4}],7:[function(require,module,exports){
-/*
- * Copyright (c) 2012 Mathieu Turcotte
- * Licensed under the MIT license.
- */
-
-var util = require('util');
-
-function IllegalArgumentError(message) {
-    Error.call(this, message);
-    this.message = message;
-}
-util.inherits(IllegalArgumentError, Error);
-
-IllegalArgumentError.prototype.name = 'IllegalArgumentError';
-
-function IllegalStateError(message) {
-    Error.call(this, message);
-    this.message = message;
-}
-util.inherits(IllegalStateError, Error);
-
-IllegalStateError.prototype.name = 'IllegalStateError';
-
-module.exports.IllegalStateError = IllegalStateError;
-module.exports.IllegalArgumentError = IllegalArgumentError;
-},{"util":4}],8:[function(require,module,exports){
+}).call(this,require("pBGvAp"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":6,"inherits":1,"pBGvAp":5}],8:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1331,6 +1331,31 @@ var Option = {
    * @fqn Option.ARROW_KEYS
    */
   ARROW_KEYS: 'hermes-arrow-keys',
+
+  /**
+   * Adds screen responsiveness to slider controls.
+   *
+   * Slider controls come in 3 different layouts. Each for different range of screen width.
+   * Applying this class turns on default breakpoints (${link Slider.breakpointNarrowToNormal},
+   * ${link Slider.breakpointNormalToWide}).
+   *
+   * Breakpoints may also be set declaratively by adding two css values after a dash.
+   * <pre>
+   * <div class="hermes-slider
+   *             hermes-defaults
+   *             hermes-responsive-controls-16em-40em">
+   *   ...
+   * </div>
+   * </pre>
+   *
+   * @checked once
+   * @see [renponsiveness.md Screen Responsiveness]
+   * @see Slider.breakpointNarrowToNormal
+   * @see Slider.breakpointNormalToWide
+   *
+   * @fqn Option.RESPONSIVE_CONTROLS
+   */
+  RESPONSIVE_CONTROLS: 'hermes-responsive-controls',
 };
 
 module.exports = Option;
@@ -1577,7 +1602,7 @@ function bindMethods(wrapper, methods, arg) {
 }
 
 
-},{"./_dom":9,"./classnames/_phases":14,"precond":5}],17:[function(require,module,exports){
+},{"./_dom":9,"./classnames/_phases":14,"precond":2}],17:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1626,7 +1651,7 @@ var precond = require('precond');
  *
  * @fqn Slider
  */
-module.exports = initializeSlider;
+module.exports = Slider;
 
 // constants
 
@@ -1644,7 +1669,36 @@ var Selector = (function() {
   return selectors;
 }());
 
+
 // public
+
+/**
+ * Default value of first breakpoint used by the slider (${value}).
+ *
+ * @type String
+ * @access read-write
+ *
+ * @see [renponsiveness.md Screen Responsiveness]
+ * @see Slider.breakpointNormalToWide
+ * @see Option.RESPONSIVE_CONTROLS
+ *
+ * @fqn Slider.breakpointNarrowToNormal
+ */
+Slider.breakpointNarrowToNormal = '42em';
+
+/**
+ * Default value of second breakpoint used by the slider (${value}).
+ *
+ * @type String
+ * @access read-write
+ *
+ * @see [renponsiveness.md Screen Responsiveness]
+ * @see Slider.breakpointNarrowToNormal
+ * @see Option.RESPONSIVE_CONTROLS
+ *
+ * @fqn Slider.breakpointNormalToWide
+ */
+Slider.breakpointNormalToWide = '78em';
 
 /**
  * Constructs the slider.
@@ -1653,7 +1707,7 @@ var Selector = (function() {
  *
  * @fqn Slider.prototype.constructor
  */
-function initializeSlider(elem) {
+function Slider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};
@@ -1986,4 +2040,4 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./hermes":16,"precond":5}]},{},[8])
+},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./hermes":16,"precond":2}]},{},[8])

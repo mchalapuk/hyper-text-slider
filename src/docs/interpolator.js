@@ -39,6 +39,9 @@ function interpolate(priv, context, str) {
     link: function(arg) {
       return interpolateLink(priv, context, arg.split(' ')[0], arg.split(' ').slice(1).join(' '));
     },
+    value: function(arg) {
+      return interpolateValue(priv, context, arg);
+    },
   };
 
   return replaceExpressions(str, function(commandName, argument) {
@@ -148,6 +151,14 @@ function paramList(comment) {
 
 function toGithubHashLink(headerName) {
   return headerName.toLowerCase().replace(/ /g, '-').replace(/[\[\]{}()<>^$#@!%&*+\/\\|~`"':;,.]/g, '');
+}
+
+function interpolateValue(priv, context, maybeFqn) {
+  var fqn = maybeFqn || context.fqn;
+  var comment = check(priv.fqnMap.get(fqn), 'couldn\'t find element of fqn='+ fqn);
+  var value = comment.raw.value;
+
+  return interpolateLink(priv, context, fqn, value);
 }
 
 /*

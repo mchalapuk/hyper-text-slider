@@ -46,7 +46,7 @@ var precond = require('precond');
  *
  * @fqn Slider
  */
-module.exports = initializeSlider;
+module.exports = Slider;
 
 // constants
 
@@ -64,7 +64,36 @@ var Selector = (function() {
   return selectors;
 }());
 
+
 // public
+
+/**
+ * Default value of first breakpoint used by the slider (${value}).
+ *
+ * @type String
+ * @access read-write
+ *
+ * @see [renponsiveness.md Screen Responsiveness]
+ * @see Slider.breakpointNormalToWide
+ * @see Option.RESPONSIVE_CONTROLS
+ *
+ * @fqn Slider.breakpointNarrowToNormal
+ */
+Slider.breakpointNarrowToNormal = '42em';
+
+/**
+ * Default value of second breakpoint used by the slider (${value}).
+ *
+ * @type String
+ * @access read-write
+ *
+ * @see [renponsiveness.md Screen Responsiveness]
+ * @see Slider.breakpointNarrowToNormal
+ * @see Option.RESPONSIVE_CONTROLS
+ *
+ * @fqn Slider.breakpointNormalToWide
+ */
+Slider.breakpointNormalToWide = '78em';
 
 /**
  * Constructs the slider.
@@ -73,7 +102,7 @@ var Selector = (function() {
  *
  * @fqn Slider.prototype.constructor
  */
-function initializeSlider(elem) {
+function Slider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};

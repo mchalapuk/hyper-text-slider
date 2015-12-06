@@ -23,6 +23,8 @@ limitations under the License.
 **Table of Contents**
 
 1. [Slider](#slider)<ul>
+<li>[.breakpointNarrowToNormal](#sliderbreakpointnarrowtonormal)
+<li>[.breakpointNormalToWide](#sliderbreakpointnormaltowide)
 <li>[.prototype.constructor(elem)](#sliderprototypeconstructorelem)
 <li>[.prototype.slides](#sliderprototypeslides)
 <li>[.prototype.currentIndex](#sliderprototypecurrentindex)
@@ -63,6 +65,8 @@ window.addEventListener('load', function() {
 
 Type | Name | Description
 --- | --- | ---
+String | [Slider.breakpointNarrowToNormal](#sliderbreakpointnarrowtonormal) | Default value of first breakpoint used by the slider ([.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal)).
+String | [Slider.breakpointNormalToWide](#sliderbreakpointnormaltowide) | Default value of second breakpoint used by the slider ([.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)).
 Array | [Slider.prototype.slides](#sliderprototypeslides) | Array containing all slide elements.
 Number | [Slider.prototype.currentIndex](#sliderprototypecurrentindex) | Index of currently active slide.
 Element | [Slider.prototype.currentSlide](#sliderprototypecurrentslide) | Currently active slide element.
@@ -73,6 +77,34 @@ void | [Slider.prototype.moveToPrevious()](#sliderprototypemovetoprevious) | Mov
 void | [Slider.prototype.moveTo(index)](#sliderprototypemovetoindex) | Moves slider slide of given index.
 
 ### Fields
+
+#### Slider.breakpointNarrowToNormal
+
+Default value of first breakpoint used by the slider ([.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal)).
+
+*@type* - String
+
+*@access* - `read-write`
+
+*@see* - [renponsiveness.md Screen Responsiveness]
+
+*@see* - [.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)
+
+*@see* - [hermes-responsive-controls](class-names.md#hermes-responsive-controls)
+
+#### Slider.breakpointNormalToWide
+
+Default value of second breakpoint used by the slider ([.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)).
+
+*@type* - String
+
+*@access* - `read-write`
+
+*@see* - [renponsiveness.md Screen Responsiveness]
+
+*@see* - [.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal)
+
+*@see* - [hermes-responsive-controls](class-names.md#hermes-responsive-controls)
 
 #### Slider.prototype.slides
 
