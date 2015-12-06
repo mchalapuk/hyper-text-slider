@@ -6,6 +6,7 @@
  * Extract examples to another project (or use Codepen)
  * Examples in the documentation
  * Add responsiveness to options (with configurable breakpoints)
+ * Configurable themes for controls
  * Make time classes optional
  * Create transition library
  * Documentation for transition authors
