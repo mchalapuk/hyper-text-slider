@@ -97,7 +97,7 @@ gulp.task('default', [ 'dist', 'doc' ]);
 
 gulp.task('watch', [ 'default' ], function() {
   var flatten = function(result, elem) {
-    return result.concat(this.reduce(function(elem, key) { return elem[key]; }, elem));
+    return result.concat(this.reduce(function(elem, key) { return elem[key] || []; }, elem));
   };
 
   gulp.watch(config.css.reduce(flatten.bind([ 'src' ]), []), [ 'sass' ]);
