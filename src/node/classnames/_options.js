@@ -117,15 +117,6 @@ var Option = {
    * Applying this class turns on default breakpoints (${link Slider.breakpointNarrowToNormal},
    * ${link Slider.breakpointNormalToWide}).
    *
-   * Breakpoints may also be set declaratively by adding two css values after a dash.
-   * <pre>
-   * <div class="hermes-slider
-   *             hermes-defaults
-   *             hermes-responsive-controls-16em-40em">
-   *   ...
-   * </div>
-   * </pre>
-   *
    * @checked once
    * @see [renponsiveness.md Screen Responsiveness]
    * @see Slider.breakpointNarrowToNormal

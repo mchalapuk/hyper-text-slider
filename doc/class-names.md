@@ -273,15 +273,6 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 Applying this class turns on default breakpoints ([Slider.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal),
 [Slider.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)).
 
-Breakpoints may also be set declaratively by adding two css values after a dash.
-<pre>
-<div class="hermes-slider
-            hermes-defaults
-            hermes-responsive-controls-16em-40em">
-  ...
-</div>
-</pre>
-
 *@checked* - [once](#once)
 
 *@see* - [renponsiveness.md Screen Responsiveness]
