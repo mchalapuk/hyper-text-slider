@@ -342,11 +342,11 @@ function enableStartupFeatures(priv) {
 
 function createArrowButtons(priv) {
   var previousButton = create(Layout.ARROW, Layout.ARROW_LEFT);
-  previousButton.addEventListener('click', moveToPrevious.bind(priv));
+  previousButton.addEventListener('click', moveToPrevious.bind(null, priv));
   priv.elem.appendChild(previousButton);
 
   var nextButton = create(Layout.ARROW, Layout.ARROW_RIGHT);
-  nextButton.addEventListener('click', moveToNext.bind(priv));
+  nextButton.addEventListener('click', moveToNext.bind(null, priv));
   priv.elem.appendChild(nextButton);
 }
 

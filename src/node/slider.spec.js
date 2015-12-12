@@ -294,11 +294,11 @@ describe('slider', function() {
     });
   });
 
-  describe('slider with "hermes-create-arrows" flag', function() {
+  describe('slider with 3 slides and "hermes-create-arrows" flag', function() {
     var sliderElement;
     var testedSlider;
     beforeEach(function() {
-      sliderElement = createSliderElement(2);
+      sliderElement = createSliderElement(3);
       sliderElement.classList.add('hermes-create-arrows');
       testedSlider = slider(sliderElement);
     });
@@ -313,6 +313,34 @@ describe('slider', function() {
         var arrow = sliderElement.querySelector('.hermes-layout--arrow-right');
         expect(arrow).not.toBe(null);
         expect(arrow.classList.contains('hermes-layout--arrow')).toBe(true);
+      });
+
+      describe('and started and after click event fired on left arrow', function() {
+        beforeEach(function() {
+          testedSlider.start();
+          sliderElement.querySelector('.hermes-layout--arrow-left').dispatchEvent(new ClickEvent());
+        });
+
+        it('then current slide is the second slide', function() {
+          expect(testedSlider.currentSlide).toBe(testedSlider.slides[2]);
+        });
+        it('then is in "hermes-before-transition" phase', function() {
+          expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+        });
+      });
+
+      describe('and started and after click event fired on right arrow', function() {
+        beforeEach(function() {
+          testedSlider.start();
+          sliderElement.querySelector('.hermes-layout--arrow-right').dispatchEvent(new ClickEvent());
+        });
+
+        it('then current slide is the second slide', function() {
+          expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
+        });
+        it('then is in "hermes-before-transition" phase', function() {
+          expect(sliderElement.classList.contains('hermes-before-transition')).toBe(true);
+        });
       });
     });
   });
@@ -335,7 +363,7 @@ describe('slider', function() {
           .querySelectorAll('.hermes-layout--dot').length).toEqual(2);
       });
 
-      describe('and starting and after click event fired on second dot', function() {
+      describe('and started and after click event fired on second dot', function() {
         beforeEach(function() {
           testedSlider.start();
           testedSlider.slides[1].dot.dispatchEvent(new ClickEvent());
