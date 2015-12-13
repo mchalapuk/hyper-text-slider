@@ -18,7 +18,14 @@
 
 # Screen [Responsiveness][0]
 
+> **DISCLAIMER**
+>
+> All size values (except for max-slide-width) are set in **em**. It is
+> recommended way of setting sizes in sites using responsive web design.
+> See [this thread on StackOverflow][1] for details.
+
 [0]: https://en.wikipedia.org/wiki/Responsive_web_design
+[1]: http://stackoverflow.com/questions/22228568/switching-to-em-based-media-queries
 
 **Table of Contents**
 
