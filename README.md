@@ -14,6 +14,7 @@
 Hermes comes with:
 
  * configurable background and content transitions,
+ * responsiveness (automatically adjusts it's layout to screen resolution),
  * extendability (adding new transtitions is very simple),
  * component-based approach (each feature can be enabled separately),
  * HTML/CSS programming interface (no JavaScript coding required).
