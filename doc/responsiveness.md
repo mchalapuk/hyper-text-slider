@@ -63,5 +63,27 @@ $breakpoint-narrow-to-normal: 38em;
 
 ## Responsive Slider Height
 
+There are no utilities inside hermes for changing slider height in response to
+screen resolution. Traditional [CSS Media Queries][20] must be used in order to
+achieve desired effect.
+
+```sass
+#slider {
+  height: 30em;
+}
+@media screen and (min-width: $breakpointNarrowToNormal) and (max-width: $breakpointNormalToWide) {
+  #slider {
+    height: 24em;
+  }
+}
+@media screen and (max-width: $breakpointNarrowToNormal) {
+  #slider {
+    height: 20em;
+  }
+}
+```
+
+[20]: https://css-tricks.com/css-media-queries/
+
 ## Responsive Typography
 
