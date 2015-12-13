@@ -109,7 +109,7 @@ gulp.task('watch', [ 'default' ], function() {
   connect.server({
     root: [ 'examples', 'dist' ],
     port: 8889,
-    livereload: true
+    livereload: false
   });
 });
 
