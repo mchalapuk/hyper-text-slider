@@ -38,6 +38,7 @@ npm install --save hermes-slider
  * [JavaScript API](doc/javascript-api.md)
  * [Screen Responsiveness](doc/responsiveness.md)
  * [TODO List](TODO.md)
+ * [CHANGELOG](CHANGELOG.md)
 
 ## Hello, Hermes!
 
