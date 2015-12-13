@@ -16,7 +16,9 @@
 
 -->
 
-# Screen [Responsiveness](https://en.wikipedia.org/wiki/Responsive_web_design)
+# Screen [Responsiveness][0]
+
+[0]: https://en.wikipedia.org/wiki/Responsive_web_design
 
 **Table of Contents**
 
@@ -26,8 +28,8 @@
 
 ## Responsive Controls
 
-Adding class [hermes-responsive-controls][0] makes layout of slider arrows
-dependent on screen resolution.
+Adding class [hermes-responsive-controls][10] to slider element makes layout
+of slider arrows dependent on screen resolution.
 
 ```html
 <div class="hermes-layout--slider
@@ -38,9 +40,9 @@ dependent on screen resolution.
 </div>
 ```
 
-By default breakpoints defined in [src/node/sass/\_variables.scss][1] are used
+By default breakpoints defined in [src/node/sass/\_variables.scss][11] are used
 by the slider. Breakpoint values can be changed only when importing css in sass
-code (see [CSS Import Options][2]).
+code (see [CSS Import Options][12]).
 
 ```sass
 // load default values of configuration variables
@@ -55,9 +57,9 @@ $breakpoint-narrow-to-normal: 38em;
 @import 'bower_components/hermes/src/sass/_styles';
 ```
 
-[0]: class-names.md#hermes-responsive-controls
-[1]: ../src/sass/_variables.scss
-[2]: css-import-options.md
+[10]: class-names.md#hermes-responsive-controls
+[11]: ../src/sass/_variables.scss
+[12]: css-import-options.md
 
 ## Responsive Slider Height
 
