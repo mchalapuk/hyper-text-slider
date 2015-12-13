@@ -8,6 +8,7 @@
  * Add responsiveness to options (with configurable breakpoints)
  * Configurable themes for controls
  * Make time classes optional
+ * Add vertical controls to options
  * Create transition library
  * Documentation for transition authors
  * Create project website
