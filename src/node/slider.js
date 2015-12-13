@@ -68,34 +68,6 @@ var Selector = (function() {
 // public
 
 /**
- * Default value of first breakpoint used by the slider (${value}).
- *
- * @type String
- * @access read-write
- *
- * @see [renponsiveness.md Screen Responsiveness]
- * @see Slider.breakpointNormalToWide
- * @see Option.RESPONSIVE_CONTROLS
- *
- * @fqn Slider.breakpointNarrowToNormal
- */
-Slider.breakpointNarrowToNormal = '42em';
-
-/**
- * Default value of second breakpoint used by the slider (${value}).
- *
- * @type String
- * @access read-write
- *
- * @see [renponsiveness.md Screen Responsiveness]
- * @see Slider.breakpointNarrowToNormal
- * @see Option.RESPONSIVE_CONTROLS
- *
- * @fqn Slider.breakpointNormalToWide
- */
-Slider.breakpointNormalToWide = '78em';
-
-/**
  * Constructs the slider.
  *
  * @param {Element} elem DOM element for the slider

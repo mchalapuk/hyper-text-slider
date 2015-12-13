@@ -270,16 +270,14 @@ slide, with `RightArrow` key moves slider to next slide.
 Adds screen responsiveness to slider controls.
 
 Slider controls come in 3 different layouts. Each for different range of screen width.
-Applying this class turns on default breakpoints ([Slider.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal),
-[Slider.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)).
 
 *@checked* - [once](#once)
 
 *@see* - [renponsiveness.md Screen Responsiveness]
 
-*@see* - [Slider.breakpointNarrowToNormal](javascript-api.md#sliderbreakpointnarrowtonormal)
+*@see* - Slider.breakpointNarrowToNormal
 
-*@see* - [Slider.breakpointNormalToWide](javascript-api.md#sliderbreakpointnormaltowide)
+*@see* - Slider.breakpointNormalToWide
 
 <!-- End src/node/classnames/_options.js -->
 

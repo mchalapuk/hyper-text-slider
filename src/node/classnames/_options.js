@@ -114,8 +114,6 @@ var Option = {
    * Adds screen responsiveness to slider controls.
    *
    * Slider controls come in 3 different layouts. Each for different range of screen width.
-   * Applying this class turns on default breakpoints (${link Slider.breakpointNarrowToNormal},
-   * ${link Slider.breakpointNormalToWide}).
    *
    * @checked once
    * @see [renponsiveness.md Screen Responsiveness]
