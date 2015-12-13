@@ -5,6 +5,7 @@
  * Set up CDN
  * Extract examples to another project (or use Codepen)
  * Examples in the documentation
+ * Screenshots in documentation of responsive elements
  * Add responsiveness to options (with configurable breakpoints)
  * Configurable themes for controls
  * Make time classes optional
