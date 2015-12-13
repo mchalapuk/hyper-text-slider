@@ -87,3 +87,37 @@ achieve desired effect.
 
 ## Responsive Typography
 
+The same technique (media queries) must be applied when changing font sizes
+in response to screen resolution.
+
+```sass
+#slider {
+  h2 {
+    font-size: 3em;
+  }
+  p, ul, ol, li {
+    font-size: 1.5em;
+  }
+}
+@media screen and (min-width: $breakpointNarrowToNormal) and (max-width: $breakpointNormalToWide) {
+  #slider {
+    h2 {
+      font-size: 2.5em;
+    }
+    p, ul, ol, li {
+      font-size: 1.25em;
+    }
+  }
+}
+@media screen and (max-width: $breakpointNarrowToNormal) {
+  #slider {
+    h2 {
+      font-size: 2em;
+    }
+    p, ul, ol, li {
+      font-size: 1em;
+    }
+  }
+}
+```
+
