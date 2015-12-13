@@ -11,6 +11,8 @@
  * Add vertical controls to options
  * Create transition library
  * Documentation for transition authors
+ * Documentation of CSS import options
+ * Documentation of JavaScript import options
  * Create project website
  * Extract DOM spec helpers to another project
  * Extract documentation generator to another project
