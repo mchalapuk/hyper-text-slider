@@ -52,7 +52,7 @@ limitations under the License.
 <li>[is-upgraded](#is-upgraded)
 <li>[is-active](#is-active)</ul>
 6. [Other Class Names](#other-class-names)<ul>
-<li>[/hermes-transition--([^ ]+)/g](#hermes-transition---g)</ul>
+<li>[/hermes-transition--([^\s]+)/g](#hermes-transition--\sg)</ul>
 
 <!-- Start src/node/classnames/_layout.js -->
 
@@ -392,11 +392,11 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 
 Name | Description
 --- | ---
-[/hermes-transition--([^ ]+)/g](#hermes-transition---g) | All transitions used by the slider must match this regular expression.
+[/hermes-transition--([^\s]+)/g](#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
 
 ### Details
 
-#### /hermes-transition--([^ ]+)/g
+#### /hermes-transition--([^\s]+)/g
 
 All transitions used by the slider must match this regular expression.
 

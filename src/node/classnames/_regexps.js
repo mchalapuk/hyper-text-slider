@@ -39,7 +39,7 @@ var Regexp = {
    *
    * @fqn Regexps.TRANSITION
    */
-  TRANSITION: /hermes-transition--([^ ]+)/g,
+  TRANSITION: /hermes-transition--([^\s]+)/g,
 };
 
 module.exports = Regexp;
