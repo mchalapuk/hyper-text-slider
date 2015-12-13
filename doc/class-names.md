@@ -273,7 +273,7 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 *@checked* - [once](#once)
 
-*@see* - [renponsiveness.md Screen Responsiveness]
+*@see* - [Screen Responsiveness](responsiveness.md)
 
 *@see* - Slider.breakpointNarrowToNormal
 

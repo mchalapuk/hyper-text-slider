@@ -116,7 +116,7 @@ var Option = {
    * Slider controls come in 3 different layouts. Each for different range of screen width.
    *
    * @checked once
-   * @see [renponsiveness.md Screen Responsiveness]
+   * @see [Screen Responsiveness](responsiveness.md)
    * @see Slider.breakpointNarrowToNormal
    * @see Slider.breakpointNormalToWide
    *
