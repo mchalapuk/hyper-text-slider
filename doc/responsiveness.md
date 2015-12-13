@@ -43,11 +43,16 @@ by the slider. Breakpoint values can be changed only when importing css in sass
 code (see [CSS Import Options][2]).
 
 ```sass
-@import 'bower_components/hermes/src/sass/_variables'
-$wide-slider-width: 64 * 16px; // must be in px (it's used in calc expressions)
+// load default values of configuration variables
+@import 'bower_components/hermes/src/sass/_variables';
+
+// override breakpoint-related variables
+$max-slide-width: 64 * 16px; // must be in px (it's used in calc expressions)
 $breakpoint-normal-to-wide: 64em;
 $breakpoint-narrow-to-normal: 38em;
-@import 'bower_components/hermes/src/sass/_styles'
+
+// load css code of hermes slider
+@import 'bower_components/hermes/src/sass/_styles';
 ```
 
 [0]: class-names.md#hermes-responsive-controls
