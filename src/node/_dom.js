@@ -53,6 +53,7 @@ function getTransformPropertyName() {
       return transforms[key];
     }
   }
+  return 'transform';
 }
 
 var transitionEventName = getTransitionEventName();
