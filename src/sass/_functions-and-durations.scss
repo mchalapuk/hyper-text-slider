@@ -25,9 +25,6 @@
     .hermes-layout--content {
       @include transition(all 7s ease-out 600ms, opacity 600ms ease-in-out 750ms);
     }
-    .hermes-layout--inner {
-      @include transition(all 7s ease-out);
-    }
 
     .hermes-slide-from {
       .hermes-layout--background {
@@ -45,9 +42,6 @@
     }
     .hermes-layout--content {
       @include transition(all 5s ease-out 600ms, opacity 600ms ease-in-out 750ms);
-    }
-    .hermes-layout--inner {
-      @include transition(all 7s ease-out);
     }
 
     .hermes-slide-from {

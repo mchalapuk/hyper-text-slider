@@ -913,6 +913,7 @@ function getTransformPropertyName() {
       return transforms[key];
     }
   }
+  return 'transform';
 }
 
 var transitionEventName = getTransitionEventName();
@@ -1067,20 +1068,6 @@ var Layout = {
    * @fqn Layout.CONTENT
    */
   CONTENT: 'hermes-layout--content',
-
-  /**
-   * May be used in definitions of content transitions.
-   *
-   * In cases when some parts of slide's content need another transition this class name must be
-   * used in definition of the transition and in client HTML.
-   *
-   * @usage transition
-   * @client-html optional
-   * @parent-element Layout.CONTENT
-   *
-   * @fqn Layout.INNER
-   */
-  INNER: 'hermes-layout--inner',
 
   /**
    * Set during upgrade on generated arrow buttons.

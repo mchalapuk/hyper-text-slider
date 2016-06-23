@@ -58,10 +58,6 @@
   height: 100%;
   display: block; }
 
-.hermes-layout--inner {
-  height: 100%;
-  white-space: normal; }
-
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -234,8 +230,7 @@
 
 */
 .hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--background,
-.hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--content,
-.hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--inner {
+.hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--content {
   -webkit-transition: all 1ms linear;
   -moz-transition: all 1ms linear;
   -o-transition: all 1ms linear;
@@ -270,12 +265,6 @@
   -o-transition: all 7s ease-out 600ms, opacity 600ms ease-in-out 750ms;
   transition: all 7s ease-out 600ms, opacity 600ms ease-in-out 750ms; }
 
-.hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-layout--inner {
-  -webkit-transition: all 7s ease-out;
-  -moz-transition: all 7s ease-out;
-  -o-transition: all 7s ease-out;
-  transition: all 7s ease-out; }
-
 .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-from .hermes-layout--background {
   -webkit-transition: all 5s ease-out, opacity 750ms ease-in-out 300ms;
   -moz-transition: all 5s ease-out, opacity 750ms ease-in-out 300ms;
@@ -299,12 +288,6 @@
   -moz-transition: all 5s ease-out 600ms, opacity 600ms ease-in-out 750ms;
   -o-transition: all 5s ease-out 600ms, opacity 600ms ease-in-out 750ms;
   transition: all 5s ease-out 600ms, opacity 600ms ease-in-out 750ms; }
-
-.hermes-layout--slider.is-upgraded.hermes-slide-time-5-sec .hermes-layout--inner {
-  -webkit-transition: all 7s ease-out;
-  -moz-transition: all 7s ease-out;
-  -o-transition: all 7s ease-out;
-  transition: all 7s ease-out; }
 
 .hermes-layout--slider.is-upgraded.hermes-slide-time-5-sec .hermes-slide-from .hermes-layout--background {
   -webkit-transition: all 5s ease-out, opacity 750ms ease-in-out 300ms;

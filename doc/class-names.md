@@ -27,7 +27,6 @@ limitations under the License.
 <li>[hermes-layout--slide](#hermes-layout--slide)
 <li>[hermes-layout--background](#hermes-layout--background)
 <li>[hermes-layout--content](#hermes-layout--content)
-<li>[hermes-layout--inner](#hermes-layout--inner)
 <li>[hermes-layout--arrow](#hermes-layout--arrow)
 <li>[hermes-layout--arrow-left](#hermes-layout--arrow-left)
 <li>[hermes-layout--arrow-right](#hermes-layout--arrow-right)
@@ -71,7 +70,6 @@ Name | Description | Usage | Client HTML
 [hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
 [hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
-[hermes-layout--inner](#hermes-layout--inner) | May be used in definitions of content transitions. | transition | optional
 [hermes-layout--arrow](#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
 [hermes-layout--arrow-left](#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
 [hermes-layout--arrow-right](#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
@@ -116,15 +114,6 @@ is present in slider declaration, it must contain all contents of a slide. This 
 must be used in all definitions of content transitions.
 
 *@parent-element* - [hermes-layout--slide](#hermes-layout--slide)
-
-#### hermes-layout--inner
-
-May be used in definitions of content transitions.
-
-In cases when some parts of slide's content need another transition this class name must be
-used in definition of the transition and in client HTML.
-
-*@parent-element* - [hermes-layout--content](#hermes-layout--content)
 
 #### hermes-layout--arrow
 
