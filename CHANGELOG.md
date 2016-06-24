@@ -1,6 +1,6 @@
 [gulp-eslint]: https://github.com/adametry/gulp-eslint
 [gulp-sass]: https://github.com/dlmanning/gulp-sass
-[gulp-eslint]: https://github.com/adametry/gulp-eslint
+[gulp-uglify]: https://github.com/terinjokes/gulp-uglify
 
 # v0.2.5
 
