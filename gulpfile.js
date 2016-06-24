@@ -9,23 +9,30 @@ var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
 var markdox = require('gulp-markdox2');
 var connect = require('gulp-connect');
-var concat = require('gulp-concat');
 var sequence = require('gulp-sequence');
 var rename = require('gulp-rename');
-var merge_stream = require('merge-stream');
+var mergeStream = require('merge-stream');
 var del = require('del');
 
 var config = require('./build.config');
 
 task('sass', [], config.css, function(files) {
-  var build_dir = config.dir.build + (files.dest || '');
+  var buildDir = config.dir.build + (files.dest || '');
 
   return gulp.src(files.main)
     .pipe(sass.sync().on('error', sass.logError))
-    .pipe(gulp.dest(build_dir))
+    .pipe(gulp.dest(buildDir))
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest(build_dir))
+    .pipe(gulp.dest(buildDir))
+  ;
+});
+
+task('lint:config', [], config.config, function(files) {
+  return gulp.src(files.src)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
   ;
 });
 
@@ -39,7 +46,7 @@ task('lint:javascript', [], config.js, function(files) {
 
 task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   if (!files.main) {
-    return;
+    return null;
   }
   return gulp.src(files.main)
     .pipe(browserify())
@@ -52,7 +59,7 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
 
 task('lint:spec', [], config.js, function(files) {
   if (!files.spec) {
-    return;
+    return null;
   }
   return gulp.src(files.spec)
     .pipe(eslint())
@@ -63,15 +70,18 @@ task('lint:spec', [], config.js, function(files) {
 
 task('spec', [ 'lint:spec' ], config.js, function(files) {
   if (!files.spec) {
-    return;
+    return null;
   }
   return gulp.src(files.spec)
-    .pipe(jasmine({ /* verbose: true, */ includeStackTrace: true }))
+    .pipe(jasmine({
+      // verbose: true,
+      includeStackTrace: true,
+    }))
   ;
 });
 
-gulp.task('clean:dist', function(cb) {
-  return del([ config.dir.build +'**/*', '!'+ config.dir.build ], { force: true }, cb);
+gulp.task('clean:dist', function(callback) {
+  return del([ config.dir.build +'**/*', '!'+ config.dir.build ], { force: true }, callback);
 });
 
 gulp.task('dist', [ 'clean:dist' ], sequence('sass', 'spec', 'javascript'));
@@ -93,35 +103,50 @@ task('doc', [ 'clean:doc' ], config.doc, function(files) {
   ;
 });
 
-gulp.task('default', [ 'dist', 'doc' ]);
+gulp.task('default', [ 'lint:config', 'dist', 'doc' ]);
 
 gulp.task('watch', [ 'default' ], function() {
-  var flatten = function(result, elem) {
-    return result.concat(this.reduce(function(elem, key) { return elem[key] || []; }, elem));
-  };
+  function flatten(unflattened, key0, key1) {
+    return unflattened.reduce(function(result, branch) {
+      var maybe = branch[key0] || [];
+      return result.concat(maybe.indexOf? [ maybe ] : maybe[key1] || []);
+    }, []);
+  }
 
-  gulp.watch(config.css.reduce(flatten.bind([ 'src' ]), []), [ 'sass' ]);
-  gulp.watch(config.js.reduce(flatten.bind([ 'src' ]), []), [ 'javascript', 'spec' ]);
-  gulp.watch(config.js.reduce(flatten.bind([ 'spec' ]), []), [ 'spec' ]);
-  gulp.watch(config.doc.reduce(flatten.bind([ 'src' ]), []), [ 'doc' ]);
-  gulp.watch(config.doc.reduce(flatten.bind([ 'options', 'template' ]), []), [ 'doc' ]);
+  var allConfigFiles = flatten(config.config, 'src');
+  var allCssSources = flatten(config.css, 'src');
+  var allJsSources = flatten(config.js, 'src');
+  var allJsSpecs = flatten(config.js, 'spec');
+  var allDocSources = flatten(config.doc, 'src');
+  var allDocTemplates = flatten(config.doc, 'options', 'template');
+
+  gulp.watch(allConfigFiles, [ 'lint:config' ]);
+  gulp.watch(allCssSources, [ 'sass' ]);
+  gulp.watch(allJsSources, [ 'javascript', 'spec' ]);
+  gulp.watch(allJsSpecs, [ 'spec' ]);
+  gulp.watch(allDocSources.concat(allDocTemplates), [ 'doc' ]);
 
   connect.server({
     root: [ 'examples', 'dist' ],
     port: 8889,
-    livereload: false
+    livereload: false,
   });
 });
 
-function task(name, deps, config, func, merged_callback) {
-  gulp.task(name, deps, function () {
-    config = (config instanceof Array? config: [ config ]);
-    var results = config.map(func.bind(null)).filter(function(arg) { return arg != null; });
-    return (merged_callback || pass)(merge_stream.apply(null, results));
+function task(name, deps, configObject, taskDefinition, mergedCallback) {
+  return gulp.task(name, deps, function() {
+    var actualConfig = configObject instanceof Array? configObject: [ configObject ];
+    var results = actualConfig.map(taskDefinition.bind(null))
+        .filter(function(result) { return result !== null; });
+    return (mergedCallback || pass)(mergeStream.apply(null, results));
   });
 }
 
 function pass(arg) {
   return arg;
 }
+
+/*
+  eslint-env node
+*/
 

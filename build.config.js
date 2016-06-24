@@ -8,6 +8,19 @@ module.exports = {
     docs: 'doc/',
   },
 
+  config: [
+
+    /*
+      Gulp configuration files.
+     */
+    {
+      src: [
+        'build.config.js',
+        'gulpfile.js',
+      ],
+    },
+  ],
+
   css: [
 
     /*
@@ -38,7 +51,7 @@ module.exports = {
       src: [
         'src/sass/transitions/**/*.scss',
       ],
-      dest: 'transitions/'
+      dest: 'transitions/',
     },
   ],
 
@@ -99,7 +112,7 @@ module.exports = {
         concat: 'class-names.md',
         skipSingleStar: true,
         titleProperty: 'value',
-      }
+      },
     },
 
     /*
@@ -115,17 +128,17 @@ module.exports = {
         concat: 'javascript-api.md',
         skipSingleStar: true,
         titleProperty: 'fqn',
-      }
+      },
     },
   ],
 };
 
 var formatterConfig = (function() {
-  var path__src2doc = {};
+  var pathSrc2doc = {};
   var doc2title = {};
   module.exports.doc.forEach(function(files) {
     files.src.forEach(function(src) {
-      path__src2doc[src] = files.options.concat;
+      pathSrc2doc[src] = files.options.concat;
     });
     doc2title[files.options.concat] = files.options.titleProperty;
   });
@@ -133,7 +146,7 @@ var formatterConfig = (function() {
 
   return {
     urlBase: function(context) {
-      var retVal =  path__src2doc[context.raw.filename];
+      var retVal = pathSrc2doc[context.raw.filename];
       if (!retVal) {
         throw new Error('no base found for '+ context.raw.filename);
       }
@@ -147,8 +160,12 @@ var formatterConfig = (function() {
       }
       return retVal;
     },
-  }
+  };
 }());
 
-module.exports.doc.formatter = Formatter(formatterConfig);
+module.exports.doc.formatter = new Formatter(formatterConfig);
+
+/*
+  eslint-env node
+*/
 
