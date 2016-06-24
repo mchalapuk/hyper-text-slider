@@ -58,7 +58,6 @@ function Node(nodeName) {
     node.parentNode = that;
   };
   that.removeChild = function(node) {
-    // TODO tests
     that.childNodes.splice(that.childNodes.indexOf(node), 1);
   };
   that.insertBefore = function(node, before) {

@@ -72,6 +72,16 @@ describe('Node', function() {
     it('its child node has proper parent node', function() {
       expect(testedNode.childNodes[0].parentNode).toBe(testedNode);
     });
+
+    describe('and then removing it', function() {
+      beforeEach(function() {
+        testedNode.removeChild(childNode);
+      });
+
+      it('has no child nodes', function() {
+        expect(testedNode.childNodes.length).toEqual(0);
+      });
+    });
   });
 
   describe('after adding two child nodes', function() {
@@ -95,6 +105,54 @@ describe('Node', function() {
 
     it('has proper child node on index 1', function() {
       expect(testedNode.childNodes[1]).toBe(secondChild);
+    });
+
+    describe('and then removing first', function() {
+      beforeEach(function() {
+        testedNode.removeChild(firstChild);
+      });
+
+      it('has one child node', function() {
+        expect(testedNode.childNodes.length).toEqual(1);
+      });
+
+      it('has proper child node on index 0', function() {
+        expect(testedNode.childNodes[0]).toBe(secondChild);
+      });
+
+      describe('and then second', function() {
+        beforeEach(function() {
+          testedNode.removeChild(secondChild);
+        });
+
+        it('has no child nodes', function() {
+          expect(testedNode.childNodes.length).toEqual(0);
+        });
+      });
+    });
+
+    describe('and then removing second', function() {
+      beforeEach(function() {
+        testedNode.removeChild(secondChild);
+      });
+
+      it('has one child node', function() {
+        expect(testedNode.childNodes.length).toEqual(1);
+      });
+
+      it('has proper child node on index 0', function() {
+        expect(testedNode.childNodes[0]).toBe(firstChild);
+      });
+
+      describe('and then first', function() {
+        beforeEach(function() {
+          testedNode.removeChild(firstChild);
+        });
+
+        it('has no child nodes', function() {
+          expect(testedNode.childNodes.length).toEqual(0);
+        });
+      });
     });
   });
 });
