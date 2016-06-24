@@ -154,6 +154,46 @@ describe('Node', function() {
         });
       });
     });
+
+    describe('and inserting another before first', function() {
+      var newFirstChild;
+      beforeEach(function() {
+        newFirstChild = new Node('CHILD');
+        testedNode.insertBefore(newFirstChild, firstChild);
+      });
+
+      it('has three child nodes', function() {
+        expect(testedNode.childNodes.length).toEqual(3);
+      });
+
+      it('has new child node on index 0', function() {
+        expect(testedNode.childNodes[0]).toBe(newFirstChild);
+      });
+
+      it('has old child node on index 1', function() {
+        expect(testedNode.childNodes[1]).toBe(firstChild);
+      });
+    });
+
+    describe('and inserting another before second', function() {
+      var newSecondChild;
+      beforeEach(function() {
+        newSecondChild = new Node('CHILD');
+        testedNode.insertBefore(newSecondChild, secondChild);
+      });
+
+      it('has three child nodes', function() {
+        expect(testedNode.childNodes.length).toEqual(3);
+      });
+
+      it('has new child node on index 1', function() {
+        expect(testedNode.childNodes[1]).toBe(newSecondChild);
+      });
+
+      it('has old child node on index 2', function() {
+        expect(testedNode.childNodes[2]).toBe(secondChild);
+      });
+    });
   });
 });
 

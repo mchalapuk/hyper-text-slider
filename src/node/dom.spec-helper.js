@@ -61,7 +61,6 @@ function Node(nodeName) {
     that.childNodes.splice(that.childNodes.indexOf(node), 1);
   };
   that.insertBefore = function(node, before) {
-    // TODO tests
     that.childNodes.splice(that.childNodes.indexOf(before), 0, node);
   };
 
