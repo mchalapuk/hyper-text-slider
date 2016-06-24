@@ -17,10 +17,7 @@
 */
 'use strict';
 
-/*
-  eslint-env node
-*/
-function EventSource() {
+function EventTarget() {
   var that = this;
 
   var listeners = {};
@@ -35,6 +32,7 @@ function EventSource() {
       listener.apply(that, [ event ]);
     });
   };
+
   that.$clearEventListeners = function() {
     listeners = {};
   };
@@ -44,7 +42,7 @@ function EventSource() {
 
 function Node(nodeName) {
   var that = this;
-  EventSource.call(that);
+  EventTarget.call(that);
 
   that.nodeName = nodeName;
   that.parentNode = null;
@@ -158,7 +156,7 @@ function ClickEvent(target) {
 
 function Document() {
   var that = this;
-  EventSource.call(that);
+  EventTarget.call(that);
 
   that.createElement = function(nodeName) {
     return new Element(nodeName);
@@ -169,7 +167,7 @@ function Document() {
 
 function Window(document) {
   var that = this;
-  EventSource.call(that);
+  EventTarget.call(that);
 
   that.document = document;
 
@@ -212,6 +210,7 @@ function Window(document) {
 var document = new Document();
 var window = new Window(document);
 
+global.EventTarget = EventTarget;
 global.Node = Node;
 global.Element = Element;
 global.DOMTokenList = DOMTokenList;
@@ -224,4 +223,8 @@ global.Window = Window;
 
 global.window = window;
 global.document = document;
+
+/*
+  eslint-env node
+*/
 

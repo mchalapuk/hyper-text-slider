@@ -17,20 +17,60 @@
 */
 'use strict';
 
-/*
-  eslint-env node, browser, jasmine
-*/
-/*
-  global TransitionEndEvent
-*/
-/*
-  eslint
-    max-nested-callbacks: 0,
-    init-declarations: 0,
-    id-length: 0,
-    no-undefined: 0,
-    no-unused-vars: 0
-*/
+describe('EventTarget', function() {
+  describe('after adding a listener on event type "test"', function() {
+    var testedTarget;
+    var firstListener;
+
+    beforeEach(function() {
+      testedTarget = new EventTarget();
+      firstListener = spyOn([], 'slice'); // any function will do
+      testedTarget.addEventListener('test', firstListener);
+    });
+    afterEach(function() {
+      testedTarget.$clearEventListeners();
+    });
+
+    describe('and dispatching event of type "test"', function() {
+      var firstEvent = { type: 'test' };
+      beforeEach(function() {
+        testedTarget.dispatchEvent(firstEvent);
+      });
+
+      it('listener is called', function() {
+        expect(firstListener).toHaveBeenCalledWith(firstEvent);
+      });
+    });
+
+    describe('and dispatching event of type "test2"', function() {
+      var firstEvent = { type: 'test2' };
+      beforeEach(function() {
+        testedTarget.dispatchEvent(firstEvent);
+      });
+
+      it('listener is not called', function() {
+        expect(firstListener).not.toHaveBeenCalledWith();
+      });
+    });
+
+    describe('and removing it', function() {
+      beforeEach(function() {
+        testedTarget.removeEventListener('test', firstListener);
+      });
+
+      describe('and dispatching event of type "test"', function() {
+        var firstEvent = { type: 'test' };
+        beforeEach(function() {
+          testedTarget.dispatchEvent(firstEvent);
+        });
+
+        it('listener is not called', function() {
+          expect(firstListener).not.toHaveBeenCalledWith(firstEvent);
+        });
+      });
+    });
+  });
+});
 
 describe('Node', function() {
   describe('just after creation', function() {
@@ -519,4 +559,20 @@ describe('global.window', function() {
     expect(window.document).toBe(document);
   });
 });
+
+/*
+  eslint-env node, browser, jasmine
+*/
+/*
+  eslint
+    max-nested-callbacks: 0,
+    init-declarations: 0,
+    id-length: 0,
+    no-undefined: 0,
+    no-unused-vars: 0,
+    no-inline-comments: 0
+*/
+/*
+  global TransitionEndEvent
+*/
 
