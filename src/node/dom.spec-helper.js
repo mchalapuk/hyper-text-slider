@@ -17,6 +17,13 @@
 */
 'use strict';
 
+/**
+ * Why should I use a browser for unit testing when I have node?
+ */
+
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/EventTarget
+ */
 function EventTarget() {
   var that = this;
 
@@ -33,6 +40,7 @@ function EventTarget() {
     });
   };
 
+  // just for testing purposes
   that.$clearEventListeners = function() {
     listeners = {};
   };
@@ -40,6 +48,9 @@ function EventTarget() {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/Node
+ */
 function Node(nodeName) {
   var that = this;
   EventTarget.call(that);
@@ -65,6 +76,9 @@ function Node(nodeName) {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/Element
+ */
 function Element(nodeName) {
   var that = this;
   Node.call(that, nodeName);
@@ -99,6 +113,9 @@ function Element(nodeName) {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/DOMTokenList
+ */
 function DOMTokenList(object, key) {
   var that = this;
 
@@ -120,12 +137,18 @@ function DOMTokenList(object, key) {
   return that;
 }
 
+/**
+ * @see https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration
+ */
 function CSSStyleDeclaration() {
 }
 CSSStyleDeclaration.prototype = {
   transform: null,
 };
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/Event
+ */
 function Event(type, target) {
   var that = this;
 
@@ -135,6 +158,9 @@ function Event(type, target) {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/TransitionEvent
+ */
 function TransitionEvent(type, target, propertyName) {
   var that = this;
   Event.call(that, type, target);
@@ -144,6 +170,9 @@ function TransitionEvent(type, target, propertyName) {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/KeyboardEvent
+ */
 function KeyboardEvent(type, key) {
   var that = this;
   Event.call(that, type);
@@ -153,6 +182,9 @@ function KeyboardEvent(type, key) {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/MouseEvent
+ */
 function MouseEvent(type, target) {
   var that = this;
   Event.call(that, type, target);
@@ -160,6 +192,9 @@ function MouseEvent(type, target) {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/Document
+ */
 function Document() {
   var that = this;
   EventTarget.call(that);
@@ -171,6 +206,9 @@ function Document() {
   return that;
 }
 
+/**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/Window
+ */
 function Window(document) {
   var that = this;
   EventTarget.call(that);
