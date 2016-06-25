@@ -834,9 +834,13 @@ function hasOwnProperty(obj, prop) {
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
+/**
+ * Browser bootup script.
+ *
+ * It is compiled to `dist/hermes.min.js` during the build.
+ * If you are using browserify, you may consider implementing bootup by yourself
+ * (see documentation of Slider class for details).
+ */
 (function() {
 
   // turn off vanilla behavior (vertical scroll bar)
@@ -848,7 +852,7 @@ function hasOwnProperty(obj, prop) {
   // defer slider initialization
   window.addEventListener('load', function() {
     /* eslint global-require: 0, lines-around-comment: 0 */
-    var slider = require('./node/slider');
+    var slider = require('./node.js').Slider;
 
     sliderElems.forEach(function(elem) {
       slider(elem);
@@ -856,8 +860,12 @@ function hasOwnProperty(obj, prop) {
   });
 }());
 
+/*
+  eslint-env node, browser
+*/
 
-},{"./node/slider":17}],9:[function(require,module,exports){
+
+},{"./node.js":18}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -2035,4 +2043,37 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./phaser":16,"precond":2}]},{},[8])
+},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./phaser":16,"precond":2}],18:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var slider = require('./js/slider');
+var phaser = require('./js/phaser');
+
+module.exports = {
+  Slider: slider,
+  Phaser: phaser,
+};
+
+/*
+  eslint-env node
+ */
+
+
+},{"./js/phaser":16,"./js/slider":17}]},{},[8])

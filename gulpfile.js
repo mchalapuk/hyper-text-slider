@@ -50,6 +50,7 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   }
   return gulp.src(files.main)
     .pipe(browserify())
+    .pipe(rename('hermes.js'))
     .pipe(gulp.dest(config.dir.build))
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))

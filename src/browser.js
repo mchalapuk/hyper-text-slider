@@ -17,9 +17,13 @@
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
+/**
+ * Browser bootup script.
+ *
+ * It is compiled to `dist/hermes.min.js` during the build.
+ * If you are using browserify, you may consider implementing bootup by yourself
+ * (see documentation of Slider class for details).
+ */
 (function() {
 
   // turn off vanilla behavior (vertical scroll bar)
@@ -31,11 +35,15 @@
   // defer slider initialization
   window.addEventListener('load', function() {
     /* eslint global-require: 0, lines-around-comment: 0 */
-    var slider = require('./node/slider');
+    var slider = require('./node.js').Slider;
 
     sliderElems.forEach(function(elem) {
       slider(elem);
     });
   });
 }());
+
+/*
+  eslint-env node, browser
+*/
 

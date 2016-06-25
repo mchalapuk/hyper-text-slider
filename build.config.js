@@ -65,17 +65,17 @@ module.exports = {
     */
     {
       main: [
-        'src/hermes.js',
+        'src/browser.js',
       ],
       src: [
         'src/*.js',
-        'src/node/**/*.js',
-        '!src/node/**/*.spec.js',
-        '!src/node/**/*.spec-helper.js',
+        'src/js/**/*.js',
+        '!src/js/**/*.spec.js',
+        '!src/js/**/*.spec-helper.js',
       ],
       spec: [
-        'src/node/**/*.spec-helper.js',
-        'src/node/**/*.spec.js',
+        'src/js/**/*.spec-helper.js',
+        'src/js/**/*.spec.js',
       ],
     },
 
@@ -108,12 +108,12 @@ module.exports = {
       */
       {
         src: [
-          'src/node/classnames/_layout.js',
-          'src/node/classnames/_options.js',
-          'src/node/classnames/_phases.js',
-          'src/node/classnames/_markers.js',
-          'src/node/classnames/_flags.js',
-          'src/node/classnames/_regexps.js',
+          'src/js/classnames/_layout.js',
+          'src/js/classnames/_options.js',
+          'src/js/classnames/_phases.js',
+          'src/js/classnames/_markers.js',
+          'src/js/classnames/_flags.js',
+          'src/js/classnames/_regexps.js',
         ],
         options: {
           formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
@@ -129,7 +129,7 @@ module.exports = {
        */
       {
         src: [
-          'src/node/slider.js',
+          'src/js/slider.js',
         ],
         options: {
           formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },

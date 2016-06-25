@@ -32,7 +32,7 @@ limitations under the License.
 <li>[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)
 <li>[.prototype.moveTo(index)](#sliderprototypemovetoindex)</ul>
 
-<!-- Start src/node/slider.js -->
+<!-- Start src/js/slider.js -->
 
 ## Slider
 
@@ -144,7 +144,7 @@ Moves slider slide of given index.
 
 *@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
 
-<!-- End src/node/slider.js -->
+<!-- End src/js/slider.js -->
 
 <!-- End Template javascript-api.md.ejs -->
 

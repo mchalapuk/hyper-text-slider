@@ -53,7 +53,7 @@ limitations under the License.
 6. [Other Class Names](#other-class-names)<ul>
 <li>[/hermes-transition--([^\s]+)/g](#hermes-transition--\sg)</ul>
 
-<!-- Start src/node/classnames/_layout.js -->
+<!-- Start src/js/classnames/_layout.js -->
 
 ## Layout Class Names
 
@@ -160,9 +160,9 @@ It may be used in client CSS for styling.
 
 *@parent-element* - [hermes-layout--dots](#hermes-layout--dots)
 
-<!-- End src/node/classnames/_layout.js -->
+<!-- End src/js/classnames/_layout.js -->
 
-<!-- Start src/node/classnames/_options.js -->
+<!-- Start src/js/classnames/_options.js -->
 
 ## Option Class Names
 
@@ -268,9 +268,9 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 *@see* - Slider.breakpointNormalToWide
 
-<!-- End src/node/classnames/_options.js -->
+<!-- End src/js/classnames/_options.js -->
 
-<!-- Start src/node/classnames/_phases.js -->
+<!-- Start src/js/classnames/_phases.js -->
 
 ## Transition Phase Class Names
 
@@ -307,9 +307,9 @@ If [hermes-autoplay](class-names.md#hermes-autoplay) option is on, next transiti
 will be started just after hitting this phase, which will move slider
 back to phase [hermes-before-transition](class-names.md#hermes-before-transition).
 
-<!-- End src/node/classnames/_phases.js -->
+<!-- End src/js/classnames/_phases.js -->
 
-<!-- Start src/node/classnames/_markers.js -->
+<!-- Start src/js/classnames/_markers.js -->
 
 ## Transition Marker Class Names
 
@@ -341,9 +341,9 @@ and then set on currently active slide each time it changes.
 
 *@invariant* - After starting slider this class name is set on only one slide.
 
-<!-- End src/node/classnames/_markers.js -->
+<!-- End src/js/classnames/_markers.js -->
 
-<!-- Start src/node/classnames/_flags.js -->
+<!-- Start src/js/classnames/_flags.js -->
 
 ## Flag Class Names
 
@@ -369,9 +369,9 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 
 *@invariant* - This class is set on only one dot button.
 
-<!-- End src/node/classnames/_flags.js -->
+<!-- End src/js/classnames/_flags.js -->
 
-<!-- Start src/node/classnames/_regexps.js -->
+<!-- Start src/js/classnames/_regexps.js -->
 
 ## Other Class Names
 
@@ -398,7 +398,7 @@ on slides at runtime (client JavaScript).
 
 *@invariant* - Class name of currently running transition is set on slider element.
 
-<!-- End src/node/classnames/_regexps.js -->
+<!-- End src/js/classnames/_regexps.js -->
 
 <!-- End Template class-names.md.ejs -->
 
