@@ -17,14 +17,11 @@
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
 var precond = require('precond');
 var domCompat = require('./_dom-compat');
 var Phase = require('./classnames/_phases');
 
-function summonHermes(elem) {
+function Phaser(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};
@@ -45,8 +42,7 @@ function summonHermes(elem) {
   return pub;
 }
 
-module.exports = summonHermes;
-module.exports.Phase = Phase;
+module.exports = Phaser;
 
 function getPhase(priv) {
   return priv.phase;
@@ -114,4 +110,8 @@ function bindMethods(wrapper, methods, arg) {
     wrapper[method.name] = method.bind(wrapper, arg);
   });
 }
+
+/*
+  eslint-env node, browser
+*/
 

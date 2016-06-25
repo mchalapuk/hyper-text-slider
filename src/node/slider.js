@@ -17,7 +17,7 @@
 */
 'use strict';
 
-var hermes = require('./hermes');
+var phaser = require('./phaser');
 var precond = require('precond');
 
 /**
@@ -81,8 +81,8 @@ function Slider(elem) {
   priv.elem = elem;
   priv.transitions = searchForTransitions(elem);
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
-  priv.hermes = hermes(elem);
-  priv.hermes.addPhaseListener(onPhaseChange.bind(null, priv));
+  priv.phaser = phaser(elem);
+  priv.phaser.addPhaseListener(onPhaseChange.bind(null, priv));
   priv.slides = searchForSlides(elem);
   precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.tempClasses = [];
@@ -175,7 +175,7 @@ function start(priv) {
   }
 
   addTempClass(priv, chooseTransition(priv));
-  priv.hermes.startTransition();
+  priv.phaser.startTransition();
 }
 
 /**
@@ -231,7 +231,7 @@ function moveTo(priv, index) {
   }
   addTempClass(priv, chooseTransition(priv));
 
-  priv.hermes.startTransition();
+  priv.phaser.startTransition();
 }
 
 // private
@@ -269,7 +269,7 @@ function upgradeSlides(priv) {
       }
       slide.appendChild(content);
     }
-    priv.hermes.addPhaseTrigger(content);
+    priv.phaser.addPhaseTrigger(content);
 
     var background = slide.querySelector(Selector.BACKGROUND);
     if (background === null) {

@@ -895,8 +895,8 @@ module.exports = {
  * of browser-specific CSS atributes in a DOM element.
  *
  * @param defaultName name used if nothing else detected (standard-compliant name)
- * @param candidateMap browser-specific css attribute names mapped to feature names
- * @return feature name from candidateMap or defaultName
+ * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
+ * @return value from candidateMap or defaultName
  */
 function getFeatureName(defaultName, candidateMap) {
   var elem = document.createElement('fakeelement');
@@ -1468,14 +1468,11 @@ module.exports = Regexp;
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
 var precond = require('precond');
 var domCompat = require('./_dom-compat');
 var Phase = require('./classnames/_phases');
 
-function summonHermes(elem) {
+function Phaser(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};
@@ -1496,8 +1493,7 @@ function summonHermes(elem) {
   return pub;
 }
 
-module.exports = summonHermes;
-module.exports.Phase = Phase;
+module.exports = Phaser;
 
 function getPhase(priv) {
   return priv.phase;
@@ -1566,6 +1562,10 @@ function bindMethods(wrapper, methods, arg) {
   });
 }
 
+/*
+  eslint-env node, browser
+*/
+
 
 },{"./_dom-compat":9,"./classnames/_phases":14,"precond":2}],17:[function(require,module,exports){
 /*!
@@ -1587,7 +1587,7 @@ function bindMethods(wrapper, methods, arg) {
 */
 'use strict';
 
-var hermes = require('./hermes');
+var phaser = require('./phaser');
 var precond = require('precond');
 
 /**
@@ -1651,8 +1651,8 @@ function Slider(elem) {
   priv.elem = elem;
   priv.transitions = searchForTransitions(elem);
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
-  priv.hermes = hermes(elem);
-  priv.hermes.addPhaseListener(onPhaseChange.bind(null, priv));
+  priv.phaser = phaser(elem);
+  priv.phaser.addPhaseListener(onPhaseChange.bind(null, priv));
   priv.slides = searchForSlides(elem);
   precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.tempClasses = [];
@@ -1745,7 +1745,7 @@ function start(priv) {
   }
 
   addTempClass(priv, chooseTransition(priv));
-  priv.hermes.startTransition();
+  priv.phaser.startTransition();
 }
 
 /**
@@ -1801,7 +1801,7 @@ function moveTo(priv, index) {
   }
   addTempClass(priv, chooseTransition(priv));
 
-  priv.hermes.startTransition();
+  priv.phaser.startTransition();
 }
 
 // private
@@ -1839,7 +1839,7 @@ function upgradeSlides(priv) {
       }
       slide.appendChild(content);
     }
-    priv.hermes.addPhaseTrigger(content);
+    priv.phaser.addPhaseTrigger(content);
 
     var background = slide.querySelector(Selector.BACKGROUND);
     if (background === null) {
@@ -1977,4 +1977,4 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./hermes":16,"precond":2}]},{},[8])
+},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./phaser":16,"precond":2}]},{},[8])

@@ -17,21 +17,10 @@
 */
 'use strict';
 
-/*
-  eslint-env node, browser, jasmine
-*/
-/*
-  eslint
-    max-nested-callbacks: 0,
-    init-declarations: 0,
-    id-length: 0,
-    no-undefined: 0,
-    no-unused-vars: 0
-*/
+var phaser = require('./phaser');
+var Phase = require('./classnames/_phases');
 
-var hermes = require('./hermes');
-
-describe('hermes,', function() {
+describe('phaser,', function() {
 
   var illegalArgs = [
     { name: 'undefined', value: undefined },
@@ -43,7 +32,7 @@ describe('hermes,', function() {
     describe('given '+ arg.name +' argument,', function() {
       describe('when created', function() {
         it('throws exception', function() {
-          expect(function() { hermes(arg.value); }).toThrow();
+          expect(function() { phaser(arg.value); }).toThrow();
         });
       });
     });
@@ -52,7 +41,7 @@ describe('hermes,', function() {
   describe('given element argument,', function() {
     describe('when constructor called', function() {
       it('returns object instance', function() {
-        var testedInstance = hermes(document.createElement('div'));
+        var testedInstance = phaser(document.createElement('div'));
         expect(testedInstance).toBeDefined();
       });
     });
@@ -74,7 +63,7 @@ describe('hermes,', function() {
       var testedInstance;
       beforeEach(function() {
         hermesElement = document.createElement('div');
-        testedInstance = hermes(hermesElement);
+        testedInstance = phaser(hermesElement);
         for (var j = 0; j !== i; ++j) {
           testedInstance.nextPhase();
         }
@@ -99,7 +88,7 @@ describe('hermes,', function() {
         expect(testedInstance.getPhase()).toBe(arg.nextPhase);
       });
 
-      values(hermes.Phase).forEach(function(phase) {
+      values(Phase).forEach(function(phase) {
         if (phase === arg.phase) {
           it('has element with class "'+ phase +'"', function() {
             expect(hermesElement.classList.contains(phase)).toBe(true);
@@ -117,7 +106,7 @@ describe('hermes,', function() {
     var testedInstance;
     var triggerElement;
     beforeEach(function() {
-      testedInstance = hermes(document.createElement('div'));
+      testedInstance = phaser(document.createElement('div'));
       triggerElement = document.createElement('trigger');
       testedInstance.addPhaseTrigger(triggerElement);
     });
@@ -157,4 +146,16 @@ function values(object) {
   }
   return retVal;
 }
+
+/*
+  eslint-env node, browser, jasmine
+*/
+/*
+  eslint
+    max-nested-callbacks: 0,
+    init-declarations: 0,
+    id-length: 0,
+    no-undefined: 0,
+    no-unused-vars: 0
+*/
 
