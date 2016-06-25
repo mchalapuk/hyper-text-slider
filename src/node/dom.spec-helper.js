@@ -72,7 +72,7 @@ function Element(nodeName) {
   that.id = null;
   that.className = '';
   that.classList = new DOMTokenList(that, 'className');
-  that.style = new CSS2Properties();
+  that.style = new CSSStyleDeclaration();
 
   that.querySelectorAll = function(selector) {
     var match = selector.match(/^\.([^\s]+)$/);
@@ -120,16 +120,16 @@ function DOMTokenList(object, key) {
   return that;
 }
 
-function CSS2Properties() {
+function CSSStyleDeclaration() {
 }
-CSS2Properties.prototype = {
+CSSStyleDeclaration.prototype = {
   transform: null,
 };
 
-function TransitionEndEvent(target, propertyName) {
+function TransitionEvent(type, target, propertyName) {
   var that = this;
 
-  that.type = 'transitionend';
+  that.type = type;
   that.target = target;
   that.propertyName = propertyName;
 
@@ -214,8 +214,8 @@ global.EventTarget = EventTarget;
 global.Node = Node;
 global.Element = Element;
 global.DOMTokenList = DOMTokenList;
-global.CSS2Properties = CSS2Properties;
-global.TransitionEndEvent = TransitionEndEvent;
+global.CSSStyleDeclaration = CSSStyleDeclaration;
+global.TransitionEvent = TransitionEvent;
 global.KeyDownEvent = KeyDownEvent;
 global.ClickEvent = ClickEvent;
 global.Document = Document;

@@ -21,7 +21,7 @@
   eslint-env node, browser, jasmine
 */
 /*
-  global TransitionEndEvent, ClickEvent, KeyDownEvent
+  global ClickEvent, KeyDownEvent
 */
 /*
   eslint
@@ -194,7 +194,7 @@ describe('slider', function() {
       describe('after firing transitionend event on current slide element', function() {
         beforeEach(function() {
           var target = testedSlider.currentSlide.querySelector('.hermes-layout--content');
-          var event = new TransitionEndEvent(target, 'transform');
+          var event = new TransitionEvent('transitionend', target, 'transform');
           target.dispatchEvent(event);
         });
 
@@ -205,7 +205,7 @@ describe('slider', function() {
         describe('and after firing transitionend event second time', function() {
           beforeEach(function() {
             var target = testedSlider.currentSlide.querySelector('.hermes-layout--content');
-            var event = new TransitionEndEvent(target, 'transform');
+            var event = new TransitionEvent('transitionend', target, 'transform');
             target.dispatchEvent(event);
           });
 
@@ -277,7 +277,7 @@ describe('slider', function() {
         testedSlider.start();
 
         var target = testedSlider.currentSlide.querySelector('.hermes-layout--content');
-        var event = new TransitionEndEvent(target, 'transform');
+        var event = new TransitionEvent('transitionend', target, 'transform');
         target.dispatchEvent(event);
         target.dispatchEvent(event);
       });

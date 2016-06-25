@@ -21,9 +21,6 @@
   eslint-env node, browser, jasmine
 */
 /*
-  global TransitionEndEvent
-*/
-/*
   eslint
     max-nested-callbacks: 0,
     init-declarations: 0,
@@ -127,7 +124,7 @@ describe('hermes,', function() {
 
     describe('when transitionend event fires on trigger', function() {
       beforeEach(function() {
-        triggerElement.dispatchEvent(new TransitionEndEvent(triggerElement, 'transform'));
+        triggerElement.dispatchEvent(new TransitionEvent('transitionend', triggerElement, 'transform'));
       });
 
       it('moves to next phase', function() {
@@ -142,7 +139,7 @@ describe('hermes,', function() {
 
       describe('when transitionend event fires on trigger', function() {
         beforeEach(function() {
-          triggerElement.dispatchEvent(new TransitionEndEvent(triggerElement, 'transform'));
+          triggerElement.dispatchEvent(new TransitionEvent('transiontionend', triggerElement, 'transform'));
         });
 
         it('does not move to next phase', function() {

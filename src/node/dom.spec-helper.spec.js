@@ -419,12 +419,12 @@ describe('DOMTokenList', function() {
   });
 });
 
-describe('TransitionEndEvent', function() {
+describe('TransitionEvent', function() {
   var targetElement;
   var testedEvent;
   beforeEach(function() {
     targetElement = document.createElement('div');
-    testedEvent = new TransitionEndEvent(targetElement, 'property');
+    testedEvent = new TransitionEvent('transitionend', targetElement, 'property');
   });
 
   it('contains proper event type', function() {
@@ -571,8 +571,5 @@ describe('global.window', function() {
     no-undefined: 0,
     no-unused-vars: 0,
     no-inline-comments: 0
-*/
-/*
-  global TransitionEndEvent
 */
 
