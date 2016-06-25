@@ -92,51 +92,61 @@ module.exports = {
   /*
     Documentation:
    */
-  doc: [
+  doc: {
 
     /*
-      CSS Class Names
-    */
-    {
-      src: [
-        'src/node/classnames/_layout.js',
-        'src/node/classnames/_options.js',
-        'src/node/classnames/_phases.js',
-        'src/node/classnames/_markers.js',
-        'src/node/classnames/_flags.js',
-        'src/node/classnames/_regexps.js',
-      ],
-      options: {
-        formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
-        template: 'src/docs/class-names.md.ejs',
-        concat: 'class-names.md',
-        skipSingleStar: true,
-        titleProperty: 'value',
-      },
-    },
+      Files that will not be overwritten in the build process.
+     */
+    written: [
+      'doc/responsiveness.md',
+    ],
 
-    /*
-      Slider JavaScript API
-    */
-    {
-      src: [
-        'src/node/slider.js',
-      ],
-      options: {
-        formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
-        template: 'src/docs/javascript-api.md.ejs',
-        concat: 'javascript-api.md',
-        skipSingleStar: true,
-        titleProperty: 'fqn',
+    generated: [
+
+      /*
+        CSS Class Names
+      */
+      {
+        src: [
+          'src/node/classnames/_layout.js',
+          'src/node/classnames/_options.js',
+          'src/node/classnames/_phases.js',
+          'src/node/classnames/_markers.js',
+          'src/node/classnames/_flags.js',
+          'src/node/classnames/_regexps.js',
+        ],
+        options: {
+          formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
+          template: 'src/docs/class-names.md.ejs',
+          concat: 'class-names.md',
+          skipSingleStar: true,
+          titleProperty: 'value',
+        },
       },
-    },
-  ],
+
+      /*
+        Slider JavaScript API
+       */
+      {
+        src: [
+          'src/node/slider.js',
+        ],
+        options: {
+          formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
+          template: 'src/docs/javascript-api.md.ejs',
+          concat: 'javascript-api.md',
+          skipSingleStar: true,
+          titleProperty: 'fqn',
+        },
+      },
+    ],
+  },
 };
 
-var formatterConfig = (function() {
+function FormatterConfig() {
   var pathSrc2doc = {};
   var doc2title = {};
-  module.exports.doc.forEach(function(files) {
+  module.exports.doc.generated.forEach(function(files) {
     files.src.forEach(function(src) {
       pathSrc2doc[src] = files.options.concat;
     });
@@ -144,7 +154,7 @@ var formatterConfig = (function() {
   });
 
 
-  return {
+  var formatterConfig = {
     urlBase: function(context) {
       var retVal = pathSrc2doc[context.raw.filename];
       if (!retVal) {
@@ -161,9 +171,11 @@ var formatterConfig = (function() {
       return retVal;
     },
   };
-}());
 
-module.exports.doc.formatter = new Formatter(formatterConfig);
+  return formatterConfig;
+}
+
+module.exports.doc.formatter = new Formatter(new FormatterConfig());
 
 /*
   eslint-env node

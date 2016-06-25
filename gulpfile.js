@@ -88,10 +88,12 @@ gulp.task('dist', [ 'clean:dist' ], sequence('sass', 'spec', 'javascript'));
 
 gulp.task('clean:doc', function(callback) {
   config.doc.formatter.reset();
-  return del([ config.dir.docs +'**/*', '!'+ config.dir.docs ], { force: true }, callback);
+  var cleanPaths = [ config.dir.docs +'**/*', '!'+ config.dir.docs ];
+  cleanPaths = cleanPaths.concat(config.doc.written.map(function(arg) { return '!'+ arg; }));
+  return del(cleanPaths, { force: true }, callback);
 });
 
-task('doc', [ 'clean:doc' ], config.doc, function(files) {
+task('doc', [ 'clean:doc' ], config.doc.generated, function(files) {
   return gulp.src(files.src)
     .pipe(markdox.parse(files.options))
     .pipe(markdox.format())
@@ -117,8 +119,8 @@ gulp.task('watch', [ 'default' ], function() {
   var allCssSources = flatten(config.css, 'src');
   var allJsSources = flatten(config.js, 'src');
   var allJsSpecs = flatten(config.js, 'spec');
-  var allDocSources = flatten(config.doc, 'src');
-  var allDocTemplates = flatten(config.doc, 'options', 'template');
+  var allDocSources = flatten(config.doc.generated, 'src');
+  var allDocTemplates = flatten(config.doc.generated, 'options', 'template');
 
   gulp.watch(allConfigFiles, [ 'lint:config' ]);
   gulp.watch(allCssSources, [ 'sass' ]);
