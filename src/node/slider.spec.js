@@ -21,7 +21,7 @@
   eslint-env node, browser, jasmine
 */
 /*
-  global ClickEvent, KeyDownEvent
+  global ClickEvent
 */
 /*
   eslint
@@ -394,7 +394,7 @@ describe('slider', function() {
       });
 
       it('then current slide is the second slide', function() {
-        window.dispatchEvent(new KeyDownEvent('ArrowLeft'));
+        window.dispatchEvent(new KeyboardEvent('keydown', 'ArrowLeft'));
         expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
       });
     });
@@ -405,7 +405,7 @@ describe('slider', function() {
       });
 
       it('then current slide is the second slide', function() {
-        window.dispatchEvent(new KeyDownEvent('ArrowRight'));
+        window.dispatchEvent(new KeyboardEvent('keydown', 'ArrowRight'));
         expect(testedSlider.currentSlide).toBe(testedSlider.slides[1]);
       });
     });
