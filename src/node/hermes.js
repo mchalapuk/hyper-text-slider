@@ -21,7 +21,7 @@
   eslint-env node, browser
 */
 var precond = require('precond');
-var dom = require('./_dom');
+var domCompat = require('./_dom-compat');
 var Phase = require('./classnames/_phases');
 
 function summonHermes(elem) {
@@ -90,7 +90,7 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
 
   if (property === 'transform') {
     // maybe a prefixed version
-    property = dom.transformPropertyName;
+    property = domCompat.transformPropertyName;
   }
 
   elem.hermesPhaseTrigger = function(event) {
@@ -99,14 +99,14 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
     }
     nextPhase(priv);
   };
-  elem.addEventListener(dom.transitionEventName, elem.hermesPhaseTrigger);
+  elem.addEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 function removePhaseTrigger(priv, elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
   precond.checkIsFunction(elem.hermesPhaseTrigger, 'no trigger found on given element');
 
-  elem.removeEventListener(dom.transitionEventName, elem.hermesPhaseTrigger);
+  elem.removeEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 function bindMethods(wrapper, methods, arg) {

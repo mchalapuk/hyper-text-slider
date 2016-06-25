@@ -18,7 +18,7 @@
 'use strict';
 
 /**
- * Why should I use a browser for unit testing when I have node?
+ * Why would I use a browser for unit testing when I have node? ;)
  */
 
 /**

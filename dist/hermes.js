@@ -877,52 +877,41 @@ function hasOwnProperty(obj, prop) {
 */
 'use strict';
 
-/*
-  eslint-env node, browser
-*/
-
-// from Modernizr
-function getTransitionEventName() {
-  var elem = document.createElement('fakeelement');
-  var transitions = {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd',
-  };
-
-  for (var key in transitions) {
-    if (typeof elem.style[key] !== 'undefined') {
-      return transitions[key];
-    }
-  }
-  return 'transitionend';
-}
-
-function getTransformPropertyName() {
-  var elem = document.createElement('fakeelement');
-  var transforms = {
-    transform: 'transform',
+module.exports = {
+  transformPropertyName: getFeatureName('transform', {
     OTransform: '-o-transform',
     MozTransform: '-moz-transform',
     WebkitTransform: '-webkit-transform',
-  };
+  }),
+  transitionEventName: getFeatureName('transitionend', {
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  }),
+};
 
-  for (var key in transforms) {
+/**
+ * Detects browser-specific names of browser features by checking availability
+ * of browser-specific CSS atributes in a DOM element.
+ *
+ * @param defaultName name used if nothing else detected (standard-compliant name)
+ * @param candidateMap browser-specific css attribute names mapped to feature names
+ * @return feature name from candidateMap or defaultName
+ */
+function getFeatureName(defaultName, candidateMap) {
+  var elem = document.createElement('fakeelement');
+
+  for (var key in candidateMap) {
     if (typeof elem.style[key] !== 'undefined') {
-      return transforms[key];
+      return candidateMap[key];
     }
   }
-  return 'transform';
+  return defaultName;
 }
 
-var transitionEventName = getTransitionEventName();
-var transformPropertyName = getTransformPropertyName();
-
-module.exports = {
-  transitionEventName: transitionEventName,
-  transformPropertyName: transformPropertyName,
-};
+/*
+  eslint-env node, browser
+*/
 
 
 },{}],10:[function(require,module,exports){
@@ -1483,7 +1472,7 @@ module.exports = Regexp;
   eslint-env node, browser
 */
 var precond = require('precond');
-var dom = require('./_dom');
+var domCompat = require('./_dom-compat');
 var Phase = require('./classnames/_phases');
 
 function summonHermes(elem) {
@@ -1552,7 +1541,7 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
 
   if (property === 'transform') {
     // maybe a prefixed version
-    property = dom.transformPropertyName;
+    property = domCompat.transformPropertyName;
   }
 
   elem.hermesPhaseTrigger = function(event) {
@@ -1561,14 +1550,14 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
     }
     nextPhase(priv);
   };
-  elem.addEventListener(dom.transitionEventName, elem.hermesPhaseTrigger);
+  elem.addEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 function removePhaseTrigger(priv, elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
   precond.checkIsFunction(elem.hermesPhaseTrigger, 'no trigger found on given element');
 
-  elem.removeEventListener(dom.transitionEventName, elem.hermesPhaseTrigger);
+  elem.removeEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 function bindMethods(wrapper, methods, arg) {
@@ -1578,7 +1567,7 @@ function bindMethods(wrapper, methods, arg) {
 }
 
 
-},{"./_dom":9,"./classnames/_phases":14,"precond":2}],17:[function(require,module,exports){
+},{"./_dom-compat":9,"./classnames/_phases":14,"precond":2}],17:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
