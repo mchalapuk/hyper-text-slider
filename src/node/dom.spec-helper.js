@@ -126,19 +126,19 @@ CSSStyleDeclaration.prototype = {
   transform: null,
 };
 
-function Event(type) {
+function Event(type, target) {
   var that = this;
 
   that.type = type;
+  that.target = target;
 
   return that;
 }
 
 function TransitionEvent(type, target, propertyName) {
   var that = this;
-  Event.call(that, type);
+  Event.call(that, type, target);
 
-  that.target = target;
   that.propertyName = propertyName;
 
   return that;
@@ -153,11 +153,9 @@ function KeyboardEvent(type, key) {
   return that;
 }
 
-function ClickEvent(target) {
+function MouseEvent(type, target) {
   var that = this;
-
-  that.type = 'click';
-  that.target = target;
+  Event.call(that, type, target);
 
   return that;
 }
@@ -225,7 +223,7 @@ global.DOMTokenList = DOMTokenList;
 global.CSSStyleDeclaration = CSSStyleDeclaration;
 global.TransitionEvent = TransitionEvent;
 global.KeyboardEvent = KeyboardEvent;
-global.ClickEvent = ClickEvent;
+global.MouseEvent = MouseEvent;
 global.Document = Document;
 global.Window = Window;
 

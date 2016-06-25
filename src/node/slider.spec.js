@@ -17,21 +17,6 @@
 */
 'use strict';
 
-/*
-  eslint-env node, browser, jasmine
-*/
-/*
-  global ClickEvent
-*/
-/*
-  eslint
-    max-nested-callbacks: 0,
-    init-declarations: 0,
-    id-length: 0,
-    no-undefined: 0,
-    no-unused-vars: 0
-*/
-
 var slider = require('./slider');
 
 describe('slider', function() {
@@ -318,7 +303,8 @@ describe('slider', function() {
       describe('and started and after click event fired on left arrow', function() {
         beforeEach(function() {
           testedSlider.start();
-          sliderElement.querySelector('.hermes-layout--arrow-left').dispatchEvent(new ClickEvent());
+          sliderElement.querySelector('.hermes-layout--arrow-left')
+            .dispatchEvent(new MouseEvent('click'));
         });
 
         it('then current slide is the second slide', function() {
@@ -332,7 +318,8 @@ describe('slider', function() {
       describe('and started and after click event fired on right arrow', function() {
         beforeEach(function() {
           testedSlider.start();
-          sliderElement.querySelector('.hermes-layout--arrow-right').dispatchEvent(new ClickEvent());
+          sliderElement.querySelector('.hermes-layout--arrow-right')
+            .dispatchEvent(new MouseEvent('click'));
         });
 
         it('then current slide is the second slide', function() {
@@ -366,7 +353,7 @@ describe('slider', function() {
       describe('and started and after click event fired on second dot', function() {
         beforeEach(function() {
           testedSlider.start();
-          testedSlider.slides[1].dot.dispatchEvent(new ClickEvent());
+          testedSlider.slides[1].dot.dispatchEvent(new MouseEvent('click'));
         });
 
         it('then current slide is the second slide', function() {
@@ -411,4 +398,16 @@ describe('slider', function() {
     });
   });
 });
+
+/*
+  eslint-env node, browser, jasmine
+*/
+/*
+  eslint
+    max-nested-callbacks: 0,
+    init-declarations: 0,
+    id-length: 0,
+    no-undefined: 0,
+    no-unused-vars: 0
+*/
 
