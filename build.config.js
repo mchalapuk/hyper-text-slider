@@ -110,6 +110,7 @@ module.exports = {
         src: [
           'src/js/classnames/_layout.js',
           'src/js/classnames/_options.js',
+          'src/js/classnames/_time.js',
           'src/js/classnames/_phases.js',
           'src/js/classnames/_markers.js',
           'src/js/classnames/_flags.js',
@@ -130,6 +131,7 @@ module.exports = {
       {
         src: [
           'src/js/slider.js',
+          'src/js/phaser.js',
         ],
         options: {
           formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },

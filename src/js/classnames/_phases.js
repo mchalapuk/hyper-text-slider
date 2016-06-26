@@ -44,6 +44,7 @@ var Phase = {
    */
   DURING_TRANSITION: 'hermes-during-transition',
 
+  // TODO Options.AUTOPLAY is a Slider option, doesn't belong here
   /**
    * Set on slider element after transition of ${link Layout.CONTENT} element ends.
    *

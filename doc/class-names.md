@@ -40,6 +40,7 @@ limitations under the License.
 <li>[hermes-create-dots](#hermes-create-dots)
 <li>[hermes-arrow-keys](#hermes-arrow-keys)
 <li>[hermes-responsive-controls](#hermes-responsive-controls)</ul>
+
 3. [Transition Phase Class Names](#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](#hermes-before-transition)
 <li>[hermes-during-transition](#hermes-during-transition)
@@ -269,6 +270,10 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 *@see* - Slider.breakpointNormalToWide
 
 <!-- End src/js/classnames/_options.js -->
+
+<!-- Start src/js/classnames/_time.js -->
+
+<!-- End src/js/classnames/_time.js -->
 
 <!-- Start src/js/classnames/_phases.js -->
 

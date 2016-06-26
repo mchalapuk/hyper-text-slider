@@ -229,6 +229,7 @@
    limitations under the License.
 
 */
+/* TODO slider shouldn't be mentioned if Phaser is to be used alone*/
 .hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--background,
 .hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--content {
   -webkit-transition: all 1ms linear;

@@ -307,6 +307,7 @@ function enableControls(priv) {
 function enableStartupFeatures(priv) {
   var list = priv.elem.classList;
 
+  // TODO this should be done during default bootup
   if (list.contains(Option.AUTOSTART)) {
     window.setTimeout(start.bind(null, priv), 100);
   }

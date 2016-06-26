@@ -31,6 +31,16 @@ limitations under the License.
 <li>[.prototype.moveToNext()](#sliderprototypemovetonext)
 <li>[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)
 <li>[.prototype.moveTo(index)](#sliderprototypemovetoindex)</ul>
+2. [Phaser](#phaser)<ul>
+<li>[.prototype.constructor(elem)](#phaserprototypeconstructorelem)
+<li>[.prototype.startTransition()](#phaserprototypestarttransition)
+<li>[.prototype.nextPhase()](#phaserprototypenextphase)
+<li>[.prototype.setPhase(phase)](#phaserprototypesetphasephase)
+<li>[.prototype.addPhaseTrigger(elem, transitionProperty)](#phaserprototypeaddphasetriggerelem-transitionproperty)
+<li>[.prototype.addPhaseListener(listener)](#phaserprototypeaddphaselistenerlistener)
+<li>[.prototype.removePhaseTrigger(elem)](#phaserprototyperemovephasetriggerelem)
+<li>[.prototype.removePhaseListener(listener)](#phaserprototyperemovephaselistenerlistener)
+<li>[.prototype.getPhase()](#phaserprototypegetphase)</ul>
 
 <!-- Start src/js/slider.js -->
 
@@ -145,6 +155,132 @@ Moves slider slide of given index.
 *@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
 
 <!-- End src/js/slider.js -->
+
+<!-- Start src/js/phaser.js -->
+
+## Phaser
+
+This class controls phases of CSS transitions by setting proper
+[phase class names](class-names.md#) on slider element.
+
+It is an internally used by the {$link Slider}, but it can be used on any other DOM element
+that require explicit control (from JavaScript) of CSS transitions.
+To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
+will be used as an example throughout this documentation.
+
+There are 3 phases of a transition. Each phase is identified by a [CSS class name](class-names.md#)
+that is set by the Phaser on the container DOM element. Transitions are as follows.
+
+ 1. When transition is started ([Slider](javascript-api.md#slider) invokes [.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)),
+   [hermes-before-transition](class-names.md#hermes-before-transition) class name is set on container DOM element. This phase
+   is used to prepare all DOM elements inside a container element. In case of slide's content,
+   `opacity` is set to `0` and `transform` is set to `scale(1.15)`. Slide is invisible
+   and slightly zoomed-in. This phase lasts for 1 millisecond.
+ 2. After 1 millisecond, next phase ([hermes-during-transition](class-names.md#hermes-during-transition)) is automatically started.
+   This is when all animation happens. Contents of current slide fading away
+   (`opacity:0; transform:scale(1);`) and next slide is fading-in
+   (`opacity:1; transform:scale(1.35);`). This phase last long (typically for seconds).
+   Time varies depending on the transition being used.
+ 3. After animation is done, Phaser sets the phase to [hermes-after-transition](class-names.md#hermes-after-transition).
+   There is a possibility of altering CSS in this phase (e.g. slight change of font color),
+   but in zoom-in-out there is no style change after transition.
+
+For all automatic phase changes to work, one of DOM elements that have transition specified
+must be added to the phaser as a phase trigger (see [.prototype.addPhaseTrigger(elem, transitionProperty)](javascript-api.md#phaserprototypeaddphasetrigger)).
+[.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) is called each time a transition on a phase trigger ends.
+During its startup, {$link Slider} sets phase change triggers on [layout elements](class-names.md#)
+(background and contents) of each slide and calls proper phase change methods when slider
+controls are being used.
+
+### Summary
+
+Type | Name | Description
+--- | --- | ---
+void | [Phaser.prototype.constructor(elem)](#phaserprototypeconstructorelem) | Creates Phaser.
+void | [Phaser.prototype.startTransition()](#phaserprototypestarttransition) | A higher level method for starting a transition.
+void | [Phaser.prototype.nextPhase()](#phaserprototypenextphase) | Switches phase to next one.
+void | [Phaser.prototype.setPhase(phase)](#phaserprototypesetphasephase) | Changes current phase.
+void | [Phaser.prototype.addPhaseTrigger(elem, transitionProperty)](#phaserprototypeaddphasetriggerelem-transitionproperty) | Adds passed element as phase trigger.
+void | [Phaser.prototype.addPhaseListener(listener)](#phaserprototypeaddphaselistenerlistener) | Adds a listener that will be notified on phase changes.
+void | [Phaser.prototype.removePhaseTrigger(elem)](#phaserprototyperemovephasetriggerelem) | Removes passed element from phase triggers.
+void | [Phaser.prototype.removePhaseListener(listener)](#phaserprototyperemovephaselistenerlistener) | Removes passed listener from the phaser.
+{String} current phase | [Phaser.prototype.getPhase()](#phaserprototypegetphase) | Returns a class name of the current phase.
+
+### Methods
+
+#### Phaser.prototype.constructor(elem)
+
+Creates Phaser.
+
+This constructor has no side-effects. This means that no [phase class name](class-names.md#) is set
+after calling it. For phaser to start doing some work, [.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphase)
+or [.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition) needs to be invoked.
+
+*@param* {Element} **elem** - container DOM element that will receive proper phase class names
+
+#### Phaser.prototype.startTransition()
+
+A higher level method for starting a transition.
+
+```javascript
+// a shorthand for
+phaser.setPhase(Phase.BEFORE_TRANSITION)
+```
+
+#### Phaser.prototype.nextPhase()
+
+Switches phase to next one.
+
+This method is automatically invoked each time a transition ends
+on DOM element added as phase trigger.
+
+#### Phaser.prototype.setPhase(phase)
+
+Changes current phase.
+
+Invoking this method will result in setting CSS class name of requested phase on container
+element.
+
+*@param* {String} **phase** - desired phase
+
+#### Phaser.prototype.addPhaseTrigger(elem, transitionProperty)
+
+Adds passed element as phase trigger.
+
+Phase will be automatically set to next each time transition
+of passed property ends on passed element.
+
+*@param* {Element} **elem** - DOM element that will be used as a phase trigger
+
+*@param* {String} **transitionProperty** - CSS property that is used in the transition
+
+#### Phaser.prototype.addPhaseListener(listener)
+
+Adds a listener that will be notified on phase changes.
+
+It is used by the [Slider](javascript-api.md#slider) to change styles of dots representing slides.
+
+*@param* {Function} **listener** - listener to be added
+
+#### Phaser.prototype.removePhaseTrigger(elem)
+
+Removes passed element from phase triggers.
+
+*@param* {Element} **elem** - DOM element that will no longer be used as a phase trigger
+
+#### Phaser.prototype.removePhaseListener(listener)
+
+Removes passed listener from the phaser.
+
+*@param* {Function} **listener** - listener to be removed
+
+#### Phaser.prototype.getPhase()
+
+Returns a class name of the current phase.
+
+*@return* - {String} current phase
+
+<!-- End src/js/phaser.js -->
 
 <!-- End Template javascript-api.md.ejs -->
 
