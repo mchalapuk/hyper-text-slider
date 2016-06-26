@@ -163,24 +163,23 @@ Moves slider slide of given index.
 This class controls phases of CSS transitions by setting proper
 [phase class names](class-names.md#) on slider element.
 
-It is an internally used by the {$link Slider}, but it can be used on any other DOM element
+It is an internally used by the [Slider](javascript-api.md#slider), but it can be used on any other DOM element
 that require explicit control (from JavaScript) of CSS transitions.
 To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
 will be used as an example throughout this documentation.
 
-There are 3 phases of a transition. Each phase is identified by a [CSS class name](class-names.md#)
+There are 3 phases of a transition. Each phase is identified by a [phase class name](class-names.md#)
 that is set by the Phaser on the container DOM element. Transitions are as follows.
 
- 1. When transition is started ([Slider](javascript-api.md#slider) invokes [.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)),
-   [hermes-before-transition](class-names.md#hermes-before-transition) class name is set on container DOM element. This phase
-   is used to prepare all DOM elements inside a container element. In case of slide's content,
-   `opacity` is set to `0` and `transform` is set to `scale(1.15)`. Slide is invisible
-   and slightly zoomed-in. This phase lasts for 1 millisecond.
+ 1. When transition is started, [hermes-before-transition](class-names.md#hermes-before-transition) class name is set on container
+   DOM element. This phase is used to prepare all DOM elements inside a container element.
+   In case of slide's content, `opacity` is set to `0` and `transform` is set to `scale(1.15)`.
+   Slide is invisible and slightly zoomed-in. This phase lasts for 1 millisecond.
  2. After 1 millisecond, next phase ([hermes-during-transition](class-names.md#hermes-during-transition)) is automatically started.
    This is when all animation happens. Contents of current slide fading away
    (`opacity:0; transform:scale(1);`) and next slide is fading-in
-   (`opacity:1; transform:scale(1.35);`). This phase last long (typically for seconds).
-   Time varies depending on the transition being used.
+   (`opacity:1; transform:scale(1.35);`). This phase last long (typically seconds).
+   Time varies depending on transition being used.
  3. After animation is done, Phaser sets the phase to [hermes-after-transition](class-names.md#hermes-after-transition).
    There is a possibility of altering CSS in this phase (e.g. slight change of font color),
    but in zoom-in-out there is no style change after transition.
@@ -191,6 +190,14 @@ must be added to the phaser as a phase trigger (see [.prototype.addPhaseTrigger(
 During its startup, {$link Slider} sets phase change triggers on [layout elements](class-names.md#)
 (background and contents) of each slide and calls proper phase change methods when slider
 controls are being used.
+
+> ***DISCLAIMER***
+>
+> Implementation based on `window.setTimeout` function instead of `transitionend` event could
+> be simpler, but implementing a transition would have to involve JavaScript programming (now
+> it's purely declarative, CSS-only). Besides, using `window.setTimeout` would also mean using
+> `window.requestAnimationFrame` as timeout can pass without any rendering, which could result
+> in wrong animation (or no animation at all).
 
 ### Summary
 
