@@ -51,9 +51,13 @@ function format(priv, docfile) {
     var name = getName(javadoc.ctx);
     var value = getValue(javadoc.ctx);
 
+    var idTagValues = {
+      fqn: null,
+      name: name,
+    };
     var tagValues = {
       'deprecated': false,
-      'return': 'void',
+      'return': '{void}',
       'type': 'unknown',
     };
     var multiTagValues = {
@@ -66,17 +70,19 @@ function format(priv, docfile) {
     };
 
     javadoc.tags.forEach(function(tag) {
-      var tagValue = (tag.url || tag.local || tag.string).trim();
+      var tagValue = getTagValue(tag);
 
       if (tag.type in multiTagValues) {
         multiTagValues[tag.type].push(tagValue);
+      } else if (tag.type in idTagValues) {
+        idTagValues[tag.type] = tagValue;
       } else {
         tagValues[tag.type] = tagValue;
       }
     });
 
-    var fqn = tagValues.fqn || name;
-    name = tagValues.name || name;
+    var fqn = idTagValues.fqn || name;
+    name = idTagValues.name || name;
     checkNotDefined(priv, fqn);
 
     var formatted = {
@@ -117,6 +123,7 @@ function reset(priv) {
 
 function lazyInterpolateExpr(priv, formatted) {
   var description = formatted.raw.description;
+  var tagValues = formatted.tags;
   var multiTagValues = formatted.multiTags;
 
   definePropertyGetters(formatted, {
@@ -128,6 +135,19 @@ function lazyInterpolateExpr(priv, formatted) {
       };
     }),
   });
+
+  var tags = {};
+  Object.keys(tagValues).forEach(function(tagName) {
+    var tagValue = tagValues[tagName];
+
+    tags[tagName] = lazy(function() {
+      switch (tagName) {
+        default: return priv.interpolator.interpolate(formatted, tagValue);
+        case 'return': return processReturnTag(priv, formatted, tagValue);
+      }
+    });
+  });
+  definePropertyGetters(formatted.tags, tags);
 
   var multiTags = {};
   Object.keys(multiTagValues).forEach(function(tagName) {
@@ -171,6 +191,9 @@ function getName(ctx) {
 function getValue(ctx) {
   return ctx && ctx.value? ctx.value.replace(/(^[\s,;'"]*|[\s,;'"]*$)/g, ''): '';
 }
+function getTagValue(rawTag) {
+  return (rawTag.url || rawTag.local || rawTag.string).trim();
+}
 
 function checkNotDefined(priv, fqn) {
   if (priv.fqnMap.contains(fqn)) {
@@ -197,7 +220,7 @@ function processSummaryColumnTag(priv, formatted, value) {
 function processParamTag(priv, formatted, value) {
   var interpolated = priv.interpolator.interpolate(formatted, value);
 
-  var type = 'Unkonwn';
+  var type = 'unknown';
   var nameAndDesc = interpolated;
   if (interpolated.indexOf('{') !== -1) {
     var typeEnd = interpolated.indexOf('}');
@@ -217,6 +240,24 @@ function processParamTag(priv, formatted, value) {
     type: type,
     name: name,
     description: description,
+    full: interpolated,
+  };
+}
+
+function processReturnTag(priv, formatted, value) {
+  var interpolated = priv.interpolator.interpolate(formatted, value);
+
+  var type = 'unknown';
+  var desc = interpolated;
+  if (interpolated.indexOf('{') !== -1) {
+    var typeEnd = interpolated.indexOf('}');
+    type = interpolated.substring(1, typeEnd);
+    desc = interpolated.substring(typeEnd + 2);
+  }
+
+  return {
+    type: type,
+    description: desc,
     full: interpolated,
   };
 }

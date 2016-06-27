@@ -211,7 +211,7 @@ void | [Phaser.prototype.addPhaseTrigger(elem, transitionProperty)](#phaserproto
 void | [Phaser.prototype.addPhaseListener(listener)](#phaserprototypeaddphaselistenerlistener) | Adds a listener that will be notified on phase changes.
 void | [Phaser.prototype.removePhaseTrigger(elem)](#phaserprototyperemovephasetriggerelem) | Removes passed element from phase triggers.
 void | [Phaser.prototype.removePhaseListener(listener)](#phaserprototyperemovephaselistenerlistener) | Removes passed listener from the phaser.
-{String} current phase | [Phaser.prototype.getPhase()](#phaserprototypegetphase) | Returns a class name of the current phase.
+String | [Phaser.prototype.getPhase()](#phaserprototypegetphase) | Returns a class name of the current phase.
 
 ### Methods
 

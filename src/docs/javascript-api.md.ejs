@@ -56,7 +56,7 @@ function signature(comment) {
   return comment.type === 'property'? fieldSignature(comment): methodSignature(comment);
 }
 function typeOf(comment) {
-  return comment.type === 'property'? comment.tags.type: comment.tags['return'];
+  return comment.type === 'property'? comment.tags.type: comment.tags.return.type;
 }
 ?>
 <? function printMultitags(comment) { ?>
@@ -138,8 +138,8 @@ function typeOf(comment) {
         <? method.multiTags.param.forEach(function(param) { ?>
           *@param* {<?= param.type ?>} **<?= param.name ?>** - <?= param.description ?>
         <? }) ?>
-        <? if (method.tags.return !== 'void') { ?>
-          *@return* - <?= method.tags.return ?>
+        <? if (method.tags.return.type !== 'void') { ?>
+          *@return* - <?= method.tags.return.full ?>
         <? } ?>
         <? printMultitags(method) ?>
       <? }) ?>
