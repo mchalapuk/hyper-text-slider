@@ -186,10 +186,9 @@ that is set by the Phaser on the container DOM element. Transitions are as follo
 
 For all automatic phase changes to work, one of DOM elements that have transition specified
 must be added to the phaser as a phase trigger (see [.prototype.addPhaseTrigger(elem, transitionProperty)](javascript-api.md#phaserprototypeaddphasetrigger)).
-[.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) is called each time a transition on a phase trigger ends.
-During its startup, {$link Slider} sets phase change triggers on [layout elements](class-names.md#)
-(background and contents) of each slide and calls proper phase change methods when slider
-controls are being used.
+Each time a transition on a phase trigger ends, [.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) method
+is called. During its startup, [Slider](javascript-api.md#slider) sets phase change triggers on [layout elements](class-names.md#) (background and contents) of each slide and calls proper phase change methods
+when slider controls are being used.
 
 > ***DISCLAIMER***
 >

@@ -44,10 +44,10 @@
  *
  * For all automatic phase changes to work, one of DOM elements that have transition specified
  * must be added to the phaser as a phase trigger (see ${link Phaser.prototype.addPhaseTrigger}).
- * ${link Phaser.prototype.nextPhase} is called each time a transition on a phase trigger ends.
- * During its startup, {$link Slider} sets phase change triggers on ${link Layout layout elements}
- * (background and contents) of each slide and calls proper phase change methods when slider
- * controls are being used.
+ * Each time a transition on a phase trigger ends, ${link Phaser.prototype.nextPhase} method
+ * is called. During its startup, ${link Slider} sets phase change triggers on ${link Layout
+ * layout elements} (background and contents) of each slide and calls proper phase change methods
+ * when slider controls are being used.
  *
  * > ***DISCLAIMER***
  * >

@@ -37,7 +37,8 @@ function interpolate(priv, context, str) {
 
   var commands = {
     link: function(arg) {
-      return interpolateLink(priv, context, arg.split(' ')[0], arg.split(' ').slice(1).join(' '));
+      var fqn = arg.split(/\s/)[0], anchor = arg.split(/\s/).slice(1).join(' ');
+      return interpolateLink(priv, context, fqn, anchor);
     },
     value: function(arg) {
       return interpolateValue(priv, context, arg);
