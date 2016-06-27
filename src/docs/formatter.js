@@ -126,15 +126,25 @@ function lazyInterpolateExpr(priv, formatted) {
   var tagValues = formatted.tags;
   var multiTagValues = formatted.multiTags;
 
-  definePropertyGetters(formatted, {
-    description: lazy(function() {
-      return {
-        summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, '')),
-        body: priv.interpolator.interpolate(formatted, description.body),
-        full: priv.interpolator.interpolate(formatted, description.full),
-      };
-    }),
+  var getters = {};
+  getters.description = lazy(function() {
+    return {
+      summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, '')),
+      body: priv.interpolator.interpolate(formatted, description.body),
+      full: priv.interpolator.interpolate(formatted, description.full),
+    };
   });
+  switch (formatted.type) {
+    case 'property':
+      getters.signature = lazy(_.partial(fieldSignature, formatted));
+      break;
+    case 'function':
+      getters.signature = lazy(_.partial(methodSignature, formatted));
+      break;
+    default:
+      break;
+  }
+  definePropertyGetters(formatted, getters);
 
   var tags = {};
   Object.keys(tagValues).forEach(function(tagName) {
@@ -193,6 +203,16 @@ function getValue(ctx) {
 }
 function getTagValue(rawTag) {
   return (rawTag.url || rawTag.local || rawTag.string).trim();
+}
+
+function fieldSignature(formatted) {
+  return formatted.fqn;
+}
+function paramList(formatted) {
+  return formatted.multiTags.param.map(function(param) { return param.name; }).join(', ');
+}
+function methodSignature(formatted) {
+  return formatted.fqn +'('+ paramList(formatted) +')';
 }
 
 function checkNotDefined(priv, fqn) {

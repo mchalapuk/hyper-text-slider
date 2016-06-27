@@ -18,9 +18,9 @@
 
 <!-- Start Template javascript-api.md.ejs -->
 <?
-function toGithubHash(hash) {
+function toGithubHash(name) {
   var GITHUB_ILLEGAL = new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g');
-  return hash.toLowerCase().replace(/ /g, '-').replace(GITHUB_ILLEGAL, '');
+  return name.toLowerCase().replace(/ /g, '-').replace(GITHUB_ILLEGAL, '');
 }
 
 function link(name, anchor) {
@@ -43,18 +43,6 @@ function shorten(fqn) {
   return fqn.substring(startIndex);
 }
 
-function fieldSignature(comment) {
-  return comment.fqn;
-}
-function paramList(comment) {
-  return comment.multiTags.param.map(function(p) { return p.name; }).join(', ');
-}
-function methodSignature(comment) {
-  return comment.fqn +'('+ paramList(comment) +')';
-}
-function signature(comment) {
-  return comment.type === 'property'? fieldSignature(comment): methodSignature(comment);
-}
 function typeOf(comment) {
   return comment.type === 'property'? comment.tags.type: comment.tags.return.type;
 }
@@ -82,7 +70,7 @@ function typeOf(comment) {
   <? doc.javadoc.forEach(function(type) { ?><? if (type.ignore) { return } ?><?= ++i
     ?>. <?= link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
       if (child.ignore) { return } ?>
-      <li><?= link(signature(child), shorten(signature(child))) ?><?
+      <li><?= link(child.signature, shorten(child.signature)) ?><?
     }) ?></ul><?
   }) ?><?
 }) ?>
@@ -104,9 +92,9 @@ function typeOf(comment) {
     Type | Name | Description
     --- | --- | ---
     <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
-      ?> | <?= link(fieldSignature(row), fieldSignature(row)) ?> | <?= row.description.summary ?>
+      ?> | <?= link(row.signature) ?> | <?= row.description.summary ?>
     <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
-      ?> | <?= link(methodSignature(row),  methodSignature(row)) ?> | <?= row.description.summary ?>
+      ?> | <?= link(row.signature) ?> | <?= row.description.summary ?>
     <? }) ?>
 
     <? if (type.fields.length) { ?>
@@ -114,7 +102,7 @@ function typeOf(comment) {
 
       <? type.fields.forEach(function(field) { ?>
         <? if (field.ignore) { return } ?>
-        #### <?= fieldSignature(field) ?>
+        #### <?= field.signature ?>
 
         <?= field.description.full ?>
 
@@ -131,7 +119,7 @@ function typeOf(comment) {
 
       <? type.methods.forEach(function(method) { ?>
         <? if (method.ignore) { return } ?>
-        #### <?= methodSignature(method) ?>
+        #### <?= method.signature ?>
 
         <?= method.description.full ?>
 
