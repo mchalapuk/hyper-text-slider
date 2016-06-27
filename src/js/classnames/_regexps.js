@@ -37,7 +37,7 @@ var Regexp = {
    *
    * @invariant Class name of currently running transition is set on slider element.
    *
-   * @fqn Regexps.TRANSITION
+   * @fqn Regexp.TRANSITION
    */
   TRANSITION: /hermes-transition--([^\s]+)/g,
 };
