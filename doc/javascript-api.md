@@ -163,7 +163,7 @@ Moves slider slide of given index.
 This class controls phases of CSS transitions by setting proper
 [phase class names](class-names.md#) on slider element.
 
-It is an internally used by the [Slider](javascript-api.md#slider), but it can be used on any other DOM element
+It is an internal used by the [Slider](javascript-api.md#slider), but it can be used on any other DOM element
 that require explicit control (from JavaScript) of CSS transitions.
 To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
 will be used as an example throughout this documentation.

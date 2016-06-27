@@ -21,7 +21,7 @@
  * This class controls phases of CSS transitions by setting proper
  * ${link Phase phase class names} on slider element.
  *
- * It is an internally used by the ${link Slider}, but it can be used on any other DOM element
+ * It is an internal used by the ${link Slider}, but it can be used on any other DOM element
  * that require explicit control (from JavaScript) of CSS transitions.
  * To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
  * will be used as an example throughout this documentation.
