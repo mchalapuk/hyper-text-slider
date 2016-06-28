@@ -24,10 +24,10 @@ module.exports = boot;
 /**
  * Default Hermes boot procedure.
  *
- * For each element with ${Layout.SLIDER} class name found in passed container:
+ * For each element with ${link Layout.SLIDER} class name found in passed container:
  *
- *  1. Creates ${Slider} object,
- *  2. Invokes its ${Slider.prototype.start} method.
+ *  1. Creates ${link Slider} object,
+ *  2. Invokes its ${link Slider.prototype.start} method.
  *
  * If you are using browserify, you may want to call this function at some point...
  *

@@ -55,7 +55,7 @@ function typeOf(comment) {
 
   <? doc.javadoc.forEach(function(type) { ?>
     <? if (type.ignore) { return } ?>
-    ## <?= type.fqn ?>
+    ## <?= type.signature || type.fqn ?>
 
     <?= type.description.full ?>
     <? printMultitags(type) ?>

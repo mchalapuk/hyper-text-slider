@@ -204,7 +204,7 @@ It enabled using Hermes without any JavaScript programming.
 
 *@checked* - [once](#once)
 
-*@see* - boot
+*@see* - [boot()](javascript-api.md#boot)
 
 *@see* - [Slider.prototype.start()](javascript-api.md#sliderprototypestart)
 

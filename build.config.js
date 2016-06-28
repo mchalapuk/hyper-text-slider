@@ -133,6 +133,7 @@ module.exports = {
         src: [
           'src/js/slider.js',
           'src/js/phaser.js',
+          'src/js/boot.js',
         ],
         options: {
           formatter: formatter.format.bind(formatter),

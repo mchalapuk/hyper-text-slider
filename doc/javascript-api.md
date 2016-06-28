@@ -41,6 +41,7 @@ limitations under the License.
 <li>[.prototype.removePhaseTrigger(elem)](javascript-api.md#phaserprototyperemovephasetriggerelem)
 <li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
 <li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
+3. [boot()](javascript-api.md#boot)<ul></ul>
 
 <!-- Start src/js/slider.js -->
 
@@ -287,6 +288,30 @@ Returns a class name of the current phase.
 *@return* - {String} current phase
 
 <!-- End src/js/phaser.js -->
+
+<!-- Start src/js/boot.js -->
+
+## boot()
+
+Default Hermes boot procedure.
+
+For each element with [hermes-layout--slider](class-names.md#hermes-layout--slider) class name found in passed container:
+
+ 1. Creates [Slider](javascript-api.md#slider) object,
+ 2. Invokes its [Slider.prototype.start()](javascript-api.md#sliderprototypestart) method.
+
+If you are using browserify, you may want to call this function at some point...
+
+```
+var hermes = require('hermes-slider');
+hermes.boot();
+```
+
+...or event consider implementing bootup by yourself.
+
+*@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
+
+<!-- End src/js/boot.js -->
 
 <!-- End Template javascript-api.md.ejs -->
 
