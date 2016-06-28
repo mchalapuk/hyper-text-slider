@@ -33,7 +33,7 @@ limitations under the License.
 <li>[hermes-layout--dots](class-names.md#hermes-layout--dots)
 <li>[hermes-layout--dot](class-names.md#hermes-layout--dot)</ul>
 2. [Option Class Names](class-names.md#option-class-names)<ul>
-<li>[hermes-autostart](class-names.md#hermes-autostart)
+<li>[hermes-autoboot](class-names.md#hermes-autoboot)
 <li>[hermes-defaults](class-names.md#hermes-defaults)
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
 <li>[hermes-create-arrows](class-names.md#hermes-create-arrows)
@@ -166,8 +166,7 @@ It may be used in client CSS for styling.
 
 ## Option Class Names
 
-Option classes are intended to be set on slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)) or documents
-`<body>` element.
+Option classes enable features of the slider.
 
 Two categories:
  1. **single options** - each of which enables one feature,
@@ -185,7 +184,7 @@ Each option class is checked by the slider in one of two ways:
 
 Name | Description | Checked
 --- | --- | ---
-[hermes-autostart](class-names.md#hermes-autostart) | Shows first slide automatically. | once
+[hermes-autoboot](class-names.md#hermes-autoboot) | Setting this class on `<body>` element results in automatic creationof [Slider](javascript-api.md#slider) objects for all sliders declared on the pageand invocation of their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods. | once
 [hermes-defaults](class-names.md#hermes-defaults) | Adds[hermes-autoplay](class-names.md#hermes-autoplay),[hermes-create-arrows](class-names.md#hermes-create-arrows),[hermes-create-dots](class-names.md#hermes-create-dots),[hermes-arrow-keys](class-names.md#hermes-arrow-keys)classes to the slider. | once
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously
 [hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once
@@ -195,11 +194,17 @@ Name | Description | Checked
 
 ### Details
 
-#### hermes-autostart
+#### hermes-autoboot
 
-Shows first slide automatically.
+Setting this class on `<body>` element results in automatic creation
+of [Slider](javascript-api.md#slider) objects for all sliders declared on the page
+and invocation of their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods.
+
+It enabled using Hermes without any JavaScript programming.
 
 *@checked* - [once](#once)
+
+*@see* - boot
 
 *@see* - [Slider.prototype.start()](javascript-api.md#sliderprototypestart)
 

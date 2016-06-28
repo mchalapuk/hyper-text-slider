@@ -76,6 +76,7 @@ var Selector = (function() {
  */
 function Slider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
+  // TODO make the constructor free of side-effects
 
   var priv = {};
   priv.elem = elem;
@@ -92,7 +93,6 @@ function Slider(elem) {
 
   expandOptionGroups(priv);
   enableControls(priv);
-  enableStartupFeatures(priv);
   upgradeSlides(priv);
 
   var pub = {};
@@ -155,7 +155,7 @@ function Slider(elem) {
  *
  * @precondition ${link Slider.prototype.start} was not called on this slider
  * @postcondition calling ${link Slider.prototype.start} again will throw exception
- * @see ${link Option.AUTOSTART}
+ * @see ${link Option.AUTOBOOT}
  *
  * @fqn Slider.prototype.start
  */
@@ -282,7 +282,6 @@ function expandOptionGroups(priv) {
   var list = priv.elem.classList;
 
   if (list.contains(Option.DEFAULTS)) {
-    list.add(Option.AUTOSTART);
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
     list.add(Option.CREATE_ARROWS);
@@ -301,15 +300,6 @@ function enableControls(priv) {
   }
   if (list.contains(Option.ARROW_KEYS)) {
     window.addEventListener('keydown', keyBasedMove.bind(null, priv));
-  }
-}
-
-function enableStartupFeatures(priv) {
-  var list = priv.elem.classList;
-
-  // TODO this should be done during default bootup
-  if (list.contains(Option.AUTOSTART)) {
-    window.setTimeout(start.bind(null, priv), 100);
   }
 }
 

@@ -834,38 +834,25 @@ function hasOwnProperty(obj, prop) {
 */
 'use strict';
 
+// TODO test vanilla browser script
+var hermes = require('./node');
+
 /**
- * Browser bootup script.
- *
- * It is compiled to `dist/hermes.min.js` during the build.
- * If you are using browserify, you may consider implementing bootup by yourself
- * (see documentation of Slider class for details).
+ * This script is compiled to `dist/hermes.min.js` during the build
+ * and is to be included on the page when vanilla browser programming.
  */
-(function() {
-
-  // turn off vanilla behavior (vertical scroll bar)
-  var sliderElems = [].slice.call(document.querySelectorAll('.hermes-layout--slider'));
-  sliderElems.forEach(function(elem) {
-    elem.classList.add('is-upgraded');
-  });
-
-  // defer slider initialization
-  window.addEventListener('load', function() {
-    /* eslint global-require: 0, lines-around-comment: 0 */
-    var slider = require('./node.js').Slider;
-
-    sliderElems.forEach(function(elem) {
-      slider(elem);
-    });
-  });
-}());
+window.addEventListener('load', function() {
+  if (document.body.classList.contains(hermes.Option.AUTOBOOT)) {
+    hermes.boot(document.body);
+  }
+});
 
 /*
   eslint-env node, browser
 */
 
 
-},{"./node.js":18}],9:[function(require,module,exports){
+},{"./node":19}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -923,6 +910,70 @@ function getFeatureName(defaultName, candidateMap) {
 
 
 },{}],10:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var Slider = require('./slider');
+
+module.exports = boot;
+
+/**
+ * Default Hermes boot procedure.
+ *
+ * For each element with ${Layout.SLIDER} class name found in passed container:
+ *
+ *  1. Creates ${Slider} object,
+ *  2. Invokes its ${Slider.prototype.start} method.
+ *
+ * If you are using browserify, you may want to call this function at some point...
+ *
+ * ```
+ * var hermes = require('hermes-slider');
+ * hermes.boot();
+ * ```
+ *
+ * ...or event consider implementing bootup by yourself.
+ *
+ * @see Option.AUTOBOOT
+ * @fqn boot
+ */
+function boot(containerElement) {
+  // TODO tests
+  var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
+
+  var sliders = sliderElems.map(function(elem) {
+    // TODO this should be a feature of Phaser
+    // turn off vanilla behavior (vertical scroll bar)
+    elem.classList.add('is-upgraded');
+    return new Slider(elem);
+  });
+
+  // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
+  window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{"./slider":18}],11:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -975,7 +1026,7 @@ module.exports = Flag;
 */
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1144,7 +1195,7 @@ module.exports = Layout;
 */
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1203,7 +1254,7 @@ module.exports = Marker;
 */
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1225,8 +1276,7 @@ module.exports = Marker;
 'use strict';
 
 /**
- * Option classes are intended to be set on slider element (${link Layout.SLIDER}) or documents
- * `<body>` element.
+ * Option classes enable features of the slider.
  *
  * Two categories:
  *  1. **single options** - each of which enables one feature,
@@ -1244,16 +1294,25 @@ module.exports = Marker;
  * @summary-column checked Checked
  */
 var Option = {
+  // TODO all options should be settable on body
+  // TODO as it's part of public API, it should probably reside elsewhere
+  // TODO as it's part of public API, it should be documented in JavaScript MD
 
   /**
-   * Shows first slide automatically.
+   * Setting this class on `<body>` element results in automatic creation
+   * of ${link Slider} objects for all sliders declared on the page
+   * and invocation of their ${link Slider.prototype.start} methods.
    *
+   * It enabled using Hermes without any JavaScript programming.
+   *
+   * @target document's `<body>`
    * @checked once
+   * @see boot
    * @see Slider.prototype.start
    *
-   * @fqn Option.AUTOSTART
+   * @fqn Option.AUTOBOOT
    */
-  AUTOSTART: 'hermes-autostart',
+  AUTOBOOT: 'hermes-autoboot',
 
   /**
    * Adds
@@ -1263,6 +1322,7 @@ var Option = {
    * ${link Option.ARROW_KEYS}
    * classes to the slider.
    *
+   * @target Layout.SLIDER
    * @checked once
    *
    * @fqn Option.DEFAULTS
@@ -1275,6 +1335,7 @@ var Option = {
    *
    * Slider is moved after content transition of current slide ends.
    *
+   * @target Layout.SLIDER
    * @checked continuously
    * @see Slider.prototype.moveToNext
    *
@@ -1288,6 +1349,7 @@ var Option = {
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
@@ -1301,6 +1363,7 @@ var Option = {
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -1314,6 +1377,7 @@ var Option = {
    * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
    * slide, with `RightArrow` key moves slider to next slide.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -1326,6 +1390,7 @@ var Option = {
    *
    * Slider controls come in 3 different layouts. Each for different range of screen width.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see [Screen Responsiveness](responsiveness.md)
    * @see Slider.breakpointNarrowToNormal
@@ -1343,7 +1408,7 @@ module.exports = Option;
 */
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1410,7 +1475,7 @@ module.exports = Phase;
 */
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1462,7 +1527,7 @@ module.exports = Regexp;
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1697,7 +1762,7 @@ function getPhase(priv) {
 */
 
 
-},{"./_dom-compat":9,"./classnames/_phases":14,"precond":2}],17:[function(require,module,exports){
+},{"./_dom-compat":9,"./classnames/_phases":15,"precond":2}],18:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1792,7 +1857,6 @@ function Slider(elem) {
 
   expandOptionGroups(priv);
   enableControls(priv);
-  enableStartupFeatures(priv);
   upgradeSlides(priv);
 
   var pub = {};
@@ -1855,7 +1919,7 @@ function Slider(elem) {
  *
  * @precondition ${link Slider.prototype.start} was not called on this slider
  * @postcondition calling ${link Slider.prototype.start} again will throw exception
- * @see ${link Option.AUTOSTART}
+ * @see ${link Option.AUTOBOOT}
  *
  * @fqn Slider.prototype.start
  */
@@ -1982,7 +2046,6 @@ function expandOptionGroups(priv) {
   var list = priv.elem.classList;
 
   if (list.contains(Option.DEFAULTS)) {
-    list.add(Option.AUTOSTART);
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
     list.add(Option.CREATE_ARROWS);
@@ -2001,15 +2064,6 @@ function enableControls(priv) {
   }
   if (list.contains(Option.ARROW_KEYS)) {
     window.addEventListener('keydown', keyBasedMove.bind(null, priv));
-  }
-}
-
-function enableStartupFeatures(priv) {
-  var list = priv.elem.classList;
-
-  // TODO this should be done during default bootup
-  if (list.contains(Option.AUTOSTART)) {
-    window.setTimeout(start.bind(null, priv), 100);
   }
 }
 
@@ -2108,7 +2162,7 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"./classnames/_flags":10,"./classnames/_layout":11,"./classnames/_markers":12,"./classnames/_options":13,"./classnames/_regexps":15,"./phaser":16,"precond":2}],18:[function(require,module,exports){
+},{"./classnames/_flags":11,"./classnames/_layout":12,"./classnames/_markers":13,"./classnames/_options":14,"./classnames/_regexps":16,"./phaser":17,"precond":2}],19:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -2127,13 +2181,18 @@ function bindMethods(wrapper, methods, arg) {
 
 */
 'use strict';
+// TODO rename to api.js?
 
-var slider = require('./js/slider');
-var phaser = require('./js/phaser');
+var Slider = require('./js/slider');
+var Phaser = require('./js/phaser');
+var Option = require('./js/classnames/_options');
+var boot = require('./js/boot');
 
 module.exports = {
-  Slider: slider,
-  Phaser: phaser,
+  Slider: Slider,
+  Phaser: Phaser,
+  Option: Option,
+  boot: boot,
 };
 
 /*
@@ -2141,4 +2200,4 @@ module.exports = {
  */
 
 
-},{"./js/phaser":16,"./js/slider":17}]},{},[8])
+},{"./js/boot":10,"./js/classnames/_options":14,"./js/phaser":17,"./js/slider":18}]},{},[8])

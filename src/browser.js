@@ -17,31 +17,18 @@
 */
 'use strict';
 
+// TODO test vanilla browser script
+var hermes = require('./node');
+
 /**
- * Browser bootup script.
- *
- * It is compiled to `dist/hermes.min.js` during the build.
- * If you are using browserify, you may consider implementing bootup by yourself
- * (see documentation of Slider class for details).
+ * This script is compiled to `dist/hermes.min.js` during the build
+ * and is to be included on the page when vanilla browser programming.
  */
-(function() {
-
-  // turn off vanilla behavior (vertical scroll bar)
-  var sliderElems = [].slice.call(document.querySelectorAll('.hermes-layout--slider'));
-  sliderElems.forEach(function(elem) {
-    elem.classList.add('is-upgraded');
-  });
-
-  // defer slider initialization
-  window.addEventListener('load', function() {
-    /* eslint global-require: 0, lines-around-comment: 0 */
-    var slider = require('./node.js').Slider;
-
-    sliderElems.forEach(function(elem) {
-      slider(elem);
-    });
-  });
-}());
+window.addEventListener('load', function() {
+  if (document.body.classList.contains(hermes.Option.AUTOBOOT)) {
+    hermes.boot(document.body);
+  }
+});
 
 /*
   eslint-env node, browser

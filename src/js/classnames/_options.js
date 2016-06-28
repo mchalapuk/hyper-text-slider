@@ -19,8 +19,7 @@
 'use strict';
 
 /**
- * Option classes are intended to be set on slider element (${link Layout.SLIDER}) or documents
- * `<body>` element.
+ * Option classes enable features of the slider.
  *
  * Two categories:
  *  1. **single options** - each of which enables one feature,
@@ -38,16 +37,25 @@
  * @summary-column checked Checked
  */
 var Option = {
+  // TODO all options should be settable on body
+  // TODO as it's part of public API, it should probably reside elsewhere
+  // TODO as it's part of public API, it should be documented in JavaScript MD
 
   /**
-   * Shows first slide automatically.
+   * Setting this class on `<body>` element results in automatic creation
+   * of ${link Slider} objects for all sliders declared on the page
+   * and invocation of their ${link Slider.prototype.start} methods.
    *
+   * It enabled using Hermes without any JavaScript programming.
+   *
+   * @target document's `<body>`
    * @checked once
+   * @see boot
    * @see Slider.prototype.start
    *
-   * @fqn Option.AUTOSTART
+   * @fqn Option.AUTOBOOT
    */
-  AUTOSTART: 'hermes-autostart',
+  AUTOBOOT: 'hermes-autoboot',
 
   /**
    * Adds
@@ -57,6 +65,7 @@ var Option = {
    * ${link Option.ARROW_KEYS}
    * classes to the slider.
    *
+   * @target Layout.SLIDER
    * @checked once
    *
    * @fqn Option.DEFAULTS
@@ -69,6 +78,7 @@ var Option = {
    *
    * Slider is moved after content transition of current slide ends.
    *
+   * @target Layout.SLIDER
    * @checked continuously
    * @see Slider.prototype.moveToNext
    *
@@ -82,6 +92,7 @@ var Option = {
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
@@ -95,6 +106,7 @@ var Option = {
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -108,6 +120,7 @@ var Option = {
    * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
    * slide, with `RightArrow` key moves slider to next slide.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -120,6 +133,7 @@ var Option = {
    *
    * Slider controls come in 3 different layouts. Each for different range of screen width.
    *
+   * @target Layout.SLIDER
    * @checked once
    * @see [Screen Responsiveness](responsiveness.md)
    * @see Slider.breakpointNarrowToNormal

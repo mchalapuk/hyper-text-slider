@@ -213,7 +213,6 @@ describe('slider', function() {
 
     describe('when just after creation', function() {
       var defaultOptions = [
-        'hermes-autostart',
         'hermes-autoplay',
         'hermes-create-arrows',
         'hermes-create-dots',
@@ -224,26 +223,6 @@ describe('slider', function() {
         it('then it has "'+ option +'" flag', function() {
           expect(sliderElement.classList.contains(option)).toBe(true);
         });
-      });
-    });
-  });
-
-  describe('slider with "hermes-autostart" flag', function() {
-    var sliderElement;
-    var testedSlider;
-    beforeEach(function() {
-      sliderElement = createSliderElement(2);
-      sliderElement.classList.add('hermes-autostart');
-      testedSlider = slider(sliderElement);
-    });
-
-    describe('when after creation and timeout function applied', function() {
-      beforeEach(function() {
-        window.$applyTimeouts();
-      });
-
-      it('is started', function() {
-        expect(testedSlider.currentSlide).not.toBe(null);
       });
     });
   });

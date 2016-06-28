@@ -119,7 +119,7 @@ task('doc', [ 'clean:doc' ], config.doc.generated, function(files) {
 
 gulp.task('fixme', _.partial(fixme, {
   file_patterns: [ '**/*.js', '**/*.scss' ],
-  ignored_directories:  ['node_modules/**', '.git/**', 'dist/**'],
+  ignored_directories: [ 'node_modules/**', '.git/**', 'dist/**' ],
 }));
 
 gulp.task('default', [ 'lint:config', 'dist', 'doc', 'fixme' ]);

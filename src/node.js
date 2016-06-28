@@ -16,13 +16,18 @@
 
 */
 'use strict';
+// TODO rename to api.js?
 
-var slider = require('./js/slider');
-var phaser = require('./js/phaser');
+var Slider = require('./js/slider');
+var Phaser = require('./js/phaser');
+var Option = require('./js/classnames/_options');
+var boot = require('./js/boot');
 
 module.exports = {
-  Slider: slider,
-  Phaser: phaser,
+  Slider: Slider,
+  Phaser: Phaser,
+  Option: Option,
+  boot: boot,
 };
 
 /*

@@ -130,7 +130,7 @@ Starts the slider mechanism.
 
 *@postcondition* - calling [.prototype.start()](javascript-api.md#sliderprototypestart) again will throw exception
 
-*@see* - [hermes-autostart](class-names.md#hermes-autostart)
+*@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
 
 #### Slider.prototype.moveToNext()
 
