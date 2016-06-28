@@ -46,10 +46,6 @@ npm install --save hermes-slider
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    This code aspires to be the simplest example
-    of a HTML page with working Hermes slider on it.
-  -->
   <title>Hello, Hermes!</title>
 
   <!--

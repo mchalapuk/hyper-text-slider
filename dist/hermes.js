@@ -1225,7 +1225,8 @@ module.exports = Marker;
 'use strict';
 
 /**
- * All option classes are intended to be set on slider element (${link Layout.SLIDER}).
+ * Option classes are intended to be set on slider element (${link Layout.SLIDER}) or documents
+ * `<body>` element.
  *
  * Two categories:
  *  1. **single options** - each of which enables one feature,
@@ -1245,17 +1246,6 @@ module.exports = Marker;
 var Option = {
 
   /**
-   * Adds ${link Option.AUTOSTART}, ${link Option.AUTOPLAY},
-   *  ${link Option.CREATE_ARROWS}, ${link Option.CREATE_DOTS},
-   *  ${link Option.ARROW_KEYS} classes to the slider.
-   *
-   * @checked once
-   *
-   * @fqn Option.DEFAULTS
-   */
-  DEFAULTS: 'hermes-defaults',
-
-  /**
    * Shows first slide automatically.
    *
    * @checked once
@@ -1264,6 +1254,21 @@ var Option = {
    * @fqn Option.AUTOSTART
    */
   AUTOSTART: 'hermes-autostart',
+
+  /**
+   * Adds
+   * ${link Option.AUTOPLAY},
+   * ${link Option.CREATE_ARROWS},
+   * ${link Option.CREATE_DOTS},
+   * ${link Option.ARROW_KEYS}
+   * classes to the slider.
+   *
+   * @checked once
+   *
+   * @fqn Option.DEFAULTS
+   */
+  DEFAULTS: 'hermes-defaults',
+  // TODO addresponsive controls to defaults
 
   /**
    * Automatically moves slider to next slide.
