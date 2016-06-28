@@ -47,7 +47,18 @@ npm install --save hermes-slider
 <html>
 <head>
 
-  <!-- required links to slider and transition styles -->
+  <!--
+    This code aspires to be the simplest example of a HTML page with
+    working Hermes slider on it.
+  -->
+  <title>Hello, Hermes!</title>
+
+  <!--
+    There are three things needed for Hermes to work:
+
+     1. Hermes' CSS (styles of the slider and a declaration
+       of the transitions we intend to use).
+  -->
   <link href=bower_components/hermes/dist/hermes.min.css
         rel=stylesheet type=text/css>
   <link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css
@@ -56,7 +67,11 @@ npm install --save hermes-slider
 </head>
 <body>
 
-  <!-- slider declaration -->
+  <!--
+     2. Declaration of a slider (features are enabled by adding class names
+       to the slider element; this is a minimal configuration, but you can get
+       pretty wild in here; please consult documentation for details).
+  -->
   <div class="hermes-layout--slider
               hermes-transition--zoom-in-out
               hermes-slide-time-5-sec
@@ -69,7 +84,10 @@ npm install --save hermes-slider
     </div>
   </div>
 
-  <!-- upgrades all declared sliders -->
+  <!--
+     3. Hermes script (it could be placed in the head section,
+       but page may render a little faster this way).
+  -->
   <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
   </script>
 
