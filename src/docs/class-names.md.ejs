@@ -17,9 +17,6 @@
 -->
 
 <!-- Start Template class-names.md.ejs -->
-<? function link(name) { ?>[<?= name ?>](#<?=
-  name.toLowerCase().replace(/ /g, '-').replace(new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g'), '')
-?>)<? } ?>
 
 # CSS Class Names
 
@@ -27,9 +24,9 @@
 
 <? var i = 0; docfiles.forEach(function(doc) { ?>
   <? doc.javadoc.forEach(function(group) { ?><? if (group.ignore) { return } ?><?= ++i
-    ?>. <? link(group.name) ?><ul><? group.children.forEach(function(className) { ?><?
+    ?>. <?= group.link.full ?><ul><? group.children.forEach(function(className) { ?><?
       if (className.ignore) { return } ?>
-      <li><? link(className.value) ?><?
+      <li><?= className.link.full ?><?
     }) ?></ul><?
   }) ?><?
 }) ?>
@@ -48,8 +45,8 @@
     <? var cols = group.multiTags['summary-column'] ?>
     Name | Description<? cols.forEach(function(col) { ?> | <?= col.description ?><? }) ?>
     --- | ---<? cols.forEach(function(col) { ?> | ---<? }) ?>
-    <? group.children.forEach(function(row) { ?><? if (row.ignore) { return } ?><?
-      link(row.value) ?> | <?= row.description.summary ?><? cols.forEach(function(col) {
+    <? group.children.forEach(function(row) { ?><? if (row.ignore) { return } ?><?=
+      row.link.full ?> | <?= row.description.summary ?><? cols.forEach(function(col) {
       ?> | <?= row.tags[col.key] ?><? }) ?>
     <? }) ?>
 
@@ -66,10 +63,10 @@
       <?= className.description.full ?>
 
       <? if (className.tags.checked) { ?>
-        *@checked* - <? link(className.tags.checked) ?>
+        *@checked* - [<?= className.tags.checked ?>](#<?= className.tags.checked ?>)
       <? } ?>
       <? if (className.parentElement) { ?>
-        *@parent-element* - <? link(className.parentElement.value) ?>
+        *@parent-element* - <?= className.parentElement.link.full ?>
       <? } ?>
       <? className.multiTags.invariant.forEach(function(invariant) { ?>
         *@invariant* - <?= invariant ?>

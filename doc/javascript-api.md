@@ -22,25 +22,25 @@ limitations under the License.
 
 **Table of Contents**
 
-1. [Slider](#slider)<ul>
-<li>[.prototype.constructor(elem)](#sliderprototypeconstructorelem)
-<li>[.prototype.slides](#sliderprototypeslides)
-<li>[.prototype.currentIndex](#sliderprototypecurrentindex)
-<li>[.prototype.currentSlide](#sliderprototypecurrentslide)
-<li>[.prototype.start()](#sliderprototypestart)
-<li>[.prototype.moveToNext()](#sliderprototypemovetonext)
-<li>[.prototype.moveToPrevious()](#sliderprototypemovetoprevious)
-<li>[.prototype.moveTo(index)](#sliderprototypemovetoindex)</ul>
-2. [Phaser](#phaser)<ul>
-<li>[.prototype.constructor(elem)](#phaserprototypeconstructorelem)
-<li>[.prototype.startTransition()](#phaserprototypestarttransition)
-<li>[.prototype.nextPhase()](#phaserprototypenextphase)
-<li>[.prototype.setPhase(phase)](#phaserprototypesetphasephase)
-<li>[.prototype.addPhaseTrigger(elem, transitionProperty)](#phaserprototypeaddphasetriggerelem-transitionproperty)
-<li>[.prototype.addPhaseListener(listener)](#phaserprototypeaddphaselistenerlistener)
-<li>[.prototype.removePhaseTrigger(elem)](#phaserprototyperemovephasetriggerelem)
-<li>[.prototype.removePhaseListener(listener)](#phaserprototyperemovephaselistenerlistener)
-<li>[.prototype.getPhase()](#phaserprototypegetphase)</ul>
+1. [Slider](javascript-api.md#slider)<ul>
+<li>[.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem)
+<li>[.prototype.slides](javascript-api.md#sliderprototypeslides)
+<li>[.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
+<li>[.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide)
+<li>[.prototype.start()](javascript-api.md#sliderprototypestart)
+<li>[.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
+<li>[.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
+<li>[.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex)</ul>
+2. [Phaser](javascript-api.md#phaser)<ul>
+<li>[.prototype.constructor(elem)](javascript-api.md#phaserprototypeconstructorelem)
+<li>[.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)
+<li>[.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase)
+<li>[.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase)
+<li>[.prototype.addPhaseTrigger(elem, transitionProperty)](javascript-api.md#phaserprototypeaddphasetriggerelem-transitionproperty)
+<li>[.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener)
+<li>[.prototype.removePhaseTrigger(elem)](javascript-api.md#phaserprototyperemovephasetriggerelem)
+<li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
+<li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
 
 <!-- Start src/js/slider.js -->
 
@@ -73,14 +73,14 @@ window.addEventListener('load', function() {
 
 Type | Name | Description
 --- | --- | ---
-Array | [Slider.prototype.slides](#sliderprototypeslides) | Array containing all slide elements.
-Number | [Slider.prototype.currentIndex](#sliderprototypecurrentindex) | Index of currently active slide.
-Element | [Slider.prototype.currentSlide](#sliderprototypecurrentslide) | Currently active slide element.
-void | [Slider.prototype.constructor(elem)](#sliderprototypeconstructorelem) | Constructs the slider.
-void | [Slider.prototype.start()](#sliderprototypestart) | Shows first slide.
-void | [Slider.prototype.moveToNext()](#sliderprototypemovetonext) | Moves slider to next slide.
-void | [Slider.prototype.moveToPrevious()](#sliderprototypemovetoprevious) | Moves slider previous slide.
-void | [Slider.prototype.moveTo(index)](#sliderprototypemovetoindex) | Moves slider slide of given index.
+Array | [Slider.prototype.slides](javascript-api.md#sliderprototypeslides) | Array containing all slide elements.
+Number | [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex) | Index of currently active slide.
+Element | [Slider.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide) | Currently active slide element.
+void | [Slider.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem) | Constructs the slider.
+void | [Slider.prototype.start()](javascript-api.md#sliderprototypestart) | Shows first slide.
+void | [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext) | Moves slider to next slide.
+void | [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious) | Moves slider previous slide.
+void | [Slider.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex) | Moves slider slide of given index.
 
 ### Fields
 
@@ -161,14 +161,14 @@ Moves slider slide of given index.
 ## Phaser
 
 This class controls phases of CSS transitions by setting proper
-[phase class names](class-names.md#) on slider element.
+[phase class names](class-names.md#transition-phase-class-names) on slider element.
 
 It is an internal used by the [Slider](javascript-api.md#slider), but it can be used on any other DOM element
 that require explicit control (from JavaScript) of CSS transitions.
 To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
 will be used as an example throughout this documentation.
 
-There are 3 phases of a transition. Each phase is identified by a [phase class name](class-names.md#)
+There are 3 phases of a transition. Each phase is identified by a [phase class name](class-names.md#transition-phase-class-names)
 that is set by the Phaser on the container DOM element. Transitions are as follows.
 
  1. When transition is started, [hermes-before-transition](class-names.md#hermes-before-transition) class name is set on container
@@ -185,9 +185,9 @@ that is set by the Phaser on the container DOM element. Transitions are as follo
    but in zoom-in-out there is no style change after transition.
 
 For all automatic phase changes to work, one of DOM elements that have transition specified
-must be added to the phaser as a phase trigger (see [.prototype.addPhaseTrigger(elem, transitionProperty)](javascript-api.md#phaserprototypeaddphasetrigger)).
+must be added to the phaser as a phase trigger (see [.prototype.addPhaseTrigger(elem, transitionProperty)](javascript-api.md#phaserprototypeaddphasetriggerelem-transitionproperty)).
 Each time a transition on a phase trigger ends, [.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) method
-is called. During its startup, [Slider](javascript-api.md#slider) sets phase change triggers on [layout elements](class-names.md#) (background and contents) of each slide and calls proper phase change methods
+is called. During its startup, [Slider](javascript-api.md#slider) sets phase change triggers on [layout elements](class-names.md#layout-class-names) (background and contents) of each slide and calls proper phase change methods
 when slider controls are being used.
 
 > ***DISCLAIMER***
@@ -202,15 +202,15 @@ when slider controls are being used.
 
 Type | Name | Description
 --- | --- | ---
-void | [Phaser.prototype.constructor(elem)](#phaserprototypeconstructorelem) | Creates Phaser.
-void | [Phaser.prototype.startTransition()](#phaserprototypestarttransition) | A higher level method for starting a transition.
-void | [Phaser.prototype.nextPhase()](#phaserprototypenextphase) | Switches phase to next one.
-void | [Phaser.prototype.setPhase(phase)](#phaserprototypesetphasephase) | Changes current phase.
-void | [Phaser.prototype.addPhaseTrigger(elem, transitionProperty)](#phaserprototypeaddphasetriggerelem-transitionproperty) | Adds passed element as phase trigger.
-void | [Phaser.prototype.addPhaseListener(listener)](#phaserprototypeaddphaselistenerlistener) | Adds a listener that will be notified on phase changes.
-void | [Phaser.prototype.removePhaseTrigger(elem)](#phaserprototyperemovephasetriggerelem) | Removes passed element from phase triggers.
-void | [Phaser.prototype.removePhaseListener(listener)](#phaserprototyperemovephaselistenerlistener) | Removes passed listener from the phaser.
-String | [Phaser.prototype.getPhase()](#phaserprototypegetphase) | Returns a class name of the current phase.
+void | [Phaser.prototype.constructor(elem)](javascript-api.md#phaserprototypeconstructorelem) | Creates Phaser.
+void | [Phaser.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition) | A higher level method for starting a transition.
+void | [Phaser.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) | Switches phase to next one.
+void | [Phaser.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase) | Changes current phase.
+void | [Phaser.prototype.addPhaseTrigger(elem, transitionProperty)](javascript-api.md#phaserprototypeaddphasetriggerelem-transitionproperty) | Adds passed element as phase trigger.
+void | [Phaser.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener) | Adds a listener that will be notified on phase changes.
+void | [Phaser.prototype.removePhaseTrigger(elem)](javascript-api.md#phaserprototyperemovephasetriggerelem) | Removes passed element from phase triggers.
+void | [Phaser.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener) | Removes passed listener from the phaser.
+String | [Phaser.prototype.getPhase()](javascript-api.md#phaserprototypegetphase) | Returns a class name of the current phase.
 
 ### Methods
 
@@ -218,8 +218,8 @@ String | [Phaser.prototype.getPhase()](#phaserprototypegetphase) | Returns a cla
 
 Creates Phaser.
 
-This constructor has no side-effects. This means that no [phase class name](class-names.md#) is set
-after calling it. For phaser to start doing some work, [.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphase)
+This constructor has no side-effects. This means that no [phase class name](class-names.md#transition-phase-class-names) is set
+after calling it. For phaser to start doing some work, [.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase)
 or [.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition) needs to be invoked.
 
 *@param* {Element} **elem** - container DOM element that will receive proper phase class names

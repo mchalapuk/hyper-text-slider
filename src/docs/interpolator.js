@@ -22,10 +22,9 @@ var check = require('./check');
 
 module.exports = Interpolator;
 
-function Interpolator(fqnMap, options) {
+function Interpolator(fqnMap) {
   var priv = {};
   priv.fqnMap = check(fqnMap, 'fqnMap');
-  priv.options = _.defaults(options, { getUrlBase: function() { return ''; } });
 
   var pub = {};
   pub.interpolate = _.partial(interpolate, priv);
@@ -123,35 +122,13 @@ function replaceExpressions(str, replaceFunction) {
 
 function interpolateLink(priv, context, fqn, anchor) {
   var comment = check(priv.fqnMap.get(fqn), 'couldn\'t find element of fqn='+ fqn);
-  var titleProperty = priv.options.titleProperty(comment);
-  var title = comment[titleProperty];
-
-  var anchorFactory = {
-    fqn: function() {
-      var prefix = fqn.startsWith(context.fqn) && fqn !== context.fqn? context.fqn:
-        context.parent && fqn.startsWith(context.parent.fqn)? context.parent.fqn:
-        '';
-      var anchorText = fqn.substring(prefix.length);
-      if (comment.type === 'function') {
-        anchorText += '('+ paramList(comment) +')';
-      }
-
-      return anchorText;
-    },
-  };
-
-  var anchorText = anchor || anchorFactory[titleProperty] && anchorFactory[titleProperty]();
-  var url = priv.options.urlBase(comment) +'#'+ toGithubHashLink(title);
-  return '['+ (anchorText || title) +']('+ url +')';
-}
-
-
-function paramList(comment) {
-  return comment.multiTags.param.map(function(param) { return param.name; }).join(', ');
-}
-
-function toGithubHashLink(headerName) {
-  return headerName.toLowerCase().replace(/ /g, '-').replace(/[\[\]{}()<>^$#@!%&*+\/\\|~`"':;,.]/g, '');
+  if (anchor) {
+    return '['+ anchor +']('+ comment.link.url +')';
+  }
+  if (comment.parent && (comment.parent === context || comment.parent === context.parent)) {
+    return comment.link.short;
+  }
+  return comment.link.full;
 }
 
 function interpolateValue(priv, context, maybeFqn) {

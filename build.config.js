@@ -1,6 +1,7 @@
 'use strict';
 
-var Formatter = require('./src/docs/formatter');
+var GithubMarkdownFormatter = require('./src/docs/formatter');
+var formatter = new GithubMarkdownFormatter();
 
 module.exports = {
   dir: {
@@ -117,7 +118,7 @@ module.exports = {
           'src/js/classnames/_regexps.js',
         ],
         options: {
-          formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
+          formatter: formatter.format.bind(formatter),
           template: 'src/docs/class-names.md.ejs',
           concat: 'class-names.md',
           skipSingleStar: true,
@@ -134,50 +135,23 @@ module.exports = {
           'src/js/phaser.js',
         ],
         options: {
-          formatter: function(docfile) { return module.exports.doc.formatter.format(docfile); },
+          formatter: formatter.format.bind(formatter),
           template: 'src/docs/javascript-api.md.ejs',
           concat: 'javascript-api.md',
           skipSingleStar: true,
-          titleProperty: 'fqn',
+          titleProperty: 'signature',
         },
       },
     ],
+
+    /*
+      Needed to reset the formater during a clean,
+      which is needed when working with watch.
+      This is ugly...
+     */
+    formatter: formatter,
   },
 };
-
-function FormatterConfig() {
-  var pathSrc2doc = {};
-  var doc2title = {};
-  module.exports.doc.generated.forEach(function(files) {
-    files.src.forEach(function(src) {
-      pathSrc2doc[src] = files.options.concat;
-    });
-    doc2title[files.options.concat] = files.options.titleProperty;
-  });
-
-
-  var formatterConfig = {
-    urlBase: function(context) {
-      var retVal = pathSrc2doc[context.raw.filename];
-      if (!retVal) {
-        throw new Error('no base found for '+ context.raw.filename);
-      }
-      return retVal;
-    },
-    titleProperty: function(context) {
-      var retVal = doc2title[formatterConfig.urlBase(context)];
-      if (!retVal) {
-        throw new Error('"titleProperty" not defined for document: '+
-            formatterConfig.urlBase(context) +' source='+ context.raw.filename);
-      }
-      return retVal;
-    },
-  };
-
-  return formatterConfig;
-}
-
-module.exports.doc.formatter = new Formatter(new FormatterConfig());
 
 /*
   eslint-env node

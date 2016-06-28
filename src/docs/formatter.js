@@ -23,14 +23,13 @@ var check = require('./check');
 var FqnMap = require('./fqn-map');
 var Interpolator = require('./interpolator');
 
-module.exports = Formatter;
+module.exports = GithubMarkdownFormatter;
 
-function Formatter(options) {
+function GithubMarkdownFormatter() {
   var priv = {};
   priv.fqnMap = new FqnMap();
-  priv.interpolator = new Interpolator(priv.fqnMap, options);
+  priv.interpolator = new Interpolator(priv.fqnMap);
   priv.nextId = 0;
-  priv.options = options;
 
   var pub = {};
   pub.format = _.partial(format, priv);
@@ -52,8 +51,8 @@ function format(priv, docfile) {
     var value = getValue(javadoc.ctx);
 
     var idTagValues = {
-      fqn: null,
-      name: name,
+      'fqn': null,
+      'name': null,
     };
     var tagValues = {
       'deprecated': false,
@@ -93,8 +92,8 @@ function format(priv, docfile) {
       value: value,
       tags: tagValues,
       multiTags: multiTagValues,
+      idTags: idTagValues,
       ignore: javadoc.ignore,
-      options: priv.options,
       raw: javadoc,
     };
 
@@ -104,7 +103,8 @@ function format(priv, docfile) {
     }
     // properties, that may need other comments
     // to be registered, are lazy-loaded
-    lazyInterpolateExpr(priv, formatted);
+    lazyLoadProperties(priv, formatted, docfile);
+    lazyInterpolateTexts(priv, formatted);
     lazyBuildObjectTree(priv, formatted);
   });
 
@@ -121,30 +121,44 @@ function reset(priv) {
 
 // private
 
-function lazyInterpolateExpr(priv, formatted) {
-  var description = formatted.raw.description;
-  var tagValues = formatted.tags;
-  var multiTagValues = formatted.multiTags;
-
+function lazyLoadProperties(priv, formatted, docfile) {
   var getters = {};
-  getters.description = lazy(function() {
-    return {
-      summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, '')),
-      body: priv.interpolator.interpolate(formatted, description.body),
-      full: priv.interpolator.interpolate(formatted, description.full),
-    };
-  });
+
   switch (formatted.type) {
     case 'property':
-      getters.signature = lazy(_.partial(fieldSignature, formatted));
+      getters.signature = lazy(_.partial(getFieldSignature, formatted));
       break;
     case 'function':
-      getters.signature = lazy(_.partial(methodSignature, formatted));
+      getters.signature = lazy(_.partial(getMethodSignature, formatted));
       break;
     default:
       break;
   }
+  getters.link = lazy(function() {
+    var retVal = {};
+    retVal.url = getGithubUrl(formatted, docfile);
+    retVal.full = getLink(formatted, retVal.url, docfile);
+    retVal.short = getShortLink(formatted, retVal.url, docfile);
+    return retVal;
+  });
+
   definePropertyGetters(formatted, getters);
+}
+
+function lazyInterpolateTexts(priv, formatted) {
+  var description = formatted.raw.description;
+  var tagValues = formatted.tags;
+  var multiTagValues = formatted.multiTags;
+
+  definePropertyGetters(formatted, {
+    description: lazy(function() {
+      return {
+        summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, '')),
+        body: priv.interpolator.interpolate(formatted, description.body),
+        full: priv.interpolator.interpolate(formatted, description.full),
+      };
+    }),
+  });
 
   var tags = {};
   Object.keys(tagValues).forEach(function(tagName) {
@@ -205,14 +219,49 @@ function getTagValue(rawTag) {
   return (rawTag.url || rawTag.local || rawTag.string).trim();
 }
 
-function fieldSignature(formatted) {
+function getFieldSignature(formatted) {
   return formatted.fqn;
 }
-function paramList(formatted) {
+function getParamList(formatted) {
   return formatted.multiTags.param.map(function(param) { return param.name; }).join(', ');
 }
-function methodSignature(formatted) {
-  return formatted.fqn +'('+ paramList(formatted) +')';
+function getMethodSignature(formatted) {
+  return formatted.fqn +'('+ getParamList(formatted) +')';
+}
+
+function getGithubUrl(formatted, docfile) {
+  var urlBase = checkOptionDefined(docfile.options, 'concat', formatted.raw.filename);
+  return urlBase +'#'+ toGithubHash(getLinkAnchor(formatted, docfile));
+}
+// Algorithm of generating a HTML label used in Github Markdown
+function toGithubHash(title) {
+  var GITHUB_ILLEGAL = new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g');
+  return title.toLowerCase().replace(/ /g, '-').replace(GITHUB_ILLEGAL, '');
+}
+
+function getLink(formatted, url, docfile) {
+  return '['+ getLinkAnchor(formatted, docfile) +']('+ url +')';
+}
+function getShortLink(formatted, url, docfile) {
+  return '['+ getShortLinkAnchor(formatted, docfile) +']('+ url +')';
+}
+
+function getLinkAnchor(formatted, docfile) {
+  if (formatted.idTags.name) {
+    return formatted.idTags.name;
+  }
+  var titleProperty = docfile.options.titleProperty
+  if (titleProperty && formatted[titleProperty]) {
+    return formatted[titleProperty];
+  }
+  return formatted.fqn;
+}
+function getShortLinkAnchor(formatted, docfile) {
+  var anchor = getLinkAnchor(formatted, docfile);
+  if (anchor.startsWith(formatted.fqn) && formatted.parent) {
+    anchor = anchor.substring(formatted.parent.fqn.length);
+  }
+  return anchor;
 }
 
 function checkNotDefined(priv, fqn) {
@@ -221,6 +270,10 @@ function checkNotDefined(priv, fqn) {
         'first seen in '+ priv.fqnMap.get(fqn).raw.filename +':'+ priv.fqnMap.get(fqn).raw.line,
         'fqn MUST uniquely identify a comment');
   }
+}
+function checkOptionDefined(fileOptions, optionName, fileName) {
+  var value = fileOptions[optionName];
+  return check(value, '"'+ optionName +'" option undefined for source file: '+ fileName);
 }
 
 function isTopLevel(fqn) {

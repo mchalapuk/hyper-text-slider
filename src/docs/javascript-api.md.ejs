@@ -18,31 +18,6 @@
 
 <!-- Start Template javascript-api.md.ejs -->
 <?
-function toGithubHash(name) {
-  var GITHUB_ILLEGAL = new RegExp('[\\[\\]{}()<>^$#@!%&*+\/\\|~`"\':;,.]', 'g');
-  return name.toLowerCase().replace(/ /g, '-').replace(GITHUB_ILLEGAL, '');
-}
-
-function link(name, anchor) {
-  return '['+ (anchor || name) +'](#'+ toGithubHash(name) +')';
-}
-
-function shorten(fqn) {
-  var DOT = '.';
-  var PROTO = '.prototype';
-
-  var matches = {};
-  [DOT, PROTO].forEach(function(key) {
-    var index = -1;
-    while ((index = fqn.indexOf(key, index + 1)) !== -1) {
-      matches[key] = index;
-    }
-  });
-
-  var startIndex = matches[PROTO] || matches[DOT] || 0;
-  return fqn.substring(startIndex);
-}
-
 function typeOf(comment) {
   return comment.type === 'property'? comment.tags.type: comment.tags.return.type;
 }
@@ -68,9 +43,9 @@ function typeOf(comment) {
 
 <? var i = 0; docfiles.forEach(function(doc) { ?>
   <? doc.javadoc.forEach(function(type) { ?><? if (type.ignore) { return } ?><?= ++i
-    ?>. <?= link(type.fqn) ?><ul><? type.children.forEach(function(child) { ?><?
+    ?>. <?= type.link.full ?><ul><? type.children.forEach(function(child) { ?><?
       if (child.ignore) { return } ?>
-      <li><?= link(child.signature, shorten(child.signature)) ?><?
+      <li><?= child.link.short ?><?
     }) ?></ul><?
   }) ?><?
 }) ?>
@@ -92,9 +67,9 @@ function typeOf(comment) {
     Type | Name | Description
     --- | --- | ---
     <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
-      ?> | <?= link(row.signature) ?> | <?= row.description.summary ?>
+      ?> | <?= row.link.full ?> | <?= row.description.summary ?>
     <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
-      ?> | <?= link(row.signature) ?> | <?= row.description.summary ?>
+      ?> | <?= row.link.full ?> | <?= row.description.summary ?>
     <? }) ?>
 
     <? if (type.fields.length) { ?>

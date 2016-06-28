@@ -22,37 +22,37 @@ limitations under the License.
 
 **Table of Contents**
 
-1. [Layout Class Names](#layout-class-names)<ul>
-<li>[hermes-layout--slider](#hermes-layout--slider)
-<li>[hermes-layout--slide](#hermes-layout--slide)
-<li>[hermes-layout--background](#hermes-layout--background)
-<li>[hermes-layout--content](#hermes-layout--content)
-<li>[hermes-layout--arrow](#hermes-layout--arrow)
-<li>[hermes-layout--arrow-left](#hermes-layout--arrow-left)
-<li>[hermes-layout--arrow-right](#hermes-layout--arrow-right)
-<li>[hermes-layout--dots](#hermes-layout--dots)
-<li>[hermes-layout--dot](#hermes-layout--dot)</ul>
-2. [Option Class Names](#option-class-names)<ul>
-<li>[hermes-defaults](#hermes-defaults)
-<li>[hermes-autostart](#hermes-autostart)
-<li>[hermes-autoplay](#hermes-autoplay)
-<li>[hermes-create-arrows](#hermes-create-arrows)
-<li>[hermes-create-dots](#hermes-create-dots)
-<li>[hermes-arrow-keys](#hermes-arrow-keys)
-<li>[hermes-responsive-controls](#hermes-responsive-controls)</ul>
+1. [Layout Class Names](class-names.md#layout-class-names)<ul>
+<li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
+<li>[hermes-layout--slide](class-names.md#hermes-layout--slide)
+<li>[hermes-layout--background](class-names.md#hermes-layout--background)
+<li>[hermes-layout--content](class-names.md#hermes-layout--content)
+<li>[hermes-layout--arrow](class-names.md#hermes-layout--arrow)
+<li>[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left)
+<li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
+<li>[hermes-layout--dots](class-names.md#hermes-layout--dots)
+<li>[hermes-layout--dot](class-names.md#hermes-layout--dot)</ul>
+2. [Option Class Names](class-names.md#option-class-names)<ul>
+<li>[hermes-defaults](class-names.md#hermes-defaults)
+<li>[hermes-autostart](class-names.md#hermes-autostart)
+<li>[hermes-autoplay](class-names.md#hermes-autoplay)
+<li>[hermes-create-arrows](class-names.md#hermes-create-arrows)
+<li>[hermes-create-dots](class-names.md#hermes-create-dots)
+<li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
+<li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
 
-3. [Transition Phase Class Names](#transition-phase-class-names)<ul>
-<li>[hermes-before-transition](#hermes-before-transition)
-<li>[hermes-during-transition](#hermes-during-transition)
-<li>[hermes-after-transition](#hermes-after-transition)</ul>
-4. [Transition Marker Class Names](#transition-marker-class-names)<ul>
-<li>[hermes-slide-from](#hermes-slide-from)
-<li>[hermes-slide-to](#hermes-slide-to)</ul>
-5. [Flag Class Names](#flag-class-names)<ul>
-<li>[is-upgraded](#is-upgraded)
-<li>[is-active](#is-active)</ul>
-6. [Other Class Names](#other-class-names)<ul>
-<li>[/hermes-transition--([^\s]+)/g](#hermes-transition--\sg)</ul>
+3. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
+<li>[hermes-before-transition](class-names.md#hermes-before-transition)
+<li>[hermes-during-transition](class-names.md#hermes-during-transition)
+<li>[hermes-after-transition](class-names.md#hermes-after-transition)</ul>
+4. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
+<li>[hermes-slide-from](class-names.md#hermes-slide-from)
+<li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
+5. [Flag Class Names](class-names.md#flag-class-names)<ul>
+<li>[is-upgraded](class-names.md#is-upgraded)
+<li>[is-active](class-names.md#is-active)</ul>
+6. [Other Class Names](class-names.md#other-class-names)<ul>
+<li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)</ul>
 
 <!-- Start src/js/classnames/_layout.js -->
 
@@ -67,15 +67,15 @@ Their usage is limited to:
 
 Name | Description | Usage | Client HTML
 --- | --- | --- | ---
-[hermes-layout--slider](#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
-[hermes-layout--slide](#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
-[hermes-layout--background](#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
-[hermes-layout--content](#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
-[hermes-layout--arrow](#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
-[hermes-layout--arrow-left](#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
-[hermes-layout--arrow-right](#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
-[hermes-layout--dots](#hermes-layout--dots) | Set during upgrade on container elements that contains dot buttons. | styling | forbidden
-[hermes-layout--dot](#hermes-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden
+[hermes-layout--slider](class-names.md#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
+[hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
+[hermes-layout--background](class-names.md#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
+[hermes-layout--content](class-names.md#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
+[hermes-layout--arrow](class-names.md#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
+[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
+[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
+[hermes-layout--dots](class-names.md#hermes-layout--dots) | Set during upgrade on container elements that contains dot buttons. | styling | forbidden
+[hermes-layout--dot](class-names.md#hermes-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden
 
 ### Details
 
@@ -93,7 +93,7 @@ Identifies a slide.
 At least 2 slides must be defined in each slider.
 It can be used in client CSS code for styling.
 
-*@parent-element* - [hermes-layout--slider](#hermes-layout--slider)
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--background
 
@@ -103,7 +103,7 @@ For slides in which this element is not present in slider declaration, empty bac
 element will be generated during slider upgrade. This class name must be used in all
 definitions of background transitions.
 
-*@parent-element* - [hermes-layout--slide](#hermes-layout--slide)
+*@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
 
 #### hermes-layout--content
 
@@ -114,7 +114,7 @@ during slider upgrade. Contents of a slide will be moved inside generated elemen
 is present in slider declaration, it must contain all contents of a slide. This class name
 must be used in all definitions of content transitions.
 
-*@parent-element* - [hermes-layout--slide](#hermes-layout--slide)
+*@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
 
 #### hermes-layout--arrow
 
@@ -123,7 +123,7 @@ Set during upgrade on generated arrow buttons.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](#hermes-layout--slider)
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--arrow-left
 
@@ -132,7 +132,7 @@ Set during upgrade on generated left arrow button.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](#hermes-layout--slider)
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--arrow-right
 
@@ -141,7 +141,7 @@ Set during upgrade on generated right arrow button.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](#hermes-layout--slider)
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--dots
 
@@ -150,7 +150,7 @@ Set during upgrade on container elements that contains dot buttons.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](#hermes-layout--slider)
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--dot
 
@@ -159,7 +159,7 @@ Set during upgrade on each dot button element.
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--dots](#hermes-layout--dots)
+*@parent-element* - [hermes-layout--dots](class-names.md#hermes-layout--dots)
 
 <!-- End src/js/classnames/_layout.js -->
 
@@ -185,13 +185,13 @@ Each option class is checked by the slider in one of two ways:
 
 Name | Description | Checked
 --- | --- | ---
-[hermes-defaults](#hermes-defaults) | Adds [hermes-autostart](class-names.md#hermes-autostart), [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys) classes to the slider. | once
-[hermes-autostart](#hermes-autostart) | Shows first slide automatically. | once
-[hermes-autoplay](#hermes-autoplay) | Automatically moves slider to next slide. | continuously
-[hermes-create-arrows](#hermes-create-arrows) | Creates side arrow buttons. | once
-[hermes-create-dots](#hermes-create-dots) | Creates dot button for each slide. | once
-[hermes-arrow-keys](#hermes-arrow-keys) | Adds keyboard control to slider. | once
-[hermes-responsive-controls](#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autostart](class-names.md#hermes-autostart), [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys) classes to the slider. | once
+[hermes-autostart](class-names.md#hermes-autostart) | Shows first slide automatically. | once
+[hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously
+[hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once
+[hermes-create-dots](class-names.md#hermes-create-dots) | Creates dot button for each slide. | once
+[hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once
+[hermes-responsive-controls](class-names.md#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once
 
 ### Details
 
@@ -287,9 +287,9 @@ in definitions of CSS transitions**.
 
 Name | Description
 --- | ---
-[hermes-before-transition](#hermes-before-transition) | Set on slider element just before transition starts.
-[hermes-during-transition](#hermes-during-transition) | Set on slider element while transition of [hermes-layout--content](class-names.md#hermes-layout--content) element is run.
-[hermes-after-transition](#hermes-after-transition) | Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
+[hermes-before-transition](class-names.md#hermes-before-transition) | Set on slider element just before transition starts.
+[hermes-during-transition](class-names.md#hermes-during-transition) | Set on slider element while transition of [hermes-layout--content](class-names.md#hermes-layout--content) element is run.
+[hermes-after-transition](class-names.md#hermes-after-transition) | Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
 
 ### Details
 
@@ -326,8 +326,8 @@ and **SHOULD be used only in definitions of CSS transitions**.
 
 Name | Description
 --- | ---
-[hermes-slide-from](#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](class-names.md#hermes-layout--slide).
-[hermes-slide-to](#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](class-names.md#hermes-layout--slide).
+[hermes-slide-from](class-names.md#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](class-names.md#hermes-layout--slide).
+[hermes-slide-to](class-names.md#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](class-names.md#hermes-layout--slide).
 
 ### Details
 
@@ -359,8 +359,8 @@ client HTML or JavaScript and **SHOULD be used only in client CSS**.
 
 Name | Description
 --- | ---
-[is-upgraded](#is-upgraded) | Automatically set on slider after its upgrade.
-[is-active](#is-active) | Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) button connected with currently active slide.
+[is-upgraded](class-names.md#is-upgraded) | Automatically set on slider after its upgrade.
+[is-active](class-names.md#is-active) | Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) button connected with currently active slide.
 
 ### Details
 
@@ -384,7 +384,7 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 
 Name | Description
 --- | ---
-[/hermes-transition--([^\s]+)/g](#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
+[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
 
 ### Details
 
