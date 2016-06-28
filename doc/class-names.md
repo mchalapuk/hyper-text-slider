@@ -40,7 +40,6 @@ limitations under the License.
 <li>[hermes-create-dots](class-names.md#hermes-create-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
-
 3. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
 <li>[hermes-during-transition](class-names.md#hermes-during-transition)
