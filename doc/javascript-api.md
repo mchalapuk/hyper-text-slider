@@ -302,7 +302,7 @@ For each element with [hermes-layout--slider](class-names.md#hermes-layout--slid
 
 If you are using browserify, you may want to call this function at some point...
 
-```
+```javascript
 var hermes = require('hermes-slider');
 hermes.boot();
 ```

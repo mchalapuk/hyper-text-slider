@@ -943,7 +943,7 @@ module.exports = boot;
  *
  * If you are using browserify, you may want to call this function at some point...
  *
- * ```
+ * ```javascript
  * var hermes = require('hermes-slider');
  * hermes.boot();
  * ```
