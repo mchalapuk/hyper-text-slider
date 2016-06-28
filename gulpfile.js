@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var eslint = require('gulp-eslint');
+var stylelint = require('gulp-stylelint');
 var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
@@ -16,7 +17,23 @@ var del = require('del');
 
 var config = require('./build.config');
 
-task('sass', [], config.css, function(files) {
+task('lint:config', [], config.config, function(files) {
+  return gulp.src(files.src)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError())
+  ;
+});
+
+task('lint:sass', [], config.css, function(files) {
+  return gulp.src(files.src)
+    .pipe(stylelint({
+      reporters: [ { formatter: 'string', console: true } ],
+    }))
+  ;
+});
+
+task('sass', [ 'lint:sass' ], config.css, function(files) {
   var buildDir = config.dir.build + (files.dest || '');
 
   return gulp.src(files.main)
@@ -25,14 +42,6 @@ task('sass', [], config.css, function(files) {
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(buildDir))
-  ;
-});
-
-task('lint:config', [], config.config, function(files) {
-  return gulp.src(files.src)
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
   ;
 });
 

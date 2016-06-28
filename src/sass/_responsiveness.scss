@@ -16,12 +16,13 @@
 
 */
 
-// slider arrows get smaller and move to bottom on tablets and phones
+/* slider arrows get smaller and move to bottom on tablets and phones */
 .hermes-layout--slider.hermes-responsive-controls {
   .hermes-layout--arrow {
     width: calc((100% - #{$max-slide-width} + 40px) / 2);
   }
 }
+
 @media screen and (min-width: $breakpoint-narrow-to-normal) and (max-width: $breakpoint-normal-to-wide) {
   .hermes-layout--slider.hermes-responsive-controls {
     .hermes-layout--arrow {
@@ -29,6 +30,7 @@
     }
   }
 }
+
 @media screen and (min-width: 0) and (max-width: $breakpoint-narrow-to-normal) {
   .hermes-layout--slider.hermes-responsive-controls {
     .hermes-layout--arrow {

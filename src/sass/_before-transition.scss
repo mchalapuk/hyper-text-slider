@@ -16,12 +16,12 @@
 
 */
 
-/* TODO slider shouldn't be mentioned if Phaser is to be used alone*/
+/* TODO slider shouldn't be mentioned if Phaser is to be used alone */
 .hermes-layout--slider.is-upgraded.hermes-before-transition {
   .hermes-slide-to {
     .hermes-layout--background,
     .hermes-layout--content {
-       @include transition(all 1ms linear);
+      @include transition(all 1ms linear);
     }
   }
 }

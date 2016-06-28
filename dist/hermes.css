@@ -229,7 +229,7 @@
    limitations under the License.
 
 */
-/* TODO slider shouldn't be mentioned if Phaser is to be used alone*/
+/* TODO slider shouldn't be mentioned if Phaser is to be used alone */
 .hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--background,
 .hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--content {
   -webkit-transition: all 1ms linear;
@@ -319,6 +319,7 @@
    limitations under the License.
 
 */
+/* slider arrows get smaller and move to bottom on tablets and phones */
 .hermes-layout--slider.hermes-responsive-controls .hermes-layout--arrow {
   width: calc((100% - 1248px + 40px) / 2); }
 
