@@ -23,6 +23,7 @@
   "license": "Apache License 2.0",
   "devDependencies": {
     "del": "~2.2.1",
+    "fixme": "^0.4.0",
     "gulp": "~3.9.0",
     "gulp-browserify": "^0.5.1",
     "gulp-connect": "~4.1.0",

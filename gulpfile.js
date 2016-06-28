@@ -9,11 +9,13 @@ var browserify = require('gulp-browserify');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
 var markdox = require('gulp-markdox2');
+var fixme = require('fixme');
 var connect = require('gulp-connect');
 var sequence = require('gulp-sequence');
 var rename = require('gulp-rename');
 var mergeStream = require('merge-stream');
 var del = require('del');
+var _ = require('underscore');
 
 var config = require('./build.config');
 
@@ -115,7 +117,11 @@ task('doc', [ 'clean:doc' ], config.doc.generated, function(files) {
   ;
 });
 
-gulp.task('default', [ 'lint:config', 'dist', 'doc' ]);
+gulp.task('fixme', _.partial(fixme, {
+  file_patterns: [ '**/*.js', '**/*.scss' ],
+}));
+
+gulp.task('default', [ 'lint:config', 'dist', 'doc', 'fixme' ]);
 
 gulp.task('watch', [ 'default' ], function() {
   function flatten(unflattened, key0, key1) {
@@ -160,5 +166,9 @@ function pass(arg) {
 
 /*
   eslint-env node
+*/
+
+/*
+  eslint camelcase:0
 */
 
