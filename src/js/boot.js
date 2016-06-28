@@ -38,6 +38,8 @@ module.exports = boot;
  *
  * ...or event consider implementing bootup by yourself.
  *
+ * @param {Element} containerElement element that contains sliders
+ *
  * @see Option.AUTOBOOT
  * @fqn boot
  */

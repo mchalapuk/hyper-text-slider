@@ -41,7 +41,7 @@ limitations under the License.
 <li>[.prototype.removePhaseTrigger(elem)](javascript-api.md#phaserprototyperemovephasetriggerelem)
 <li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
 <li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
-3. [boot()](javascript-api.md#boot)<ul></ul>
+3. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
 
 <!-- Start src/js/slider.js -->
 
@@ -291,7 +291,7 @@ Returns a class name of the current phase.
 
 <!-- Start src/js/boot.js -->
 
-## boot()
+## boot(containerElement)
 
 Default Hermes boot procedure.
 
