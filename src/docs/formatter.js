@@ -250,7 +250,7 @@ function getLinkAnchor(formatted, docfile) {
   if (formatted.idTags.name) {
     return formatted.idTags.name;
   }
-  var titleProperty = docfile.options.titleProperty
+  var titleProperty = docfile.options.titleProperty;
   if (titleProperty && formatted[titleProperty]) {
     return formatted[titleProperty];
   }
