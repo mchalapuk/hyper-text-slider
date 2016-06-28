@@ -46,10 +46,9 @@ npm install --save hermes-slider
 <!DOCTYPE html>
 <html>
 <head>
-
   <!--
-    This code aspires to be the simplest example of a HTML page with
-    working Hermes slider on it.
+    This code aspires to be the simplest example
+    of a HTML page with working Hermes slider on it.
   -->
   <title>Hello, Hermes!</title>
 
@@ -63,7 +62,6 @@ npm install --save hermes-slider
         rel=stylesheet type=text/css>
   <link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css
         rel=stylesheet type=text/css>
-
 </head>
 <body>
 
@@ -90,7 +88,6 @@ npm install --save hermes-slider
   -->
   <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
   </script>
-
 </body>
 </html>
 
