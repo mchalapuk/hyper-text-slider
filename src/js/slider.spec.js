@@ -71,22 +71,27 @@ describe('slider', function() {
   });
 
   describe('slider with 3 slides and "hermes-transition--test" class', function() {
+    function domSerializeHelper(key, value) {
+      if (key === 'parentNode') {
+        return undefined;
+      }
+      return value;
+    }
+
     var sliderElement;
     var testedSlider;
+    var sliderElementSerialized;
     beforeEach(function() {
       sliderElement = createSliderElement(3);
       sliderElement.classList.add('hermes-transition--test');
       sliderElement.childNodes[0].id = 'first';
       sliderElement.childNodes[1].id = 'second';
       sliderElement.childNodes[2].id = 'third';
+      sliderElementSerialized = JSON.stringify(sliderElement, domSerializeHelper);
       testedSlider = slider(sliderElement);
     });
 
     describe('when just after creation', function() {
-      it('then does not contain "hermes-transition--test" class', function() {
-        expect(sliderElement.classList.contains('hermes-transition--test')).toBe(false);
-      });
-
       it('then contains 3 slides', function() {
         expect(testedSlider.slides.length).toEqual(3);
       });
@@ -98,11 +103,25 @@ describe('slider', function() {
         expect(testedSlider.currentSlide).toBe(null);
       });
 
-      it('then contains no slide with "hermes-slide-from" or "hermes-slide-to" flags', function() {
-        testedSlider.slides.forEach(function(slide) {
-          expect(slide.classList.contains('hermes-slide-from')).toBe(false);
-          expect(slide.classList.contains('hermes-slide-to')).toBe(false);
-        });
+      it('then contains unmodified slider element', function() {
+        expect(JSON.stringify(sliderElement, domSerializeHelper)).toEqual(sliderElementSerialized);
+      });
+    });
+
+    describe('when after calling #start', function() {
+      beforeEach(function() {
+        testedSlider.start();
+      });
+
+      it('then contains "hermes-slide-id-first" class', function() {
+        expect(sliderElement.classList.contains('hermes-slide-id-first')).toBe(true);
+      });
+
+      it('then contains currentIndex of value 0', function() {
+        expect(testedSlider.currentIndex).toBe(0);
+      });
+      it('then contains currentSlide pointing to slides[0]', function() {
+        expect(testedSlider.currentSlide).toBe(testedSlider.slides[0]);
       });
 
       it('slides contains "hermes-layout--background" element as first child', function() {
@@ -114,26 +133,6 @@ describe('slider', function() {
         testedSlider.slides.forEach(function(slide) {
           expect(slide.childNodes[1].classList.contains('hermes-layout--content')).toBe(true);
         });
-      });
-    });
-
-    describe('when after calling #start', function() {
-      beforeEach(function() {
-        testedSlider.start();
-      });
-
-      it('then contains "hermes-transition--test" class', function() {
-        expect(sliderElement.classList.contains('hermes-transition--test')).toBe(true);
-      });
-      it('then contains "hermes-slide-id-first" class', function() {
-        expect(sliderElement.classList.contains('hermes-slide-id-first')).toBe(true);
-      });
-
-      it('then contains currentIndex of value 0', function() {
-        expect(testedSlider.currentIndex).toBe(0);
-      });
-      it('then contains currentSlide pointing to slides[0]', function() {
-        expect(testedSlider.currentSlide).toBe(testedSlider.slides[0]);
       });
 
       it('then contains first slide with "hermes-slide-to" flag', function() {
@@ -211,14 +210,17 @@ describe('slider', function() {
       testedSlider = slider(sliderElement);
     });
 
-    describe('when just after creation', function() {
+    describe('when after calling #start', function() {
+      beforeEach(function() {
+        testedSlider.start();
+      });
+
       var defaultOptions = [
         'hermes-autoplay',
         'hermes-create-arrows',
         'hermes-create-dots',
         'hermes-arrow-keys',
       ];
-
       defaultOptions.forEach(function(option) {
         it('then it has "'+ option +'" flag', function() {
           expect(sliderElement.classList.contains(option)).toBe(true);
@@ -267,7 +269,11 @@ describe('slider', function() {
       testedSlider = slider(sliderElement);
     });
 
-    describe('when just after creation', function() {
+    describe('when after calling #start', function() {
+      beforeEach(function() {
+        testedSlider.start();
+      });
+
       it('then slider contains left arrow', function() {
         var arrow = sliderElement.querySelector('.hermes-layout--arrow-left');
         expect(arrow).not.toBe(null);
@@ -279,9 +285,8 @@ describe('slider', function() {
         expect(arrow.classList.contains('hermes-layout--arrow')).toBe(true);
       });
 
-      describe('and started and after click event fired on left arrow', function() {
+      describe('and after click event fired on left arrow', function() {
         beforeEach(function() {
-          testedSlider.start();
           sliderElement.querySelector('.hermes-layout--arrow-left')
             .dispatchEvent(new MouseEvent('click'));
         });
@@ -294,9 +299,8 @@ describe('slider', function() {
         });
       });
 
-      describe('and started and after click event fired on right arrow', function() {
+      describe('and after click event fired on right arrow', function() {
         beforeEach(function() {
-          testedSlider.start();
           sliderElement.querySelector('.hermes-layout--arrow-right')
             .dispatchEvent(new MouseEvent('click'));
         });
@@ -320,7 +324,11 @@ describe('slider', function() {
       testedSlider = slider(sliderElement);
     });
 
-    describe('when just after creation', function() {
+    describe('when just after calling #start', function() {
+      beforeEach(function() {
+        testedSlider.start();
+      });
+
       it('then slider element contains dots container', function() {
         expect(sliderElement.querySelector('.hermes-layout--dots')).not.toBe(null);
       });
@@ -329,9 +337,8 @@ describe('slider', function() {
           .querySelectorAll('.hermes-layout--dot').length).toEqual(2);
       });
 
-      describe('and started and after click event fired on second dot', function() {
+      describe('and after click event fired on second dot', function() {
         beforeEach(function() {
-          testedSlider.start();
           testedSlider.slides[1].dot.dispatchEvent(new MouseEvent('click'));
         });
 

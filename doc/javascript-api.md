@@ -78,7 +78,7 @@ Array | [Slider.prototype.slides](javascript-api.md#sliderprototypeslides) | Arr
 Number | [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex) | Index of currently active slide.
 Element | [Slider.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide) | Currently active slide element.
 void | [Slider.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem) | Constructs the slider.
-void | [Slider.prototype.start()](javascript-api.md#sliderprototypestart) | Shows first slide.
+void | [Slider.prototype.start()](javascript-api.md#sliderprototypestart) | Upgrades slider DOM element and shows the first slide.
 void | [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext) | Moves slider to next slide.
 void | [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious) | Moves slider previous slide.
 void | [Slider.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex) | Moves slider slide of given index.
@@ -123,9 +123,7 @@ Constructs the slider.
 
 #### Slider.prototype.start()
 
-Shows first slide.
-
-Starts the slider mechanism.
+Upgrades slider DOM element and shows the first slide.
 
 *@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider
 

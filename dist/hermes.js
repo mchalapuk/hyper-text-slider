@@ -1843,32 +1843,18 @@ var Selector = (function() {
  */
 function Slider(elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-  // TODO make the constructor free of side-effects
 
   var priv = {};
   priv.elem = elem;
   priv.transitions = searchForTransitions(elem);
-  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
   priv.phaser = phaser(elem);
-  priv.phaser.addPhaseListener(onPhaseChange.bind(null, priv));
   priv.slides = searchForSlides(elem);
-  precond.checkState(priv.slides.length >= 2, 'at least 2 slides needed');
   priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
   priv.started = false;
 
-  expandOptionGroups(priv);
-  enableControls(priv);
-  upgradeSlides(priv);
-
   var pub = {};
-  bindMethods(pub, [
-    start,
-    moveTo,
-    moveToNext,
-    moveToPrevious,
-  ], priv);
 
   /**
    * Array containing all slide elements.
@@ -1893,7 +1879,7 @@ function Slider(elem) {
   pub.currentIndex = null;
   Object.defineProperty(pub, 'currentIndex', {
     get: function() { return priv.started? priv.toIndex: null; },
-    set: pub.moveTo,
+    set: moveTo.bind(null, priv),
   });
 
   /**
@@ -1912,13 +1898,18 @@ function Slider(elem) {
     set: function() { throw new Error('read only property! please use currentIndex instead'); },
   });
 
+  bindMethods(pub, [
+    start,
+    moveTo,
+    moveToNext,
+    moveToPrevious,
+  ], priv);
+
   return pub;
 }
 
 /**
- * Shows first slide.
- *
- * Starts the slider mechanism.
+ * Upgrades slider DOM element and shows the first slide.
  *
  * @precondition ${link Slider.prototype.start} was not called on this slider
  * @postcondition calling ${link Slider.prototype.start} again will throw exception
@@ -1927,14 +1918,27 @@ function Slider(elem) {
  * @fqn Slider.prototype.start
  */
 function start(priv) {
-  // separate start procedure is needed because
-  // only one slide is seen in the first transition
   precond.checkState(!priv.started, 'slider is already started');
+
+  // For transition to work, it is required that a single transition class will be present
+  // on the slider element. Since there may be many transitions declared on the slider and
+  // since transitions can be configured also per slide, all transition class names are removed
+  // from the slider. Single transition class name will be added just before before transition
+  // phase and removed right after hitting after transition.
+  // TODO transitions are to be independent from slide time, this needs to change
+  // TODO is there a way to test removing transition class names during start?
+  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
+
+  expandOptionGroups(priv);
+  enableControls(priv);
+  upgradeSlides(priv);
+
   priv.started = true;
 
   var firstSlide = priv.slides[priv.toIndex];
   firstSlide.classList.add(Marker.SLIDE_TO);
   if (firstSlide.id !== null) {
+    // TODO document hermes-slide-id-.* class names
     addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
   }
   if (typeof firstSlide.dot !== 'undefined') {
@@ -1942,6 +1946,7 @@ function start(priv) {
   }
 
   addTempClass(priv, chooseTransition(priv));
+  priv.phaser.addPhaseListener(onPhaseChange.bind(null, priv));
   priv.phaser.startTransition();
 }
 
@@ -2006,7 +2011,9 @@ function moveTo(priv, index) {
 // initialization functions
 
 function searchForSlides(elem) {
-  return [].slice.call(elem.querySelectorAll(Selector.SLIDE));
+  var slides = [].slice.call(elem.querySelectorAll(Selector.SLIDE));
+  precond.checkState(slides.length >= 2, 'at least 2 slides needed');
+  return slides;
 }
 
 function searchForTransitions(elem) {
