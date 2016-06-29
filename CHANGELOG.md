@@ -1,14 +1,20 @@
 [gulp-eslint]: https://github.com/adametry/gulp-eslint
 [gulp-sass]: https://github.com/dlmanning/gulp-sass
 [gulp-uglify]: https://github.com/terinjokes/gulp-uglify
+[stylelint]: https://github.com/stylelint/stylelint
+
+[hermes-autoboot]: doc/class-names.md#hermes-autoboot
+[hermes-prototype-boot]: doc/javascript-api.md#bootcontainerelement
 
 # v0.2.5
 
  * Removed `hermes-layout--inner` CSS class.
- * Replaces `hermes-autostart` with ${link Option.AUTOBOOT} option.
- * [gulpfile.js][v0.2.5_1] and [build.config.js][v0.2.5_2] are now linted.
+ * Added [Hermes.prototype.boot(containerElement)][hermes-prototype-boot]
+ * Replaced `hermes-autostart` option with [hermes-autoboot][hermes-autoboot].
  * Updated [gulp-eslint][gulp-eslint] to 2.0.0.
+ * [gulpfile.js][v0.2.5_1] and [build.config.js][v0.2.5_2] are now linted.
  * Updated [gulp-sass][gulp-sass] to 2.3.2.
+ * Sass sources are now linted with [stylelint][stylelint].
  * Updated [gulp-uglify][gulp-uglify] to 1.5.4.
  * Added missing unit tests.
 
