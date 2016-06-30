@@ -53,6 +53,7 @@ function format(priv, docfile) {
     var idTagValues = {
       'fqn': null,
       'name': null,
+      'parent-element': null,
     };
     var tagValues = {
       'deprecated': false,
@@ -180,7 +181,6 @@ function lazyInterpolateTexts(priv, formatted) {
         default: return priv.interpolator.interpolate(formatted, tagValue);
         case 'summary-column': return processSummaryColumnTag(priv, formatted, tagValue);
         case 'param': return processParamTag(priv, formatted, tagValue);
-        case 'see': return processSeeTag(priv, formatted, tagValue);
       }
     }));
   });
@@ -202,7 +202,7 @@ function lazyBuildObjectTree(priv, formatted) {
     fields: lazy(function() { return formatted.children.filter(Filter.ofType('property')); }),
     methods: lazy(function() { return formatted.children.filter(Filter.ofType('function')); }),
     parent: lazy(function() { return priv.fqnMap.getParentOf(formatted.fqn); }),
-    parentElement: lazy(function() { return priv.fqnMap.get(formatted.tags['parent-element']); }),
+    parentElement: lazy(function() { return priv.fqnMap.get(formatted.idTags['parent-element']); }),
   });
 }
 
@@ -333,13 +333,6 @@ function processReturnTag(priv, formatted, value) {
     description: desc,
     full: interpolated,
   };
-}
-
-function processSeeTag(priv, formatted, value) {
-  if (priv.fqnMap.contains(value)) {
-    return priv.interpolator.interpolate(formatted, '${link '+ value +'}');
-  }
-  return priv.interpolator.interpolate(formatted, value);
 }
 
 function lazy(loader) {

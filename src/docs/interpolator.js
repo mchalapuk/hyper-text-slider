@@ -34,6 +34,11 @@ function Interpolator(fqnMap) {
 function interpolate(priv, context, str) {
   check.setCurrentDoc(context.raw);
 
+  return interpolate0(priv, context, priv.fqnMap.contains(str)? '${link '+ str +'}': str);
+}
+
+function interpolate0(priv, context, str) {
+
   var commands = {
     link: function(arg) {
       var fqn = arg.split(/\s/)[0], anchor = arg.split(/\s/).slice(1).join(' ');
@@ -46,7 +51,7 @@ function interpolate(priv, context, str) {
 
   return replaceExpressions(str, function(commandName, argument) {
     var command = check(commands[commandName], 'unknown command: '+ commandName);
-    return command(interpolate(priv, context, argument));
+    return command(interpolate0(priv, context, argument));
   });
 }
 
