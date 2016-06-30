@@ -54,7 +54,8 @@ limitations under the License.
 <li>[is-upgraded](class-names.md#is-upgraded)
 <li>[is-active](class-names.md#is-active)</ul>
 7. [Other Class Names](class-names.md#other-class-names)<ul>
-<li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)</ul>
+<li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
+<li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
 
 <!-- Start src/js/classnames/_layout.js -->
 
@@ -446,6 +447,7 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 Name | Description
 --- | ---
 [/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
+[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s) | Slider keeps class name with slide if of current slide to [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
 
 ### Details
 
@@ -463,6 +465,15 @@ this type are [checked continuously](#continuously), therefore they may be added
 on slides at runtime (client JavaScript).
 
 *@invariant* - Class name of currently running transition is set on slider element.
+
+#### /hermes-slide-id-([^\s]+)/
+
+Slider keeps class name with slide if of current slide to [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
+
+This functionality may be useful if slides other than current are to be partially visible
+or if appearence of controls or even whole slider needs to change from one slide to another.
+
+*@invariant* - Class name with id of current slide is set on slider element.
 
 <!-- End src/js/classnames/_regexps.js -->
 
