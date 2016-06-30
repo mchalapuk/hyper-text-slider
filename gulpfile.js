@@ -122,7 +122,7 @@ gulp.task('fixme', _.partial(fixme, {
   ignored_directories: [ 'node_modules/**', '.git/**', 'dist/**' ],
 }));
 
-gulp.task('default', [ 'lint:config', 'dist', 'doc', 'fixme' ]);
+gulp.task('default', [ 'lint:config', 'dist', 'doc' ]);
 
 gulp.task('watch', [ 'default' ], function() {
   function flatten(unflattened, key0, key1) {
