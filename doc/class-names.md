@@ -186,7 +186,7 @@ Each option class is checked by the slider in one of two ways:
 
 ### Summary
 
-Name | Description | Checked | Target
+Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Setting this class on `<body>` element results in automatic creation of [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invocation of their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods. | once | document's `<body>`
 [hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys) classes to the slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
@@ -208,6 +208,8 @@ It enabled using Hermes without any JavaScript programming.
 
 *@checked* - [once](#once)
 
+*@target* - document's `<body>`
+
 *@see* - [boot(containerElement)](javascript-api.md#bootcontainerelement)
 
 *@see* - [Slider.prototype.start()](javascript-api.md#sliderprototypestart)
@@ -223,6 +225,8 @@ classes to the slider.
 
 *@checked* - [once](#once)
 
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 #### hermes-autoplay
 
 Automatically moves slider to next slide.
@@ -230,6 +234,8 @@ Automatically moves slider to next slide.
 Slider is moved after content transition of current slide ends.
 
 *@checked* - [continuously](#continuously)
+
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
@@ -241,6 +247,8 @@ Creates side arrow buttons.
 `click` event on dispatched on right arrow moves slider to next slide.
 
 *@checked* - [once](#once)
+
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 *@see* - [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
 
@@ -254,6 +262,8 @@ Creates dot button for each slide.
 
 *@checked* - [once](#once)
 
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
 #### hermes-arrow-keys
@@ -265,6 +275,8 @@ slide, with `RightArrow` key moves slider to next slide.
 
 *@checked* - [once](#once)
 
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
 #### hermes-responsive-controls
@@ -274,6 +286,8 @@ Adds screen responsiveness to slider controls.
 Slider controls come in 3 different layouts. Each for different range of screen width.
 
 *@checked* - [once](#once)
+
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 *@see* - [Screen Responsiveness](responsiveness.md)
 
@@ -306,17 +320,23 @@ Makes slide visible for 3 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 #### hermes-slide-time-5sec
 
 Makes slide visible for 5 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 #### hermes-slide-time-7sec
 
 Makes slide visible for 7 seconds before moving to next.
 
 *@checked* - [continously](#continously)
+
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 <!-- End src/js/classnames/_time.js -->
 

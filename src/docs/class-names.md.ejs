@@ -65,6 +65,9 @@
       <? if (className.tags.checked) { ?>
         *@checked* - [<?= className.tags.checked ?>](#<?= className.tags.checked ?>)
       <? } ?>
+      <? if (className.tags.target) { ?>
+        *@target* - <?= className.tags.target ?>
+      <? } ?>
       <? if (className.parentElement) { ?>
         *@parent-element* - <?= className.parentElement.link.full ?>
       <? } ?>

@@ -35,7 +35,7 @@
  *
  * @name Option Class Names
  * @summary-column checked Checked
- * @summary-column target Target
+ * @summary-column target Target Element
  */
 var Option = {
   // TODO all options should be settable on body
