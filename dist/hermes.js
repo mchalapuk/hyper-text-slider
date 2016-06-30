@@ -835,7 +835,7 @@ function hasOwnProperty(obj, prop) {
 'use strict';
 
 // TODO test vanilla browser script
-var hermes = require('./node');
+var hermes = require('./hermes');
 var Option = require('./js/classnames/_options');
 
 /**
@@ -853,7 +853,42 @@ window.addEventListener('load', function() {
 */
 
 
-},{"./js/classnames/_options":14,"./node":19}],9:[function(require,module,exports){
+},{"./hermes":9,"./js/classnames/_options":15}],9:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var Slider = require('./js/slider');
+var Phaser = require('./js/phaser');
+var boot = require('./js/boot');
+
+module.exports = {
+  Slider: Slider,
+  Phaser: Phaser,
+  boot: boot,
+};
+
+/*
+  eslint-env node
+ */
+
+
+},{"./js/boot":11,"./js/phaser":18,"./js/slider":19}],10:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -910,7 +945,7 @@ function getFeatureName(defaultName, candidateMap) {
 */
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -976,7 +1011,7 @@ function boot(containerElement) {
 */
 
 
-},{"./slider":18}],11:[function(require,module,exports){
+},{"./slider":19}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1029,7 +1064,7 @@ module.exports = Flag;
 */
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1198,7 +1233,7 @@ module.exports = Layout;
 */
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1257,7 +1292,7 @@ module.exports = Marker;
 */
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1410,7 +1445,7 @@ module.exports = Option;
 */
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1472,7 +1507,7 @@ module.exports = Phase;
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1524,7 +1559,7 @@ module.exports = Regexp;
 */
 
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1759,7 +1794,7 @@ function getPhase(priv) {
 */
 
 
-},{"./_dom-compat":9,"./classnames/_phases":15,"precond":2}],18:[function(require,module,exports){
+},{"./_dom-compat":10,"./classnames/_phases":16,"precond":2}],19:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2168,40 +2203,4 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"./classnames/_flags":11,"./classnames/_layout":12,"./classnames/_markers":13,"./classnames/_options":14,"./classnames/_regexps":16,"./phaser":17,"precond":2}],19:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-// TODO rename to api.js?
-
-var Slider = require('./js/slider');
-var Phaser = require('./js/phaser');
-var boot = require('./js/boot');
-
-module.exports = {
-  Slider: Slider,
-  Phaser: Phaser,
-  boot: boot,
-};
-
-/*
-  eslint-env node
- */
-
-
-},{"./js/boot":10,"./js/phaser":17,"./js/slider":18}]},{},[8])
+},{"./classnames/_flags":12,"./classnames/_layout":13,"./classnames/_markers":14,"./classnames/_options":15,"./classnames/_regexps":17,"./phaser":18,"precond":2}]},{},[8])

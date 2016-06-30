@@ -16,7 +16,6 @@
 
 */
 'use strict';
-// TODO rename to api.js?
 
 var Slider = require('./js/slider');
 var Phaser = require('./js/phaser');

@@ -18,7 +18,7 @@
 'use strict';
 
 // TODO test vanilla browser script
-var hermes = require('./node');
+var hermes = require('./hermes');
 var Option = require('./js/classnames/_options');
 
 /**
