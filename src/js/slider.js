@@ -156,8 +156,8 @@ function start(priv) {
   // For transition to work, it is required that a single transition class will be present
   // on the slider element. Since there may be many transitions declared on the slider and
   // since transitions can be configured also per slide, all transition class names are removed
-  // from the slider. Single transition class name will be added just before before transition
-  // phase and removed right after hitting after transition.
+  // from the slider. Single transition class name will be added just before before-transition
+  // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
   priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
@@ -171,7 +171,6 @@ function start(priv) {
   var firstSlide = priv.slides[priv.toIndex];
   firstSlide.classList.add(Marker.SLIDE_TO);
   if (firstSlide.id !== null) {
-    // TODO document hermes-slide-id-.* class names
     addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
   }
   if (typeof firstSlide.dot !== 'undefined') {
