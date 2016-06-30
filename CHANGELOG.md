@@ -9,7 +9,7 @@
 # v0.2.5
 
  * Removed `hermes-layout--inner` CSS class.
- * Added [Hermes.prototype.boot(containerElement)][hermes-prototype-boot]
+ * Added [boot(containerElement)][hermes-prototype-boot] procedure.
  * Replaced `hermes-autostart` option with [hermes-autoboot][hermes-autoboot].
  * Updated [gulp-eslint][gulp-eslint] to 2.0.0.
  * [gulpfile.js][v0.2.5_1] and [build.config.js][v0.2.5_2] are now linted.
