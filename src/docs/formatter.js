@@ -153,7 +153,7 @@ function lazyInterpolateTexts(priv, formatted) {
   definePropertyGetters(formatted, {
     description: lazy(function() {
       return {
-        summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, '')),
+        summary: priv.interpolator.interpolate(formatted, description.summary.replace(/\n/g, ' ')),
         body: priv.interpolator.interpolate(formatted, description.body),
         full: priv.interpolator.interpolate(formatted, description.full),
       };
