@@ -20,6 +20,7 @@
 module.exports = check;
 module.exports.setCurrentDoc = setCurrentDoc;
 
+// TODO remove state from check module
 var currentDoc = null;
 
 function check(condition) {

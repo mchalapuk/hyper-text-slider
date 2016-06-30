@@ -19,6 +19,7 @@
 
 var _ = require('underscore');
 var check = require('./check');
+var colors = require('colors');
 
 module.exports = Interpolator;
 
@@ -49,13 +50,14 @@ function interpolate0(priv, context, str) {
     },
   };
 
-  return replaceExpressions(str, function(commandName, argument) {
+  return replaceExpressions(context, str, function(commandName, argument) {
+    console.log('"'+ commandName +'"');
     var command = check(commands[commandName], 'unknown command: '+ commandName);
     return command(interpolate0(priv, context, argument));
   });
 }
 
-function replaceExpressions(str, replaceFunction) {
+function replaceExpressions(context, str, replaceFunction) {
   check(typeof str === 'string', 'passed argument is not a string: '+ JSON.stringify(str));
 
   var retVal = '';
@@ -65,9 +67,15 @@ function replaceExpressions(str, replaceFunction) {
 
   function textWorker() {
     var maybeExpression = false;
+    var maybeTypo = false;
 
     function appendCharacter(c) {
       if (maybeExpression) {
+        if (maybeTypo) {
+          console.warn(context.raw.filename +':'+ context.raw.line +' '+
+              colors.yellow('possible typo ("{$") in comment of fqn='+ context.fqn));
+          maybeTypo = false;
+        }
         maybeExpression = false;
         retVal += '$';
       }
@@ -78,6 +86,7 @@ function replaceExpressions(str, replaceFunction) {
       if (maybeExpression) {
         worker = expressionWorker();
       } else {
+        maybeTypo = true;
         retVal += c;
       }
     }

@@ -22,6 +22,7 @@
   "author": "Maciej Chałapuk",
   "license": "Apache License 2.0",
   "devDependencies": {
+    "colors": "^1.1.2",
     "del": "~2.2.1",
     "fixme": "^0.4.0",
     "gulp": "~3.9.0",
