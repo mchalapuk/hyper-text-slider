@@ -74,7 +74,6 @@ npm install --save hermes-slider
   -->
   <div class="hermes-layout--slider
               hermes-transition--zoom-in-out
-              hermes-slide-time-5-sec
               hermes-defaults">
     <div class="hermes-layout--slide" id="hello">
       <h1>Hello, Hermes!</h2>
