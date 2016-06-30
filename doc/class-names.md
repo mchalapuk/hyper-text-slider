@@ -41,9 +41,9 @@ limitations under the License.
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
 3. [Time Class Names](class-names.md#time-class-names)<ul>
-<li>[hermes-slider-time-3sec](class-names.md#hermes-slider-time-3sec)
-<li>[hermes-slider-time-5sec](class-names.md#hermes-slider-time-5sec)
-<li>[hermes-slider-time-7sec](class-names.md#hermes-slider-time-7sec)</ul>
+<li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
+<li>[hermes-slide-time-5sec](class-names.md#hermes-slide-time-5sec)
+<li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
 4. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
 <li>[hermes-during-transition](class-names.md#hermes-during-transition)
@@ -294,25 +294,25 @@ time duration of one slide being visible before automatic change to the next.
 
 Name | Description
 --- | ---
-[hermes-slider-time-3sec](class-names.md#hermes-slider-time-3sec) | Makes slide visible for 3 seconds before moving to next.
-[hermes-slider-time-5sec](class-names.md#hermes-slider-time-5sec) | Makes slide visible for 5 seconds before moving to next.
-[hermes-slider-time-7sec](class-names.md#hermes-slider-time-7sec) | Makes slide visible for 7 seconds before moving to next.
+[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec) | Makes slide visible for 3 seconds before moving to next.
+[hermes-slide-time-5sec](class-names.md#hermes-slide-time-5sec) | Makes slide visible for 5 seconds before moving to next.
+[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec) | Makes slide visible for 7 seconds before moving to next.
 
 ### Details
 
-#### hermes-slider-time-3sec
+#### hermes-slide-time-3sec
 
 Makes slide visible for 3 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 
-#### hermes-slider-time-5sec
+#### hermes-slide-time-5sec
 
 Makes slide visible for 5 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 
-#### hermes-slider-time-7sec
+#### hermes-slide-time-7sec
 
 Makes slide visible for 7 seconds before moving to next.
 

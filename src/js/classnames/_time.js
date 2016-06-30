@@ -34,7 +34,7 @@ var Time = {
    *
    * @fqn Time.SECONDS_3
    */
-  SECONDS_3: 'hermes-slider-time-3sec',
+  SECONDS_3: 'hermes-slide-time-3sec',
 
   /**
    * Makes slide visible for 5 seconds before moving to next.
@@ -44,7 +44,7 @@ var Time = {
    *
    * @fqn Time.SECONDS_5
    */
-  SECONDS_5: 'hermes-slider-time-5sec',
+  SECONDS_5: 'hermes-slide-time-5sec',
 
   /**
    * Makes slide visible for 7 seconds before moving to next.
@@ -54,7 +54,7 @@ var Time = {
    *
    * @fqn Time.SECONDS_7
    */
-  SECONDS_7: 'hermes-slider-time-7sec',
+  SECONDS_7: 'hermes-slide-time-7sec',
 };
 
 module.exports = Time;
