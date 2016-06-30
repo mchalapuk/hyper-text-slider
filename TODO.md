@@ -8,7 +8,7 @@
  * Screenshots in documentation of responsive elements
  * ~~Add responsiveness to options (with configurable breakpoints)~~
  * Configurable themes for controls
- * Make time classes optional
+ * ~~Make time classes optional~~
  * Add vertical controls to options
  * Create transition library
  * Documentation for transition authors
