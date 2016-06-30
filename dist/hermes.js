@@ -1294,6 +1294,7 @@ module.exports = Marker;
  *
  * @name Option Class Names
  * @summary-column checked Checked
+ * @summary-column target Target
  */
 var Option = {
   // TODO all options should be settable on body
