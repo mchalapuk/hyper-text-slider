@@ -37,12 +37,11 @@
     }
   }
 
+  /* Default slide time (when nothing else specified). */
+  @include slide-time(5000);
+
   &.hermes-slide-time-7-sec {
     @include slide-time(7000);
-  }
-
-  &.hermes-slide-time-5-sec {
-    @include slide-time(5000);
   }
 
   &.hermes-slide-time-3-sec {

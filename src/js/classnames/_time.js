@@ -21,10 +21,12 @@
  * Time classes configure ${link Option.AUTOPLAY} option. They control
  * time duration of one slide being visible before automatic change to the next.
  *
+ * If no slide time is specified, slide is visible for 5 seconds.
+ *
  * @name Time Class Names
+ * @see Option.AUTOPLAY
  */
 var Time = {
-  // TODO default slide time
 
   /**
    * Makes slide visible for 3 seconds before moving to next.
@@ -35,16 +37,6 @@ var Time = {
    * @fqn Time.SECONDS_3
    */
   SECONDS_3: 'hermes-slide-time-3sec',
-
-  /**
-   * Makes slide visible for 5 seconds before moving to next.
-   *
-   * @target Layout.SLIDER
-   * @checked continously
-   *
-   * @fqn Time.SECONDS_5
-   */
-  SECONDS_5: 'hermes-slide-time-5sec',
 
   /**
    * Makes slide visible for 7 seconds before moving to next.

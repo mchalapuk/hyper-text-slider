@@ -42,7 +42,6 @@ limitations under the License.
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
 3. [Time Class Names](class-names.md#time-class-names)<ul>
 <li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
-<li>[hermes-slide-time-5sec](class-names.md#hermes-slide-time-5sec)
 <li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
 4. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
@@ -232,7 +231,7 @@ classes to the slider.
 
 Automatically moves slider to next slide.
 
-Slider is moved after content transition of current slide ends.
+Slider is moved to the next after time specified in [time class name](class-names.md#time-class-names).
 
 *@checked* - [continuously](#continuously)
 
@@ -305,12 +304,13 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 Time classes configure [hermes-autoplay](class-names.md#hermes-autoplay) option. They control
 time duration of one slide being visible before automatic change to the next.
 
+If no slide time is specified, slide is visible for 5 seconds.
+
 ### Summary
 
 Name | Description
 --- | ---
 [hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec) | Makes slide visible for 3 seconds before moving to next.
-[hermes-slide-time-5sec](class-names.md#hermes-slide-time-5sec) | Makes slide visible for 5 seconds before moving to next.
 [hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec) | Makes slide visible for 7 seconds before moving to next.
 
 ### Details
@@ -318,14 +318,6 @@ Name | Description
 #### hermes-slide-time-3sec
 
 Makes slide visible for 3 seconds before moving to next.
-
-*@checked* - [continously](#continously)
-
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-#### hermes-slide-time-5sec
-
-Makes slide visible for 5 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 

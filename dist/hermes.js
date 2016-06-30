@@ -1336,7 +1336,7 @@ var Option = {
   /**
    * Automatically moves slider to next slide.
    *
-   * Slider is moved after content transition of current slide ends.
+   * Slider is moved to the next after time specified in ${link Time time class name}.
    *
    * @target Layout.SLIDER
    * @checked continuously
