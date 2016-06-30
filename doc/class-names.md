@@ -40,17 +40,25 @@ limitations under the License.
 <li>[hermes-create-dots](class-names.md#hermes-create-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
-3. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
+3. [Time Class Names 
+Control time duration when one slide is visible before automatic change to the next
+when ${link Option.AUTOPLAY} is enabled.](class-names.md#time-class-names-
+control-time-duration-when-one-slide-is-visible-before-automatic-change-to-the-next
+when-link-optionautoplay-is-enabled)<ul>
+<li>[hermes-slider-time-3sec](class-names.md#hermes-slider-time-3sec)
+<li>[hermes-slider-time-5sec](class-names.md#hermes-slider-time-5sec)
+<li>[hermes-slider-time-7sec](class-names.md#hermes-slider-time-7sec)</ul>
+4. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
 <li>[hermes-during-transition](class-names.md#hermes-during-transition)
 <li>[hermes-after-transition](class-names.md#hermes-after-transition)</ul>
-4. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
+5. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
 <li>[hermes-slide-from](class-names.md#hermes-slide-from)
 <li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
-5. [Flag Class Names](class-names.md#flag-class-names)<ul>
+6. [Flag Class Names](class-names.md#flag-class-names)<ul>
 <li>[is-upgraded](class-names.md#is-upgraded)
 <li>[is-active](class-names.md#is-active)</ul>
-6. [Other Class Names](class-names.md#other-class-names)<ul>
+7. [Other Class Names](class-names.md#other-class-names)<ul>
 <li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)</ul>
 
 <!-- Start src/js/classnames/_layout.js -->
@@ -280,6 +288,38 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 <!-- End src/js/classnames/_options.js -->
 
 <!-- Start src/js/classnames/_time.js -->
+
+## Time Class Names 
+Control time duration when one slide is visible before automatic change to the next
+when ${link Option.AUTOPLAY} is enabled.
+
+### Summary
+
+Name | Description
+--- | ---
+[hermes-slider-time-3sec](class-names.md#hermes-slider-time-3sec) | Makes slide visible for 3 seconds before moving to next.
+[hermes-slider-time-5sec](class-names.md#hermes-slider-time-5sec) | Makes slide visible for 5 seconds before moving to next.
+[hermes-slider-time-7sec](class-names.md#hermes-slider-time-7sec) | Makes slide visible for 7 seconds before moving to next.
+
+### Details
+
+#### hermes-slider-time-3sec
+
+Makes slide visible for 3 seconds before moving to next.
+
+*@checked* - [continously](#continously)
+
+#### hermes-slider-time-5sec
+
+Makes slide visible for 5 seconds before moving to next.
+
+*@checked* - [continously](#continously)
+
+#### hermes-slider-time-7sec
+
+Makes slide visible for 7 seconds before moving to next.
+
+*@checked* - [continously](#continously)
 
 <!-- End src/js/classnames/_time.js -->
 
