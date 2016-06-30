@@ -220,6 +220,7 @@ describe('slider', function() {
         'hermes-create-arrows',
         'hermes-create-dots',
         'hermes-arrow-keys',
+        'hermes-responsive-controls',
       ];
       defaultOptions.forEach(function(option) {
         it('then it has "'+ option +'" flag', function() {

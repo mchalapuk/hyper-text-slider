@@ -293,6 +293,7 @@ function expandOptionGroups(priv) {
     list.add(Option.ARROW_KEYS);
     list.add(Option.CREATE_ARROWS);
     list.add(Option.CREATE_DOTS);
+    list.add(Option.RESPONSIVE_CONTROLS);
   }
 }
 

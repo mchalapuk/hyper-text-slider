@@ -63,7 +63,8 @@ var Option = {
    * ${link Option.AUTOPLAY},
    * ${link Option.CREATE_ARROWS},
    * ${link Option.CREATE_DOTS},
-   * ${link Option.ARROW_KEYS}
+   * ${link Option.ARROW_KEYS},
+   * ${link Option.RESPONSIVE_CONTROLS}
    * classes to the slider.
    *
    * @target Layout.SLIDER
@@ -72,7 +73,6 @@ var Option = {
    * @fqn Option.DEFAULTS
    */
   DEFAULTS: 'hermes-defaults',
-  // TODO addresponsive controls to defaults
 
   /**
    * Automatically moves slider to next slide.

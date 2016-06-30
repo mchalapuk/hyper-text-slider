@@ -4,13 +4,18 @@
 [stylelint]: https://github.com/stylelint/stylelint
 
 [hermes-autoboot]: doc/class-names.md#hermes-autoboot
-[hermes-prototype-boot]: doc/javascript-api.md#bootcontainerelement
+[hermes-defaults]: doc/class-names.md#hermes-defaults
+[hermes-responsive-controls]: doc/class-names.md#hermes-responsive-controls
+
+[hermes-boot]: doc/javascript-api.md#bootcontainerelement
 
 # v0.2.5
 
  * Removed `hermes-layout--inner` CSS class.
- * Added [boot(containerElement)][hermes-prototype-boot] procedure.
+ * Added [boot(containerElement)][hermes-boot] procedure.
  * Replaced `hermes-autostart` option with [hermes-autoboot][hermes-autoboot].
+ * Added [hermess-responsive-controls][hermes-responsive-controls] option to
+   [hermes-defaults][hermes-defaults].
  * Updated [gulp-eslint][gulp-eslint] to 2.0.0.
  * [gulpfile.js][v0.2.5_1] and [build.config.js][v0.2.5_2] are now linted.
  * Updated [gulp-sass][gulp-sass] to 2.3.2.

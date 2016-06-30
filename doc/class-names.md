@@ -189,7 +189,7 @@ Each option class is checked by the slider in one of two ways:
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Setting this class on `<body>` element results in automatic creation of [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invocation of their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys) classes to the slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-create-dots](class-names.md#hermes-create-dots) | Creates dot button for each slide. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
@@ -220,7 +220,8 @@ Adds
 [hermes-autoplay](class-names.md#hermes-autoplay),
 [hermes-create-arrows](class-names.md#hermes-create-arrows),
 [hermes-create-dots](class-names.md#hermes-create-dots),
-[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
+[hermes-arrow-keys](class-names.md#hermes-arrow-keys),
+[hermes-responsive-controls](class-names.md#hermes-responsive-controls)
 classes to the slider.
 
 *@checked* - [once](#once)
