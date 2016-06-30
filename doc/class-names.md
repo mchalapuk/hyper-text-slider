@@ -366,10 +366,6 @@ Set on slider element while transition of [hermes-layout--content](class-names.m
 
 Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
 
-If [hermes-autoplay](class-names.md#hermes-autoplay) option is on, next transition
-will be started just after hitting this phase, which will move slider
-back to phase [hermes-before-transition](class-names.md#hermes-before-transition).
-
 <!-- End src/js/classnames/_phases.js -->
 
 <!-- Start src/js/classnames/_markers.js -->
