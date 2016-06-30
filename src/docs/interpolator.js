@@ -51,7 +51,6 @@ function interpolate0(priv, context, str) {
   };
 
   return replaceExpressions(context, str, function(commandName, argument) {
-    console.log('"'+ commandName +'"');
     var command = check(commands[commandName], 'unknown command: '+ commandName);
     return command(interpolate0(priv, context, argument));
   });
@@ -105,6 +104,7 @@ function replaceExpressions(context, str, replaceFunction) {
     var opened = 1;
 
     function replace() {
+      expressionString = expressionString.replace(/\s+/, ' ');
       var spaceIndex = expressionString.indexOf(' ');
       if (spaceIndex === -1) {
         return replaceFunction(expressionString, '');
