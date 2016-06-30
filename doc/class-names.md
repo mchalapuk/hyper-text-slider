@@ -40,11 +40,7 @@ limitations under the License.
 <li>[hermes-create-dots](class-names.md#hermes-create-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
-3. [Time Class Names 
-Control time duration when one slide is visible before automatic change to the next
-when ${link Option.AUTOPLAY} is enabled.](class-names.md#time-class-names-
-control-time-duration-when-one-slide-is-visible-before-automatic-change-to-the-next
-when-link-optionautoplay-is-enabled)<ul>
+3. [Time Class Names](class-names.md#time-class-names)<ul>
 <li>[hermes-slider-time-3sec](class-names.md#hermes-slider-time-3sec)
 <li>[hermes-slider-time-5sec](class-names.md#hermes-slider-time-5sec)
 <li>[hermes-slider-time-7sec](class-names.md#hermes-slider-time-7sec)</ul>
@@ -289,9 +285,10 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 <!-- Start src/js/classnames/_time.js -->
 
-## Time Class Names 
-Control time duration when one slide is visible before automatic change to the next
-when ${link Option.AUTOPLAY} is enabled.
+## Time Class Names
+
+Time classes configure [hermes-autoplay](class-names.md#hermes-autoplay) option. They control
+time duration of one slide being visible before automatic change to the next.
 
 ### Summary
 

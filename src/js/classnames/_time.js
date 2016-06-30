@@ -18,10 +18,10 @@
 'use strict';
 
 /**
- * @name Time Class Names
+ * Time classes configure ${link Option.AUTOPLAY} option. They control
+ * time duration of one slide being visible before automatic change to the next.
  *
- * Control time duration when one slide is visible before automatic change to the next
- * when ${link Option.AUTOPLAY} is enabled.
+ * @name Time Class Names
  */
 var Time = {
   // TODO default slide time
