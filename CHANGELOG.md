@@ -10,6 +10,7 @@
 [hermes-boot]: doc/javascript-api.md#bootcontainerelement
 
 [time-class-names]: doc/class-names.md#time-class-names
+[option-class-names]: doc/class-names.md#option-class-names
 
 # v0.2.5
 
@@ -17,9 +18,11 @@
  * Added [boot(containerElement)][hermes-boot] procedure.
  * Replaced `hermes-autostart` option with [hermes-autoboot][hermes-autoboot].
  * Added [hermess-responsive-controls][hermes-responsive-controls] option to
-   [hermes-defaults][hermes-defaults].
+  [hermes-defaults][hermes-defaults].
  * Added default slide time of 5 sec.
  * Documented [Time Class Names][time-class-names].
+ * Added possibility of setting all [options][option-class-names]
+  on document's `<body>`.
  * Updated [gulp-eslint][gulp-eslint] to 2.0.0.
  * [gulpfile.js][v0.2.5_1] and [build.config.js][v0.2.5_2] are now linted.
  * Updated [gulp-sass][gulp-sass] to 2.3.2.
