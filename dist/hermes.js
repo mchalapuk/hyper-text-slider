@@ -1342,8 +1342,8 @@ module.exports = Marker;
 /**
  * Option classes enable features of the slider.
  *
- * Most options are intended to be set on {$link Layout.SLIDER} element, but they can also be
- * set on document's `<body>`. Options set on `<body>` are treated as defaults for each {$link
+ * Most options are intended to be set on ${link Layout.SLIDER} element, but they can also be
+ * set on document's `<body>`. Options set on `<body>` are treated as defaults for each ${link
  * Layout.SLIDER} declared on the page.
  *
  * Two categories:
@@ -1393,7 +1393,7 @@ var Option = {
    * ${link Option.RESPONSIVE_CONTROLS}
    * classes to the slider.
    *
-   * @target `<body` or {$link Layout.SLIDER}
+   * @target `<body` or ${link Layout.SLIDER}
    * @checked once
    *
    * @fqn Option.DEFAULTS
@@ -1405,7 +1405,7 @@ var Option = {
    *
    * Slider is moved to the next after time specified in ${link Time time class name}.
    *
-   * @target `<body` or {$link Layout.SLIDER}
+   * @target `<body` or ${link Layout.SLIDER}
    * @checked continuously
    * @see Slider.prototype.moveToNext
    *
@@ -1419,7 +1419,7 @@ var Option = {
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
-   * @target `<body` or {$link Layout.SLIDER}
+   * @target `<body` or ${link Layout.SLIDER}
    * @checked once
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
@@ -1433,7 +1433,7 @@ var Option = {
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
-   * @target `<body` or {$link Layout.SLIDER}
+   * @target `<body` or ${link Layout.SLIDER}
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -1447,7 +1447,7 @@ var Option = {
    * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
    * slide, with `RightArrow` key moves slider to next slide.
    *
-   * @target `<body` or {$link Layout.SLIDER}
+   * @target `<body` or ${link Layout.SLIDER}
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -1460,7 +1460,7 @@ var Option = {
    *
    * Slider controls come in 3 different layouts. Each for different range of screen width.
    *
-   * @target `<body` or {$link Layout.SLIDER}
+   * @target `<body` or ${link Layout.SLIDER}
    * @checked once
    * @see [Screen Responsiveness](responsiveness.md)
    * @see Slider.breakpointNarrowToNormal
