@@ -836,13 +836,14 @@ function hasOwnProperty(obj, prop) {
 
 // TODO test vanilla browser script
 var hermes = require('./node');
+var Option = require('./js/classnames/_options');
 
 /**
  * This script is compiled to `dist/hermes.min.js` during the build
  * and is to be included on the page when vanilla browser programming.
  */
 window.addEventListener('load', function() {
-  if (document.body.classList.contains(hermes.Option.AUTOBOOT)) {
+  if (document.body.classList.contains(Option.AUTOBOOT)) {
     hermes.boot(document.body);
   }
 });
@@ -852,7 +853,7 @@ window.addEventListener('load', function() {
 */
 
 
-},{"./node":19}],9:[function(require,module,exports){
+},{"./js/classnames/_options":14,"./node":19}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1298,8 +1299,6 @@ module.exports = Marker;
  */
 var Option = {
   // TODO all options should be settable on body
-  // TODO as it's part of public API, it should probably reside elsewhere
-  // TODO as it's part of public API, it should be documented in JavaScript MD
 
   /**
    * Setting this class on `<body>` element results in automatic creation
@@ -2192,13 +2191,11 @@ function bindMethods(wrapper, methods, arg) {
 
 var Slider = require('./js/slider');
 var Phaser = require('./js/phaser');
-var Option = require('./js/classnames/_options');
 var boot = require('./js/boot');
 
 module.exports = {
   Slider: Slider,
   Phaser: Phaser,
-  Option: Option,
   boot: boot,
 };
 
@@ -2207,4 +2204,4 @@ module.exports = {
  */
 
 
-},{"./js/boot":10,"./js/classnames/_options":14,"./js/phaser":17,"./js/slider":18}]},{},[8])
+},{"./js/boot":10,"./js/phaser":17,"./js/slider":18}]},{},[8])

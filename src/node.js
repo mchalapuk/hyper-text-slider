@@ -20,13 +20,11 @@
 
 var Slider = require('./js/slider');
 var Phaser = require('./js/phaser');
-var Option = require('./js/classnames/_options');
 var boot = require('./js/boot');
 
 module.exports = {
   Slider: Slider,
   Phaser: Phaser,
-  Option: Option,
   boot: boot,
 };
 

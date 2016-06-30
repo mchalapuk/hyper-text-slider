@@ -19,13 +19,14 @@
 
 // TODO test vanilla browser script
 var hermes = require('./node');
+var Option = require('./js/classnames/_options');
 
 /**
  * This script is compiled to `dist/hermes.min.js` during the build
  * and is to be included on the page when vanilla browser programming.
  */
 window.addEventListener('load', function() {
-  if (document.body.classList.contains(hermes.Option.AUTOBOOT)) {
+  if (document.body.classList.contains(Option.AUTOBOOT)) {
     hermes.boot(document.body);
   }
 });

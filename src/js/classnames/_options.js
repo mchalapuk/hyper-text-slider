@@ -39,8 +39,6 @@
  */
 var Option = {
   // TODO all options should be settable on body
-  // TODO as it's part of public API, it should probably reside elsewhere
-  // TODO as it's part of public API, it should be documented in JavaScript MD
 
   /**
    * Setting this class on `<body>` element results in automatic creation
