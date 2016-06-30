@@ -18,14 +18,17 @@
 'use strict';
 
 var Slider = require('./slider');
+var Option = require('./classnames/_options');
 
 module.exports = boot;
 
 /**
  * Default Hermes boot procedure.
  *
- * For each element with ${link Layout.SLIDER} class name found in passed container:
+ * For each element with ${link Layout.SLIDER} class name found in passed container
+ * (typically document's `<body>`):
  *
+ *  1. Adds ${link Option options class names} found on container element,
  *  1. Creates ${link Slider} object,
  *  2. Invokes its ${link Slider.prototype.start} method.
  *
@@ -44,18 +47,41 @@ module.exports = boot;
  * @fqn boot
  */
 function boot(containerElement) {
-  // TODO tests
+  // TODO test parsing container options
+  var containerOptions = getEnabledOptions(containerElement);
+  // TODO test looking for slider elements
   var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
 
   var sliders = sliderElems.map(function(elem) {
     // TODO this should be a feature of Phaser
     // turn off vanilla behavior (vertical scroll bar)
     elem.classList.add('is-upgraded');
+
+    // TODO test adding options to slider
+    containerOptions.forEach(function(option) {
+      if (elem.classList.contains(option)) {
+        return;
+      }
+      elem.classList.add(option);
+    });
+
     return new Slider(elem);
   });
 
+  // TODO test invoking start methods
   // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
   window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+}
+
+// finds option class names on passed element
+function getEnabledOptions(element) {
+  var retVal = [];
+  Object.values(Option).forEach(function(option) {
+    if (element.classList.contains(option) && option !== Option.AUTOBOOT) {
+      retVal.push(option);
+    }
+  });
+  return retVal;
 }
 
 /*

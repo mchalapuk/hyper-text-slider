@@ -293,8 +293,10 @@ Returns a class name of the current phase.
 
 Default Hermes boot procedure.
 
-For each element with [hermes-layout--slider](class-names.md#hermes-layout--slider) class name found in passed container:
+For each element with [hermes-layout--slider](class-names.md#hermes-layout--slider) class name found in passed container
+(typically document's `<body>`):
 
+ 1. Adds [options class names](class-names.md#option-class-names) found on container element,
  1. Creates [Slider](javascript-api.md#slider) object,
  2. Invokes its [Slider.prototype.start()](javascript-api.md#sliderprototypestart) method.
 

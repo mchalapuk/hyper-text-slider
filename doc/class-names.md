@@ -171,6 +171,10 @@ It may be used in client CSS for styling.
 
 Option classes enable features of the slider.
 
+Most options are intended to be set on {$link Layout.SLIDER} element, but they can also be
+set on document's `<body>`. Options set on `<body>` are treated as defaults for each {$link
+Layout.SLIDER} declared on the page.
+
 Two categories:
  1. **single options** - each of which enables one feature,
  2. **option groups** - that adds many option classes to the slider during upgrade.
@@ -187,23 +191,27 @@ Each option class is checked by the slider in one of two ways:
 
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
-[hermes-autoboot](class-names.md#hermes-autoboot) | Setting this class on `<body>` element results in automatic creation of [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invocation of their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-create-dots](class-names.md#hermes-create-dots) | Creates dot button for each slide. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-responsive-controls](class-names.md#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods. | once | document's `<body>`
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | `<body` or {$link Layout.SLIDER}
+[hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or {$link Layout.SLIDER}
+[hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once | `<body` or {$link Layout.SLIDER}
+[hermes-create-dots](class-names.md#hermes-create-dots) | Creates dot button for each slide. | once | `<body` or {$link Layout.SLIDER}
+[hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or {$link Layout.SLIDER}
+[hermes-responsive-controls](class-names.md#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once | `<body` or {$link Layout.SLIDER}
 
 ### Details
 
 #### hermes-autoboot
 
-Setting this class on `<body>` element results in automatic creation
-of [Slider](javascript-api.md#slider) objects for all sliders declared on the page
-and invocation of their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods.
+Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page
+and invokes their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods.
 
+This options can be set only on `<body>` element.
 It enabled using Hermes without any JavaScript programming.
+
+> ***WARNING***
+>
+> When using Hermes via node and broserify, this option is ignored.
 
 *@checked* - [once](#once)
 
@@ -225,7 +233,7 @@ classes to the slider.
 
 *@checked* - [once](#once)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or {$link Layout.SLIDER}
 
 #### hermes-autoplay
 
@@ -235,7 +243,7 @@ Slider is moved to the next after time specified in [time class name](class-name
 
 *@checked* - [continuously](#continuously)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or {$link Layout.SLIDER}
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
@@ -248,7 +256,7 @@ Creates side arrow buttons.
 
 *@checked* - [once](#once)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or {$link Layout.SLIDER}
 
 *@see* - [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
 
@@ -262,7 +270,7 @@ Creates dot button for each slide.
 
 *@checked* - [once](#once)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or {$link Layout.SLIDER}
 
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
@@ -275,7 +283,7 @@ slide, with `RightArrow` key moves slider to next slide.
 
 *@checked* - [once](#once)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or {$link Layout.SLIDER}
 
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
@@ -287,7 +295,7 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 *@checked* - [once](#once)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or {$link Layout.SLIDER}
 
 *@see* - [Screen Responsiveness](responsiveness.md)
 

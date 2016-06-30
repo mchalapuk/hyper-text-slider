@@ -966,14 +966,17 @@ function getFeatureName(defaultName, candidateMap) {
 'use strict';
 
 var Slider = require('./slider');
+var Option = require('./classnames/_options');
 
 module.exports = boot;
 
 /**
  * Default Hermes boot procedure.
  *
- * For each element with ${link Layout.SLIDER} class name found in passed container:
+ * For each element with ${link Layout.SLIDER} class name found in passed container
+ * (typically document's `<body>`):
  *
+ *  1. Adds ${link Option options class names} found on container element,
  *  1. Creates ${link Slider} object,
  *  2. Invokes its ${link Slider.prototype.start} method.
  *
@@ -992,18 +995,41 @@ module.exports = boot;
  * @fqn boot
  */
 function boot(containerElement) {
-  // TODO tests
+  // TODO test parsing container options
+  var containerOptions = getEnabledOptions(containerElement);
+  // TODO test looking for slider elements
   var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
 
   var sliders = sliderElems.map(function(elem) {
     // TODO this should be a feature of Phaser
     // turn off vanilla behavior (vertical scroll bar)
     elem.classList.add('is-upgraded');
+
+    // TODO test adding options to slider
+    containerOptions.forEach(function(option) {
+      if (elem.classList.contains(option)) {
+        return;
+      }
+      elem.classList.add(option);
+    });
+
     return new Slider(elem);
   });
 
+  // TODO test invoking start methods
   // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
   window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+}
+
+// finds option class names on passed element
+function getEnabledOptions(element) {
+  var retVal = [];
+  Object.values(Option).forEach(function(option) {
+    if (element.classList.contains(option) && option !== Option.AUTOBOOT) {
+      retVal.push(option);
+    }
+  });
+  return retVal;
 }
 
 /*
@@ -1011,7 +1037,7 @@ function boot(containerElement) {
 */
 
 
-},{"./slider":19}],12:[function(require,module,exports){
+},{"./classnames/_options":15,"./slider":19}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1316,6 +1342,10 @@ module.exports = Marker;
 /**
  * Option classes enable features of the slider.
  *
+ * Most options are intended to be set on {$link Layout.SLIDER} element, but they can also be
+ * set on document's `<body>`. Options set on `<body>` are treated as defaults for each {$link
+ * Layout.SLIDER} declared on the page.
+ *
  * Two categories:
  *  1. **single options** - each of which enables one feature,
  *  2. **option groups** - that adds many option classes to the slider during upgrade.
@@ -1333,14 +1363,17 @@ module.exports = Marker;
  * @summary-column target Target Element
  */
 var Option = {
-  // TODO all options should be settable on body
 
   /**
-   * Setting this class on `<body>` element results in automatic creation
-   * of ${link Slider} objects for all sliders declared on the page
-   * and invocation of their ${link Slider.prototype.start} methods.
+   * Automatically creates ${link Slider} objects for all sliders declared on the page
+   * and invokes their ${link Slider.prototype.start} methods.
    *
+   * This options can be set only on `<body>` element.
    * It enabled using Hermes without any JavaScript programming.
+   *
+   * > ***WARNING***
+   * >
+   * > When using Hermes via node and broserify, this option is ignored.
    *
    * @target document's `<body>`
    * @checked once
@@ -1360,7 +1393,7 @@ var Option = {
    * ${link Option.RESPONSIVE_CONTROLS}
    * classes to the slider.
    *
-   * @target Layout.SLIDER
+   * @target `<body` or {$link Layout.SLIDER}
    * @checked once
    *
    * @fqn Option.DEFAULTS
@@ -1372,7 +1405,7 @@ var Option = {
    *
    * Slider is moved to the next after time specified in ${link Time time class name}.
    *
-   * @target Layout.SLIDER
+   * @target `<body` or {$link Layout.SLIDER}
    * @checked continuously
    * @see Slider.prototype.moveToNext
    *
@@ -1386,7 +1419,7 @@ var Option = {
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
-   * @target Layout.SLIDER
+   * @target `<body` or {$link Layout.SLIDER}
    * @checked once
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
@@ -1400,7 +1433,7 @@ var Option = {
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
-   * @target Layout.SLIDER
+   * @target `<body` or {$link Layout.SLIDER}
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -1414,7 +1447,7 @@ var Option = {
    * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
    * slide, with `RightArrow` key moves slider to next slide.
    *
-   * @target Layout.SLIDER
+   * @target `<body` or {$link Layout.SLIDER}
    * @checked once
    * @see Slider.prototype.currentIndex
    *
@@ -1427,7 +1460,7 @@ var Option = {
    *
    * Slider controls come in 3 different layouts. Each for different range of screen width.
    *
-   * @target Layout.SLIDER
+   * @target `<body` or {$link Layout.SLIDER}
    * @checked once
    * @see [Screen Responsiveness](responsiveness.md)
    * @see Slider.breakpointNarrowToNormal
