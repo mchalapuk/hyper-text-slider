@@ -100,6 +100,8 @@ module.exports = {
      */
     written: [
       'doc/responsiveness.md',
+      'doc/TODO.md',
+      'doc/CHANGELOG.md',
     ],
 
     generated: [
