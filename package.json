@@ -10,7 +10,8 @@
     "css3",
     "transitions",
     "animations",
-    "background"
+    "background",
+    "browserify"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
