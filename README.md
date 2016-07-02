@@ -101,5 +101,5 @@ requests are very welcome!
 
 ## License
 
-[Apache License Version 2.0](LICENSE)
+Copyright &copy; 2016 Maciej Chałapuk. Released under [Apache License Version 2.0](LICENSE).
 
