@@ -5,6 +5,7 @@ var formatter = new GithubMarkdownFormatter();
 
 module.exports = {
   dir: {
+    src: 'src/',
     build: 'dist/',
     docs: 'doc/',
   },
@@ -29,9 +30,7 @@ module.exports = {
       `hermes.scss` imports all underscore-prefixed files.
     */
     {
-      main: [
-        'src/sass/hermes.scss',
-      ],
+      main: 'src/sass/hermes.scss',
       src: [
         'src/*.scss',
         'src/sass/*.scss',
@@ -46,9 +45,7 @@ module.exports = {
          (to be Sass-imported into other projects).
     */
     {
-      main: [
-        'src/sass/transitions/internal/*.scss',
-      ],
+      main: 'src/sass/transitions/internal/*.scss',
       src: [
         'src/sass/transitions/**/*.scss',
       ],
@@ -65,9 +62,7 @@ module.exports = {
       Slider mechanism script.
     */
     {
-      main: [
-        'src/browser.js',
-      ],
+      main: 'src/browser.js',
       src: [
         'src/*.js',
         'src/js/**/*.js',

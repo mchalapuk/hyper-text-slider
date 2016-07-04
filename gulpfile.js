@@ -1,11 +1,14 @@
 'use strict';
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var eslint = require('gulp-eslint');
 var stylelint = require('gulp-stylelint');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
 var markdox = require('gulp-markdox2');
@@ -59,10 +62,11 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   if (!files.main) {
     return null;
   }
-  return gulp.src(files.main)
-    .pipe(browserify())
+  return browserify(files.main).bundle().on('error', gutil.log)
+    .pipe(source(files.main.substring(config.dir.src.length), config.dir.src))
     .pipe(rename('hermes.js'))
     .pipe(gulp.dest(config.dir.build))
+    .pipe(buffer())
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(config.dir.build))
