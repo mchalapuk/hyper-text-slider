@@ -17,6 +17,8 @@
 */
 'use strict';
 
+Object.values = require('./polyfill/values');
+
 var phaser = require('./phaser');
 var Phase = require('./classnames/_phases');
 
@@ -59,8 +61,8 @@ describe('phaser,', function() {
       arg.phase = arg.phase === null ? null: 'hermes-'+ arg.phase;
       arg.nextPhase = arg.nextPhase === null ? null: 'hermes-'+ arg.nextPhase;
 
-      var hermesElement;
-      var testedInstance;
+      var hermesElement = null;
+      var testedInstance = null;
       beforeEach(function() {
         hermesElement = document.createElement('div');
         testedInstance = phaser(hermesElement);
@@ -88,7 +90,7 @@ describe('phaser,', function() {
         expect(testedInstance.getPhase()).toBe(arg.nextPhase);
       });
 
-      values(Phase).forEach(function(phase) {
+      Object.values(Phase).forEach(function(phase) {
         if (phase === arg.phase) {
           it('has element with class "'+ phase +'"', function() {
             expect(hermesElement.classList.contains(phase)).toBe(true);
@@ -103,8 +105,8 @@ describe('phaser,', function() {
   });
 
   describe('given transition end trigger attached,', function() {
-    var testedInstance;
-    var triggerElement;
+    var testedInstance = null;
+    var triggerElement = null;
     beforeEach(function() {
       testedInstance = phaser(document.createElement('div'));
       triggerElement = document.createElement('trigger');
@@ -139,23 +141,12 @@ describe('phaser,', function() {
   });
 });
 
-function values(object) {
-  var retVal = [];
-  for (var key in object) {
-    retVal.push(object[key]);
-  }
-  return retVal;
-}
-
 /*
   eslint-env node, browser, jasmine
 */
 /*
   eslint
     max-nested-callbacks: 0,
-    init-declarations: 0,
-    id-length: 0,
     no-undefined: 0,
-    no-unused-vars: 0
 */
 

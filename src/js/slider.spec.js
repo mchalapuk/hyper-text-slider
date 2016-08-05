@@ -24,19 +24,6 @@ describe('slider', function() {
     window.$clearEventListeners();
   });
 
-  function create(className) {
-    var elem = document.createElement('div');
-    elem.className = className;
-    return elem;
-  }
-  function createSliderElement(slidesCount) {
-    var sliderElement = create('hermes-layout--slider');
-    for (var i = 0; i < slidesCount; ++i) {
-      sliderElement.appendChild(create('hermes-layout--slide'));
-    }
-    return sliderElement;
-  }
-
   var illegalArgs = [
     { name: 'undefined', value: undefined },
     { name: 'null', value: null },
@@ -396,5 +383,11 @@ describe('slider', function() {
     id-length: 0,
     no-undefined: 0,
     no-unused-vars: 0
+*/
+
+/*
+  global
+    createElement,
+    createSliderElement,
 */
 

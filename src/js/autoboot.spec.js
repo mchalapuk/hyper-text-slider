@@ -18,7 +18,6 @@
 'use strict';
 
 var autoboot = require('./autoboot');
-var Layout = require('./classnames/_layout');
 var Option = require('./classnames/_options');
 var Flag = require('./classnames/_flags');
 
@@ -26,19 +25,6 @@ describe('autoboot', function() {
   afterEach(function() {
     window.$clearEventListeners();
   });
-
-  function createElement(nodeName, className) {
-    var elem = document.createElement(nodeName);
-    elem.className = className || '';
-    return elem;
-  }
-  function createSliderElement(slidesCount) {
-    var sliderElement = createElement('div', Layout.SLIDER);
-    for (var i = 0; i < slidesCount; ++i) {
-      sliderElement.appendChild(createElement('div', Layout.SLIDE));
-    }
-    return sliderElement;
-  }
 
   var sliderElems = null;
   var bodyElem = null;
@@ -87,4 +73,10 @@ describe('autoboot', function() {
 /*
   eslint
     max-nested-callbacks: 0,
+ */
+
+/*
+  global
+    createElement,
+    createSliderElement,
  */
