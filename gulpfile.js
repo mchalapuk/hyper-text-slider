@@ -19,6 +19,8 @@ var rename = require('gulp-rename');
 var mergeStream = require('merge-stream');
 var del = require('del');
 var _ = require('underscore');
+var child = require('child_process');
+var yargs = require('yargs');
 
 var config = require('./build.config');
 
@@ -129,21 +131,12 @@ gulp.task('fixme', _.partial(fixme, {
 gulp.task('default', [ 'lint:config', 'dist', 'doc' ]);
 
 gulp.task('watch', [ 'default' ], function() {
-  function flatten(unflattened, key0, key1) {
-    return unflattened.reduce(function(result, branch) {
-      var maybe = branch[key0] || [];
-      return result.concat(maybe.indexOf? [ maybe ] : maybe[key1] || []);
-    }, []);
-  }
-
-  var allConfigFiles = flatten(config.config, 'src');
   var allCssSources = flatten(config.css, 'src');
   var allJsSources = flatten(config.js, 'src');
   var allJsSpecs = flatten(config.js, 'spec');
   var allDocSources = flatten(config.doc.generated, 'src');
   var allDocTemplates = flatten(config.doc.generated, 'options', 'template');
 
-  gulp.watch(allConfigFiles, [ 'lint:config' ]);
   gulp.watch(allCssSources, [ 'sass' ]);
   gulp.watch(allJsSources, [ 'javascript', 'spec' ]);
   gulp.watch(allJsSpecs, [ 'spec' ]);
@@ -156,6 +149,28 @@ gulp.task('watch', [ 'default' ], function() {
   });
 });
 
+gulp.task('autoreload', function() {
+  var allConfigFiles = flatten(config.config, 'src');
+  var actualGulp = null;
+
+  gulp.watch(allConfigFiles, function() {
+    gulp.start('lint:config');
+    actualGulp.kill('SIGTERM');
+    spawnAnotherChild();
+  });
+
+  function spawnAnotherChild() {
+    actualGulp = child.spawn('gulp', [ yargs.argv.task ], { stdio: 'inherit' });
+    actualGulp.on('exit', maybeExitParent);
+  }
+  function maybeExitParent(code, signal) {
+    if (signal !== 'SIGTERM') {
+      process.exit(code);
+    }
+  }
+  spawnAnotherChild();
+});
+
 function task(name, deps, configObject, taskDefinition, mergedCallback) {
   return gulp.task(name, deps, function() {
     var actualConfig = configObject instanceof Array? configObject: [ configObject ];
@@ -163,6 +178,13 @@ function task(name, deps, configObject, taskDefinition, mergedCallback) {
         .filter(function(result) { return result !== null; });
     return (mergedCallback || pass)(mergeStream.apply(null, results));
   });
+}
+
+function flatten(unflattened, key0, key1) {
+  return unflattened.reduce(function(result, branch) {
+    var maybe = branch[key0] || [];
+    return result.concat(maybe.indexOf? [ maybe ] : maybe[key1] || []);
+  }, []);
 }
 
 function pass(arg) {
@@ -174,6 +196,8 @@ function pass(arg) {
 */
 
 /*
-  eslint camelcase:0
+  eslint
+    camelcase: 0,
+    no-process-exit: 0,
 */
 
