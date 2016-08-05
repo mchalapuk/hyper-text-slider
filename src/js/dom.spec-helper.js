@@ -144,6 +144,7 @@ function CSSStyleDeclaration() {
 }
 CSSStyleDeclaration.prototype = {
   transform: null,
+  transition: null,
 };
 
 /**

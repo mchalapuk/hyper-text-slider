@@ -19,11 +19,13 @@
 
 module.exports = {
   transformPropertyName: getFeatureName('transform', {
+    transform: 'transform',
     OTransform: '-o-transform',
     MozTransform: '-moz-transform',
     WebkitTransform: '-webkit-transform',
   }),
   transitionEventName: getFeatureName('transitionend', {
+    transition: 'transitionend',
     OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
     WebkitTransition: 'webkitTransitionEnd',
@@ -46,6 +48,8 @@ function getFeatureName(defaultName, candidateMap) {
       return candidateMap[key];
     }
   }
+
+  console.warn('no feature name detected for '+ defaultName +' using default');
   return defaultName;
 }
 
