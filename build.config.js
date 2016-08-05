@@ -19,6 +19,8 @@ module.exports = {
       src: [
         'build.config.js',
         'gulpfile.js',
+        '.eslintrc',
+        '.stylelintrc',
       ],
     },
   ],
