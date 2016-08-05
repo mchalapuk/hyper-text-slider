@@ -28,7 +28,6 @@ task('lint:config', [], config.config, function(files) {
   return gulp.src(files.src)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
   ;
 });
 
@@ -56,7 +55,6 @@ task('lint:javascript', [], config.js, function(files) {
   return gulp.src(files.src)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
   ;
 });
 
@@ -82,7 +80,6 @@ task('lint:spec', [], config.js, function(files) {
   return gulp.src(files.spec)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
   ;
 });
 
