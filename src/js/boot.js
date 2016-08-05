@@ -44,14 +44,13 @@ module.exports = boot;
  * ...or event consider implementing bootup by yourself.
  *
  * @param {Element} containerElement element that contains sliders
+ * @return array containing all created ${link Slider} isntances
  *
  * @see Option.AUTOBOOT
  * @fqn boot
  */
 function boot(containerElement) {
-  // TODO test parsing container options
   var containerOptions = getEnabledOptions(containerElement);
-  // TODO test looking for slider elements
   var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
 
   var sliders = sliderElems.map(function(elem) {
@@ -59,7 +58,6 @@ function boot(containerElement) {
     // turn off vanilla behavior (vertical scroll bar)
     elem.classList.add('is-upgraded');
 
-    // TODO test adding options to slider
     containerOptions.forEach(function(option) {
       if (elem.classList.contains(option)) {
         return;
@@ -70,9 +68,9 @@ function boot(containerElement) {
     return new Slider(elem);
   });
 
-  // TODO test invoking start methods
   // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
   window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+  return sliders;
 }
 
 // finds option class names on passed element
