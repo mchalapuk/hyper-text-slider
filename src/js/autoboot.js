@@ -17,20 +17,23 @@
 */
 'use strict';
 
-var autoboot = require('./js/autoboot');
+var boot = require('./boot');
+var Option = require('./classnames/_options');
+
+module.exports = autoboot;
 
 /**
- * During project build, this script is compiled to `dist/hermes.js`,
- * which contains ES5 code that can be run in all modern browsers.
- * It is to be used only when programming in vanilla-browser style.
- * When using nodejs-based javascript preprocessor, it's better to load
- * hermes module and call ${link boot} function from client code.
+ * Calls ${link boot} with passed element if it contains ${link Option.AUTOBOOT} option.
+ *
+ * @params {Element} containerElement element that will be passed to ${link boot}
  */
-window.addEventListener('load', function() {
-  autoboot(document.body);
-});
+function autoboot(containerElement) {
+  if (containerElement.classList.contains(Option.AUTOBOOT)) {
+    boot(containerElement);
+  }
+}
 
 /*
-  eslint-env node, browser
+  eslint-env node
 */
 

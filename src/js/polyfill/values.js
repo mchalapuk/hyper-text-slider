@@ -17,20 +17,17 @@
 */
 'use strict';
 
-var autoboot = require('./js/autoboot');
+module.exports = Object.values || polyfill;
 
-/**
- * During project build, this script is compiled to `dist/hermes.js`,
- * which contains ES5 code that can be run in all modern browsers.
- * It is to be used only when programming in vanilla-browser style.
- * When using nodejs-based javascript preprocessor, it's better to load
- * hermes module and call ${link boot} function from client code.
- */
-window.addEventListener('load', function() {
-  autoboot(document.body);
-});
+function polyfill(object) {
+  var values = [];
+  for (var key in object) {
+    values.push(object[key]);
+  }
+  return values;
+}
 
 /*
-  eslint-env node, browser
-*/
+  eslint-env node
+ */
 

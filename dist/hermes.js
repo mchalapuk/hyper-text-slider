@@ -890,18 +890,17 @@ function hasOwnProperty(obj, prop) {
 */
 'use strict';
 
-// TODO test vanilla browser script
-var hermes = require('./hermes');
-var Option = require('./js/classnames/_options');
+var autoboot = require('./js/autoboot');
 
 /**
- * This script is compiled to `dist/hermes.min.js` during the build
- * and is to be included on the page when vanilla browser programming.
+ * During project build, this script is compiled to `dist/hermes.js`,
+ * which contains ES5 code that can be run in all modern browsers.
+ * It is to be used only when programming in vanilla-browser style.
+ * When using nodejs-based javascript preprocessor, it's better to load
+ * hermes module and call ${link boot} function from client code.
  */
 window.addEventListener('load', function() {
-  if (document.body.classList.contains(Option.AUTOBOOT)) {
-    hermes.boot(document.body);
-  }
+  autoboot(document.body);
 });
 
 /*
@@ -909,42 +908,7 @@ window.addEventListener('load', function() {
 */
 
 
-},{"./hermes":9,"./js/classnames/_options":15}],9:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var Slider = require('./js/slider');
-var Phaser = require('./js/phaser');
-var boot = require('./js/boot');
-
-module.exports = {
-  Slider: Slider,
-  Phaser: Phaser,
-  boot: boot,
-};
-
-/*
-  eslint-env node
- */
-
-
-},{"./js/boot":11,"./js/phaser":18,"./js/slider":19}],10:[function(require,module,exports){
+},{"./js/autoboot":10}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1001,7 +965,7 @@ function getFeatureName(defaultName, candidateMap) {
 */
 
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1020,6 +984,49 @@ function getFeatureName(defaultName, candidateMap) {
 
 */
 'use strict';
+
+var boot = require('./boot');
+var Option = require('./classnames/_options');
+
+module.exports = autoboot;
+
+/**
+ * Calls ${link boot} with passed element if it contains ${link Option.AUTOBOOT} option.
+ *
+ * @params {Element} containerElement element that will be passed to ${link boot}
+ */
+function autoboot(containerElement) {
+  if (containerElement.classList.contains(Option.AUTOBOOT)) {
+    boot(containerElement);
+  }
+}
+
+/*
+  eslint-env node
+*/
+
+
+},{"./boot":11,"./classnames/_options":15}],11:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+Object.values = require('./polyfill/values');
 
 var Slider = require('./slider');
 var Option = require('./classnames/_options');
@@ -1093,7 +1100,7 @@ function getEnabledOptions(element) {
 */
 
 
-},{"./classnames/_options":15,"./slider":19}],12:[function(require,module,exports){
+},{"./classnames/_options":15,"./polyfill/values":19,"./slider":20}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1895,7 +1902,42 @@ function getPhase(priv) {
 */
 
 
-},{"./_dom-compat":10,"./classnames/_phases":16,"precond":2}],19:[function(require,module,exports){
+},{"./_dom-compat":9,"./classnames/_phases":16,"precond":2}],19:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+module.exports = Object.values || polyfill;
+
+function polyfill(object) {
+  var values = [];
+  for (var key in object) {
+    values.push(object[key]);
+  }
+  return values;
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{}],20:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
