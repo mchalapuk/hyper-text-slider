@@ -30,13 +30,12 @@ var precond = require('precond');
  * > **DISCLAIMER**
  * >
  * > JavaScript API is in early **alpha stage** and may change in the future.
- * > [Declarative API](class-names.md) is stable (future versions will be backward-compatibile).
  *
  * ### Example
  *
  * ```javascript
  * // browserify is supported
- * var hermes = require('hermes');
+ * var hermes = require('hermes-slider');
  *
  * window.addEventListener('load', function() {
  *   var slider = new hermes.Slider(document.getElementById('my-slider'));
