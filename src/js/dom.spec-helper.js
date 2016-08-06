@@ -17,6 +17,8 @@
 */
 'use strict';
 
+var DOMTokenList = require('./polyfill/dom-token-list');
+
 /**
  * Why would I use a browser for unit testing when I have node? ;)
  */
@@ -109,30 +111,6 @@ function Element(nodeName) {
     var nodes = that.querySelectorAll(selector);
     return nodes[0] || null;
   };
-
-  return that;
-}
-
-/**
- * @see https://developer.mozilla.org/pl/docs/Web/API/DOMTokenList
- */
-function DOMTokenList(object, key) {
-  var that = this;
-
-  that.add = function() {
-    object[key] += (object[key].length ?' ' :'') + [].slice.apply(arguments).join(' ');
-  };
-  that.remove = function(token) {
-    object[key] = object[key].replace(new RegExp('\\b'+ token +'\\b\\s*'), '').replace(/^\\s*/, '');
-  };
-  that.contains = function(token) {
-    return object[key].search(new RegExp('\\b'+ token +'\\b')) !== -1;
-  };
-  Object.defineProperty(that, 'length', {
-    get: function() {
-      return (object[key].match(/[^\s]+/g) || []).length;
-    },
-  });
 
   return that;
 }
