@@ -18,16 +18,19 @@ var sequence = require('gulp-sequence');
 var rename = require('gulp-rename');
 var mergeStream = require('merge-stream');
 var del = require('del');
-var _ = require('underscore');
-var child = require('child_process');
 var yargs = require('yargs');
+var _ = require('underscore');
+
+var child = require('child_process');
 
 var config = require('./build.config');
+var watching = false;
 
 task('lint:config', [], config.config, function(files) {
   return gulp.src(files.src)
     .pipe(eslint())
     .pipe(eslint.format())
+    .pipe(watching? gutil.noop(): eslint.failAfterError())
   ;
 });
 
@@ -55,6 +58,7 @@ task('lint:javascript', [], config.js, function(files) {
   return gulp.src(files.src)
     .pipe(eslint())
     .pipe(eslint.format())
+    .pipe(watching? gutil.noop(): eslint.failAfterError())
   ;
 });
 
@@ -80,6 +84,7 @@ task('lint:spec', [], config.js, function(files) {
   return gulp.src(files.spec)
     .pipe(eslint())
     .pipe(eslint.format())
+    .pipe(watching? gutil.noop(): eslint.failAfterError())
   ;
 });
 
@@ -91,6 +96,7 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
     .pipe(jasmine({
       // verbose: true,
       includeStackTrace: true,
+      errorOnFail: !watching,
     }))
   ;
 });
@@ -127,7 +133,7 @@ gulp.task('fixme', _.partial(fixme, {
 
 gulp.task('default', [ 'lint:config', 'dist', 'doc' ]);
 
-gulp.task('watch', [ 'default' ], function() {
+gulp.task('watch', function() {
   var allCssSources = flatten(config.css, 'src');
   var allJsSources = flatten(config.js, 'src');
   var allJsSpecs = flatten(config.js, 'spec');
@@ -138,6 +144,13 @@ gulp.task('watch', [ 'default' ], function() {
   gulp.watch(allJsSources, [ 'javascript', 'spec' ]);
   gulp.watch(allJsSpecs, [ 'spec' ]);
   gulp.watch(allDocSources.concat(allDocTemplates), [ 'doc' ]);
+
+  watching = true;
+
+  gulp.start('default')
+    .on('task_stop', gutil.noop)
+    .on('task_err', gutil.noop)
+  ;
 
   connect.server({
     root: [ 'examples', 'dist' ],
