@@ -17,7 +17,7 @@
 */
 'use strict';
 
-var autoboot = require('./js/autoboot');
+var autoboot = require('./core/autoboot');
 
 /**
  * During project build, this script is compiled to `dist/hermes.js`,

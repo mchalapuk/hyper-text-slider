@@ -903,7 +903,7 @@ function hasOwnProperty(obj, prop) {
 */
 'use strict';
 
-var autoboot = require('./js/autoboot');
+var autoboot = require('./core/autoboot');
 
 /**
  * During project build, this script is compiled to `dist/hermes.js`,
@@ -921,574 +921,7 @@ window.addEventListener('load', function() {
  */
 
 
-},{"./js/autoboot":16}],9:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
- * client HTML or JavaScript and **SHOULD be used only in client CSS**.
- *
- * @name Flag Class Names
- */
-var Flag = {
-
-  /**
-   * Automatically set on slider after its upgrade.
-   *
-   * @fqn Flag.UPGRADED
-   */
-  UPGRADED: 'is-upgraded',
-
-  /**
-   * Automatically set on ${link Layout.DOT} button connected with currently active slide.
-   *
-   * @invariant This class is set on only one dot button.
-   *
-   * @fqn Flag.ACTIVE
-   */
-  ACTIVE: 'is-active',
-};
-
-module.exports = Flag;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],10:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * Their usage is limited to:
- *  1. **role-id** - class names are used to identify element's role during slider upgrade,
- *  2. **transition** - class names must be used in CSS definitions of transitions,
- *  3. **styling** - class names are recommended for usage in slide's styling.
- *
- * @name Layout Class Names
- * @summary-column usage Usage
- * @summary-column client-html Client HTML
- */
-var Layout = {
-
-  /**
-   * Identifies main slider element.
-   *
-   * This class must be set on all slider elements in client HTML.
-   * It can be used in client CSS code for styling.
-   *
-   * @usage role-id styling
-   * @client-html mandatory
-   *
-   * @fqn Layout.SLIDER
-   */
-  SLIDER: 'hermes-layout--slider',
-
-  /**
-   * Identifies a slide.
-   *
-   * At least 2 slides must be defined in each slider.
-   * It can be used in client CSS code for styling.
-   *
-   * @usage role-id styling
-   * @client-html mandatory
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.SLIDE
-   */
-  SLIDE: 'hermes-layout--slide',
-
-  /**
-   * Identifies background of a slide.
-   *
-   * For slides in which this element is not present in slider declaration, empty background
-   * element will be generated during slider upgrade. This class name must be used in all
-   * definitions of background transitions.
-   *
-   * @usage role-id styling transition
-   * @client-html optional
-   * @parent-element Layout.SLIDE
-   *
-   * @fqn Layout.BACKGROUND
-   */
-  BACKGROUND: 'hermes-layout--background',
-
-  /**
-   * Identifies content of a slide.
-   *
-   * For slides in which this element is not present in slider declaration, it will be generated
-   * during slider upgrade. Contents of a slide will be moved inside generated element. If element
-   * is present in slider declaration, it must contain all contents of a slide. This class name
-   * must be used in all definitions of content transitions.
-   *
-   * @usage role-id styling transition
-   * @client-html optional
-   * @parent-element Layout.SLIDE
-   *
-   * @fqn Layout.CONTENT
-   */
-  CONTENT: 'hermes-layout--content',
-
-  /**
-   * Set during upgrade on generated arrow buttons.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.ARROW
-   */
-  ARROW: 'hermes-layout--arrow',
-
-  /**
-   * Set during upgrade on generated left arrow button.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.ARROW_LEFT
-   */
-  ARROW_LEFT: 'hermes-layout--arrow-left',
-
-  /**
-   * Set during upgrade on generated right arrow button.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.ARROW_RIGHT
-   */
-  ARROW_RIGHT: 'hermes-layout--arrow-right',
-
-  /**
-   * Set during upgrade on container elements that contains dot buttons.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.DOTS
-   */
-  DOTS: 'hermes-layout--dots',
-
-  /**
-   * Set during upgrade on each dot button element.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.DOTS
-   *
-   * @fqn Layout.DOT
-   */
-  DOT: 'hermes-layout--dot',
-};
-
-module.exports = Layout;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],11:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * They are automatically set on slide elements (${link Layout.SLIDE}).
- * Marker class names MUST NOT be manipulated from client HTML or JavaScript
- * and **SHOULD be used only in definitions of CSS transitions**.
- *
- * @name Transition Marker Class Names
- */
-var Marker = {
-
-  /**
-   * Automatically set on previously active ${link Layout.SLIDE}.
-   *
-   * @invariant After starting first transition this class name is set on only one slide.
-   *
-   * @fqn Marker.SLIDE_FROM
-   */
-  SLIDE_FROM: 'hermes-slide-from',
-
-  /**
-   * Automatically set on currently active ${link Layout.SLIDE}.
-   *
-   * This class name is set on first slide after starting a slider
-   * and then set on currently active slide each time it changes.
-   *
-   * @invariant After starting slider this class name is set on only one slide.
-   *
-   * @fqn Marker.SLIDE_TO
-   */
-  SLIDE_TO: 'hermes-slide-to',
-};
-
-module.exports = Marker;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],12:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * Option classes enable features of the slider.
- *
- * Most options are intended to be set on ${link Layout.SLIDER} element, but they can also be
- * set on document's `<body>`. Options set on `<body>` are treated as defaults for each ${link
- * Layout.SLIDER} declared on the page.
- *
- * Two categories:
- *  1. **single options** - each of which enables one feature,
- *  2. **option groups** - that adds many option classes to the slider during upgrade.
- *
- * Each option class is checked by the slider in one of two ways:
- *  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
- *    in client HTML, slider will check for it only once during upgrade, adding/removing class
- *    after upgrade make no effect,
- *  2. <a href='#continuously' id='continuously'>**checked continuously**</a> -
- *    class name may be added/removed at any time, slider will check if it is set every time
- *    a decission connected with this class is made.
- *
- * @name Option Class Names
- * @summary-column checked Checked
- * @summary-column target Target Element
- */
-var Option = {
-
-  /**
-   * Automatically creates ${link Slider} objects for all sliders declared on the page
-   * and invokes their ${link Slider.prototype.start} methods.
-   *
-   * This options can be set only on `<body>` element.
-   * It enabled using Hermes without any JavaScript programming.
-   *
-   * > ***WARNING***
-   * >
-   * > When using Hermes via node and broserify, this option is ignored.
-   *
-   * @target document's `<body>`
-   * @checked once
-   * @see boot
-   * @see Slider.prototype.start
-   *
-   * @fqn Option.AUTOBOOT
-   */
-  AUTOBOOT: 'hermes-autoboot',
-
-  /**
-   * Adds
-   * ${link Option.AUTOPLAY},
-   * ${link Option.CREATE_ARROWS},
-   * ${link Option.CREATE_DOTS},
-   * ${link Option.ARROW_KEYS},
-   * ${link Option.RESPONSIVE_CONTROLS}
-   * classes to the slider.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   *
-   * @fqn Option.DEFAULTS
-   */
-  DEFAULTS: 'hermes-defaults',
-
-  /**
-   * Automatically moves slider to next slide.
-   *
-   * Slider is moved to the next after time specified in ${link Time time class name}.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked continuously
-   * @see Slider.prototype.moveToNext
-   *
-   * @fqn Option.AUTOPLAY
-   */
-  AUTOPLAY: 'hermes-autoplay',
-
-  /**
-   * Creates side arrow buttons.
-   *
-   * `click` event on dispatched on left arrow moves slider to previous slide.
-   * `click` event on dispatched on right arrow moves slider to next slide.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see Slider.prototype.moveToPrevious
-   * @see Slider.prototype.moveToNext
-   *
-   * @fqn Option.CREATE_ARROWS
-   */
-  CREATE_ARROWS: 'hermes-create-arrows',
-
-  /**
-   * Creates dot button for each slide.
-   *
-   * `click` event displatched on dot button moves slider to slide asociated with this dot button.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see Slider.prototype.currentIndex
-   *
-   * @fqn Option.CREATE_DOTS
-   */
-  CREATE_DOTS: 'hermes-create-dots',
-
-  /**
-   * Adds keyboard control to slider.
-   *
-   * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
-   * slide, with `RightArrow` key moves slider to next slide.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see Slider.prototype.currentIndex
-   *
-   * @fqn Option.ARROW_KEYS
-   */
-  ARROW_KEYS: 'hermes-arrow-keys',
-
-  /**
-   * Adds screen responsiveness to slider controls.
-   *
-   * Slider controls come in 3 different layouts. Each for different range of screen width.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see [Screen Responsiveness](responsiveness.md)
-   * @see Slider.breakpointNarrowToNormal
-   * @see Slider.breakpointNormalToWide
-   *
-   * @fqn Option.RESPONSIVE_CONTROLS
-   */
-  RESPONSIVE_CONTROLS: 'hermes-responsive-controls',
-};
-
-module.exports = Option;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],13:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * @name Other Class Names
- */
-var Pattern = {
-
-  /**
-   * All transitions used by the slider must match this regular expression.
-   *
-   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
-   * transition class names. Transitions declared this way will be randomly used by the slider.
-   * After upgrade all declared transitions are removed from slider element.
-   *
-   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
-   * use transition declared on slide element when moving to this slide. Transition declarations of
-   * this type are [checked continuously](#continuously), therefore they may be added/removed
-   * on slides at runtime (client JavaScript).
-   *
-   * @invariant Class name of currently running transition is set on slider element.
-   *
-   * @fqn Pattern.TRANSITION
-   */
-  TRANSITION: /hermes-transition--([^\s]+)/g,
-
-  /**
-   * Slider keeps class name with slide if of current slide to ${link Layout.SLIDER} element.
-   *
-   * This functionality may be useful if slides other than current are to be partially visible
-   * or if appearence of controls or even whole slider needs to change from one slide to another.
-   *
-   * @invariant Class name with id of current slide is set on slider element.
-   *
-   * @fqn Pattern.SLIDE_ID
-   */
-  SLIDE_ID: /hermes-slide-id-([^\s]+)/,
-};
-
-module.exports = Pattern;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],14:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * All phase classes are automatically set on slider element (${link Layout.SLIDER}).
- * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
- * in definitions of CSS transitions**.
- *
- * @name Transition Phase Class Names
- */
-var Phase = {
-
-  /**
-   * Set on slider element just before transition starts.
-   *
-   * This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
-   * to initial values before transition.
-   *
-   * @fqn Phase.BEFORE_TRANSITION
-   */
-  BEFORE_TRANSITION: 'hermes-before-transition',
-
-  /**
-   * Set on slider element while transition of ${link Layout.CONTENT} element is run.
-   *
-   * @fqn Phase.DURING_TRANSITION
-   */
-  DURING_TRANSITION: 'hermes-during-transition',
-
-  /**
-   * Set on slider element after transition of ${link Layout.CONTENT} element ends.
-   *
-   * @fqn Phase.AFTER_TRANSITION
-   */
-  AFTER_TRANSITION: 'hermes-after-transition',
-};
-
-module.exports = Phase;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],15:[function(require,module,exports){
+},{"./core/autoboot":10}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1549,7 +982,7 @@ function getFeatureName(defaultName, candidateMap) {
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1590,7 +1023,7 @@ function autoboot(containerElement) {
 */
 
 
-},{"../enums/option":12,"./boot":17}],17:[function(require,module,exports){
+},{"../enums/option":17,"./boot":11}],11:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1680,7 +1113,7 @@ function getEnabledOptions(element) {
 */
 
 
-},{"../enums/option":12,"./slider":19}],18:[function(require,module,exports){
+},{"../enums/option":17,"./slider":13}],12:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1915,7 +1348,7 @@ function getPhase(priv) {
 */
 
 
-},{"../enums/phase":14,"./_dom-compat":15,"precond":2}],19:[function(require,module,exports){
+},{"../enums/phase":19,"./_dom-compat":9,"precond":2}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2322,4 +1755,571 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"../enums/flag":9,"../enums/layout":10,"../enums/marker":11,"../enums/option":12,"../enums/pattern":13,"./phaser":18,"precond":2}]},{},[8]);
+},{"../enums/flag":14,"../enums/layout":15,"../enums/marker":16,"../enums/option":17,"../enums/pattern":18,"./phaser":12,"precond":2}],14:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
+ * client HTML or JavaScript and **SHOULD be used only in client CSS**.
+ *
+ * @name Flag Class Names
+ */
+var Flag = {
+
+  /**
+   * Automatically set on slider after its upgrade.
+   *
+   * @fqn Flag.UPGRADED
+   */
+  UPGRADED: 'is-upgraded',
+
+  /**
+   * Automatically set on ${link Layout.DOT} button connected with currently active slide.
+   *
+   * @invariant This class is set on only one dot button.
+   *
+   * @fqn Flag.ACTIVE
+   */
+  ACTIVE: 'is-active',
+};
+
+module.exports = Flag;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],15:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * Their usage is limited to:
+ *  1. **role-id** - class names are used to identify element's role during slider upgrade,
+ *  2. **transition** - class names must be used in CSS definitions of transitions,
+ *  3. **styling** - class names are recommended for usage in slide's styling.
+ *
+ * @name Layout Class Names
+ * @summary-column usage Usage
+ * @summary-column client-html Client HTML
+ */
+var Layout = {
+
+  /**
+   * Identifies main slider element.
+   *
+   * This class must be set on all slider elements in client HTML.
+   * It can be used in client CSS code for styling.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   *
+   * @fqn Layout.SLIDER
+   */
+  SLIDER: 'hermes-layout--slider',
+
+  /**
+   * Identifies a slide.
+   *
+   * At least 2 slides must be defined in each slider.
+   * It can be used in client CSS code for styling.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.SLIDE
+   */
+  SLIDE: 'hermes-layout--slide',
+
+  /**
+   * Identifies background of a slide.
+   *
+   * For slides in which this element is not present in slider declaration, empty background
+   * element will be generated during slider upgrade. This class name must be used in all
+   * definitions of background transitions.
+   *
+   * @usage role-id styling transition
+   * @client-html optional
+   * @parent-element Layout.SLIDE
+   *
+   * @fqn Layout.BACKGROUND
+   */
+  BACKGROUND: 'hermes-layout--background',
+
+  /**
+   * Identifies content of a slide.
+   *
+   * For slides in which this element is not present in slider declaration, it will be generated
+   * during slider upgrade. Contents of a slide will be moved inside generated element. If element
+   * is present in slider declaration, it must contain all contents of a slide. This class name
+   * must be used in all definitions of content transitions.
+   *
+   * @usage role-id styling transition
+   * @client-html optional
+   * @parent-element Layout.SLIDE
+   *
+   * @fqn Layout.CONTENT
+   */
+  CONTENT: 'hermes-layout--content',
+
+  /**
+   * Set during upgrade on generated arrow buttons.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.ARROW
+   */
+  ARROW: 'hermes-layout--arrow',
+
+  /**
+   * Set during upgrade on generated left arrow button.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.ARROW_LEFT
+   */
+  ARROW_LEFT: 'hermes-layout--arrow-left',
+
+  /**
+   * Set during upgrade on generated right arrow button.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.ARROW_RIGHT
+   */
+  ARROW_RIGHT: 'hermes-layout--arrow-right',
+
+  /**
+   * Set during upgrade on container elements that contains dot buttons.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.DOTS
+   */
+  DOTS: 'hermes-layout--dots',
+
+  /**
+   * Set during upgrade on each dot button element.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.DOTS
+   *
+   * @fqn Layout.DOT
+   */
+  DOT: 'hermes-layout--dot',
+};
+
+module.exports = Layout;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],16:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * They are automatically set on slide elements (${link Layout.SLIDE}).
+ * Marker class names MUST NOT be manipulated from client HTML or JavaScript
+ * and **SHOULD be used only in definitions of CSS transitions**.
+ *
+ * @name Transition Marker Class Names
+ */
+var Marker = {
+
+  /**
+   * Automatically set on previously active ${link Layout.SLIDE}.
+   *
+   * @invariant After starting first transition this class name is set on only one slide.
+   *
+   * @fqn Marker.SLIDE_FROM
+   */
+  SLIDE_FROM: 'hermes-slide-from',
+
+  /**
+   * Automatically set on currently active ${link Layout.SLIDE}.
+   *
+   * This class name is set on first slide after starting a slider
+   * and then set on currently active slide each time it changes.
+   *
+   * @invariant After starting slider this class name is set on only one slide.
+   *
+   * @fqn Marker.SLIDE_TO
+   */
+  SLIDE_TO: 'hermes-slide-to',
+};
+
+module.exports = Marker;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],17:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * Option classes enable features of the slider.
+ *
+ * Most options are intended to be set on ${link Layout.SLIDER} element, but they can also be
+ * set on document's `<body>`. Options set on `<body>` are treated as defaults for each ${link
+ * Layout.SLIDER} declared on the page.
+ *
+ * Two categories:
+ *  1. **single options** - each of which enables one feature,
+ *  2. **option groups** - that adds many option classes to the slider during upgrade.
+ *
+ * Each option class is checked by the slider in one of two ways:
+ *  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
+ *    in client HTML, slider will check for it only once during upgrade, adding/removing class
+ *    after upgrade make no effect,
+ *  2. <a href='#continuously' id='continuously'>**checked continuously**</a> -
+ *    class name may be added/removed at any time, slider will check if it is set every time
+ *    a decission connected with this class is made.
+ *
+ * @name Option Class Names
+ * @summary-column checked Checked
+ * @summary-column target Target Element
+ */
+var Option = {
+
+  /**
+   * Automatically creates ${link Slider} objects for all sliders declared on the page
+   * and invokes their ${link Slider.prototype.start} methods.
+   *
+   * This options can be set only on `<body>` element.
+   * It enabled using Hermes without any JavaScript programming.
+   *
+   * > ***WARNING***
+   * >
+   * > When using Hermes via node and broserify, this option is ignored.
+   *
+   * @target document's `<body>`
+   * @checked once
+   * @see boot
+   * @see Slider.prototype.start
+   *
+   * @fqn Option.AUTOBOOT
+   */
+  AUTOBOOT: 'hermes-autoboot',
+
+  /**
+   * Adds
+   * ${link Option.AUTOPLAY},
+   * ${link Option.CREATE_ARROWS},
+   * ${link Option.CREATE_DOTS},
+   * ${link Option.ARROW_KEYS},
+   * ${link Option.RESPONSIVE_CONTROLS}
+   * classes to the slider.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   *
+   * @fqn Option.DEFAULTS
+   */
+  DEFAULTS: 'hermes-defaults',
+
+  /**
+   * Automatically moves slider to next slide.
+   *
+   * Slider is moved to the next after time specified in ${link Time time class name}.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked continuously
+   * @see Slider.prototype.moveToNext
+   *
+   * @fqn Option.AUTOPLAY
+   */
+  AUTOPLAY: 'hermes-autoplay',
+
+  /**
+   * Creates side arrow buttons.
+   *
+   * `click` event on dispatched on left arrow moves slider to previous slide.
+   * `click` event on dispatched on right arrow moves slider to next slide.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   * @see Slider.prototype.moveToPrevious
+   * @see Slider.prototype.moveToNext
+   *
+   * @fqn Option.CREATE_ARROWS
+   */
+  CREATE_ARROWS: 'hermes-create-arrows',
+
+  /**
+   * Creates dot button for each slide.
+   *
+   * `click` event displatched on dot button moves slider to slide asociated with this dot button.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   * @see Slider.prototype.currentIndex
+   *
+   * @fqn Option.CREATE_DOTS
+   */
+  CREATE_DOTS: 'hermes-create-dots',
+
+  /**
+   * Adds keyboard control to slider.
+   *
+   * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
+   * slide, with `RightArrow` key moves slider to next slide.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   * @see Slider.prototype.currentIndex
+   *
+   * @fqn Option.ARROW_KEYS
+   */
+  ARROW_KEYS: 'hermes-arrow-keys',
+
+  /**
+   * Adds screen responsiveness to slider controls.
+   *
+   * Slider controls come in 3 different layouts. Each for different range of screen width.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   * @see [Screen Responsiveness](responsiveness.md)
+   * @see Slider.breakpointNarrowToNormal
+   * @see Slider.breakpointNormalToWide
+   *
+   * @fqn Option.RESPONSIVE_CONTROLS
+   */
+  RESPONSIVE_CONTROLS: 'hermes-responsive-controls',
+};
+
+module.exports = Option;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],18:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * @name Other Class Names
+ */
+var Pattern = {
+
+  /**
+   * All transitions used by the slider must match this regular expression.
+   *
+   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
+   * transition class names. Transitions declared this way will be randomly used by the slider.
+   * After upgrade all declared transitions are removed from slider element.
+   *
+   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
+   * use transition declared on slide element when moving to this slide. Transition declarations of
+   * this type are [checked continuously](#continuously), therefore they may be added/removed
+   * on slides at runtime (client JavaScript).
+   *
+   * @invariant Class name of currently running transition is set on slider element.
+   *
+   * @fqn Pattern.TRANSITION
+   */
+  TRANSITION: /hermes-transition--([^\s]+)/g,
+
+  /**
+   * Slider keeps class name with slide if of current slide to ${link Layout.SLIDER} element.
+   *
+   * This functionality may be useful if slides other than current are to be partially visible
+   * or if appearence of controls or even whole slider needs to change from one slide to another.
+   *
+   * @invariant Class name with id of current slide is set on slider element.
+   *
+   * @fqn Pattern.SLIDE_ID
+   */
+  SLIDE_ID: /hermes-slide-id-([^\s]+)/,
+};
+
+module.exports = Pattern;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],19:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * All phase classes are automatically set on slider element (${link Layout.SLIDER}).
+ * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
+ * in definitions of CSS transitions**.
+ *
+ * @name Transition Phase Class Names
+ */
+var Phase = {
+
+  /**
+   * Set on slider element just before transition starts.
+   *
+   * This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
+   * to initial values before transition.
+   *
+   * @fqn Phase.BEFORE_TRANSITION
+   */
+  BEFORE_TRANSITION: 'hermes-before-transition',
+
+  /**
+   * Set on slider element while transition of ${link Layout.CONTENT} element is run.
+   *
+   * @fqn Phase.DURING_TRANSITION
+   */
+  DURING_TRANSITION: 'hermes-during-transition',
+
+  /**
+   * Set on slider element after transition of ${link Layout.CONTENT} element ends.
+   *
+   * @fqn Phase.AFTER_TRANSITION
+   */
+  AFTER_TRANSITION: 'hermes-after-transition',
+};
+
+module.exports = Phase;
+
+/*
+  eslint-env node
+*/
+
+
+},{}]},{},[8]);

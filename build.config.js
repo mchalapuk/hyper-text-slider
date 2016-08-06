@@ -67,15 +67,13 @@ module.exports = {
       name: 'core',
       main: 'src/browser.js',
       src: [
-        'src/js/**/*.js',
+        'src/core/**/*.js',
         '!src/**/*.spec.js',
         '!src/**/*.spec-helper.js',
       ],
       spec: [
-        'src/js/**/*.spec-helper.js',
-        'src/js/**/*.spec.js',
-        '!src/js/polyfill/**/*.spec-helper.js',
-        '!src/js/polyfill/**/*.spec.js',
+        'src/core/**/*.spec-helper.js',
+        'src/core/**/*.spec.js',
       ],
     },
 
@@ -156,9 +154,9 @@ module.exports = {
        */
       {
         src: [
-          'src/js/slider.js',
-          'src/js/phaser.js',
-          'src/js/boot.js',
+          'src/core/slider.js',
+          'src/core/phaser.js',
+          'src/core/boot.js',
         ],
         options: {
           formatter: formatter.format.bind(formatter),
