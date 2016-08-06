@@ -1,6 +1,6 @@
 'use strict';
 
-var GithubMarkdownFormatter = require('./src/docs/formatter');
+var GithubMarkdownFormatter = require('./src/docgen/formatter');
 var formatter = new GithubMarkdownFormatter();
 
 module.exports = {
@@ -102,13 +102,13 @@ module.exports = {
     {
       name: 'docgen',
       src: [
-        'src/docs/**/*.js',
+        'src/docgen/**/*.js',
         '!src/**/*.spec.js',
         '!src/**/*.spec-helper.js',
       ],
       spec: [
-        'src/docs/**/*.spec-helper.js',
-        'src/docs/**/*.spec.js',
+        'src/docgen/**/*.spec-helper.js',
+        'src/docgen/**/*.spec.js',
       ],
     },
   ],
@@ -144,7 +144,7 @@ module.exports = {
         ],
         options: {
           formatter: formatter.format.bind(formatter),
-          template: 'src/docs/class-names.md.ejs',
+          template: 'src/docgen/class-names.md.ejs',
           concat: 'class-names.md',
           skipSingleStar: true,
           titleProperty: 'value',
@@ -162,7 +162,7 @@ module.exports = {
         ],
         options: {
           formatter: formatter.format.bind(formatter),
-          template: 'src/docs/javascript-api.md.ejs',
+          template: 'src/docgen/javascript-api.md.ejs',
           concat: 'javascript-api.md',
           skipSingleStar: true,
           titleProperty: 'signature',
