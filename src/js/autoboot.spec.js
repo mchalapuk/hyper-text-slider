@@ -18,8 +18,8 @@
 'use strict';
 
 var autoboot = require('./autoboot');
-var Option = require('./classnames/_options');
-var Flag = require('./classnames/_flags');
+var Option = require('../enums/option');
+var Flag = require('../enums/flag');
 
 describe('autoboot', function() {
   afterEach(function() {
@@ -40,18 +40,17 @@ describe('autoboot', function() {
     });
   });
 
-  function fit(message, callback) {
-    it(message, function() { sliderElems.forEach(callback); });
-  }
-
   describe('when called on element containing hermes-autoboot option', function() {
     beforeEach(function() {
       bodyElem.classList.add(Option.AUTOBOOT);
       autoboot(bodyElem);
     });
 
-    fit('all sliders are upgraded', function(elem) {
-      expect(elem.classList.contains(Flag.UPGRADED)).toBe(true);
+    it('all sliders are upgraded', function() {
+      console.log('wtf');
+      sliderElems.forEach(function(elem) {
+        expect(elem.classList.contains(Flag.UPGRADED)).toBe(true);
+      });
     });
   });
 
@@ -60,8 +59,10 @@ describe('autoboot', function() {
       autoboot(bodyElem);
     });
 
-    fit('all sliders are not upgraded', function(elem) {
-      expect(elem.classList.contains(Flag.UPGRADED)).toBe(false);
+    it('all sliders are not upgraded', function() {
+      sliderElems.forEach(function(elem) {
+        expect(elem.classList.contains(Flag.UPGRADED)).toBe(false);
+      });
     });
   });
 });

@@ -61,7 +61,7 @@
  */
 module.exports = Phaser;
 
-var Phase = require('./classnames/_phases');
+var Phase = require('../enums/phase');
 var domCompat = require('./_dom-compat');
 var precond = require('precond');
 

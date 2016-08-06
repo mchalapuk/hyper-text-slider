@@ -49,11 +49,11 @@ module.exports = Slider;
 
 // constants
 
-var Layout = require('./classnames/_layout');
-var Option = require('./classnames/_options');
-var Marker = require('./classnames/_markers');
-var Flag = require('./classnames/_flags');
-var Regexp = require('./classnames/_regexps');
+var Layout = require('../enums/layout');
+var Option = require('../enums/option');
+var Marker = require('../enums/marker');
+var Flag = require('../enums/flag');
+var Pattern = require('../enums/pattern');
 
 var Selector = (function() {
   var selectors = {};
@@ -159,7 +159,7 @@ function start(priv) {
   // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
-  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '').replace('\s+', ' ');
+  priv.elem.className = priv.elem.className.replace(Pattern.TRANSITION, '').replace('\s+', ' ');
 
   expandOptionGroups(priv);
   enableControls(priv);
@@ -249,7 +249,7 @@ function searchForSlides(elem) {
 
 function searchForTransitions(elem) {
   var transitions = [];
-  var matches = elem.className.match(Regexp.TRANSITION);
+  var matches = elem.className.match(Pattern.TRANSITION);
   if (matches) {
     for (var i = 0; i < matches.length; ++i) {
       transitions.push(matches[i]);
@@ -380,7 +380,7 @@ function onPhaseChange(priv, phase) {
 // transition change functions
 
 function chooseTransition(priv) {
-  var match = priv.slides[priv.toIndex].className.match(Regexp.TRANSITION);
+  var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
   return (match? match[0]: false) || random(priv.transitions);
 }
 

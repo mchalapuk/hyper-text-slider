@@ -21,7 +21,7 @@
 /**
  * @name Other Class Names
  */
-var Regexp = {
+var Pattern = {
 
   /**
    * All transitions used by the slider must match this regular expression.
@@ -37,7 +37,7 @@ var Regexp = {
    *
    * @invariant Class name of currently running transition is set on slider element.
    *
-   * @fqn Regexp.TRANSITION
+   * @fqn Pattern.TRANSITION
    */
   TRANSITION: /hermes-transition--([^\s]+)/g,
 
@@ -49,12 +49,12 @@ var Regexp = {
    *
    * @invariant Class name with id of current slide is set on slider element.
    *
-   * @fqn Regexp.SLIDE_ID
+   * @fqn Pattern.SLIDE_ID
    */
   SLIDE_ID: /hermes-slide-id-([^\s]+)/,
 };
 
-module.exports = Regexp;
+module.exports = Pattern;
 
 /*
   eslint-env node

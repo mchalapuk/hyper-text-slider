@@ -134,13 +134,13 @@ module.exports = {
       */
       {
         src: [
-          'src/js/classnames/_layout.js',
-          'src/js/classnames/_options.js',
-          'src/js/classnames/_time.js',
-          'src/js/classnames/_phases.js',
-          'src/js/classnames/_markers.js',
-          'src/js/classnames/_flags.js',
-          'src/js/classnames/_regexps.js',
+          'src/enums/layout.js',
+          'src/enums/option.js',
+          'src/enums/time.js',
+          'src/enums/phase.js',
+          'src/enums/marker.js',
+          'src/enums/flag.js',
+          'src/enums/pattern.js',
         ],
         options: {
           formatter: formatter.format.bind(formatter),

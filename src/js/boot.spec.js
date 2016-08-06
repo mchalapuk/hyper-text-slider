@@ -20,8 +20,8 @@
 Object.values = require('../polyfills/values');
 
 var boot = require('./boot');
-var Option = require('./classnames/_options');
-var Flag = require('./classnames/_flags');
+var Option = require('../enums/option');
+var Flag = require('../enums/flag');
 
 describe('boot', function() {
   var sliderElems = null;

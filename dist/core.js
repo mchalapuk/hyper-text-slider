@@ -921,199 +921,7 @@ window.addEventListener('load', function() {
  */
 
 
-},{"./js/autoboot":10}],9:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-module.exports = {
-  transformPropertyName: getFeatureName('transform', {
-    transform: 'transform',
-    OTransform: '-o-transform',
-    MozTransform: '-moz-transform',
-    WebkitTransform: '-webkit-transform',
-  }),
-  transitionEventName: getFeatureName('transitionend', {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd',
-  }),
-};
-
-/**
- * Detects browser-specific names of browser features by checking availability
- * of browser-specific CSS atributes in a DOM element.
- *
- * @param defaultName name used if nothing else detected (standard-compliant name)
- * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
- * @return value from candidateMap or defaultName
- */
-function getFeatureName(defaultName, candidateMap) {
-  var elem = document.createElement('fakeelement');
-
-  for (var key in candidateMap) {
-    if (typeof elem.style[key] !== 'undefined') {
-      return candidateMap[key];
-    }
-  }
-
-  console.warn('no feature name detected for '+ defaultName +' using default');
-  return defaultName;
-}
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{}],10:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var boot = require('./boot');
-var Option = require('./classnames/_options');
-
-module.exports = autoboot;
-
-/**
- * Calls ${link boot} with passed element if it contains ${link Option.AUTOBOOT} option.
- *
- * @params {Element} containerElement element that will be passed to ${link boot}
- */
-function autoboot(containerElement) {
-  if (containerElement.classList.contains(Option.AUTOBOOT)) {
-    boot(containerElement);
-  }
-}
-
-/*
-  eslint-env node
-*/
-
-
-},{"./boot":11,"./classnames/_options":15}],11:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var Slider = require('./slider');
-var Option = require('./classnames/_options');
-
-module.exports = boot;
-
-/**
- * Default Hermes boot procedure.
- *
- * For each element with ${link Layout.SLIDER} class name found in passed container
- * (typically document's `<body>`):
- *
- *  1. Adds ${link Option options class names} found on container element,
- *  1. Creates ${link Slider} object,
- *  2. Invokes its ${link Slider.prototype.start} method.
- *
- * If you are using browserify, you may want to call this function at some point...
- *
- * ```javascript
- * var hermes = require('hermes-slider');
- * hermes.boot();
- * ```
- *
- * ...or event consider implementing bootup by yourself.
- *
- * @param {Element} containerElement element that contains sliders
- * @return array containing all created ${link Slider} isntances
- *
- * @see Option.AUTOBOOT
- * @fqn boot
- */
-function boot(containerElement) {
-  var containerOptions = getEnabledOptions(containerElement);
-  var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
-
-  var sliders = sliderElems.map(function(elem) {
-    // TODO this should be a feature of Phaser
-    // turn off vanilla behavior (vertical scroll bar)
-    elem.classList.add('is-upgraded');
-
-    containerOptions.forEach(function(option) {
-      if (elem.classList.contains(option)) {
-        return;
-      }
-      elem.classList.add(option);
-    });
-
-    return new Slider(elem);
-  });
-
-  // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
-  window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
-  return sliders;
-}
-
-// finds option class names on passed element
-function getEnabledOptions(element) {
-  var retVal = [];
-  Object.values(Option).forEach(function(option) {
-    if (element.classList.contains(option) && option !== Option.AUTOBOOT) {
-      retVal.push(option);
-    }
-  });
-  return retVal;
-}
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{"./classnames/_options":15,"./slider":19}],12:[function(require,module,exports){
+},{"./js/autoboot":16}],9:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1166,7 +974,7 @@ module.exports = Flag;
 */
 
 
-},{}],13:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1335,7 +1143,7 @@ module.exports = Layout;
 */
 
 
-},{}],14:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1394,7 +1202,7 @@ module.exports = Marker;
 */
 
 
-},{}],15:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1554,7 +1362,71 @@ module.exports = Option;
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * @name Other Class Names
+ */
+var Pattern = {
+
+  /**
+   * All transitions used by the slider must match this regular expression.
+   *
+   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
+   * transition class names. Transitions declared this way will be randomly used by the slider.
+   * After upgrade all declared transitions are removed from slider element.
+   *
+   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
+   * use transition declared on slide element when moving to this slide. Transition declarations of
+   * this type are [checked continuously](#continuously), therefore they may be added/removed
+   * on slides at runtime (client JavaScript).
+   *
+   * @invariant Class name of currently running transition is set on slider element.
+   *
+   * @fqn Pattern.TRANSITION
+   */
+  TRANSITION: /hermes-transition--([^\s]+)/g,
+
+  /**
+   * Slider keeps class name with slide if of current slide to ${link Layout.SLIDER} element.
+   *
+   * This functionality may be useful if slides other than current are to be partially visible
+   * or if appearence of controls or even whole slider needs to change from one slide to another.
+   *
+   * @invariant Class name with id of current slide is set on slider element.
+   *
+   * @fqn Pattern.SLIDE_ID
+   */
+  SLIDE_ID: /hermes-slide-id-([^\s]+)/,
+};
+
+module.exports = Pattern;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],14:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1616,8 +1488,8 @@ module.exports = Phase;
 */
 
 
-},{}],17:[function(require,module,exports){
-/*!
+},{}],15:[function(require,module,exports){
+/*
 
    Copyright 2015 Maciej Chałapuk
 
@@ -1634,53 +1506,181 @@ module.exports = Phase;
    limitations under the License.
 
 */
-
 'use strict';
 
-/**
- * @name Other Class Names
- */
-var Regexp = {
-
-  /**
-   * All transitions used by the slider must match this regular expression.
-   *
-   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
-   * transition class names. Transitions declared this way will be randomly used by the slider.
-   * After upgrade all declared transitions are removed from slider element.
-   *
-   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
-   * use transition declared on slide element when moving to this slide. Transition declarations of
-   * this type are [checked continuously](#continuously), therefore they may be added/removed
-   * on slides at runtime (client JavaScript).
-   *
-   * @invariant Class name of currently running transition is set on slider element.
-   *
-   * @fqn Regexp.TRANSITION
-   */
-  TRANSITION: /hermes-transition--([^\s]+)/g,
-
-  /**
-   * Slider keeps class name with slide if of current slide to ${link Layout.SLIDER} element.
-   *
-   * This functionality may be useful if slides other than current are to be partially visible
-   * or if appearence of controls or even whole slider needs to change from one slide to another.
-   *
-   * @invariant Class name with id of current slide is set on slider element.
-   *
-   * @fqn Regexp.SLIDE_ID
-   */
-  SLIDE_ID: /hermes-slide-id-([^\s]+)/,
+module.exports = {
+  transformPropertyName: getFeatureName('transform', {
+    transform: 'transform',
+    OTransform: '-o-transform',
+    MozTransform: '-moz-transform',
+    WebkitTransform: '-webkit-transform',
+  }),
+  transitionEventName: getFeatureName('transitionend', {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  }),
 };
 
-module.exports = Regexp;
+/**
+ * Detects browser-specific names of browser features by checking availability
+ * of browser-specific CSS atributes in a DOM element.
+ *
+ * @param defaultName name used if nothing else detected (standard-compliant name)
+ * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
+ * @return value from candidateMap or defaultName
+ */
+function getFeatureName(defaultName, candidateMap) {
+  var elem = document.createElement('fakeelement');
+
+  for (var key in candidateMap) {
+    if (typeof elem.style[key] !== 'undefined') {
+      return candidateMap[key];
+    }
+  }
+
+  console.warn('no feature name detected for '+ defaultName +' using default');
+  return defaultName;
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{}],16:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var boot = require('./boot');
+var Option = require('../enums/option');
+
+module.exports = autoboot;
+
+/**
+ * Calls ${link boot} with passed element if it contains ${link Option.AUTOBOOT} option.
+ *
+ * @params {Element} containerElement element that will be passed to ${link boot}
+ */
+function autoboot(containerElement) {
+  if (containerElement.classList.contains(Option.AUTOBOOT)) {
+    boot(containerElement);
+  }
+}
 
 /*
   eslint-env node
 */
 
 
-},{}],18:[function(require,module,exports){
+},{"../enums/option":12,"./boot":17}],17:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var Slider = require('./slider');
+var Option = require('../enums/option');
+
+module.exports = boot;
+
+/**
+ * Default Hermes boot procedure.
+ *
+ * For each element with ${link Layout.SLIDER} class name found in passed container
+ * (typically document's `<body>`):
+ *
+ *  1. Adds ${link Option options class names} found on container element,
+ *  1. Creates ${link Slider} object,
+ *  2. Invokes its ${link Slider.prototype.start} method.
+ *
+ * If you are using browserify, you may want to call this function at some point...
+ *
+ * ```javascript
+ * var hermes = require('hermes-slider');
+ * hermes.boot();
+ * ```
+ *
+ * ...or event consider implementing bootup by yourself.
+ *
+ * @param {Element} containerElement element that contains sliders
+ * @return array containing all created ${link Slider} isntances
+ *
+ * @see Option.AUTOBOOT
+ * @fqn boot
+ */
+function boot(containerElement) {
+  var containerOptions = getEnabledOptions(containerElement);
+  var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
+
+  var sliders = sliderElems.map(function(elem) {
+    // TODO this should be a feature of Phaser
+    // turn off vanilla behavior (vertical scroll bar)
+    elem.classList.add('is-upgraded');
+
+    containerOptions.forEach(function(option) {
+      if (elem.classList.contains(option)) {
+        return;
+      }
+      elem.classList.add(option);
+    });
+
+    return new Slider(elem);
+  });
+
+  // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
+  window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+  return sliders;
+}
+
+// finds option class names on passed element
+function getEnabledOptions(element) {
+  var retVal = [];
+  Object.values(Option).forEach(function(option) {
+    if (element.classList.contains(option) && option !== Option.AUTOBOOT) {
+      retVal.push(option);
+    }
+  });
+  return retVal;
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{"../enums/option":12,"./slider":19}],18:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1744,7 +1744,7 @@ module.exports = Regexp;
  */
 module.exports = Phaser;
 
-var Phase = require('./classnames/_phases');
+var Phase = require('../enums/phase');
 var domCompat = require('./_dom-compat');
 var precond = require('precond');
 
@@ -1915,7 +1915,7 @@ function getPhase(priv) {
 */
 
 
-},{"./_dom-compat":9,"./classnames/_phases":16,"precond":2}],19:[function(require,module,exports){
+},{"../enums/phase":14,"./_dom-compat":15,"precond":2}],19:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1967,11 +1967,11 @@ module.exports = Slider;
 
 // constants
 
-var Layout = require('./classnames/_layout');
-var Option = require('./classnames/_options');
-var Marker = require('./classnames/_markers');
-var Flag = require('./classnames/_flags');
-var Regexp = require('./classnames/_regexps');
+var Layout = require('../enums/layout');
+var Option = require('../enums/option');
+var Marker = require('../enums/marker');
+var Flag = require('../enums/flag');
+var Pattern = require('../enums/pattern');
 
 var Selector = (function() {
   var selectors = {};
@@ -2077,7 +2077,7 @@ function start(priv) {
   // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
-  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '').replace('\s+', ' ');
+  priv.elem.className = priv.elem.className.replace(Pattern.TRANSITION, '').replace('\s+', ' ');
 
   expandOptionGroups(priv);
   enableControls(priv);
@@ -2167,7 +2167,7 @@ function searchForSlides(elem) {
 
 function searchForTransitions(elem) {
   var transitions = [];
-  var matches = elem.className.match(Regexp.TRANSITION);
+  var matches = elem.className.match(Pattern.TRANSITION);
   if (matches) {
     for (var i = 0; i < matches.length; ++i) {
       transitions.push(matches[i]);
@@ -2298,7 +2298,7 @@ function onPhaseChange(priv, phase) {
 // transition change functions
 
 function chooseTransition(priv) {
-  var match = priv.slides[priv.toIndex].className.match(Regexp.TRANSITION);
+  var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
   return (match? match[0]: false) || random(priv.transitions);
 }
 
@@ -2322,4 +2322,4 @@ function bindMethods(wrapper, methods, arg) {
 */
 
 
-},{"./classnames/_flags":12,"./classnames/_layout":13,"./classnames/_markers":14,"./classnames/_options":15,"./classnames/_regexps":17,"./phaser":18,"precond":2}]},{},[8]);
+},{"../enums/flag":9,"../enums/layout":10,"../enums/marker":11,"../enums/option":12,"../enums/pattern":13,"./phaser":18,"precond":2}]},{},[8]);

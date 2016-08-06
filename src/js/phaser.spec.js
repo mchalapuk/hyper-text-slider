@@ -20,7 +20,7 @@
 Object.values = require('../polyfills/values');
 
 var phaser = require('./phaser');
-var Phase = require('./classnames/_phases');
+var Phase = require('../enums/phase');
 
 describe('phaser,', function() {
 

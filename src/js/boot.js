@@ -18,7 +18,7 @@
 'use strict';
 
 var Slider = require('./slider');
-var Option = require('./classnames/_options');
+var Option = require('../enums/option');
 
 module.exports = boot;
 

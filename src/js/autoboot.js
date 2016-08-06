@@ -18,7 +18,7 @@
 'use strict';
 
 var boot = require('./boot');
-var Option = require('./classnames/_options');
+var Option = require('../enums/option');
 
 module.exports = autoboot;
 

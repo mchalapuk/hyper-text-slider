@@ -17,7 +17,7 @@
 */
 'use strict';
 
-var Layout = require('./classnames/_layout');
+var Layout = require('../enums/layout');
 
 /**
  * Creates element with given nodeName and className.
