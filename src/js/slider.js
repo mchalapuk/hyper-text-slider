@@ -159,7 +159,7 @@ function start(priv) {
   // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
-  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '');
+  priv.elem.className = priv.elem.className.replace(Regexp.TRANSITION, '').replace('\s+', ' ');
 
   expandOptionGroups(priv);
   enableControls(priv);

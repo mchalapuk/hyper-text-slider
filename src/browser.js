@@ -30,7 +30,16 @@ window.addEventListener('load', function() {
   autoboot(document.body);
 });
 
+if (!Element.prototype.classList) {
+  Element.prototype.classList = require('./js/polyfill/class-list');
+}
+
 /*
   eslint-env node, browser
-*/
+ */
+
+/*
+  eslint
+    global-require: 0,
+ */
 
