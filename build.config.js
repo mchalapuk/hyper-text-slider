@@ -32,10 +32,10 @@ module.exports = {
       `hermes.scss` imports all underscore-prefixed files.
     */
     {
-      main: 'src/sass/hermes.scss',
+      main: 'src/styles/hermes.scss',
       src: [
         'src/*.scss',
-        'src/sass/*.scss',
+        'src/styles/*.scss',
       ],
     },
 
@@ -47,9 +47,9 @@ module.exports = {
          (to be Sass-imported into other projects).
     */
     {
-      main: 'src/sass/transitions/internal/*.scss',
+      main: 'src/styles/transitions/internal/*.scss',
       src: [
-        'src/sass/transitions/**/*.scss',
+        'src/styles/transitions/**/*.scss',
       ],
       dest: 'transitions/',
     },
