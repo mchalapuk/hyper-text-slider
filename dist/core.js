@@ -154,7 +154,6 @@ module.exports.IllegalStateError = IllegalStateError;
 module.exports.IllegalArgumentError = IllegalArgumentError;
 },{"util":7}],5:[function(require,module,exports){
 // shim for using process in browser
-
 var process = module.exports = {};
 
 // cached from whatever global is present so that test runners that stub it
@@ -166,21 +165,35 @@ var cachedSetTimeout;
 var cachedClearTimeout;
 
 (function () {
-  try {
-    cachedSetTimeout = setTimeout;
-  } catch (e) {
-    cachedSetTimeout = function () {
-      throw new Error('setTimeout is not defined');
+    try {
+        cachedSetTimeout = setTimeout;
+    } catch (e) {
+        cachedSetTimeout = function () {
+            throw new Error('setTimeout is not defined');
+        }
     }
-  }
-  try {
-    cachedClearTimeout = clearTimeout;
-  } catch (e) {
-    cachedClearTimeout = function () {
-      throw new Error('clearTimeout is not defined');
+    try {
+        cachedClearTimeout = clearTimeout;
+    } catch (e) {
+        cachedClearTimeout = function () {
+            throw new Error('clearTimeout is not defined');
+        }
     }
-  }
 } ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        return setTimeout(fun, 0);
+    } else {
+        return cachedSetTimeout.call(null, fun, 0);
+    }
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        clearTimeout(marker);
+    } else {
+        cachedClearTimeout.call(null, marker);
+    }
+}
 var queue = [];
 var draining = false;
 var currentQueue;
@@ -205,7 +218,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = cachedSetTimeout(cleanUpNextTick);
+    var timeout = runTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -222,7 +235,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    cachedClearTimeout(timeout);
+    runClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -234,7 +247,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        cachedSetTimeout(drainQueue, 0);
+        runTimeout(drainQueue);
     }
 };
 
@@ -903,21 +916,12 @@ window.addEventListener('load', function() {
   autoboot(document.body);
 });
 
-if (!Element.prototype.classList) {
-  Element.prototype.classList = require('./js/polyfill/class-list');
-}
-
 /*
   eslint-env node, browser
  */
 
-/*
-  eslint
-    global-require: 0,
- */
 
-
-},{"./js/autoboot":10,"./js/polyfill/class-list":19}],9:[function(require,module,exports){
+},{"./js/autoboot":10}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1111,7 +1115,7 @@ function getEnabledOptions(element) {
 */
 
 
-},{"./classnames/_options":15,"./polyfill/values":21,"./slider":22}],12:[function(require,module,exports){
+},{"./classnames/_options":15,"./polyfill/values":19,"./slider":20}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1933,149 +1937,6 @@ function getPhase(priv) {
 */
 'use strict';
 
-var DOMTokenList = require('./dom-token-list');
-
-module.exports = applyPolyfill;
-
-/**
- * Checks if prototype of passed ElementClass contains classList and,
- * in case not, creates a polyfill implementation.
- */
-function applyPolyfill(ElementClass) {
-  if (ElementClass.prototype.hasOwnProperty('classList')) {
-    return;
-  }
-
-  Object.defineProperty(ElementClass.prototype, 'classList', {
-    get: lazyDefinePropertyValue('classList', function() {
-      if (!(this instanceof ElementClass)) {
-        throw new Error(
-            '\'get classList\' called on an object that does not implement interface Element.');
-      }
-      return new DOMTokenList(this, 'className');
-    }),
-    set: throwError('classList property is read-only'),
-    enumerable: true,
-    configurable: true,
-  });
-}
-
-/**
- * Returns a function that:
- *  1. Calls fiven **loader** on first call,
- *  2. Defines a property of given **propertyName** with value returned from loader.
- */
-function lazyDefinePropertyValue(propertyName, loader) {
-  return function() {
-    var value = loader.apply(this, arguments);
-
-    Object.defineProperty(this, propertyName, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-    });
-
-    return value;
-  };
-}
-
-/**
- * Returns a function that throws an Error with given **message**.
- */
-function throwError(message) {
-  return function() { throw new Error(message); };
-}
-
-/*
-  eslint-env node
- */
-
-/*
-  eslint
-    no-invalid-this: 0,
- */
-
-
-},{"./dom-token-list":20}],20:[function(require,module,exports){
-(function (global){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var namespace = typeof window !== 'undefined'? window: global;
-
-module.exports = namespace.DOMTokenList || Polyfill;
-
-/**
- * Constructs Polyfill of DOMTokenList.
- *
- * The list will be represented as a string located in given **object**
- * under property of name **key**.
- *
- * @see https://developer.mozilla.org/pl/docs/Web/API/DOMTokenList
- */
-function Polyfill(object, key) {
-  var that = this;
-
-  that.add = function() {
-    object[key] += (object[key].length ?' ' :'') + [].slice.apply(arguments).join(' ');
-  };
-  that.remove = function(token) {
-    object[key] = object[key].replace(new RegExp('\\b'+ token +'\\b\\s*'), '').replace(/^\\s*/, '');
-  };
-  that.contains = function(token) {
-    return object[key].search(new RegExp('\\b'+ token +'\\b')) !== -1;
-  };
-  Object.defineProperty(that, 'length', {
-    get: function() {
-      return (object[key].match(/[^\s]+/g) || []).length;
-    },
-  });
-
-  return that;
-}
-
-/*
-  eslint-env node, browser
- */
-
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
 module.exports = Object.values || polyfill;
 
 function polyfill(object) {
@@ -2091,7 +1952,7 @@ function polyfill(object) {
  */
 
 
-},{}],22:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk

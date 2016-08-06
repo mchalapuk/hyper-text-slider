@@ -68,7 +68,7 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   }
   return browserify(files.main).bundle().on('error', gutil.log)
     .pipe(source(files.main.substring(config.dir.src.length), config.dir.src))
-    .pipe(rename('hermes.js'))
+    .pipe(rename(files.name +'.js'))
     .pipe(gulp.dest(config.dir.build))
     .pipe(buffer())
     .pipe(uglify())
@@ -99,11 +99,16 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
     .on('data', function(file) { vinyls.push(file); })
     .on('end', function() {
       gutil.log('Module: '+ gutil.colors.black.bgCyan(files.name));
-      gutil.log('Glob: '+ gutil.colors.cyan(files.spec));
+//      gutil.log('Glob:');
+//      files.spec.forEach(function(glob) { gutil.log('  '+ gutil.colors.cyan(glob)) });
+      gutil.log('Spec Files:');
       vinyls.forEach(function(file) { gutil.log('  '+ gutil.colors.magenta(file.path)); });
+      if (vinyls.length === 0) {
+        gutil.log('  '+ gutil.colors.yellow('(none)'));
+      }
     })
     .pipe(jasmine({
-      verbose: true,
+//      verbose: true,
       includeStackTrace: true,
       errorOnFail: !watching,
     }))

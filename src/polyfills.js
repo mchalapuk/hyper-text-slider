@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,18 +17,17 @@
 */
 'use strict';
 
-var autoboot = require('./js/autoboot');
 
 /**
- * During project build, this script is compiled to `dist/hermes.js`,
- * which contains ES5 code that can be run in all modern browsers.
+ * During project build, this script is compiled to `dist/polyfills.js`,
+ * which contains ES5 code that can be run in not-so-modern browsers.
  * It is to be used only when programming in vanilla-browser style.
  * When using nodejs-based javascript preprocessor, it's better to load
- * hermes module and call ${link boot} function from client code.
+ * hermes module and polyfills with `require()` function.
  */
-window.addEventListener('load', function() {
-  autoboot(document.body);
-});
+Object.values = require('./js/polyfill/values');
+window.DOMTokenList = require('./js/polyfill/dom-token-list');
+require('./js/polyfill/class-list')(window.Element);
 
 /*
   eslint-env node, browser

@@ -64,16 +64,35 @@ module.exports = {
       Slider mechanism script.
     */
     {
+      name: 'core',
       main: 'src/browser.js',
       src: [
-        'src/*.js',
         'src/js/**/*.js',
-        '!src/js/**/*.spec.js',
-        '!src/js/**/*.spec-helper.js',
+        '!src/**/*.spec.js',
+        '!src/**/*.spec-helper.js',
       ],
       spec: [
         'src/js/**/*.spec-helper.js',
         'src/js/**/*.spec.js',
+        '!src/js/polyfill/**/*.spec-helper.js',
+        '!src/js/polyfill/**/*.spec.js',
+      ],
+    },
+
+    /*
+      Web standard polyfills.
+    */
+    {
+      name: 'polyfill',
+      main: 'src/polyfills.js',
+      src: [
+        'src/js/polyfill/*.js',
+        '!src/**/*.spec.js',
+        '!src/**/*.spec-helper.js',
+      ],
+      spec: [
+        'src/js/polyfill/**/*.spec-heler.js',
+        'src/js/polyfill/**/*.spec.js',
       ],
     },
 
@@ -81,8 +100,15 @@ module.exports = {
       Documentation formatter script.
     */
     {
+      name: 'docgen',
       src: [
         'src/docs/**/*.js',
+        '!src/**/*.spec.js',
+        '!src/**/*.spec-helper.js',
+      ],
+      spec: [
+        'src/docs/**/*.spec-helper.js',
+        'src/docs/**/*.spec.js',
       ],
     },
   ],
