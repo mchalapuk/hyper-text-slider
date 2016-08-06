@@ -921,68 +921,7 @@ window.addEventListener('load', function() {
  */
 
 
-},{"./core/autoboot":10}],9:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-module.exports = {
-  transformPropertyName: getFeatureName('transform', {
-    transform: 'transform',
-    OTransform: '-o-transform',
-    MozTransform: '-moz-transform',
-    WebkitTransform: '-webkit-transform',
-  }),
-  transitionEventName: getFeatureName('transitionend', {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd',
-  }),
-};
-
-/**
- * Detects browser-specific names of browser features by checking availability
- * of browser-specific CSS atributes in a DOM element.
- *
- * @param defaultName name used if nothing else detected (standard-compliant name)
- * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
- * @return value from candidateMap or defaultName
- */
-function getFeatureName(defaultName, candidateMap) {
-  var elem = document.createElement('fakeelement');
-
-  for (var key in candidateMap) {
-    if (typeof elem.style[key] !== 'undefined') {
-      return candidateMap[key];
-    }
-  }
-
-  console.warn('no feature name detected for '+ defaultName +' using default');
-  return defaultName;
-}
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{}],10:[function(require,module,exports){
+},{"./core/autoboot":9}],9:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1023,7 +962,7 @@ function autoboot(containerElement) {
 */
 
 
-},{"../enums/option":17,"./boot":11}],11:[function(require,module,exports){
+},{"../enums/option":17,"./boot":10}],10:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1113,7 +1052,68 @@ function getEnabledOptions(element) {
 */
 
 
-},{"../enums/option":17,"./slider":13}],12:[function(require,module,exports){
+},{"../enums/option":17,"./slider":13}],11:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+module.exports = {
+  transformPropertyName: getFeatureName('transform', {
+    transform: 'transform',
+    OTransform: '-o-transform',
+    MozTransform: '-moz-transform',
+    WebkitTransform: '-webkit-transform',
+  }),
+  transitionEventName: getFeatureName('transitionend', {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  }),
+};
+
+/**
+ * Detects browser-specific names of browser features by checking availability
+ * of browser-specific CSS atributes in a DOM element.
+ *
+ * @param defaultName name used if nothing else detected (standard-compliant name)
+ * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
+ * @return value from candidateMap or defaultName
+ */
+function getFeatureName(defaultName, candidateMap) {
+  var elem = document.createElement('fakeelement');
+
+  for (var key in candidateMap) {
+    if (typeof elem.style[key] !== 'undefined') {
+      return candidateMap[key];
+    }
+  }
+
+  console.warn('no feature name detected for '+ defaultName +' using default');
+  return defaultName;
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{}],12:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1178,7 +1178,7 @@ function getEnabledOptions(element) {
 module.exports = Phaser;
 
 var Phase = require('../enums/phase');
-var domCompat = require('./_dom-compat');
+var feature = require('./detect-features');
 var precond = require('precond');
 
 /**
@@ -1286,7 +1286,7 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
 
   if (property === 'transform') {
     // maybe a prefixed version
-    property = domCompat.transformPropertyName;
+    property = feature.transformPropertyName;
   }
 
   elem.hermesPhaseTrigger = function(event) {
@@ -1295,7 +1295,7 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
     }
     nextPhase(priv);
   };
-  elem.addEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
+  elem.addEventListener(feature.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 /**
@@ -1320,7 +1320,7 @@ function removePhaseTrigger(priv, elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
   precond.checkIsFunction(elem.hermesPhaseTrigger, 'no trigger found on given element');
 
-  elem.removeEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
+  elem.removeEventListener(feature.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 /**
@@ -1348,7 +1348,7 @@ function getPhase(priv) {
 */
 
 
-},{"../enums/phase":19,"./_dom-compat":9,"precond":2}],13:[function(require,module,exports){
+},{"../enums/phase":19,"./detect-features":11,"precond":2}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk

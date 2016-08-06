@@ -62,7 +62,7 @@
 module.exports = Phaser;
 
 var Phase = require('../enums/phase');
-var domCompat = require('./_dom-compat');
+var feature = require('./detect-features');
 var precond = require('precond');
 
 /**
@@ -170,7 +170,7 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
 
   if (property === 'transform') {
     // maybe a prefixed version
-    property = domCompat.transformPropertyName;
+    property = feature.transformPropertyName;
   }
 
   elem.hermesPhaseTrigger = function(event) {
@@ -179,7 +179,7 @@ function addPhaseTrigger(priv, elem, transitionProperty) {
     }
     nextPhase(priv);
   };
-  elem.addEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
+  elem.addEventListener(feature.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 /**
@@ -204,7 +204,7 @@ function removePhaseTrigger(priv, elem) {
   precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
   precond.checkIsFunction(elem.hermesPhaseTrigger, 'no trigger found on given element');
 
-  elem.removeEventListener(domCompat.transitionEventName, elem.hermesPhaseTrigger);
+  elem.removeEventListener(feature.transitionEventName, elem.hermesPhaseTrigger);
 }
 
 /**
