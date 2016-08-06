@@ -92,9 +92,18 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
   if (!files.spec) {
     return null;
   }
+
+  var vinyls = [];
+
   return gulp.src(files.spec)
+    .on('data', function(file) { vinyls.push(file); })
+    .on('end', function() {
+      gutil.log('Module: '+ gutil.colors.black.bgCyan(files.name));
+      gutil.log('Glob: '+ gutil.colors.cyan(files.spec));
+      vinyls.forEach(function(file) { gutil.log('  '+ gutil.colors.magenta(file.path)); });
+    })
     .pipe(jasmine({
-      // verbose: true,
+      verbose: true,
       includeStackTrace: true,
       errorOnFail: !watching,
     }))
@@ -209,5 +218,6 @@ function pass(arg) {
   eslint
     camelcase: 0,
     no-process-exit: 0,
+    no-underscore-dangle: 0,
 */
 
