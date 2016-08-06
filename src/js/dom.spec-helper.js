@@ -17,7 +17,7 @@
 */
 'use strict';
 
-var DOMTokenList = require('./polyfill/dom-token-list');
+var DOMTokenList = require('../polyfills/dom-token-list');
 
 /**
  * Why would I use a browser for unit testing when I have node? ;)

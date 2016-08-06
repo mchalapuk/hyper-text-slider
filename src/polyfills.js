@@ -25,9 +25,9 @@
  * When using nodejs-based javascript preprocessor, it's better to load
  * hermes module and polyfills with `require()` function.
  */
-Object.values = require('./js/polyfill/values');
-window.DOMTokenList = require('./js/polyfill/dom-token-list');
-require('./js/polyfill/class-list')(window.Element);
+Object.values = require('./polyfills/values');
+window.DOMTokenList = require('./polyfills/dom-token-list');
+require('./polyfills/class-list')(window.Element);
 
 /*
   eslint-env node, browser

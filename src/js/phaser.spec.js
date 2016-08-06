@@ -17,7 +17,7 @@
 */
 'use strict';
 
-Object.values = require('./polyfill/values');
+Object.values = require('../polyfills/values');
 
 var phaser = require('./phaser');
 var Phase = require('./classnames/_phases');

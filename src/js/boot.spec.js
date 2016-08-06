@@ -17,7 +17,7 @@
 */
 'use strict';
 
-Object.values = require('./polyfill/values');
+Object.values = require('../polyfills/values');
 
 var boot = require('./boot');
 var Option = require('./classnames/_options');

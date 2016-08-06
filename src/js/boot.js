@@ -17,8 +17,6 @@
 */
 'use strict';
 
-Object.values = require('./polyfill/values');
-
 var Slider = require('./slider');
 var Option = require('./classnames/_options');
 

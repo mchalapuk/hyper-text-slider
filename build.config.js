@@ -86,13 +86,13 @@ module.exports = {
       name: 'polyfill',
       main: 'src/polyfills.js',
       src: [
-        'src/js/polyfill/*.js',
+        'src/polyfills/*.js',
         '!src/**/*.spec.js',
         '!src/**/*.spec-helper.js',
       ],
       spec: [
-        'src/js/polyfill/**/*.spec-heler.js',
-        'src/js/polyfill/**/*.spec.js',
+        'src/polyfills/**/*.spec-heler.js',
+        'src/polyfills/**/*.spec.js',
       ],
     },
 
