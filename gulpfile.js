@@ -230,5 +230,6 @@ function pass(arg) {
     camelcase: 0,
     no-process-exit: 0,
     no-underscore-dangle: 0,
+    no-invalid-this: 0,
 */
 

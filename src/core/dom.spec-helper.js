@@ -279,5 +279,11 @@ global.document = document;
 
 /*
   eslint-env node
-*/
+ */
+
+/*
+  eslint
+    no-proto: 0,
+    no-underscore-dangle: 0,
+ */
 
