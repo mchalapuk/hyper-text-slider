@@ -81,6 +81,15 @@ function Node(nodeName) {
     that.childNodes.splice(that.childNodes.indexOf(before), 0, node);
   };
 
+  var superDispatchEvent = that.dispatchEvent;
+  that.dispatchEvent = function(event) {
+    superDispatchEvent.call(that, event);
+
+    if (event.bubbles && that.parentNode) {
+      that.parentNode.dispatchEvent(event);
+    }
+  };
+
   return that;
 }
 
@@ -139,6 +148,7 @@ function Event(type, target) {
 
   that.type = type;
   that.target = target;
+  that.bubbles = true;
 
   return that;
 }
