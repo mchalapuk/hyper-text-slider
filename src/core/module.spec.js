@@ -17,17 +17,6 @@
 */
 'use strict';
 
-var Slider = require('./core/slider');
-var Phaser = require('./core/phaser');
-var boot = require('./core/boot');
-
-module.exports = {
-  Slider: Slider,
-  Phaser: Phaser,
-  boot: boot,
-};
-
-/*
-  eslint-env node
- */
+// just checking if require calls are all right
+require('../..');
 

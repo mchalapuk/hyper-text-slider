@@ -47,7 +47,6 @@ describe('autoboot', function() {
     });
 
     it('all sliders are upgraded', function() {
-      console.log('wtf');
       sliderElems.forEach(function(elem) {
         expect(elem.classList.contains(Flag.UPGRADED)).toBe(true);
       });
