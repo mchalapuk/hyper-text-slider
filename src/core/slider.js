@@ -281,6 +281,8 @@ function upgradeSlides(priv) {
       slide.insertBefore(create(Layout.BACKGROUND), content);
     }
   });
+
+  priv.elem.classList.add(Flag.UPGRADED);
 }
 
 function expandOptionGroups(priv) {

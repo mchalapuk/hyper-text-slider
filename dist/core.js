@@ -1017,10 +1017,6 @@ function boot(containerElement) {
   var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
 
   var sliders = sliderElems.map(function(elem) {
-    // TODO this should be a feature of Phaser
-    // turn off vanilla behavior (vertical scroll bar)
-    elem.classList.add('is-upgraded');
-
     containerOptions.forEach(function(option) {
       if (elem.classList.contains(option)) {
         return;
@@ -1673,6 +1669,8 @@ function upgradeSlides(priv) {
       slide.insertBefore(create(Layout.BACKGROUND), content);
     }
   });
+
+  priv.elem.classList.add('is-upgraded');
 }
 
 function expandOptionGroups(priv) {

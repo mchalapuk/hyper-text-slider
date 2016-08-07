@@ -52,10 +52,6 @@ function boot(containerElement) {
   var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
 
   var sliders = sliderElems.map(function(elem) {
-    // TODO this should be a feature of Phaser
-    // turn off vanilla behavior (vertical scroll bar)
-    elem.classList.add('is-upgraded');
-
     containerOptions.forEach(function(option) {
       if (elem.classList.contains(option)) {
         return;
@@ -66,8 +62,7 @@ function boot(containerElement) {
     return new Slider(elem);
   });
 
-  // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
-  window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+  sliders.forEach(function(slider) { slider.start(); });
   return sliders;
 }
 
