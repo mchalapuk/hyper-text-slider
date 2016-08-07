@@ -23,11 +23,14 @@ var DOMTokenList = require('../polyfills/dom-token-list');
  * Why would I use a browser for unit testing when I have node? ;)
  */
 
+var nextId = 0;
+
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/EventTarget
  */
 function EventTarget() {
   var that = this;
+  that._instanceId = nextId++;
 
   var listeners = {};
   that.addEventListener = function(eventType, callback) {
@@ -45,6 +48,9 @@ function EventTarget() {
   // just for testing purposes
   that.$clearEventListeners = function() {
     listeners = {};
+  };
+  that.toString = function() {
+    return '['+ that.__proto__.constructor.name +' #'+ that._instanceId +']';
   };
 
   return that;
