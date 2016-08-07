@@ -109,7 +109,7 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
     })
     .pipe(jasmine({
 //      verbose: true,
-      includeStackTrace: true,
+//      includeStackTrace: true,
       errorOnFail: !watching,
     }))
     .on('error', logError)
