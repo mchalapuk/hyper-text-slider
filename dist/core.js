@@ -1001,13 +1001,13 @@ module.exports = boot;
  *
  * ```javascript
  * var hermes = require('hermes-slider');
- * hermes.boot();
+ * hermes.boot(document.body);
  * ```
  *
  * ...or even consider implementing bootup by yourself.
  *
- * @param {Element} containerElement element that contains sliders
- * @return array containing all created ${link Slider} isntances
+ * @param {Element} containerElement element that contains sliders in (not necessarily immediate) children
+ * @return {Array<Slider>} array containing all created ${link Slider} instances
  *
  * @see Option.AUTOBOOT
  * @fqn boot
@@ -1252,8 +1252,8 @@ function nextPhase(priv) {
 /**
  * Changes current phase.
  *
- * Invoking this method will result in setting CSS class name of requested phase on container
- * element.
+ * Invoking this method will result in setting CSS class name
+ * of requested phase on container element.
  *
  * @param {String} phase desired phase
  * @fqn Phaser.prototype.setPhase
@@ -1274,7 +1274,7 @@ function setPhase(priv, phase) {
 }
 
 /**
- * Adds passed **target** to phase triggers.
+ * Adds passed target to phase triggers.
  *
  * Phase will be automatically set to next each time a `transitionend` event of matching
  * **target** and **propertyName** bubbles up to Phaser's container element.
@@ -1299,7 +1299,7 @@ function addPhaseTrigger(priv, target, propertyName) {
 }
 
 /**
- * Adds a **listener** that will be notified on phase changes.
+ * Adds a listener that will be notified on phase changes.
  *
  * It is used by the ${link Slider} to change styles of dots representing slides.
  *
@@ -1312,10 +1312,10 @@ function addPhaseListener(priv, listener) {
 }
 
 /**
- * Removes passed **target** from phase triggers.
+ * Removes passed target from phase triggers.
  *
- * @param {Node} (typically DOM element) that will no longer be used as a phase trigger
- * @param {String} transitionProperty equal to previously added (optional, defaults to 'transform')
+ * @param {Node} target that will no longer be used as a phase trigger
+ * @param {String} transitionProperty that will no longer be a trigger (optional, defaults to 'transform')
  * @precondition given pair of **target** and **propertyName** is registered as phase trigger
  *
  * @fqn Phaser.prototype.removePhaseTrigger

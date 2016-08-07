@@ -38,7 +38,7 @@ limitations under the License.
 <li>[.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase)
 <li>[.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname)
 <li>[.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener)
-<li>[.prototype.removePhaseTrigger((typically, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertypically-transitionproperty)
+<li>[.prototype.removePhaseTrigger(target, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty)
 <li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
 <li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
 3. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
@@ -204,9 +204,9 @@ void | [Phaser.prototype.constructor(element)](javascript-api.md#phaserprototype
 void | [Phaser.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition) | A higher level method for starting a transition.
 void | [Phaser.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) | Switches phase to next one.
 void | [Phaser.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase) | Changes current phase.
-void | [Phaser.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname) | Adds passed **target** to phase triggers.
-void | [Phaser.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener) | Adds a **listener** that will be notified on phase changes.
-void | [Phaser.prototype.removePhaseTrigger((typically, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertypically-transitionproperty) | Removes passed **target** from phase triggers.
+void | [Phaser.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname) | Adds passed target to phase triggers.
+void | [Phaser.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener) | Adds a listener that will be notified on phase changes.
+void | [Phaser.prototype.removePhaseTrigger(target, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty) | Removes passed target from phase triggers.
 void | [Phaser.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener) | Removes passed listener from the phaser.
 String | [Phaser.prototype.getPhase()](javascript-api.md#phaserprototypegetphase) | Returns a class name of the current phase.
 
@@ -243,14 +243,14 @@ on DOM element added as phase trigger.
 
 Changes current phase.
 
-Invoking this method will result in setting CSS class name of requested phase on container
-element.
+Invoking this method will result in setting CSS class name
+of requested phase on container element.
 
 *@param* {String} **phase** - desired phase
 
 #### Phaser.prototype.addPhaseTrigger(target, propertyName)
 
-Adds passed **target** to phase triggers.
+Adds passed target to phase triggers.
 
 Phase will be automatically set to next each time a `transitionend` event of matching
 **target** and **propertyName** bubbles up to Phaser's container element.
@@ -265,19 +265,19 @@ Phase will be automatically set to next each time a `transitionend` event of mat
 
 #### Phaser.prototype.addPhaseListener(listener)
 
-Adds a **listener** that will be notified on phase changes.
+Adds a listener that will be notified on phase changes.
 
 It is used by the [Slider](javascript-api.md#slider) to change styles of dots representing slides.
 
 *@param* {Function} **listener** - listener to be added
 
-#### Phaser.prototype.removePhaseTrigger((typically, transitionProperty)
+#### Phaser.prototype.removePhaseTrigger(target, transitionProperty)
 
-Removes passed **target** from phase triggers.
+Removes passed target from phase triggers.
 
-*@param* {Node} **(typically** - DOM element) that will no longer be used as a phase trigger
+*@param* {Node} **target** - that will no longer be used as a phase trigger
 
-*@param* {String} **transitionProperty** - equal to previously added (optional, defaults to 'transform')
+*@param* {String} **transitionProperty** - that will no longer be a trigger (optional, defaults to 'transform')
 
 *@precondition* - given pair of **target** and **propertyName** is registered as phase trigger
 
@@ -291,7 +291,7 @@ Removes passed listener from the phaser.
 
 Returns a class name of the current phase.
 
-*@return* - {String} current phase
+*@return* {String} current phase
 
 <!-- End src/core/phaser.js -->
 
@@ -312,10 +312,14 @@ If you are using browserify, you may want to call this function at some point...
 
 ```javascript
 var hermes = require('hermes-slider');
-hermes.boot();
+hermes.boot(document.body);
 ```
 
 ...or even consider implementing bootup by yourself.
+
+*@param* {Element} **containerElement** - element that contains sliders in (not necessarily immediate) children
+
+*@return* - {Array<Slider>} array containing all created [Slider](javascript-api.md#slider) instances
 
 *@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
 

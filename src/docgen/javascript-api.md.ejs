@@ -53,29 +53,36 @@ function typeOf(comment) {
 <? docfiles.forEach(function(doc) { ?>
   <!-- Start <?= doc.filename ?> -->
 
-  <? doc.javadoc.forEach(function(type) { ?>
-    <? if (type.ignore) { return } ?>
-    ## <?= type.signature || type.fqn ?>
+  <? doc.javadoc.forEach(function(entry) { ?>
+    <? if (entry.ignore) { return } ?>
+    ## <?= entry.signature || entry.fqn ?>
 
-    <?= type.description.full ?>
-    <? printMultitags(type) ?>
+    <?= entry.description.full ?>
 
-    <? if (!type.children.length) { return; } ?>
+    <? entry.multiTags.param.forEach(function(param) { ?>
+      *@param* {<?= param.type ?>} **<?= param.name ?>** - <?= param.description ?>
+    <? }) ?>
+    <? if (entry.tags.return && entry.tags.return.type !== 'void') { ?>
+      *@return* - <?= entry.tags.return.full ?>
+    <? } ?>
+    <? printMultitags(entry) ?>
+
+    <? if (!entry.children.length) { return; } ?>
 
     ### Summary
 
     Type | Name | Description
     --- | --- | ---
-    <? type.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
+    <? entry.fields.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
       ?> | <?= row.link.full ?> | <?= row.description.summary ?>
-    <? }) ?><? type.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
+    <? }) ?><? entry.methods.forEach(function(row) { ?><? if (row.ignore) { return } ?><?= typeOf(row)
       ?> | <?= row.link.full ?> | <?= row.description.summary ?>
     <? }) ?>
 
-    <? if (type.fields.length) { ?>
+    <? if (entry.fields.length) { ?>
       ### Fields
 
-      <? type.fields.forEach(function(field) { ?>
+      <? entry.fields.forEach(function(field) { ?>
         <? if (field.ignore) { return } ?>
         #### <?= field.signature ?>
 
@@ -89,10 +96,10 @@ function typeOf(comment) {
       <? }) ?>
     <? } ?>
 
-    <? if (type.methods.length) { ?>
+    <? if (entry.methods.length) { ?>
       ### Methods
 
-      <? type.methods.forEach(function(method) { ?>
+      <? entry.methods.forEach(function(method) { ?>
         <? if (method.ignore) { return } ?>
         #### <?= method.signature ?>
 
@@ -102,7 +109,7 @@ function typeOf(comment) {
           *@param* {<?= param.type ?>} **<?= param.name ?>** - <?= param.description ?>
         <? }) ?>
         <? if (method.tags.return.type !== 'void') { ?>
-          *@return* - <?= method.tags.return.full ?>
+          *@return* <?= method.tags.return.full ?>
         <? } ?>
         <? printMultitags(method) ?>
       <? }) ?>

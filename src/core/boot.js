@@ -36,13 +36,13 @@ module.exports = boot;
  *
  * ```javascript
  * var hermes = require('hermes-slider');
- * hermes.boot();
+ * hermes.boot(document.body);
  * ```
  *
  * ...or even consider implementing bootup by yourself.
  *
- * @param {Element} containerElement element that contains sliders
- * @return array containing all created ${link Slider} isntances
+ * @param {Element} containerElement element that contains sliders in (not necessarily immediate) children
+ * @return {Array<Slider>} array containing all created ${link Slider} instances
  *
  * @see Option.AUTOBOOT
  * @fqn boot
