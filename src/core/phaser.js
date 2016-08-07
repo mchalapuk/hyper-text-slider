@@ -68,20 +68,23 @@ var precond = require('precond');
 /**
  * Creates Phaser.
  *
- * This constructor has no side-effects. This means that no ${link Phase phase class name} is set
- * after calling it. For phaser to start doing some work, ${link Phaser.prototype.setPhase}
- * or ${link Phaser.prototype.startTransition} needs to be invoked.
+ * This constructor has no side-effects. This means that no ${link Phase phase class name}
+ * is set on given **element** and no eventlistener is set after calling it. For phaser to start
+ * doing some work, ${link Phaser.prototype.setPhase}, ${link Phaser.prototype.startTransition}
+ * or ${link Phaser.prototype.addPhaseTrigger} must be invoked.
  *
- * @param {Element} elem container DOM element that will receive proper phase class names
+ * @param {Element} element container DOM element that will receive proper phase class names
  * @fqn Phaser.prototype.constructor
  */
-function Phaser(elem) {
-  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
+function Phaser(element) {
+  precond.checkArgument(element instanceof Element, 'elem is not an instance of Element');
 
   var priv = {};
-  priv.elem = elem;
+  priv.elem = element;
   priv.phase = null;
   priv.listeners = [];
+  priv.phaseTriggers = new MultiMap();
+  priv.started = false;
 
   var pub = {};
   var methods = [
@@ -151,43 +154,41 @@ function setPhase(priv, phase) {
   priv.listeners.forEach(function(listener) {
     listener(phase);
   });
+  maybeStart(priv);
 }
 
 /**
- * Adds passed element as phase trigger.
+ * Adds passed **target** to phase triggers.
  *
- * Phase will be automatically set to next each time transition
- * of passed property ends on passed element.
+ * Phase will be automatically set to next each time a `transitionend` event of matching
+ * **target** and **propertyName** bubbles up to Phaser's container element.
  *
- * @param {Element} elem DOM element that will be used as a phase trigger
- * @param {String} transitionProperty CSS property that is used in the transition
+ * @param {Node} target (typically DOM Element) that will trigger next phase when matched
+ * @param {String} propertyName will trigger next phase when matched (optional, defaults to 'transform')
+ * @precondition **target** has container element as ancestor (see ${link Phaser.prototype.constructor})
+ * @precondition given pair of **target** and **propertyName** is not already a phase trigger
+ *
  * @fqn Phaser.prototype.addPhaseTrigger
  */
-function addPhaseTrigger(priv, elem, transitionProperty) {
-  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-  var property = transitionProperty || 'transform';
-  precond.checkIsString(property, 'transitionProperty is not a String');
+function addPhaseTrigger(priv, target, propertyName) {
+  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
+  var property = propertyName || 'transform';
+  precond.checkIsString(property, 'propertyName is not a String');
 
   if (property === 'transform') {
-    // maybe a prefixed version
     property = feature.transformPropertyName;
   }
-
-  elem.hermesPhaseTrigger = function(event) {
-    if (event.propertyName !== property || event.target !== this) {
-      return;
-    }
-    nextPhase(priv);
-  };
-  elem.addEventListener(feature.transitionEventName, elem.hermesPhaseTrigger);
+  priv.phaseTriggers.put(property, target);
+  maybeStart(priv);
 }
 
 /**
- * Adds a listener that will be notified on phase changes.
+ * Adds a **listener** that will be notified on phase changes.
  *
  * It is used by the ${link Slider} to change styles of dots representing slides.
  *
  * @param {Function} listener listener to be added
+ *
  * @fqn Phaser.prototype.addPhaseListener
  */
 function addPhaseListener(priv, listener) {
@@ -195,16 +196,24 @@ function addPhaseListener(priv, listener) {
 }
 
 /**
- * Removes passed element from phase triggers.
+ * Removes passed **target** from phase triggers.
  *
- * @param {Element} elem DOM element that will no longer be used as a phase trigger
+ * @param {Node} (typically DOM element) that will no longer be used as a phase trigger
+ * @param {String} transitionProperty equal to previously added (optional, defaults to 'transform')
+ * @precondition given pair of **target** and **propertyName** is registered as phase trigger
+ *
  * @fqn Phaser.prototype.removePhaseTrigger
  */
-function removePhaseTrigger(priv, elem) {
-  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-  precond.checkIsFunction(elem.hermesPhaseTrigger, 'no trigger found on given element');
+function removePhaseTrigger(priv, target, propertyName) {
+  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
+  var property = propertyName || 'transform';
+  precond.checkIsString(property, 'transitionProperty is not a String');
+  var triggerElements = priv.phaseTriggers.get(property);
+  var index = triggerElements.indexOf(target);
+  precond.checkArgument(index !== -1,
+      'couldn\'t find phase trigger of given element and property \''+ property+'\'');
 
-  elem.removeEventListener(feature.transitionEventName, elem.hermesPhaseTrigger);
+  triggerElements.splice(index, 1);
 }
 
 /**
@@ -226,6 +235,38 @@ function removePhaseListener(priv, listener) {
 function getPhase(priv) {
   return priv.phase;
 }
+
+
+// Attaches event listener to phasers DOM element, if phaser was not previously started.
+function maybeStart(priv) {
+  if (priv.started) {
+    return;
+  }
+  priv.elem.addEventListener(feature.transitionEventName, handleTransitionEnd.bind(null, priv));
+  priv.started = true;
+}
+
+// Moves to next phase if transition that ended matches one of phase triggers.
+function handleTransitionEnd(priv, evt) {
+  if (evt.propertyName in priv.phaseTriggers &&
+      priv.phaseTriggers[evt.propertyName].indexOf(evt.target) !== -1) {
+    nextPhase(priv);
+  }
+}
+
+// A map of lists.
+function MultiMap() {}
+
+// Returns a list stored in **key**.
+// New list is created if instance doesn't given **key**.
+MultiMap.prototype.get = function(key) {
+  return this[key] || (this[key] = []);
+};
+
+// Adds new **value** to the list stored in **key**.
+MultiMap.prototype.put = function(key, value) {
+  this.get(key).push(value);
+};
 
 /*
   eslint-env node, browser

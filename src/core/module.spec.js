@@ -20,3 +20,7 @@
 // just checking if require calls are all right
 require('../..');
 
+/*
+  eslint-env node
+ */
+

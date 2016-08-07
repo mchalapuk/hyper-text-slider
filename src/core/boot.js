@@ -39,7 +39,7 @@ module.exports = boot;
  * hermes.boot();
  * ```
  *
- * ...or event consider implementing bootup by yourself.
+ * ...or even consider implementing bootup by yourself.
  *
  * @param {Element} containerElement element that contains sliders
  * @return array containing all created ${link Slider} isntances

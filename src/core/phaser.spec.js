@@ -108,12 +108,14 @@ describe('phaser,', function() {
     var testedInstance = null;
     var triggerElement = null;
     beforeEach(function() {
-      testedInstance = phaser(document.createElement('div'));
+      var phaserElement = document.createElement('div');
       triggerElement = document.createElement('trigger');
-      testedInstance.addPhaseTrigger(triggerElement);
+      phaserElement.appendChild(triggerElement);
+      testedInstance = phaser(phaserElement);
+      testedInstance.addPhaseTrigger(triggerElement, 'transform');
     });
 
-    describe('when transitionend event fires on trigger', function() {
+    describe('when transitionend event fires,', function() {
       beforeEach(function() {
         triggerElement.dispatchEvent(new TransitionEvent('transitionend', triggerElement, 'transform'));
       });
@@ -123,12 +125,12 @@ describe('phaser,', function() {
       });
     });
 
-    describe('after detaching trigger', function() {
+    describe('after detaching trigger,', function() {
       beforeEach(function() {
         testedInstance.removePhaseTrigger(triggerElement);
       });
 
-      describe('when transitionend event fires on trigger', function() {
+      describe('when transitionend event fires,', function() {
         beforeEach(function() {
           triggerElement.dispatchEvent(new TransitionEvent('transiontionend', triggerElement, 'transform'));
         });
