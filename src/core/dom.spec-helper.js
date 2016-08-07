@@ -93,6 +93,8 @@ function Node(nodeName) {
   return that;
 }
 
+Node.prototype = new EventTarget();
+
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/Element
  */
@@ -130,6 +132,8 @@ function Element(nodeName) {
   return that;
 }
 
+Element.prototype = new Node();
+
 /**
  * @see https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration
  */
@@ -165,6 +169,8 @@ function TransitionEvent(type, target, propertyName) {
   return that;
 }
 
+TransitionEvent.prototype = new Event();
+
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/KeyboardEvent
  */
@@ -177,6 +183,8 @@ function KeyboardEvent(type, key) {
   return that;
 }
 
+KeyboardEvent.prototype = new Event();
+
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/MouseEvent
  */
@@ -186,6 +194,8 @@ function MouseEvent(type, target) {
 
   return that;
 }
+
+MouseEvent.prototype = new Event();
 
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/Document
@@ -200,6 +210,8 @@ function Document() {
 
   return that;
 }
+
+Document.prototype = new EventTarget();
 
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/Window
@@ -245,6 +257,8 @@ function Window(document) {
 
   return that;
 }
+
+Window.prototype = new EventTarget();
 
 var document = new Document();
 var window = new Window(document);
