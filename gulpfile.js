@@ -112,6 +112,7 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
       includeStackTrace: true,
       errorOnFail: !watching,
     }))
+    .on('error', logError)
   ;
 });
 
@@ -209,6 +210,11 @@ function flatten(unflattened, key0, key1) {
     var maybe = branch[key0] || [];
     return result.concat(maybe.indexOf? [ maybe ] : maybe[key1] || []);
   }, []);
+}
+
+function logError(err) {
+  gutil.log(err.toString());
+  this.emit('end');
 }
 
 function pass(arg) {
