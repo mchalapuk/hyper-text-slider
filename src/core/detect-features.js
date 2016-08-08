@@ -18,23 +18,23 @@
 'use strict';
 
 var element = document.createElement('div');
-var featureNameFromDomProperty = featureNameFromProperty.bind(null, element);
-var featureNameFromCssProperty = featureNameFromProperty.bind(null, element.style);
+var nameFromDomProperty = featureNameFromProperty.bind(null, element);
+var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
 
 module.exports = {
-  transformPropertyName: featureNameFromCssProperty('transform', {
+  transformPropertyName: nameFromCssProperty('transform', {
     transform: 'transform',
     OTransform: '-o-transform',
     MozTransform: '-moz-transform',
     WebkitTransform: '-webkit-transform',
   }),
-  transitionEventName: featureNameFromCssProperty('transitionend', {
+  transitionEventName: nameFromCssProperty('transitionend', {
     transition: 'transitionend',
     OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
     WebkitTransition: 'webkitTransitionEnd',
   }),
-  animationEventName: featureNameFromCssProperty('animationstart', {
+  animationEventName: nameFromDomProperty('animationstart', {
     onanimationstart: 'animationstart',
     onwebkitanimationstart: 'webkitAnimationStart',
     onmsanimationstart: 'MSAnimationStart',
