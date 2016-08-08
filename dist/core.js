@@ -1027,8 +1027,7 @@ function boot(containerElement) {
     return new Slider(elem);
   });
 
-  // TODO maybe requestAnimationFrame with a polyfill instead of setTimeout?
-  window.setTimeout([].forEach.bind(sliders, function(slider) { slider.start(); }), 100);
+  sliders.forEach(function(slider) { slider.start(); });
   return sliders;
 }
 
@@ -1670,7 +1669,7 @@ function upgradeSlides(priv) {
     }
   });
 
-  priv.elem.classList.add('is-upgraded');
+  priv.elem.classList.add(Flag.UPGRADED);
 }
 
 function expandOptionGroups(priv) {

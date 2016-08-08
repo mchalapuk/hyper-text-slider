@@ -17,34 +17,42 @@
 */
 'use strict';
 
+var element = document.createElement('div');
+var featureNameFromDomProperty = featureNameFromProperty.bind(null, element);
+var featureNameFromCssProperty = featureNameFromProperty.bind(null, element.style);
+
 module.exports = {
-  transformPropertyName: getFeatureName('transform', {
+  transformPropertyName: featureNameFromCssProperty('transform', {
     transform: 'transform',
     OTransform: '-o-transform',
     MozTransform: '-moz-transform',
     WebkitTransform: '-webkit-transform',
   }),
-  transitionEventName: getFeatureName('transitionend', {
+  transitionEventName: featureNameFromCssProperty('transitionend', {
     transition: 'transitionend',
     OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
     WebkitTransition: 'webkitTransitionEnd',
   }),
+  animationEventName: featureNameFromCssProperty('animationstart', {
+    onanimationstart: 'animationstart',
+    onwebkitanimationstart: 'webkitAnimationStart',
+    onmsanimationstart: 'MSAnimationStart',
+  }),
 };
 
 /**
  * Detects browser-specific names of browser features by checking availability
- * of browser-specific CSS atributes in a DOM element.
+ * of browser-specific properties in given object instance.
  *
- * @param defaultName name used if nothing else detected (standard-compliant name)
- * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
- * @return value from candidateMap or defaultName
+ * @param {Object} instance object that will be checked for existence of properties
+ * @param {String} defaultName name used if nothing else detected (standard-compliant name)
+ * @param {Object} candidateMap browser-specific properties (keys) mapped to feature names (values)
+ * @return {String} value from candidateMap or defaultName
  */
-function getFeatureName(defaultName, candidateMap) {
-  var elem = document.createElement('fakeelement');
-
+function featureNameFromProperty(instance, defaultName, candidateMap) {
   for (var key in candidateMap) {
-    if (typeof elem.style[key] !== 'undefined') {
+    if (typeof instance[key] !== 'undefined') {
       return candidateMap[key];
     }
   }
