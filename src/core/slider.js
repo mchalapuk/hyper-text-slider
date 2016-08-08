@@ -324,10 +324,16 @@ function createArrowButtons(priv) {
 function createDotButtons(priv) {
   var dots = create(Layout.DOTS);
   priv.elem.appendChild(dots);
+  dots.addEventListener('click', function(evt) {
+    var index = dots.childNodes.indexOf(evt.target);
+    if (index === -1) {
+      return;
+    }
+    moveTo(priv, index);
+  });
 
   for (var i = 0; i < priv.slides.length; ++i) {
     var dot = create(Layout.DOT);
-    dot.addEventListener('click', moveTo.bind(null, priv, i));
     dots.appendChild(dot);
     priv.slides[i].dot = dot;
   }

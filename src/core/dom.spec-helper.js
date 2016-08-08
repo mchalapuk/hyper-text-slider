@@ -40,6 +40,9 @@ function EventTarget() {
     listeners[eventType].splice(listeners[eventType].indexOf(callback), 1);
   };
   that.dispatchEvent = function(event) {
+    if (!event.target) {
+      event.target = that;
+    }
     (listeners[event.type] || []).forEach(function(listener) {
       listener.apply(that, [ event ]);
     });

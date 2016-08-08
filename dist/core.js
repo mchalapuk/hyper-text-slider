@@ -1067,34 +1067,42 @@ function getEnabledOptions(element) {
 */
 'use strict';
 
+var element = document.createElement('div');
+var nameFromDomProperty = featureNameFromProperty.bind(null, element);
+var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
+
 module.exports = {
-  transformPropertyName: getFeatureName('transform', {
+  transformPropertyName: nameFromCssProperty('transform', {
     transform: 'transform',
     OTransform: '-o-transform',
     MozTransform: '-moz-transform',
     WebkitTransform: '-webkit-transform',
   }),
-  transitionEventName: getFeatureName('transitionend', {
+  transitionEventName: nameFromCssProperty('transitionend', {
     transition: 'transitionend',
     OTransition: 'oTransitionEnd',
     MozTransition: 'transitionend',
     WebkitTransition: 'webkitTransitionEnd',
   }),
+  animationEventName: nameFromDomProperty('animationstart', {
+    onanimationstart: 'animationstart',
+    onwebkitanimationstart: 'webkitAnimationStart',
+    onmsanimationstart: 'MSAnimationStart',
+  }),
 };
 
 /**
  * Detects browser-specific names of browser features by checking availability
- * of browser-specific CSS atributes in a DOM element.
+ * of browser-specific properties in given object instance.
  *
- * @param defaultName name used if nothing else detected (standard-compliant name)
- * @param candidateMap browser-specific css attribute names (keys) mapped to feature names (values)
- * @return value from candidateMap or defaultName
+ * @param {Object} instance object that will be checked for existence of properties
+ * @param {String} defaultName name used if nothing else detected (standard-compliant name)
+ * @param {Object} candidateMap browser-specific properties (keys) mapped to feature names (values)
+ * @return {String} value from candidateMap or defaultName
  */
-function getFeatureName(defaultName, candidateMap) {
-  var elem = document.createElement('fakeelement');
-
+function featureNameFromProperty(instance, defaultName, candidateMap) {
   for (var key in candidateMap) {
-    if (typeof elem.style[key] !== 'undefined') {
+    if (typeof instance[key] !== 'undefined') {
       return candidateMap[key];
     }
   }
@@ -1711,10 +1719,16 @@ function createArrowButtons(priv) {
 function createDotButtons(priv) {
   var dots = create(Layout.DOTS);
   priv.elem.appendChild(dots);
+  dots.addEventListener('click', function(evt) {
+    var index = dots.childNodes.indexOf(evt.target);
+    if (index === -1) {
+      return;
+    }
+    moveTo(priv, index);
+  });
 
   for (var i = 0; i < priv.slides.length; ++i) {
     var dot = create(Layout.DOT);
-    dot.addEventListener('click', moveTo.bind(null, priv, i));
     dots.appendChild(dot);
     priv.slides[i].dot = dot;
   }
