@@ -50,8 +50,6 @@ describe('boot', function() {
     });
 
     it('all Slider instances should be started', function() {
-      window.$applyTimeouts();
-
       sliders.forEach(function(slider) {
         expect(slider.currentIndex).toBe(0);
       });
