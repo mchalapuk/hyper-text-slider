@@ -38,6 +38,7 @@ task('lint:sass', [], config.css, function(files) {
   return gulp.src(files.src)
     .pipe(stylelint({
       reporters: [ { formatter: 'string', console: true } ],
+      failAfterError: !watching,
     }))
   ;
 });
