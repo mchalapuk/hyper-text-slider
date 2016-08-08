@@ -111,7 +111,7 @@ function Slider(elem) {
   pub.currentIndex = null;
   Object.defineProperty(pub, 'currentIndex', {
     get: function() { return priv.started? priv.toIndex: null; },
-    set: moveTo.bind(null, priv),
+    set: partial(moveTo, priv),
   });
 
   /**
@@ -177,7 +177,7 @@ function start(priv) {
   }
 
   addTempClass(priv, chooseTransition(priv));
-  priv.phaser.addPhaseListener(onPhaseChange.bind(null, priv));
+  priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
   priv.phaser.startTransition();
 }
 
@@ -307,22 +307,22 @@ function enableControls(priv) {
     createDotButtons(priv);
   }
   if (list.contains(Option.ARROW_KEYS)) {
-    window.addEventListener('keydown', keyBasedMove.bind(null, priv));
+    window.addEventListener('keydown', partial(keyBasedMove, priv));
   }
 }
 
 function createArrowButtons(priv) {
-  var previousButton = create(Layout.ARROW, Layout.ARROW_LEFT);
-  previousButton.addEventListener('click', moveToPrevious.bind(null, priv));
+  var previousButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_LEFT);
+  previousButton.addEventListener('click', partial(moveToPrevious, priv));
   priv.elem.appendChild(previousButton);
 
-  var nextButton = create(Layout.ARROW, Layout.ARROW_RIGHT);
-  nextButton.addEventListener('click', moveToNext.bind(null, priv));
+  var nextButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_RIGHT);
+  nextButton.addEventListener('click', partial(moveToNext, priv));
   priv.elem.appendChild(nextButton);
 }
 
 function createDotButtons(priv) {
-  var dots = create(Layout.DOTS);
+  var dots = create(Layout.CONTROLS, Layout.DOTS);
   priv.elem.appendChild(dots);
   dots.addEventListener('click', function(evt) {
     var index = dots.childNodes.indexOf(evt.target);
@@ -405,6 +405,10 @@ function bindMethods(wrapper, methods, arg) {
   methods.forEach(function(method) {
     wrapper[method.name] = method.bind(wrapper, arg);
   });
+}
+
+function partial(func) {
+  return func.bind.apply(func, [ null ].concat([].slice.call(arguments, 1)));
 }
 
 /*
