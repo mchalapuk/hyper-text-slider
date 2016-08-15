@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,19 +16,19 @@
 
 */
 
-.hermes-layout--slider.is-upgraded {
-  overflow: hidden;
+@keyframes hermesSlideInserted {
+  from {
+    opacity: 0.1%;
+  }
+  to {
+    opacity: 0%;
+  }
 }
 
-.hermes-layout--slide.is-upgraded {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 1;
-
-  .hermes-layout--background,
-  .hermes-layout--content {
-    opacity: 0;
+.hermes-layout--slider.is-upgraded {
+  .hermes-layout--slide {
+    animation-duration: 1ms;
+    animation-name: hermesSlideInserted;
   }
 }
 
