@@ -18,7 +18,7 @@
 'use strict';
 
 var element = document.createElement('div');
-var nameFromDomProperty = featureNameFromProperty.bind(null, element);
+//var nameFromDomProperty = featureNameFromProperty.bind(null, element);
 var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
 
 module.exports = {
@@ -34,10 +34,11 @@ module.exports = {
     MozTransition: 'transitionend',
     WebkitTransition: 'webkitTransitionEnd',
   }),
-  animationEventName: nameFromDomProperty('animationstart', {
-    onanimationstart: 'animationstart',
-    onwebkitanimationstart: 'webkitAnimationStart',
-    onmsanimationstart: 'MSAnimationStart',
+  animationEventName: nameFromCssProperty('animationstart', {
+    animation: 'animationstart',
+    webkitAnimation: 'webkitAnimationStart',
+    MSAnimation: 'MSAnimationStart',
+    MozAnimation: 'MozAnimationStart',
   }),
 };
 
