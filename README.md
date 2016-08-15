@@ -54,7 +54,7 @@ npm install --save hermes-slider
      1. Hermes' CSS (styles of the slider and a declaration
        of the transitions we intend to use).
   -->
-  <link href=bower_components/hermes/dist/hermes.min.css
+  <link href=bower_components/hermes/dist/core.min.css
         rel=stylesheet type=text/css>
   <link href=bower_components/hermes/dist/transitions/zoom-in-out.min.css
         rel=stylesheet type=text/css>
