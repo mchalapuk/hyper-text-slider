@@ -81,7 +81,7 @@
   to {
     opacity: 0%; } }
 
-.hermes-layout--slider.is-upgraded .hermes-layout--slide {
+.hermes-layout--slider.is-upgraded > :not(.hermes-layout--controls) {
   animation-duration: 1ms;
   animation-name: hermesSlideInserted; }
 

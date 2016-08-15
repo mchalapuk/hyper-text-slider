@@ -62,6 +62,10 @@ function start(priv) {
 }
 
 function upgradeSlide(priv, slideElement) {
+  if (!slideElement.classList.contains(Layout.SLIDE)) {
+    slideElement.classList.add(Layout.SLIDE);
+  }
+
   var contentElement = slideElement.querySelector(Selector.CONTENT);
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
 
@@ -118,5 +122,10 @@ function noop() {
 
 /*
   eslint-env node, browser
+ */
+
+/*
+  eslint
+    complexity: [2, 5],
  */
 
