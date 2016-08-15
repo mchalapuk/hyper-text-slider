@@ -22,7 +22,6 @@ module.exports = Upgrader;
 var feature = require('./detect-features');
 
 var Layout = require('../enums/layout');
-var Option = require('../enums/option');
 var Flag = require('../enums/flag');
 
 var Selector = (function() {

@@ -1823,7 +1823,6 @@ module.exports = Upgrader;
 var feature = require('./detect-features');
 
 var Layout = require('../enums/layout');
-var Option = require('../enums/option');
 var Flag = require('../enums/flag');
 
 var Selector = (function() {
@@ -1960,7 +1959,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":15,"../enums/layout":16,"../enums/option":18,"./detect-features":11}],15:[function(require,module,exports){
+},{"../enums/flag":15,"../enums/layout":16,"./detect-features":11}],15:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2351,13 +2350,13 @@ var Option = {
   AUTOPLAY: 'hermes-autoplay',
 
   /**
-   * Creates side arrow buttons.
+   * Shows side arrow buttons.
    *
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
    * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
+   * @checked continuously
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
    *
@@ -2366,12 +2365,12 @@ var Option = {
   SHOW_ARROWS: 'hermes-show-arrows',
 
   /**
-   * Creates dot button for each slide.
+   * Shows dot button for each slide.
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
    * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
+   * @checked continuously
    * @see Slider.prototype.currentIndex
    *
    * @fqn Option.SHOW_DOTS
