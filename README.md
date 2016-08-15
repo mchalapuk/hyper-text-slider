@@ -72,9 +72,7 @@ npm install --save hermes-slider
        to the slider element; this is a minimal configuration, but you can get
        pretty wild in here; please consult documentation for details).
   -->
-  <div class="hermes-layout--slider
-              hermes-transition--zoom-in-out
-              hermes-defaults">
+  <div class="hermes-layout--slider hermes-defaults">
     <div id="hello">
       <h1>Hello, Hermes!</h2>
     </div>

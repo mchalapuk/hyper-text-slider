@@ -1453,6 +1453,8 @@ var Marker = require('../enums/marker');
 var Flag = require('../enums/flag');
 var Pattern = require('../enums/pattern');
 
+var DEFAULT_TRANSITION = 'hermes-transition--zoom-in-out';
+
 // public
 
 /**
@@ -1788,13 +1790,12 @@ function onPhaseChange(priv, phase) {
 
 function chooseTransition(priv) {
   var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
-  return (match? match[0]: false) || random(priv.transitions);
+  return match && match[0] ||
+      (priv.transitions.length && random(priv.transitions) ||
+      DEFAULT_TRANSITION);
 }
 
 function random(array) {
-  if (array.length === 0) {
-    return 'hermes-no-transition';
-  }
   return array[parseInt(Math.random() * array.length, 10)];
 }
 
