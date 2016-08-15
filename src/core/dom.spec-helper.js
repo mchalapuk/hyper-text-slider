@@ -223,6 +223,19 @@ function MouseEvent(type, target) {
 MouseEvent.prototype = new Event();
 
 /**
+ * @see https://developer.mozilla.org/pl/docs/Web/API/AnimationEvent
+ */
+function AnimationEvent(type, animationName) {
+  var that = this;
+  Event.call(that, type);
+  that.animationName = animationName;
+
+  return that;
+}
+
+AnimationEvent.prototype = new Event();
+
+/**
  * @see https://developer.mozilla.org/pl/docs/Web/API/Document
  */
 function Document() {
@@ -296,6 +309,7 @@ global.CSSStyleDeclaration = CSSStyleDeclaration;
 global.TransitionEvent = TransitionEvent;
 global.KeyboardEvent = KeyboardEvent;
 global.MouseEvent = MouseEvent;
+global.AnimationEvent = AnimationEvent;
 global.Document = Document;
 global.Window = Window;
 
