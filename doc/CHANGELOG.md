@@ -15,6 +15,12 @@
 [option-class-names]: class-names.md#option-class-names
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.3.1
+ 
+ * Made specifying transition class optional (`hermes-transition--zoom-in-out` is default).
+ * All direct children of slider are treated as slides.
+ * Fixed click event listener of dot buttons.
+
 # v0.3.0
  
  * Fixed DOM upgrade procedure.
