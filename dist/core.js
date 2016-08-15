@@ -1726,7 +1726,7 @@ function createDotButtons(priv) {
   priv.dotsElement = create(Layout.CONTROLS, Layout.DOTS);
   priv.elem.appendChild(priv.dotsElement);
   priv.dotsElement.addEventListener('click', function(evt) {
-    var index = priv.dotsElement.childNodes.indexOf(evt.target);
+    var index = [].indexOf.call(priv.dotsElement.childNodes, evt.target);
     if (index === -1) {
       return;
     }
