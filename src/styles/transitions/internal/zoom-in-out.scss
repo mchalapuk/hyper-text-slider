@@ -26,12 +26,14 @@
       }
     }
   }
+
   &.hermes-during-transition {
     .hermes-slide-from {
       .hermes-layout--content {
         @include transform(scale(1.35, 1.15));
       }
     }
+
     .hermes-slide-to {
       .hermes-layout--content {
         @include transform(scale(1, 1));

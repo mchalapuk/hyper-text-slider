@@ -23,6 +23,7 @@
     .hermes-layout--background {
       @include transition(all $time * 0.7 ease-out 300ms, opacity 750ms ease-in-out 300ms);
     }
+
     .hermes-layout--content {
       @include transition(all $time ease-out 600ms, opacity 600ms ease-in-out 750ms);
     }
@@ -31,6 +32,7 @@
       .hermes-layout--background {
         @include transition(all $time * 0.7 ease-out, opacity 750ms ease-in-out 300ms);
       }
+
       .hermes-layout--content {
         @include transition(all $time ease-out, opacity 500ms ease-in-out);
       }
