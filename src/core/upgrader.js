@@ -22,6 +22,7 @@ module.exports = Upgrader;
 var feature = require('./detect-features');
 
 var Layout = require('../enums/layout');
+var Option = require('../enums/option');
 var Flag = require('../enums/flag');
 
 var Selector = (function() {
@@ -36,6 +37,7 @@ function Upgrader(elem) {
   var priv = {};
   priv.onSlideUpgraded = noop;
   priv.elem = elem;
+  priv.dotsElement = null;
 
   var pub = {};
   pub.start = start.bind(pub, priv);
@@ -49,8 +51,44 @@ function Upgrader(elem) {
 }
 
 function start(priv) {
-  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
+  enableControls(priv);
+  upgradeSlides(priv);
+
   priv.elem.classList.add(Flag.UPGRADED);
+}
+
+function enableControls(priv) {
+  var list = priv.elem.classList;
+
+  if (list.contains(Option.CREATE_ARROWS)) {
+    createArrowButtons(priv);
+  }
+  if (list.contains(Option.CREATE_DOTS)) {
+    createDotButtons(priv);
+  }
+}
+
+function createArrowButtons(priv) {
+  var previousButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_LEFT);
+  priv.elem.appendChild(previousButton);
+
+  var nextButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_RIGHT);
+  priv.elem.appendChild(nextButton);
+}
+
+function createDotButtons(priv) {
+  priv.dotsElement = create(Layout.CONTROLS, Layout.DOTS);
+  priv.elem.appendChild(priv.dotsElement);
+}
+
+function createDot(priv, slideElement) {
+  var dot = create(Layout.CONTROLS, Layout.DOT);
+  priv.dotsElement.appendChild(dot);
+  slideElement.dot = dot;
+}
+
+function upgradeSlides(priv) {
+  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
 
   function maybeUpgradeSlide(evt) {
     if (evt.animationName === 'hermesSlideInserted' &&
@@ -70,6 +108,9 @@ function upgradeSlide(priv, slideElement) {
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
 
   if (contentElement !== null && backgroundElement !== null) {
+    if (priv.dotsElement) {
+      createDot(priv, slideElement);
+    }
     priv.onSlideUpgraded.call(null, slideElement);
     return;
   }
@@ -126,6 +167,6 @@ function noop() {
 
 /*
   eslint
-    complexity: [2, 5],
+    complexity: [2, 6],
  */
 

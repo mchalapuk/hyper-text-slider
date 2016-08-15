@@ -73,7 +73,6 @@ function Slider(elem) {
 
   var priv = {};
   priv.elem = elem;
-  priv.dotsElement = null;
   priv.transitions = [];
   priv.phaser = phaser(elem);
   priv.slides = [];
@@ -174,10 +173,14 @@ function start(priv, callback) {
   priv.elem.className = priv.elem.className.replace(Pattern.TRANSITION, '').replace('\s+', ' ');
 
   expandOptionGroups(priv);
-  enableControls(priv);
+  if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
+    window.addEventListener('keydown', partial(keyBasedMove, priv), false);
+  }
+  priv.elem.addEventListener('click', partial(clickBasedMove, priv), false);
 
   priv.upgrader.onSlideUpgraded = acceptSlide.bind(null, priv);
   priv.upgrader.start();
+  priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
 
   priv.started = true;
 }
@@ -254,16 +257,7 @@ function searchForTransitions(elem) {
   return transitions;
 }
 
-function create() {
-  var elem = document.createElement('div');
-  elem.className = [].join.call(arguments, ' ');
-  return elem;
-}
-
 function acceptSlide(priv, slideElement) {
-  if (priv.dotsElement) {
-    createDot(priv, slideElement);
-  }
   slideElement.classList.add(Flag.UPGRADED);
 
   priv.slides.push(slideElement);
@@ -286,7 +280,6 @@ function moveToFirstSlide(priv) {
   }
 
   addTempClass(priv, chooseTransition(priv));
-  priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
   priv.phaser.startTransition();
 }
 
@@ -302,55 +295,7 @@ function expandOptionGroups(priv) {
   }
 }
 
-function enableControls(priv) {
-  var list = priv.elem.classList;
-
-  if (list.contains(Option.CREATE_ARROWS)) {
-    createArrowButtons(priv);
-  }
-  if (list.contains(Option.CREATE_DOTS)) {
-    createDotButtons(priv);
-  }
-  if (list.contains(Option.ARROW_KEYS)) {
-    window.addEventListener('keydown', partial(keyBasedMove, priv));
-  }
-}
-
-function createArrowButtons(priv) {
-  var previousButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_LEFT);
-  previousButton.addEventListener('click', partial(moveToPrevious, priv));
-  priv.elem.appendChild(previousButton);
-
-  var nextButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_RIGHT);
-  nextButton.addEventListener('click', partial(moveToNext, priv));
-  priv.elem.appendChild(nextButton);
-}
-
-function createDotButtons(priv) {
-  priv.dotsElement = create(Layout.CONTROLS, Layout.DOTS);
-  priv.elem.appendChild(priv.dotsElement);
-  priv.dotsElement.addEventListener('click', function(evt) {
-    var index = [].indexOf.call(priv.dotsElement.childNodes, evt.target);
-    if (index === -1) {
-      return;
-    }
-    moveTo(priv, index);
-  });
-}
-
-function createDot(priv, slideElement) {
-  var dot = create(Layout.DOT);
-  priv.dotsElement.appendChild(dot);
-  slideElement.dot = dot;
-}
-
-function keyBasedMove(priv, event) {
-  switch (event.key) {
-    case 'ArrowLeft': moveToPrevious(priv); break;
-    case 'ArrowRight': moveToNext(priv); break;
-    default: break;
-  }
-}
+// transition functions
 
 function removeMarkersAndFlags(priv) {
   var fromSlide = priv.slides[priv.fromIndex];
@@ -390,7 +335,35 @@ function onPhaseChange(priv, phase) {
   }
 }
 
-// transition change functions
+function clickBasedMove(priv, event) {
+  var target = event.target;
+  if (!target.classList.contains(Layout.CONTROLS)) {
+    return;
+  }
+
+  if (target.classList.contains(Layout.ARROW_LEFT)) {
+    moveToPrevious(priv);
+    return;
+  }
+  if (target.classList.contains(Layout.ARROW_RIGHT)) {
+    moveToNext(priv);
+    return;
+  }
+  if (target.classList.contains(Layout.DOT)) {
+    moveTo(priv, [].indexOf.call(target.parentNode.childNodes, target));
+    return;
+  }
+
+  throw new Error('unknown controls element clicked');
+}
+
+function keyBasedMove(priv, event) {
+  switch (event.key) {
+    case 'ArrowLeft': moveToPrevious(priv); break;
+    case 'ArrowRight': moveToNext(priv); break;
+    default: break;
+  }
+}
 
 function chooseTransition(priv) {
   var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
@@ -421,5 +394,10 @@ function noop() {
 
 /*
   eslint-env node, browser
+ */
+
+/*
+  eslint
+    complexity: [2, 5],
  */
 
