@@ -30,11 +30,8 @@
  * Added possibility of setting all [options][option-class-names]
   on document's `<body>`.
  * Documented [Slide ID Class Name][slide-id].
- * Updated [gulp-eslint][gulp-eslint] to 2.0.0.
  * [gulpfile.js][v0.2.5_1] and [build.config.js][v0.2.5_2] are now linted.
- * Updated [gulp-sass][gulp-sass] to 2.3.2.
  * Sass sources are now linted with [stylelint][stylelint].
- * Updated [gulp-uglify][gulp-uglify] to 1.5.4.
  * Added missing unit tests.
 
 [v0.2.5_1]: gulpfile.js
