@@ -97,6 +97,28 @@ function Node(nodeName) {
 }
 
 Node.prototype = new EventTarget();
+Object.defineProperty(Node.prototype, 'nextSibling', {
+  get: function() { return getSibling(this, +1); },
+  enumerable: true,
+});
+Object.defineProperty(Node.prototype, 'previousSibling', {
+  get: function() { return getSibling(this, -1); },
+  enumerable: true,
+});
+
+// returns a sibling of given node
+function getSibling(node, relativeIndex) {
+  var parent = node.parentNode;
+  if (parent === null) {
+    return null;
+  }
+  var currentIndex = parent.childNodes.indexOf(node);
+  var siblingIndex = currentIndex + relativeIndex;
+  if (siblingIndex < 0 || siblingIndex > parent.childNodes.length - 1) {
+    return null;
+  }
+  return parent.childNodes[siblingIndex];
+}
 
 /**
  * @see https://developer.mozilla.org/pl/docs/Web/API/Element
