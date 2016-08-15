@@ -69,8 +69,8 @@ npm install --save hermes-slider
 
   <!--
      3. Declaration of a slider (features are enabled by adding class names
-       to the slider element; this is a minimal configuration, but you can get
-       pretty wild in here; please consult documentation for details).
+       to the slider element; this is a minimal configuration, but you can
+       get pretty wild in here; please consult documentation for details).
   -->
   <div class="hermes-layout--slider hermes-defaults">
     <div id="hello">
@@ -85,7 +85,7 @@ npm install --save hermes-slider
      4. And Hermes script (it could be placed in the head section,
        but page may render a little faster this way).
   -->
-  <script src=bower_components/hermes/dist/hermes.min.js type=text/javascript>
+  <script src=bower_components/hermes/dist/core.min.js type=text/javascript>
   </script>
 </body>
 </html>
