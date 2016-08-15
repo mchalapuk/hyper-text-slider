@@ -27,6 +27,7 @@ limitations under the License.
 <li>[hermes-layout--slide](class-names.md#hermes-layout--slide)
 <li>[hermes-layout--background](class-names.md#hermes-layout--background)
 <li>[hermes-layout--content](class-names.md#hermes-layout--content)
+<li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
 <li>[hermes-layout--arrow](class-names.md#hermes-layout--arrow)
 <li>[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left)
 <li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
@@ -74,6 +75,7 @@ Name | Description | Usage | Client HTML
 [hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
 [hermes-layout--background](class-names.md#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](class-names.md#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
+[hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
 [hermes-layout--arrow](class-names.md#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
 [hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
 [hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
@@ -118,6 +120,15 @@ is present in slider declaration, it must contain all contents of a slide. This 
 must be used in all definitions of content transitions.
 
 *@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
+
+#### hermes-layout--controls
+
+Set during upgrade on all generated controls.
+
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
+
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--arrow
 
@@ -191,7 +202,7 @@ Each option class is checked by the slider in one of two ways:
 
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
-[hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods. | once | document's `<body>`
+[hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
 [hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
@@ -204,7 +215,7 @@ Name | Description | Checked | Target Element
 #### hermes-autoboot
 
 Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page
-and invokes their [Slider.prototype.start()](javascript-api.md#sliderprototypestart) methods.
+and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods.
 
 This options can be set only on `<body>` element.
 It enabled using Hermes without any JavaScript programming.
@@ -219,7 +230,7 @@ It enabled using Hermes without any JavaScript programming.
 
 *@see* - [boot(containerElement)](javascript-api.md#bootcontainerelement)
 
-*@see* - [Slider.prototype.start()](javascript-api.md#sliderprototypestart)
+*@see* - [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
 
 #### hermes-defaults
 

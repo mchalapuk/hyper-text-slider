@@ -89,6 +89,20 @@ var Layout = {
   CONTENT: 'hermes-layout--content',
 
   /**
+   * Set during upgrade on all generated controls.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.CONTROLS
+   */
+  CONTROLS: 'hermes-layout--controls',
+
+  /**
    * Set during upgrade on generated arrow buttons.
    *
    * This class name must not be used in client HTML.
