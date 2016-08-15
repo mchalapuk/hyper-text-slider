@@ -962,7 +962,7 @@ function autoboot(containerElement) {
 */
 
 
-},{"../enums/option":17,"./boot":10}],10:[function(require,module,exports){
+},{"../enums/option":18,"./boot":10}],10:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1047,7 +1047,7 @@ function getEnabledOptions(element) {
 */
 
 
-},{"../enums/option":17,"./slider":13}],11:[function(require,module,exports){
+},{"../enums/option":18,"./slider":13}],11:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1393,7 +1393,7 @@ MultiMap.prototype.put = function(key, value) {
 */
 
 
-},{"../enums/phase":19,"./detect-features":11,"precond":2}],13:[function(require,module,exports){
+},{"../enums/phase":20,"./detect-features":11,"precond":2}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1414,7 +1414,8 @@ MultiMap.prototype.put = function(key, value) {
 'use strict';
 
 var phaser = require('./phaser');
-var feature = require('./detect-features');
+var upgrader = require('./upgrader');
+
 var precond = require('precond');
 
 /**
@@ -1452,14 +1453,6 @@ var Marker = require('../enums/marker');
 var Flag = require('../enums/flag');
 var Pattern = require('../enums/pattern');
 
-var Selector = (function() {
-  var selectors = {};
-  for (var name in Layout) {
-    selectors[name] = '.' + Layout[name];
-  }
-  return selectors;
-}());
-
 // public
 
 /**
@@ -1478,6 +1471,7 @@ function Slider(elem) {
   priv.transitions = [];
   priv.phaser = phaser(elem);
   priv.slides = [];
+  priv.upgrader = upgrader(elem);
   priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
@@ -1575,7 +1569,9 @@ function start(priv, callback) {
 
   expandOptionGroups(priv);
   enableControls(priv);
-  upgradeSlides(priv);
+
+  priv.upgrader.onSlideUpgraded = acceptSlide.bind(null, priv);
+  priv.upgrader.start();
 
   priv.started = true;
 }
@@ -1658,42 +1654,6 @@ function create() {
   return elem;
 }
 
-function upgradeSlides(priv) {
-  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
-  priv.elem.classList.add(Flag.UPGRADED);
-
-  function maybeUpgradeSlide(evt) {
-    if (evt.animationName === 'hermesSlideInserted' &&
-        evt.target.parentNode === priv.elem &&
-        !evt.target.classList.contains(Layout.CONTROLS)) {
-      upgradeSlide(priv, evt.target);
-    }
-  }
-}
-
-function upgradeSlide(priv, slideElement) {
-  var contentElement = slideElement.querySelector(Selector.CONTENT);
-  var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
-
-  if (contentElement !== null && backgroundElement !== null) {
-    acceptSlide(priv, slideElement);
-    return;
-  }
-
-  if (contentElement === null) {
-    contentElement = createContentElement(slideElement);
-    slideElement.appendChild(contentElement);
-  }
-  priv.phaser.addPhaseTrigger(contentElement);
-
-  if (backgroundElement === null) {
-    backgroundElement = createBackgroundElement(slideElement);
-    slideElement.insertBefore(backgroundElement, contentElement);
-  }
-
-  reinsertNode(slideElement);
-}
-
 function acceptSlide(priv, slideElement) {
   if (priv.dotsElement) {
     createDot(priv, slideElement);
@@ -1701,32 +1661,11 @@ function acceptSlide(priv, slideElement) {
   slideElement.classList.add(Flag.UPGRADED);
 
   priv.slides.push(slideElement);
+  priv.phaser.addPhaseTrigger(slideElement.querySelector('.'+ Layout.CONTENT));
+
   if (priv.slides.length === 1) {
     moveToFirstSlide(priv);
     priv.startCallback.call(null, priv.pub);
-  }
-}
-
-function createContentElement(slideElement) {
-  var contentElement = create(Layout.CONTENT);
-  while (slideElement.childNodes.length) {
-    contentElement.appendChild(slideElement.childNodes[0]);
-  }
-  return contentElement;
-}
-
-function createBackgroundElement() {
-  return create(Layout.BACKGROUND);
-}
-
-function reinsertNode(node) {
-  var parent = node.parentNode;
-  var next = node.nextSibling;
-  parent.removeChild(node);
-  if (next) {
-    parent.insertBefore(node, next);
-  } else {
-    parent.appendChild(node);
   }
 }
 
@@ -1880,7 +1819,131 @@ function noop() {
  */
 
 
-},{"../enums/flag":14,"../enums/layout":15,"../enums/marker":16,"../enums/option":17,"../enums/pattern":18,"./detect-features":11,"./phaser":12,"precond":2}],14:[function(require,module,exports){
+},{"../enums/flag":15,"../enums/layout":16,"../enums/marker":17,"../enums/option":18,"../enums/pattern":19,"./phaser":12,"./upgrader":14,"precond":2}],14:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+module.exports = Upgrader;
+
+var feature = require('./detect-features');
+
+var Layout = require('../enums/layout');
+var Flag = require('../enums/flag');
+
+var Selector = (function() {
+  var selectors = {};
+  for (var name in Layout) {
+    selectors[name] = '.' + Layout[name];
+  }
+  return selectors;
+}());
+
+function Upgrader(elem) {
+  var priv = {};
+  priv.onSlideUpgraded = noop;
+  priv.elem = elem;
+
+  var pub = {};
+  pub.start = start.bind(pub, priv);
+
+  Object.defineProperty(pub, 'onSlideUpgraded', {
+    set: function(callback) { priv.onSlideUpgraded = callback; },
+    get: function() { return priv.onSlideUpgraded; },
+    enumerable: true,
+  });
+  return pub;
+}
+
+function start(priv) {
+  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
+  priv.elem.classList.add(Flag.UPGRADED);
+
+  function maybeUpgradeSlide(evt) {
+    if (evt.animationName === 'hermesSlideInserted' &&
+        evt.target.parentNode === priv.elem &&
+        !evt.target.classList.contains(Layout.CONTROLS)) {
+      upgradeSlide(priv, evt.target);
+    }
+  }
+}
+
+function upgradeSlide(priv, slideElement) {
+  var contentElement = slideElement.querySelector(Selector.CONTENT);
+  var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
+
+  if (contentElement !== null && backgroundElement !== null) {
+    priv.onSlideUpgraded.call(null, slideElement);
+    return;
+  }
+
+  if (contentElement === null) {
+    contentElement = createContentElement(slideElement);
+    slideElement.appendChild(contentElement);
+  }
+
+  if (backgroundElement === null) {
+    backgroundElement = createBackgroundElement(slideElement);
+    slideElement.insertBefore(backgroundElement, contentElement);
+  }
+
+  reinsertNode(slideElement);
+}
+
+function createContentElement(slideElement) {
+  var contentElement = create(Layout.CONTENT);
+  while (slideElement.childNodes.length) {
+    contentElement.appendChild(slideElement.childNodes[0]);
+  }
+  return contentElement;
+}
+
+function createBackgroundElement() {
+  return create(Layout.BACKGROUND);
+}
+
+function reinsertNode(node) {
+  var parent = node.parentNode;
+  var next = node.nextSibling;
+  parent.removeChild(node);
+  if (next) {
+    parent.insertBefore(node, next);
+  } else {
+    parent.appendChild(node);
+  }
+}
+
+function create() {
+  var elem = document.createElement('div');
+  elem.className = [].join.call(arguments, ' ');
+  return elem;
+}
+
+function noop() {
+  // noop
+}
+
+/*
+  eslint-env node, browser
+ */
+
+
+},{"../enums/flag":15,"../enums/layout":16,"./detect-features":11}],15:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1933,7 +1996,7 @@ module.exports = Flag;
 */
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2116,7 +2179,7 @@ module.exports = Layout;
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2175,7 +2238,7 @@ module.exports = Marker;
 */
 
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2335,7 +2398,7 @@ module.exports = Option;
 */
 
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -2399,7 +2462,7 @@ module.exports = Pattern;
 */
 
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk

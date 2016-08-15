@@ -18,7 +18,8 @@
 'use strict';
 
 var phaser = require('./phaser');
-var feature = require('./detect-features');
+var upgrader = require('./upgrader');
+
 var precond = require('precond');
 
 /**
@@ -56,14 +57,6 @@ var Marker = require('../enums/marker');
 var Flag = require('../enums/flag');
 var Pattern = require('../enums/pattern');
 
-var Selector = (function() {
-  var selectors = {};
-  for (var name in Layout) {
-    selectors[name] = '.' + Layout[name];
-  }
-  return selectors;
-}());
-
 // public
 
 /**
@@ -82,6 +75,7 @@ function Slider(elem) {
   priv.transitions = [];
   priv.phaser = phaser(elem);
   priv.slides = [];
+  priv.upgrader = upgrader(elem);
   priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
@@ -179,7 +173,9 @@ function start(priv, callback) {
 
   expandOptionGroups(priv);
   enableControls(priv);
-  upgradeSlides(priv);
+
+  priv.upgrader.onSlideUpgraded = acceptSlide.bind(null, priv);
+  priv.upgrader.start();
 
   priv.started = true;
 }
@@ -262,42 +258,6 @@ function create() {
   return elem;
 }
 
-function upgradeSlides(priv) {
-  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
-  priv.elem.classList.add(Flag.UPGRADED);
-
-  function maybeUpgradeSlide(evt) {
-    if (evt.animationName === 'hermesSlideInserted' &&
-        evt.target.parentNode === priv.elem &&
-        !evt.target.classList.contains(Layout.CONTROLS)) {
-      upgradeSlide(priv, evt.target);
-    }
-  }
-}
-
-function upgradeSlide(priv, slideElement) {
-  var contentElement = slideElement.querySelector(Selector.CONTENT);
-  var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
-
-  if (contentElement !== null && backgroundElement !== null) {
-    acceptSlide(priv, slideElement);
-    return;
-  }
-
-  if (contentElement === null) {
-    contentElement = createContentElement(slideElement);
-    slideElement.appendChild(contentElement);
-  }
-  priv.phaser.addPhaseTrigger(contentElement);
-
-  if (backgroundElement === null) {
-    backgroundElement = createBackgroundElement(slideElement);
-    slideElement.insertBefore(backgroundElement, contentElement);
-  }
-
-  reinsertNode(slideElement);
-}
-
 function acceptSlide(priv, slideElement) {
   if (priv.dotsElement) {
     createDot(priv, slideElement);
@@ -305,32 +265,11 @@ function acceptSlide(priv, slideElement) {
   slideElement.classList.add(Flag.UPGRADED);
 
   priv.slides.push(slideElement);
+  priv.phaser.addPhaseTrigger(slideElement.querySelector('.'+ Layout.CONTENT));
+
   if (priv.slides.length === 1) {
     moveToFirstSlide(priv);
     priv.startCallback.call(null, priv.pub);
-  }
-}
-
-function createContentElement(slideElement) {
-  var contentElement = create(Layout.CONTENT);
-  while (slideElement.childNodes.length) {
-    contentElement.appendChild(slideElement.childNodes[0]);
-  }
-  return contentElement;
-}
-
-function createBackgroundElement() {
-  return create(Layout.BACKGROUND);
-}
-
-function reinsertNode(node) {
-  var parent = node.parentNode;
-  var next = node.nextSibling;
-  parent.removeChild(node);
-  if (next) {
-    parent.insertBefore(node, next);
-  } else {
-    parent.appendChild(node);
   }
 }
 
