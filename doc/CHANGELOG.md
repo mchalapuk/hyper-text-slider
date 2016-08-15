@@ -6,20 +6,25 @@
 [hermes-autoboot]: doc/class-names.md#hermes-autoboot
 [hermes-defaults]: doc/class-names.md#hermes-defaults
 [hermes-responsive-controls]: doc/class-names.md#hermes-responsive-controls
+[layout-controls]: doc/class-names.md#hermes-layout--controls
 
 [hermes-boot]: doc/javascript-api.md#bootcontainerelement
+[slider-start]: doc/javascript-api.md#sliderstartcallback
 
 [time-class-names]: doc/class-names.md#time-class-names
 [option-class-names]: doc/class-names.md#option-class-names
 [slide-id]: doc/class-names.md#hermes-slide-id-s
 
-# v0.2.5
-
+# v0.3.0
+ 
+ * Fixed DOM upgrade procedure.
  * Removed `hermes-layout--inner` CSS class.
  * Added [boot(containerElement)][hermes-boot] procedure.
  * Replaced `hermes-autostart` option with [hermes-autoboot][hermes-autoboot].
- * Added [hermess-responsive-controls][hermes-responsive-controls] option to
+ * Made [`Slider.start(callback)` ][slider-start] method asynchronouse
+ * Added [hermes-responsive-controls][hermes-responsive-controls] option to
   [hermes-defaults][hermes-defaults].
+ * Added [hermes-layout--controls][layout-controls] class name.
  * Added default slide time of 5 sec.
  * Documented [Time Class Names][time-class-names].
  * Added possibility of setting all [options][option-class-names]
