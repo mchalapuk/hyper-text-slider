@@ -51,21 +51,11 @@ function Upgrader(elem) {
 }
 
 function start(priv) {
-  enableControls(priv);
+  createArrowButtons(priv);
+  createDotButtons(priv);
   upgradeSlides(priv);
 
   priv.elem.classList.add(Flag.UPGRADED);
-}
-
-function enableControls(priv) {
-  var list = priv.elem.classList;
-
-  if (list.contains(Option.CREATE_ARROWS)) {
-    createArrowButtons(priv);
-  }
-  if (list.contains(Option.CREATE_DOTS)) {
-    createDotButtons(priv);
-  }
 }
 
 function createArrowButtons(priv) {
@@ -108,9 +98,7 @@ function upgradeSlide(priv, slideElement) {
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
 
   if (contentElement !== null && backgroundElement !== null) {
-    if (priv.dotsElement) {
-      createDot(priv, slideElement);
-    }
+    createDot(priv, slideElement);
     priv.onSlideUpgraded.call(null, slideElement);
     return;
   }

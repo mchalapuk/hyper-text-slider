@@ -16,7 +16,14 @@
 
 */
 
+.hermes-show-dots {
+  .hermes-layout--dots {
+    display: block;
+  }
+}
+
 .hermes-layout--dots {
+  display: none;
   position: absolute;
   width: 100%;
   top: 86%;

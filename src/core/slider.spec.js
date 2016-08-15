@@ -240,8 +240,8 @@ describe('slider', function() {
 
       var defaultOptions = [
         'hermes-autoplay',
-        'hermes-create-arrows',
-        'hermes-create-dots',
+        'hermes-show-arrows',
+        'hermes-show-dots',
         'hermes-arrow-keys',
         'hermes-responsive-controls',
       ];

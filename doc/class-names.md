@@ -37,8 +37,8 @@ limitations under the License.
 <li>[hermes-autoboot](class-names.md#hermes-autoboot)
 <li>[hermes-defaults](class-names.md#hermes-defaults)
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
-<li>[hermes-create-arrows](class-names.md#hermes-create-arrows)
-<li>[hermes-create-dots](class-names.md#hermes-create-dots)
+<li>[hermes-show-arrows](class-names.md#hermes-show-arrows)
+<li>[hermes-show-dots](class-names.md#hermes-show-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
 3. [Time Class Names](class-names.md#time-class-names)<ul>
@@ -203,10 +203,10 @@ Each option class is checked by the slider in one of two ways:
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-create-arrows](class-names.md#hermes-create-arrows), [hermes-create-dots](class-names.md#hermes-create-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-show-arrows](class-names.md#hermes-show-arrows), [hermes-show-dots](class-names.md#hermes-show-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-create-arrows](class-names.md#hermes-create-arrows) | Creates side arrow buttons. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-create-dots](class-names.md#hermes-create-dots) | Creates dot button for each slide. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-show-arrows](class-names.md#hermes-show-arrows) | Shows side arrow buttons. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-show-dots](class-names.md#hermes-show-dots) | Shows dot button for each slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-responsive-controls](class-names.md#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
@@ -236,8 +236,8 @@ It enabled using Hermes without any JavaScript programming.
 
 Adds
 [hermes-autoplay](class-names.md#hermes-autoplay),
-[hermes-create-arrows](class-names.md#hermes-create-arrows),
-[hermes-create-dots](class-names.md#hermes-create-dots),
+[hermes-show-arrows](class-names.md#hermes-show-arrows),
+[hermes-show-dots](class-names.md#hermes-show-dots),
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys),
 [hermes-responsive-controls](class-names.md#hermes-responsive-controls)
 classes to the slider.
@@ -258,14 +258,14 @@ Slider is moved to the next after time specified in [time class name](class-name
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
-#### hermes-create-arrows
+#### hermes-show-arrows
 
-Creates side arrow buttons.
+Shows side arrow buttons.
 
 `click` event on dispatched on left arrow moves slider to previous slide.
 `click` event on dispatched on right arrow moves slider to next slide.
 
-*@checked* - [once](#once)
+*@checked* - [continuously](#continuously)
 
 *@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
@@ -273,13 +273,13 @@ Creates side arrow buttons.
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
-#### hermes-create-dots
+#### hermes-show-dots
 
-Creates dot button for each slide.
+Shows dot button for each slide.
 
 `click` event displatched on dot button moves slider to slide asociated with this dot button.
 
-*@checked* - [once](#once)
+*@checked* - [continuously](#continuously)
 
 *@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 

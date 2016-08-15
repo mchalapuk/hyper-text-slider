@@ -289,8 +289,8 @@ function expandOptionGroups(priv) {
   if (list.contains(Option.DEFAULTS)) {
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
-    list.add(Option.CREATE_ARROWS);
-    list.add(Option.CREATE_DOTS);
+    list.add(Option.SHOW_ARROWS);
+    list.add(Option.SHOW_DOTS);
     list.add(Option.RESPONSIVE_CONTROLS);
   }
 }

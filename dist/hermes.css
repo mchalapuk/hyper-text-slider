@@ -131,8 +131,13 @@
    limitations under the License.
 
 */
+.hermes-show-arrows .hermes-layout--arrow-left,
+.hermes-show-arrows .hermes-layout--arrow-right {
+  display: block; }
+
 .hermes-layout--arrow-left,
 .hermes-layout--arrow-right {
+  display: none;
   position: absolute;
   top: 0;
   width: 20%;
@@ -193,7 +198,11 @@
    limitations under the License.
 
 */
+.hermes-show-dots .hermes-layout--dots {
+  display: block; }
+
 .hermes-layout--dots {
+  display: none;
   position: absolute;
   width: 100%;
   top: 86%;

@@ -1685,8 +1685,8 @@ function expandOptionGroups(priv) {
   if (list.contains(Option.DEFAULTS)) {
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
-    list.add(Option.CREATE_ARROWS);
-    list.add(Option.CREATE_DOTS);
+    list.add(Option.SHOW_ARROWS);
+    list.add(Option.SHOW_DOTS);
     list.add(Option.RESPONSIVE_CONTROLS);
   }
 }
@@ -1852,21 +1852,11 @@ function Upgrader(elem) {
 }
 
 function start(priv) {
-  enableControls(priv);
+  createArrowButtons(priv);
+  createDotButtons(priv);
   upgradeSlides(priv);
 
   priv.elem.classList.add(Flag.UPGRADED);
-}
-
-function enableControls(priv) {
-  var list = priv.elem.classList;
-
-  if (list.contains(Option.CREATE_ARROWS)) {
-    createArrowButtons(priv);
-  }
-  if (list.contains(Option.CREATE_DOTS)) {
-    createDotButtons(priv);
-  }
 }
 
 function createArrowButtons(priv) {
@@ -1909,9 +1899,7 @@ function upgradeSlide(priv, slideElement) {
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
 
   if (contentElement !== null && backgroundElement !== null) {
-    if (priv.dotsElement) {
-      createDot(priv, slideElement);
-    }
+    createDot(priv, slideElement);
     priv.onSlideUpgraded.call(null, slideElement);
     return;
   }
@@ -2336,8 +2324,8 @@ var Option = {
   /**
    * Adds
    * ${link Option.AUTOPLAY},
-   * ${link Option.CREATE_ARROWS},
-   * ${link Option.CREATE_DOTS},
+   * ${link Option.SHOW_ARROWS},
+   * ${link Option.SHOW_DOTS},
    * ${link Option.ARROW_KEYS},
    * ${link Option.RESPONSIVE_CONTROLS}
    * classes to the slider.
@@ -2373,9 +2361,9 @@ var Option = {
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
    *
-   * @fqn Option.CREATE_ARROWS
+   * @fqn Option.SHOW_ARROWS
    */
-  CREATE_ARROWS: 'hermes-create-arrows',
+  SHOW_ARROWS: 'hermes-show-arrows',
 
   /**
    * Creates dot button for each slide.
@@ -2386,9 +2374,9 @@ var Option = {
    * @checked once
    * @see Slider.prototype.currentIndex
    *
-   * @fqn Option.CREATE_DOTS
+   * @fqn Option.SHOW_DOTS
    */
-  CREATE_DOTS: 'hermes-create-dots',
+  SHOW_DOTS: 'hermes-show-dots',
 
   /**
    * Adds keyboard control to slider.

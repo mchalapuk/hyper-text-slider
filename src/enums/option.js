@@ -66,8 +66,8 @@ var Option = {
   /**
    * Adds
    * ${link Option.AUTOPLAY},
-   * ${link Option.CREATE_ARROWS},
-   * ${link Option.CREATE_DOTS},
+   * ${link Option.SHOW_ARROWS},
+   * ${link Option.SHOW_DOTS},
    * ${link Option.ARROW_KEYS},
    * ${link Option.RESPONSIVE_CONTROLS}
    * classes to the slider.
@@ -93,32 +93,32 @@ var Option = {
   AUTOPLAY: 'hermes-autoplay',
 
   /**
-   * Creates side arrow buttons.
+   * Shows side arrow buttons.
    *
    * `click` event on dispatched on left arrow moves slider to previous slide.
    * `click` event on dispatched on right arrow moves slider to next slide.
    *
    * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
+   * @checked continuously
    * @see Slider.prototype.moveToPrevious
    * @see Slider.prototype.moveToNext
    *
-   * @fqn Option.CREATE_ARROWS
+   * @fqn Option.SHOW_ARROWS
    */
-  CREATE_ARROWS: 'hermes-create-arrows',
+  SHOW_ARROWS: 'hermes-show-arrows',
 
   /**
-   * Creates dot button for each slide.
+   * Shows dot button for each slide.
    *
    * `click` event displatched on dot button moves slider to slide asociated with this dot button.
    *
    * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
+   * @checked continuously
    * @see Slider.prototype.currentIndex
    *
-   * @fqn Option.CREATE_DOTS
+   * @fqn Option.SHOW_DOTS
    */
-  CREATE_DOTS: 'hermes-create-dots',
+  SHOW_DOTS: 'hermes-show-dots',
 
   /**
    * Adds keyboard control to slider.
