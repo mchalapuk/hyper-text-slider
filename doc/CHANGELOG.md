@@ -3,17 +3,17 @@
 [gulp-uglify]: https://github.com/terinjokes/gulp-uglify
 [stylelint]: https://github.com/stylelint/stylelint
 
-[hermes-autoboot]: doc/class-names.md#hermes-autoboot
-[hermes-defaults]: doc/class-names.md#hermes-defaults
-[hermes-responsive-controls]: doc/class-names.md#hermes-responsive-controls
-[layout-controls]: doc/class-names.md#hermes-layout--controls
+[hermes-autoboot]: class-names.md#hermes-autoboot
+[hermes-defaults]: class-names.md#hermes-defaults
+[hermes-responsive-controls]: class-names.md#hermes-responsive-controls
+[layout-controls]: class-names.md#hermes-layout--controls
 
-[hermes-boot]: doc/javascript-api.md#bootcontainerelement
-[slider-start]: doc/javascript-api.md#sliderstartcallback
+[hermes-boot]: javascript-api.md#bootcontainerelement
+[slider-start]: javascript-api.md#sliderstartcallback
 
-[time-class-names]: doc/class-names.md#time-class-names
-[option-class-names]: doc/class-names.md#option-class-names
-[slide-id]: doc/class-names.md#hermes-slide-id-s
+[time-class-names]: class-names.md#time-class-names
+[option-class-names]: class-names.md#option-class-names
+[slide-id]: class-names.md#hermes-slide-id-s
 
 # v0.3.0
  
@@ -42,11 +42,10 @@
 
 # v0.2.4
 
- * Added [hermes-responsive-controls][v0.2.4_1] class.
+ * Added [hermes-responsive-controls][hermes-responsive-controls] class.
  * Documented [Screen Responsiveness][v0.2.4_2].
  * Created [CHANGELOG][v0.2.4_3].
 
-[v0.2.4_1]: doc/class-names.md#hermes-responsive-controls
 [v0.2.4_2]: doc/responsiveness.md
 [v0.2.4_3]: CHANGELOG.md
 
