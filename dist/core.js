@@ -1068,7 +1068,7 @@ function getEnabledOptions(element) {
 'use strict';
 
 var element = document.createElement('div');
-var nameFromDomProperty = featureNameFromProperty.bind(null, element);
+//var nameFromDomProperty = featureNameFromProperty.bind(null, element);
 var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
 
 module.exports = {
@@ -1084,10 +1084,11 @@ module.exports = {
     MozTransition: 'transitionend',
     WebkitTransition: 'webkitTransitionEnd',
   }),
-  animationEventName: nameFromDomProperty('animationstart', {
-    onanimationstart: 'animationstart',
-    onwebkitanimationstart: 'webkitAnimationStart',
-    onmsanimationstart: 'MSAnimationStart',
+  animationEventName: nameFromCssProperty('animationstart', {
+    animation: 'animationstart',
+    webkitAnimation: 'webkitAnimationStart',
+    MSAnimation: 'MSAnimationStart',
+    MozAnimation: 'MozAnimationStart',
   }),
 };
 
@@ -1413,6 +1414,7 @@ MultiMap.prototype.put = function(key, value) {
 'use strict';
 
 var phaser = require('./phaser');
+var feature = require('./detect-features');
 var precond = require('precond');
 
 /**
@@ -1458,7 +1460,6 @@ var Selector = (function() {
   return selectors;
 }());
 
-
 // public
 
 /**
@@ -1473,9 +1474,10 @@ function Slider(elem) {
 
   var priv = {};
   priv.elem = elem;
-  priv.transitions = searchForTransitions(elem);
+  priv.dotsElement = null;
+  priv.transitions = [];
   priv.phaser = phaser(elem);
-  priv.slides = searchForSlides(elem);
+  priv.slides = [];
   priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
@@ -1505,8 +1507,8 @@ function Slider(elem) {
    */
   pub.currentIndex = null;
   Object.defineProperty(pub, 'currentIndex', {
-    get: function() { return priv.started? priv.toIndex: null; },
-    set: moveTo.bind(null, priv),
+    get: function() { return priv.slides.length !== 0? priv.toIndex: null; },
+    set: partial(moveTo, priv),
   });
 
   /**
@@ -1521,7 +1523,7 @@ function Slider(elem) {
    */
   pub.currentSlide = null;
   Object.defineProperty(pub, 'currentSlide', {
-    get: function() { return priv.started? priv.slides[priv.toIndex]: null; },
+    get: function() { return priv.slides.length !== 0? priv.slides[priv.toIndex]: null; },
     set: function() { throw new Error('read only property! please use currentIndex instead'); },
   });
 
@@ -1532,21 +1534,36 @@ function Slider(elem) {
     moveToPrevious,
   ], priv);
 
+  priv.pub = pub;
   return pub;
 }
 
 /**
- * Upgrades slider DOM element and shows the first slide.
+ * Upgrades DOM elements and shows the first slide.
  *
+ * Starting procedure involves manipuilating DOM and waiting for changes to be visible on the
+ * screen, therefore slider will not be started immediately after returning from this call.
+ * After all slides are upgraded and visible on the screen, given **callback** will be called
+ * by the slider. At that time it's safe to use all features of the slider.
+ *
+ * ```js
+ * slider.start(function() {
+ *   slider.currentIndex = 1;
+ * });
+ * ```
+ *
+ * @param {Function} callback that will be called after all slides are upgraded
  * @precondition ${link Slider.prototype.start} was not called on this slider
  * @postcondition calling ${link Slider.prototype.start} again will throw exception
  * @see ${link Option.AUTOBOOT}
  *
  * @fqn Slider.prototype.start
  */
-function start(priv) {
+function start(priv, callback) {
   precond.checkState(!priv.started, 'slider is already started');
 
+  priv.startCallback = callback || noop;
+  priv.transitions = searchForTransitions(priv.elem);
   // For transition to work, it is required that a single transition class will be present
   // on the slider element. Since there may be many transitions declared on the slider and
   // since transitions can be configured also per slide, all transition class names are removed
@@ -1561,19 +1578,6 @@ function start(priv) {
   upgradeSlides(priv);
 
   priv.started = true;
-
-  var firstSlide = priv.slides[priv.toIndex];
-  firstSlide.classList.add(Marker.SLIDE_TO);
-  if (firstSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
-  }
-  if (typeof firstSlide.dot !== 'undefined') {
-    firstSlide.dot.classList.add(Flag.ACTIVE);
-  }
-
-  addTempClass(priv, chooseTransition(priv));
-  priv.phaser.addPhaseListener(onPhaseChange.bind(null, priv));
-  priv.phaser.startTransition();
 }
 
 /**
@@ -1610,6 +1614,7 @@ function moveToPrevious(priv) {
 function moveTo(priv, index) {
   precond.checkState(priv.started, 'slider not started');
   precond.checkIsNumber(index, 'given index is not a number');
+  precond.checkArgument(priv.slides.length > index, 'given index is out of bounds');
 
   var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
   if (priv.toIndex === toIndex) {
@@ -1636,12 +1641,6 @@ function moveTo(priv, index) {
 
 // initialization functions
 
-function searchForSlides(elem) {
-  var slides = [].slice.call(elem.querySelectorAll(Selector.SLIDE));
-  precond.checkState(slides.length >= 2, 'at least 2 slides needed');
-  return slides;
-}
-
 function searchForTransitions(elem) {
   var transitions = [];
   var matches = elem.className.match(Pattern.TRANSITION);
@@ -1660,24 +1659,90 @@ function create() {
 }
 
 function upgradeSlides(priv) {
-  priv.slides.forEach(function(slide) {
-    var content = slide.querySelector(Selector.CONTENT);
-    if (content === null) {
-      content = create(Layout.CONTENT);
-      while (slide.childNodes.length) {
-        content.appendChild(slide.childNodes[0]);
-      }
-      slide.appendChild(content);
-    }
-    priv.phaser.addPhaseTrigger(content);
-
-    var background = slide.querySelector(Selector.BACKGROUND);
-    if (background === null) {
-      slide.insertBefore(create(Layout.BACKGROUND), content);
-    }
-  });
-
+  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
   priv.elem.classList.add(Flag.UPGRADED);
+
+  function maybeUpgradeSlide(evt) {
+    if (evt.animationName === 'hermesSlideInserted' &&
+        evt.target.parentNode === priv.elem &&
+        !evt.target.classList.contains(Layout.CONTROLS)) {
+      upgradeSlide(priv, evt.target);
+    }
+  }
+}
+
+function upgradeSlide(priv, slideElement) {
+  var contentElement = slideElement.querySelector(Selector.CONTENT);
+  var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
+
+  if (contentElement !== null && backgroundElement !== null) {
+    acceptSlide(priv, slideElement);
+    return;
+  }
+
+  if (contentElement === null) {
+    contentElement = createContentElement(slideElement);
+    slideElement.appendChild(contentElement);
+  }
+  priv.phaser.addPhaseTrigger(contentElement);
+
+  if (backgroundElement === null) {
+    backgroundElement = createBackgroundElement(slideElement);
+    slideElement.insertBefore(backgroundElement, contentElement);
+  }
+
+  reinsertNode(slideElement);
+}
+
+function acceptSlide(priv, slideElement) {
+  if (priv.dotsElement) {
+    createDot(priv, slideElement);
+  }
+  slideElement.classList.add(Flag.UPGRADED);
+
+  priv.slides.push(slideElement);
+  if (priv.slides.length === 1) {
+    moveToFirstSlide(priv);
+    priv.startCallback.call(null, priv.pub);
+  }
+}
+
+function createContentElement(slideElement) {
+  var contentElement = create(Layout.CONTENT);
+  while (slideElement.childNodes.length) {
+    contentElement.appendChild(slideElement.childNodes[0]);
+  }
+  return contentElement;
+}
+
+function createBackgroundElement() {
+  return create(Layout.BACKGROUND);
+}
+
+function reinsertNode(node) {
+  var parent = node.parentNode;
+  var next = node.nextSibling;
+  parent.removeChild(node);
+  if (next) {
+    parent.insertBefore(node, next);
+  } else {
+    parent.appendChild(node);
+  }
+}
+
+function moveToFirstSlide(priv) {
+  var firstSlide = priv.slides[priv.toIndex];
+  firstSlide.classList.add(Marker.SLIDE_TO);
+  if (firstSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
+  }
+  if (typeof firstSlide.dot !== 'undefined') {
+    firstSlide.dot.classList.add(Flag.ACTIVE);
+  }
+
+  addTempClass(priv, chooseTransition(priv));
+  priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
+  priv.phaser.startTransition();
 }
 
 function expandOptionGroups(priv) {
@@ -1702,36 +1767,36 @@ function enableControls(priv) {
     createDotButtons(priv);
   }
   if (list.contains(Option.ARROW_KEYS)) {
-    window.addEventListener('keydown', keyBasedMove.bind(null, priv));
+    window.addEventListener('keydown', partial(keyBasedMove, priv));
   }
 }
 
 function createArrowButtons(priv) {
-  var previousButton = create(Layout.ARROW, Layout.ARROW_LEFT);
-  previousButton.addEventListener('click', moveToPrevious.bind(null, priv));
+  var previousButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_LEFT);
+  previousButton.addEventListener('click', partial(moveToPrevious, priv));
   priv.elem.appendChild(previousButton);
 
-  var nextButton = create(Layout.ARROW, Layout.ARROW_RIGHT);
-  nextButton.addEventListener('click', moveToNext.bind(null, priv));
+  var nextButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_RIGHT);
+  nextButton.addEventListener('click', partial(moveToNext, priv));
   priv.elem.appendChild(nextButton);
 }
 
 function createDotButtons(priv) {
-  var dots = create(Layout.DOTS);
-  priv.elem.appendChild(dots);
-  dots.addEventListener('click', function(evt) {
-    var index = dots.childNodes.indexOf(evt.target);
+  priv.dotsElement = create(Layout.CONTROLS, Layout.DOTS);
+  priv.elem.appendChild(priv.dotsElement);
+  priv.dotsElement.addEventListener('click', function(evt) {
+    var index = priv.dotsElement.childNodes.indexOf(evt.target);
     if (index === -1) {
       return;
     }
     moveTo(priv, index);
   });
+}
 
-  for (var i = 0; i < priv.slides.length; ++i) {
-    var dot = create(Layout.DOT);
-    dots.appendChild(dot);
-    priv.slides[i].dot = dot;
-  }
+function createDot(priv, slideElement) {
+  var dot = create(Layout.DOT);
+  priv.dotsElement.appendChild(dot);
+  slideElement.dot = dot;
 }
 
 function keyBasedMove(priv, event) {
@@ -1802,12 +1867,20 @@ function bindMethods(wrapper, methods, arg) {
   });
 }
 
+function partial(func) {
+  return func.bind.apply(func, [ null ].concat([].slice.call(arguments, 1)));
+}
+
+function noop() {
+  // noop
+}
+
 /*
   eslint-env node, browser
-*/
+ */
 
 
-},{"../enums/flag":14,"../enums/layout":15,"../enums/marker":16,"../enums/option":17,"../enums/pattern":18,"./phaser":12,"precond":2}],14:[function(require,module,exports){
+},{"../enums/flag":14,"../enums/layout":15,"../enums/marker":16,"../enums/option":17,"../enums/pattern":18,"./detect-features":11,"./phaser":12,"precond":2}],14:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1950,6 +2023,20 @@ var Layout = {
    * @fqn Layout.CONTENT
    */
   CONTENT: 'hermes-layout--content',
+
+  /**
+   * Set during upgrade on all generated controls.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.CONTROLS
+   */
+  CONTROLS: 'hermes-layout--controls',
 
   /**
    * Set during upgrade on generated arrow buttons.

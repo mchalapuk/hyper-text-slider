@@ -27,7 +27,7 @@ limitations under the License.
 <li>[.prototype.slides](javascript-api.md#sliderprototypeslides)
 <li>[.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 <li>[.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide)
-<li>[.prototype.start()](javascript-api.md#sliderprototypestart)
+<li>[.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
 <li>[.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 <li>[.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
 <li>[.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex)</ul>
@@ -77,7 +77,7 @@ Array | [Slider.prototype.slides](javascript-api.md#sliderprototypeslides) | Arr
 Number | [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex) | Index of currently active slide.
 Element | [Slider.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide) | Currently active slide element.
 void | [Slider.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem) | Constructs the slider.
-void | [Slider.prototype.start()](javascript-api.md#sliderprototypestart) | Upgrades slider DOM element and shows the first slide.
+void | [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) | Upgrades DOM elements and shows the first slide.
 void | [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext) | Moves slider to next slide.
 void | [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious) | Moves slider previous slide.
 void | [Slider.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex) | Moves slider slide of given index.
@@ -96,7 +96,7 @@ Array containing all slide elements.
 
 Index of currently active slide.
 
-Set to `null` if [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider.
+Set to `null` if [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was not called on this slider.
 
 *@type* - Number
 
@@ -106,7 +106,7 @@ Set to `null` if [.prototype.start()](javascript-api.md#sliderprototypestart) wa
 
 Currently active slide element.
 
-Set to `null` if [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider.
+Set to `null` if [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was not called on this slider.
 
 *@type* - Element
 
@@ -120,13 +120,26 @@ Constructs the slider.
 
 *@param* {Element} **elem** - DOM element for the slider
 
-#### Slider.prototype.start()
+#### Slider.prototype.start(callback)
 
-Upgrades slider DOM element and shows the first slide.
+Upgrades DOM elements and shows the first slide.
 
-*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was not called on this slider
+Starting procedure involves manipuilating DOM and waiting for changes to be visible on the
+screen, therefore slider will not be started immediately after returning from this call.
+After all slides are upgraded and visible on the screen, given **callback** will be called
+by the slider. At that time it's safe to use all features of the slider.
 
-*@postcondition* - calling [.prototype.start()](javascript-api.md#sliderprototypestart) again will throw exception
+```js
+slider.start(function() {
+  slider.currentIndex = 1;
+});
+```
+
+*@param* {Function} **callback** - that will be called after all slides are upgraded
+
+*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was not called on this slider
+
+*@postcondition* - calling [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) again will throw exception
 
 *@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
 
@@ -134,7 +147,7 @@ Upgrades slider DOM element and shows the first slide.
 
 Moves slider to next slide.
 
-*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
+*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
 *@see* - [hermes-autoplay](class-names.md#hermes-autoplay)
 
@@ -142,7 +155,7 @@ Moves slider to next slide.
 
 Moves slider previous slide.
 
-*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
+*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
 #### Slider.prototype.moveTo(index)
 
@@ -150,7 +163,7 @@ Moves slider slide of given index.
 
 *@param* {Number} **index** - index of the slide that slider will be moved to
 
-*@precondition* - [.prototype.start()](javascript-api.md#sliderprototypestart) was called on this slider
+*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
 <!-- End src/core/slider.js -->
 
@@ -306,7 +319,7 @@ For each element with [hermes-layout--slider](class-names.md#hermes-layout--slid
 
  1. Adds [options class names](class-names.md#option-class-names) found on container element,
  1. Creates [Slider](javascript-api.md#slider) object,
- 2. Invokes its [Slider.prototype.start()](javascript-api.md#sliderprototypestart) method.
+ 2. Invokes its [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) method.
 
 If you are using browserify, you may want to call this function at some point...
 
