@@ -5,8 +5,10 @@
 
 [hermes-autoboot]: class-names.md#hermes-autoboot
 [hermes-defaults]: class-names.md#hermes-defaults
-[hermes-responsive-controls]: class-names.md#hermes-responsive-controls
+[responsive-controls]: class-names.md#hermes-responsive-controls
 [layout-controls]: class-names.md#hermes-layout--controls
+[show-arrows]: class-names.md#hermes-show-arrows
+[show-dots]: class-names.md#hermes-show-dots
 
 [hermes-boot]: javascript-api.md#bootcontainerelement
 [slider-start]: javascript-api.md#sliderstartcallback
@@ -17,6 +19,8 @@
 
 # v0.3.1
  
+ * Replaced `hermes-create-arrows` with [`hermes-show-arrows`][show-arrows].
+ * Replaced `hermes-create-dots` with [`hermes-show-dots`][show-dots].
  * Made specifying transition class optional (`hermes-transition--zoom-in-out` is default).
  * All direct children of slider are treated as slides.
  * Fixed click event listener of dot buttons.
@@ -25,12 +29,12 @@
  
  * Fixed DOM upgrade procedure.
  * Removed `hermes-layout--inner` CSS class.
- * Added [boot(containerElement)][hermes-boot] procedure.
- * Replaced `hermes-autostart` option with [hermes-autoboot][hermes-autoboot].
+ * Added [`boot(containerElement)`][hermes-boot] procedure.
+ * Replaced `hermes-autostart` option with [`hermes-autoboot`][hermes-autoboot].
  * Made [`Slider.start(callback)` ][slider-start] method asynchronouse
- * Added [hermes-responsive-controls][hermes-responsive-controls] option to
-  [hermes-defaults][hermes-defaults].
- * Added [hermes-layout--controls][layout-controls] class name.
+ * Added [`hermes-responsive-controls`][responsive-controls] option to
+  [`hermes-defaults`][hermes-defaults].
+ * Added [`hermes-layout--controls`][layout-controls] class name.
  * Added default slide time of 5 sec.
  * Documented [Time Class Names][time-class-names].
  * Added possibility of setting all [options][option-class-names]
@@ -45,7 +49,7 @@
 
 # v0.2.4
 
- * Added [hermes-responsive-controls][hermes-responsive-controls] class.
+ * Added [`hermes-responsive-controls`][responsive-controls] class.
  * Documented [Screen Responsiveness][v0.2.4_2].
  * Created [CHANGELOG][v0.2.4_3].
 
