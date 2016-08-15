@@ -44,6 +44,13 @@ describe('autoboot', function() {
     beforeEach(function() {
       bodyElem.classList.add(Option.AUTOBOOT);
       autoboot(bodyElem);
+
+      sliderElems.forEach(function(elem) {
+        elem.childNodes.forEach(function(slideElem) {
+          slideElem.dispatchEvent(new AnimationEvent('animationstart', 'hermesSlideInserted'));
+          slideElem.dispatchEvent(new AnimationEvent('animationstart', 'hermesSlideInserted'));
+        });
+      });
     });
 
     it('all sliders are upgraded', function() {

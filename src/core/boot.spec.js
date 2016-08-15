@@ -43,6 +43,13 @@ describe('boot', function() {
 
     beforeEach(function() {
       sliders = boot(containerElem);
+
+      sliderElems.forEach(function(elem) {
+        elem.childNodes.forEach(function(slideElem) {
+          slideElem.dispatchEvent(new AnimationEvent('animationstart', 'hermesSlideInserted'));
+          slideElem.dispatchEvent(new AnimationEvent('animationstart', 'hermesSlideInserted'));
+        });
+      });
     });
 
     it('should return array containing two Slider instances', function() {
