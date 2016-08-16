@@ -67,7 +67,7 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   if (!files.main) {
     return null;
   }
-  return browserify(files.main).bundle().on('error', gutil.log)
+  return browserify(files.main).bundle().on('error', logError)
     .pipe(source(files.main.substring(config.dir.src.length), config.dir.src))
     .pipe(rename(files.name +'.js'))
     .pipe(gulp.dest(config.dir.build))
