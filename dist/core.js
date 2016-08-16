@@ -984,6 +984,7 @@ function autoboot(containerElement) {
 
 var Slider = require('./slider');
 var Option = require('../enums/option');
+var Layout = require('../enums/layout');
 
 module.exports = boot;
 
@@ -1014,7 +1015,10 @@ module.exports = boot;
  */
 function boot(containerElement) {
   var containerOptions = getEnabledOptions(containerElement);
-  var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
+  var sliderElems = concatUnique(
+      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER)),
+      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER_SHORT))
+      );
 
   var sliders = sliderElems.map(function(elem) {
     containerOptions.forEach(function(option) {
@@ -1042,12 +1046,16 @@ function getEnabledOptions(element) {
   return retVal;
 }
 
+function concatUnique(unique, candidate) {
+  return unique.concat(candidate.filter(function(element) { return unique.indexOf(element) === -1; }));
+}
+
 /*
   eslint-env node, browser
 */
 
 
-},{"../enums/option":18,"./slider":13}],11:[function(require,module,exports){
+},{"../enums/layout":16,"../enums/option":18,"./slider":13}],11:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1855,6 +1863,9 @@ function start(priv) {
   createDotButtons(priv);
   upgradeSlides(priv);
 
+  if (!priv.elem.classList.contains(Layout.SLIDER)) {
+    priv.elem.classList.add(Layout.SLIDER);
+  }
   priv.elem.classList.add(Flag.UPGRADED);
 }
 
@@ -2044,6 +2055,16 @@ module.exports = Flag;
  * @summary-column client-html Client HTML
  */
 var Layout = {
+
+  /**
+   * Alias for ${link Layout.SLIDER}.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   *
+   * @fqn Layout.SLIDER_SHORT
+   */
+  SLIDER_SHORT: 'hermes-slider',
 
   /**
    * Identifies main slider element.
@@ -2459,7 +2480,7 @@ var Pattern = {
   TRANSITION: /hermes-transition--([^\s]+)/g,
 
   /**
-   * Slider keeps class name with slide if of current slide to ${link Layout.SLIDER} element.
+   * Slider keeps class name with id of current slide on ${link Layout.SLIDER} element.
    *
    * This functionality may be useful if slides other than current are to be partially visible
    * or if appearence of controls or even whole slider needs to change from one slide to another.

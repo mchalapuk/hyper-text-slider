@@ -23,11 +23,12 @@ limitations under the License.
 **Table of Contents**
 
 1. [Layout Class Names](class-names.md#layout-class-names)<ul>
+<li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
+<li>[hermes-slider](class-names.md#hermes-slider)
 <li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
 <li>[hermes-layout--slide](class-names.md#hermes-layout--slide)
 <li>[hermes-layout--background](class-names.md#hermes-layout--background)
 <li>[hermes-layout--content](class-names.md#hermes-layout--content)
-<li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
 <li>[hermes-layout--arrow](class-names.md#hermes-layout--arrow)
 <li>[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left)
 <li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
@@ -71,11 +72,12 @@ Their usage is limited to:
 
 Name | Description | Usage | Client HTML
 --- | --- | --- | ---
+[hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
+[hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | role-id styling | mandatory
 [hermes-layout--slider](class-names.md#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
 [hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
 [hermes-layout--background](class-names.md#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](class-names.md#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
-[hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
 [hermes-layout--arrow](class-names.md#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
 [hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
 [hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
@@ -83,6 +85,19 @@ Name | Description | Usage | Client HTML
 [hermes-layout--dot](class-names.md#hermes-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden
 
 ### Details
+
+#### hermes-layout--controls
+
+Set during upgrade on all generated controls.
+
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
+
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
+#### hermes-slider
+
+Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider).
 
 #### hermes-layout--slider
 
@@ -120,15 +135,6 @@ is present in slider declaration, it must contain all contents of a slide. This 
 must be used in all definitions of content transitions.
 
 *@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
-
-#### hermes-layout--controls
-
-Set during upgrade on all generated controls.
-
-This class name must not be used in client HTML.
-It may be used in client CSS for styling.
-
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--arrow
 
@@ -458,7 +464,7 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 Name | Description
 --- | ---
 [/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
-[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s) | Slider keeps class name with slide if of current slide to [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
+[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s) | Slider keeps class name with id of current slide on [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
 
 ### Details
 
@@ -479,7 +485,7 @@ on slides at runtime (client JavaScript).
 
 #### /hermes-slide-id-([^\s]+)/
 
-Slider keeps class name with slide if of current slide to [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
+Slider keeps class name with id of current slide on [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
 
 This functionality may be useful if slides other than current are to be partially visible
 or if appearence of controls or even whole slider needs to change from one slide to another.

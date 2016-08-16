@@ -54,6 +54,9 @@ function start(priv) {
   createDotButtons(priv);
   upgradeSlides(priv);
 
+  if (!priv.elem.classList.contains(Layout.SLIDER)) {
+    priv.elem.classList.add(Layout.SLIDER);
+  }
   priv.elem.classList.add(Flag.UPGRADED);
 }
 
