@@ -9,6 +9,8 @@
 [layout-controls]: class-names.md#hermes-layout--controls
 [show-arrows]: class-names.md#hermes-show-arrows
 [show-dots]: class-names.md#hermes-show-dots
+[hermes-slider]: class-names.md#hermes-slider
+[layout-slider]: class-names.md#hermes-layout--slider
 
 [hermes-boot]: javascript-api.md#bootcontainerelement
 [slider-start]: javascript-api.md#sliderstartcallback
@@ -19,6 +21,8 @@
 
 # v0.3.1
  
+ * Documented [slider's DOM upgrade procedure](dom-upgrade.md).
+ * Added [`hermes-slider`][hermes-slider] as an alias for [`hermes-layout--slider`][layout-slider].
  * Replaced `hermes-create-arrows` with [`hermes-show-arrows`][show-arrows].
  * Replaced `hermes-create-dots` with [`hermes-show-dots`][show-dots].
  * Made specifying transition class optional (`hermes-transition--zoom-in-out` is default).
