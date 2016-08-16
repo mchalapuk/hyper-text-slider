@@ -133,11 +133,11 @@ module.exports = {
       */
       {
         src: [
-          'src/enums/layout.js',
           'src/enums/option.js',
           'src/enums/time.js',
           'src/enums/phase.js',
           'src/enums/marker.js',
+          'src/enums/layout.js',
           'src/enums/flag.js',
           'src/enums/pattern.js',
         ],
