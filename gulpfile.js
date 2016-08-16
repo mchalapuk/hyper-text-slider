@@ -180,7 +180,6 @@ gulp.task('autoreload', function() {
   var actualGulp = null;
 
   gulp.watch(allConfigFiles, function() {
-    gulp.start('lint:config');
     actualGulp.kill('SIGTERM');
     spawnAnotherChild();
   });

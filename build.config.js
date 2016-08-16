@@ -67,6 +67,7 @@ module.exports = {
       name: 'core',
       main: 'src/browser.js',
       src: [
+        'src/enums/**/*.js',
         'src/core/**/*.js',
         '!src/**/*.spec.js',
         '!src/**/*.spec-helper.js',
