@@ -42,7 +42,7 @@ var Pattern = {
   TRANSITION: /hermes-transition--([^\s]+)/g,
 
   /**
-   * Slider keeps class name with slide if of current slide to ${link Layout.SLIDER} element.
+   * Slider keeps class name with id of current slide on ${link Layout.SLIDER} element.
    *
    * This functionality may be useful if slides other than current are to be partially visible
    * or if appearence of controls or even whole slider needs to change from one slide to another.

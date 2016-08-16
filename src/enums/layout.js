@@ -31,6 +31,16 @@
 var Layout = {
 
   /**
+   * Alias for ${link Layout.SLIDER}.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   *
+   * @fqn Layout.SLIDER_SHORT
+   */
+  SLIDER_SHORT: 'hermes-slider',
+
+  /**
    * Identifies main slider element.
    *
    * This class must be set on all slider elements in client HTML.
