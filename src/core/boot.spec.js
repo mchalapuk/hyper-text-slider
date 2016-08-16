@@ -22,6 +22,7 @@ Object.values = require('../polyfills/values');
 var boot = require('./boot');
 var Option = require('../enums/option');
 var Flag = require('../enums/flag');
+var Layout = require('../enums/layout');
 
 describe('boot', function() {
   var sliderElems = null;
@@ -85,6 +86,19 @@ describe('boot', function() {
         });
       });
     });
+
+  describe('when called on element containing slider with short class', function() {
+    var sliders = null;
+
+    beforeEach(function() {
+      containerElem.appendChild(createElement('div', Layout.SLIDER_SHORT));
+      sliders = boot(containerElem);
+    });
+
+    it('should return array containing three Slider instances', function() {
+      expect(sliders.length).toBe(3);
+    });
+  });
 });
 
 /*

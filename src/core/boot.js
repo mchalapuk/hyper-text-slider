@@ -19,6 +19,7 @@
 
 var Slider = require('./slider');
 var Option = require('../enums/option');
+var Layout = require('../enums/layout');
 
 module.exports = boot;
 
@@ -49,7 +50,10 @@ module.exports = boot;
  */
 function boot(containerElement) {
   var containerOptions = getEnabledOptions(containerElement);
-  var sliderElems = [].slice.call(containerElement.querySelectorAll('.hermes-layout--slider'));
+  var sliderElems = concatUnique(
+      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER)),
+      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER_SHORT))
+      );
 
   var sliders = sliderElems.map(function(elem) {
     containerOptions.forEach(function(option) {
@@ -75,6 +79,10 @@ function getEnabledOptions(element) {
     }
   });
   return retVal;
+}
+
+function concatUnique(unique, candidate) {
+  return unique.concat(candidate.filter(function(element) { return unique.indexOf(element) === -1; }));
 }
 
 /*
