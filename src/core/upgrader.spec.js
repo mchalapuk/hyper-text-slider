@@ -44,4 +44,16 @@ describe('upgrader,', function() {
   });
 });
 
+/*
+  eslint-env node, jasmine
+ */
+
+/*
+  eslint
+    max-nested-callbacks: 0,
+ */
+
+/*
+  global createElement
+ */
 
