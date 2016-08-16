@@ -307,9 +307,13 @@ and then set on currently active slide each time it changes.
 
 ## Layout Class Names
 
-Their usage is limited to:
+In most cases, most of layout classes **SHOULD not be used in client HTML**, as they are
+automatially applied to apropriate elements during [slider's upgrade procedure](dom-upgrade.md)
+([hermes-slider](class-names.md#hermes-slider) is the only layout class name that MUST be applied in client HTML).
+
+Layout classes play following roles in slider's inner-workings.
  1. **role-id** - class names are used to identify element's role during slider upgrade,
- 2. **transition** - class names must be used in CSS definitions of transitions,
+ 2. **transition** - class names must be used in definitions of CSS transitions,
  3. **styling** - class names are recommended for usage in slide's styling.
 
 ### Summary
@@ -319,7 +323,7 @@ Name | Description | Usage | Client HTML
 [hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
 [hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | role-id styling | mandatory
 [hermes-layout--slider](class-names.md#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
-[hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | mandatory
+[hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | optional
 [hermes-layout--background](class-names.md#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](class-names.md#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
 [hermes-layout--arrow](class-names.md#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden

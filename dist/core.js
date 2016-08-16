@@ -2045,9 +2045,13 @@ module.exports = Flag;
 'use strict';
 
 /**
- * Their usage is limited to:
+ * In most cases, most of layout classes **SHOULD not be used in client HTML**, as they are
+ * automatially applied to apropriate elements during [slider's upgrade procedure](dom-upgrade.md)
+ * (${link Layout.SLIDER_SHORT} is the only layout class name that MUST be applied in client HTML).
+ *
+ * Layout classes play following roles in slider's inner-workings.
  *  1. **role-id** - class names are used to identify element's role during slider upgrade,
- *  2. **transition** - class names must be used in CSS definitions of transitions,
+ *  2. **transition** - class names must be used in definitions of CSS transitions,
  *  3. **styling** - class names are recommended for usage in slide's styling.
  *
  * @name Layout Class Names
@@ -2086,7 +2090,7 @@ var Layout = {
    * It can be used in client CSS code for styling.
    *
    * @usage role-id styling
-   * @client-html mandatory
+   * @client-html optional
    * @parent-element Layout.SLIDER
    *
    * @fqn Layout.SLIDE

@@ -122,6 +122,7 @@ module.exports = {
      */
     written: [
       'doc/responsiveness.md',
+      'doc/dom-upgrade.md',
       'doc/TODO.md',
       'doc/CHANGELOG.md',
     ],
