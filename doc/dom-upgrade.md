@@ -19,7 +19,7 @@
 # Slider's DOM Upgrade Procedure
 
 There are two opposing non-functional requirements for a slider component:
- * Simple declarations of CSS Transitions require complicated DOM structure,
+ * Simple declarations of between-slide CSS3 transitions require complicated DOM structure,
  * Simple HTML-only usage requires simple DOM structure.
 
 Upgrade procedure transforms simple DOM structure declared in HTML
@@ -29,11 +29,12 @@ into complicated DOM structure required for transitions to work.
 
 Calling [`Slider.prototype.start(callback)`][slider-start] method begins
 DOM upgrade, which consists of following operations:
- * Expansion of [option groups][optiona-classes],
- * Applying proper [layout class names][layout-classes],
+ * Expansion of [option groups][option-classes] found on slider element,
+ * Application of proper [layout class names][layout-classes],
  * Generating [background][layout-background] and [content][layout-content]
    elements for each slide,
- * Generating DOM elements for slider [control buttons][layout-controls].
+ * Generating DOM elements for slider [control buttons][layout-controls],
+ * Marking slider and slides as [upgraded][flag-upgraded].
 
 [slider-start]: javascript-api.md#sliderprototypestartcallback
 [option-classes]: class-names.md#option-class-names
@@ -41,6 +42,7 @@ DOM upgrade, which consists of following operations:
 [layout-background]: class-names.md#hermes-layout--background
 [layout-content]: class-names.md#hermes-layout--content
 [layout-controls]: class-names.md#hermes-layout--controls
+[flag-upgraded]: class-names.md#is-upgraded
 
 ## Example
 
@@ -83,7 +85,7 @@ Following slider declaration:
     <div class="hermes-layout--background">
     </div>
     <div class="hermes-layout--content">
-      <p>God of Transitions.</p>
+      <p>How's the weather?</p>
     </div>
   </div>
 
