@@ -22,8 +22,8 @@ There are two opposing non-functional requirements for a slider component:
  * Simple declarations of between-slide CSS3 transitions require complicated DOM structure,
  * Simple HTML-only usage requires simple DOM structure.
 
-Upgrade procedure transforms simple DOM structure declared in HTML
-into complicated DOM structure required for transitions to work.
+In order to satisfy both requirements, upgrade procedure transforms simple DOM structure
+declared in HTML into more complicated DOM required by slider features.
 
 ## How it works?
 
