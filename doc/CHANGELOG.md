@@ -19,8 +19,12 @@
 [option-class-names]: class-names.md#option-class-names
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.3.2
+
+ * Fixed an import in [`src/_hermes.scss`](../src/_hermes.scss).
+
 # v0.3.1
- 
+
  * Documented [slider's DOM upgrade procedure](dom-upgrade.md).
  * Added [`hermes-slider`][hermes-slider] as an alias for [`hermes-layout--slider`][layout-slider].
  * Replaced `hermes-create-arrows` with [`hermes-show-arrows`][show-arrows].
@@ -30,7 +34,7 @@
  * Fixed click event listener of dot buttons.
 
 # v0.3.0
- 
+
  * Fixed DOM upgrade procedure.
  * Removed `hermes-layout--inner` CSS class.
  * Added [`boot(containerElement)`][hermes-boot] procedure.
