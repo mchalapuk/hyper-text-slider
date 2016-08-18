@@ -3,9 +3,8 @@
 <meta charset=utf-8>
 <title>Hello, Hermes!</title>
 
-<!-- First thing to do is linking hermes css and a transition -->
+<!-- First thing to do is linking hermes css -->
 <link href=hermes.css rel=stylesheet type=text/css>
-<link href=transitions/zoom-in-out.css rel=stylesheet type=text/css>
 
 <!-- Roboto font from Google CDN -->
 <link href=//fonts.googleapis.com/css?family=Roboto:regular,thin&amp;lang=pl rel=stylesheet>
@@ -74,8 +73,13 @@
 
 </style>
 
+<!--
+  autoboot option will automatically start
+  all sliders declared on the webpage
+-->
 <body class="hermes-autoboot">
 
+<!-- declaration of a slider -->
 <div class="hermes-slider hermes-defaults">
   <div id="hello">
     <h1>Hello, Hermes!</h1>
@@ -85,5 +89,6 @@
   </div>
 </div>
 
+<!-- hermes mechanism script -->
 <script src=core.js type=text/javascript></script>
 
