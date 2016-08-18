@@ -783,8 +783,9 @@ function acceptSlide(priv, slideElement) {
   priv.phaser.addPhaseTrigger(slideElement.querySelector('.'+ Layout.CONTENT));
 
   if (priv.slides.length === 1) {
-    moveToFirstSlide(priv);
     priv.startCallback.call(null, priv.pub);
+    // moving this to next tick is required in chromium for some reason
+    window.setTimeout(moveToFirstSlide.bind(null, priv), 1);
   }
 }
 
