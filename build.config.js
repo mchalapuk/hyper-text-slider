@@ -141,6 +141,7 @@ module.exports = {
       {
         src: [
           'lib/core/slider.js',
+          'lib/core/slide-change-event.js',
           'lib/core/phaser.js',
           'lib/core/boot.js',
         ],

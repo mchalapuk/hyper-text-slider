@@ -77,7 +77,7 @@ function autoboot(containerElement) {
 */
 
 
-},{"../enums/option":11,"./boot":3}],3:[function(require,module,exports){
+},{"../enums/option":12,"./boot":3}],3:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -170,7 +170,7 @@ function concatUnique(unique, candidate) {
 */
 
 
-},{"../enums/layout":9,"../enums/option":11,"./slider":6}],4:[function(require,module,exports){
+},{"../enums/layout":10,"../enums/option":12,"./slider":7}],4:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -516,7 +516,98 @@ MultiMap.prototype.put = function(key, value) {
 */
 
 
-},{"../enums/phase":13,"./detect-features":4,"precond":15}],6:[function(require,module,exports){
+},{"../enums/phase":14,"./detect-features":4,"precond":16}],6:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var precond = require('precond');
+
+/**
+ * Fired by the slider when currently visible slide changes.
+ *
+ * @see Slider.prototype.on
+ * @fqn SlideChangeEvent
+ */
+module.exports = SlideChangeEvent;
+
+/**
+ * Creates SlideChangeEvent.
+ *
+ * @param {Number} from index of a previous slide
+ * @param {Number} to index of current slide
+ * @fqn SlideChangeEvent.prototype.constructor
+ */
+function SlideChangeEvent(fromIndex, toIndex) {
+  precond.checkIsNumber(fromIndex, 'fromIndex must be a number');
+  precond.checkIsNumber(toIndex, 'toIndex must be a number');
+
+  var pub = Object.create(SlideChangeEvent.prototype);
+
+  /**
+   * Index of previous slide.
+   *
+   * @type Number
+   * @access read-only
+   * @fqn SlideChangeEvent.prototype.fromIndex
+   */
+  pub.fromIndex = fromIndex;
+
+  /**
+   * Index of current slide.
+   *
+   * @type Number
+   * @access read-only
+   * @fqn SlideChangeEvent.prototype.toIndex
+   */
+  pub.toIndex = toIndex;
+
+  return pub;
+}
+
+SlideChangeEvent.prototype = {
+
+  /**
+   * Always set to 'slideChange'.
+   *
+   * @type String
+   * @access read-only
+   * @fqn SlideChangeEvent.prototype.eventName
+   */
+  eventName: 'slideChange',
+
+  /**
+   * Slider instance in which slide has changed.
+   *
+   * @type Slider
+   * @access read-only
+   * @fqn SlideChangeEvent.prototype.target
+   */
+  target: null,
+};
+
+/*
+  eslint-env node
+ */
+
+
+
+},{"precond":16}],7:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -538,6 +629,7 @@ MultiMap.prototype.put = function(key, value) {
 
 var phaser = require('./phaser');
 var upgrader = require('./upgrader');
+var slidechange = require('./slide-change-event');
 
 var precond = require('precond');
 
@@ -596,6 +688,7 @@ function Slider(elem) {
   priv.phaser = phaser(elem);
   priv.slides = [];
   priv.upgrader = upgrader(elem);
+  priv.listeners = {};
   priv.tempClasses = [];
   priv.fromIndex = 1;
   priv.toIndex = 0;
@@ -650,6 +743,8 @@ function Slider(elem) {
     moveTo,
     moveToNext,
     moveToPrevious,
+    on,
+    removeListener,
   ], priv);
 
   priv.pub = pub;
@@ -701,6 +796,7 @@ function start(priv, callback) {
   priv.upgrader.start();
   priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
 
+  on(priv, 'slideChange', changeDot.bind(null, priv));
   priv.started = true;
 }
 
@@ -759,6 +855,37 @@ function moveTo(priv, index) {
   addTempClass(priv, chooseTransition(priv));
 
   priv.phaser.startTransition();
+  emitEvent(priv, slidechange(priv.fromIndex, priv.toIndex));
+}
+
+/**
+ * Registers a listener on given eventName.
+ *
+ * @param {String} eventName name of event
+ * @param {Function} listener a function
+ * @postcondition given listener will be notified about current slide changes
+ * @fqn Slider.prototype.on
+ */
+function on(priv, eventName, listener) {
+  precond.checkArgument(typeof listener === 'function', 'listener must be a function');
+  getListeners(priv, eventName).push(listener);
+}
+
+/**
+ * Unregisters a listener from given eventName.
+ *
+ * @param {String} eventName name of event
+ * @param {Function} listener a function
+ * @precondition given listener was previously passed to ${link Slider.prototype.on}
+ * @postcondition given listener will no longer be notified about current slide changes
+ * @fqn Slider.prototype.removeListener
+ */
+function removeListener(priv, eventName, listener) {
+  precond.checkArgument(typeof listener === 'function', 'listener must be a function');
+  var listeners = getListeners(priv, eventName);
+  var index = listeners.indexOf(listener);
+  precond.checkArgument(index !== -1, 'listener not found');
+  listeners.splice(index, 1);
 }
 
 // private
@@ -795,12 +922,10 @@ function moveToFirstSlide(priv) {
   if (firstSlide.id !== null) {
     addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
   }
-  if (typeof firstSlide.dot !== 'undefined') {
-    firstSlide.dot.classList.add(Flag.ACTIVE);
-  }
 
   addTempClass(priv, chooseTransition(priv));
   priv.phaser.startTransition();
+  emitEvent(priv, slidechange(priv.fromIndex, priv.toIndex));
 }
 
 function expandOptionGroups(priv) {
@@ -822,9 +947,6 @@ function removeMarkersAndFlags(priv) {
   var toSlide = priv.slides[priv.toIndex];
   fromSlide.classList.remove(Marker.SLIDE_FROM);
   toSlide.classList.remove(Marker.SLIDE_TO);
-  if (typeof toSlide.dot !== 'undefined') {
-    toSlide.dot.classList.remove(Flag.ACTIVE);
-  }
 }
 
 function addMarkersAndFlags(priv) {
@@ -832,9 +954,6 @@ function addMarkersAndFlags(priv) {
   var toSlide = priv.slides[priv.toIndex];
   fromSlide.classList.add(Marker.SLIDE_FROM);
   toSlide.classList.add(Marker.SLIDE_TO);
-  if (typeof toSlide.dot !== 'undefined') {
-    toSlide.dot.classList.add(Flag.ACTIVE);
-  }
 }
 
 function addTempClass(priv, className) {
@@ -896,6 +1015,26 @@ function random(array) {
   return array[parseInt(Math.random() * array.length, 10)];
 }
 
+function getListeners(priv, eventName) {
+  return priv.listeners[eventName] || (priv.listeners[eventName] = []);
+}
+
+function emitEvent(priv, evt) {
+  evt.target = priv.pub;
+
+  getListeners(priv, evt.eventName)
+    .forEach(function(listener) { listener(evt); });
+}
+
+function changeDot(priv) {
+  var dotsElement = priv.elem.querySelector('.'+ Layout.DOTS);
+  var active = dotsElement.querySelector('.'+ Flag.ACTIVE);
+  if (active) {
+    active.classList.remove(Flag.ACTIVE);
+  }
+  dotsElement.childNodes[priv.toIndex].classList.add(Flag.ACTIVE);
+}
+
 // utilities
 
 function bindMethods(wrapper, methods, arg) {
@@ -922,7 +1061,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":8,"../enums/layout":9,"../enums/marker":10,"../enums/option":11,"../enums/pattern":12,"./phaser":5,"./upgrader":7,"precond":15}],7:[function(require,module,exports){
+},{"../enums/flag":9,"../enums/layout":10,"../enums/marker":11,"../enums/option":12,"../enums/pattern":13,"./phaser":5,"./slide-change-event":6,"./upgrader":8,"precond":16}],8:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -1000,8 +1139,14 @@ function createDotButtons(priv) {
 
 function createDot(priv, slideElement) {
   var dot = create(Layout.CONTROLS, Layout.DOT);
-  priv.dotsElement.appendChild(dot);
-  slideElement.dot = dot;
+  var index = [].indexOf.call(slideElement.parentNode.childNodes, slideElement);
+
+  var parent = priv.dotsElement;
+  if (index === parent.length) {
+    parent.appendChild(dot);
+  } else {
+    parent.insertBefore(dot, parent.childNodes[index]);
+  }
 }
 
 function upgradeSlides(priv) {
@@ -1086,7 +1231,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":8,"../enums/layout":9,"./detect-features":4}],8:[function(require,module,exports){
+},{"../enums/flag":9,"../enums/layout":10,"./detect-features":4}],9:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1139,7 +1284,7 @@ module.exports = Flag;
 */
 
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1336,7 +1481,7 @@ module.exports = Layout;
 */
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1395,7 +1540,7 @@ module.exports = Marker;
 */
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1555,7 +1700,7 @@ module.exports = Option;
 */
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1619,7 +1764,7 @@ module.exports = Pattern;
 */
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1681,7 +1826,7 @@ module.exports = Phase;
 */
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1706,14 +1851,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
  */
 
 module.exports = require('./lib/checks');
-},{"./lib/checks":16}],16:[function(require,module,exports){
+},{"./lib/checks":17}],17:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
@@ -1809,7 +1954,7 @@ module.exports.checkIsBoolean = typeCheck('boolean');
 module.exports.checkIsFunction = typeCheck('function');
 module.exports.checkIsObject = typeCheck('object');
 
-},{"./errors":17,"util":20}],17:[function(require,module,exports){
+},{"./errors":18,"util":21}],18:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
@@ -1835,7 +1980,7 @@ IllegalStateError.prototype.name = 'IllegalStateError';
 
 module.exports.IllegalStateError = IllegalStateError;
 module.exports.IllegalArgumentError = IllegalArgumentError;
-},{"util":20}],18:[function(require,module,exports){
+},{"util":21}],19:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1969,14 +2114,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2566,4 +2711,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":19,"_process":18,"inherits":14}]},{},[1]);
+},{"./support/isBuffer":20,"_process":19,"inherits":15}]},{},[1]);

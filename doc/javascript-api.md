@@ -30,8 +30,16 @@ limitations under the License.
 <li>[.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
 <li>[.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 <li>[.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
-<li>[.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex)</ul>
-2. [Phaser](javascript-api.md#phaser)<ul>
+<li>[.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex)
+<li>[.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
+<li>[.prototype.removeListener(eventName, listener)](javascript-api.md#sliderprototyperemovelistenereventname-listener)</ul>
+2. [SlideChangeEvent](javascript-api.md#slidechangeevent)<ul>
+<li>[.prototype.constructor(from, to)](javascript-api.md#slidechangeeventprototypeconstructorfrom-to)
+<li>[.prototype.fromIndex](javascript-api.md#slidechangeeventprototypefromindex)
+<li>[.prototype.toIndex](javascript-api.md#slidechangeeventprototypetoindex)
+<li>[.prototype.eventName](javascript-api.md#slidechangeeventprototypeeventname)
+<li>[.prototype.target](javascript-api.md#slidechangeeventprototypetarget)</ul>
+3. [Phaser](javascript-api.md#phaser)<ul>
 <li>[.prototype.constructor(element)](javascript-api.md#phaserprototypeconstructorelement)
 <li>[.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)
 <li>[.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase)
@@ -41,7 +49,7 @@ limitations under the License.
 <li>[.prototype.removePhaseTrigger(target, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty)
 <li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
 <li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
-3. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
+4. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
 
 <!-- Start lib/core/slider.js -->
 
@@ -81,6 +89,8 @@ void | [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestart
 void | [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext) | Moves slider to next slide.
 void | [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious) | Moves slider previous slide.
 void | [Slider.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex) | Moves slider slide of given index.
+void | [Slider.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener) | Registers a listener on given eventName.
+void | [Slider.prototype.removeListener(eventName, listener)](javascript-api.md#sliderprototyperemovelistenereventname-listener) | Unregisters a listener from given eventName.
 
 ### Fields
 
@@ -165,7 +175,93 @@ Moves slider slide of given index.
 
 *@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
+#### Slider.prototype.on(eventName, listener)
+
+Registers a listener on given eventName.
+
+*@param* {String} **eventName** - name of event
+
+*@param* {Function} **listener** - a function
+
+*@postcondition* - given listener will be notified about current slide changes
+
+#### Slider.prototype.removeListener(eventName, listener)
+
+Unregisters a listener from given eventName.
+
+*@param* {String} **eventName** - name of event
+
+*@param* {Function} **listener** - a function
+
+*@precondition* - given listener was previously passed to [.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
+
+*@postcondition* - given listener will no longer be notified about current slide changes
+
 <!-- End lib/core/slider.js -->
+
+<!-- Start lib/core/slide-change-event.js -->
+
+## SlideChangeEvent
+
+Fired by the slider when currently visible slide changes.
+
+*@see* - [Slider.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
+
+### Summary
+
+Type | Name | Description
+--- | --- | ---
+Number | [SlideChangeEvent.prototype.fromIndex](javascript-api.md#slidechangeeventprototypefromindex) | Index of previous slide.
+Number | [SlideChangeEvent.prototype.toIndex](javascript-api.md#slidechangeeventprototypetoindex) | Index of current slide.
+String | [SlideChangeEvent.prototype.eventName](javascript-api.md#slidechangeeventprototypeeventname) | Always set to 'slideChange'.
+[Slider](javascript-api.md#slider) | [SlideChangeEvent.prototype.target](javascript-api.md#slidechangeeventprototypetarget) | Slider instance in which slide has changed.
+void | [SlideChangeEvent.prototype.constructor(from, to)](javascript-api.md#slidechangeeventprototypeconstructorfrom-to) | Creates SlideChangeEvent.
+
+### Fields
+
+#### SlideChangeEvent.prototype.fromIndex
+
+Index of previous slide.
+
+*@type* - Number
+
+*@access* - `read-only`
+
+#### SlideChangeEvent.prototype.toIndex
+
+Index of current slide.
+
+*@type* - Number
+
+*@access* - `read-only`
+
+#### SlideChangeEvent.prototype.eventName
+
+Always set to 'slideChange'.
+
+*@type* - String
+
+*@access* - `read-only`
+
+#### SlideChangeEvent.prototype.target
+
+Slider instance in which slide has changed.
+
+*@type* - [Slider](javascript-api.md#slider)
+
+*@access* - `read-only`
+
+### Methods
+
+#### SlideChangeEvent.prototype.constructor(from, to)
+
+Creates SlideChangeEvent.
+
+*@param* {Number} **from** - index of a previous slide
+
+*@param* {Number} **to** - index of current slide
+
+<!-- End lib/core/slide-change-event.js -->
 
 <!-- Start lib/core/phaser.js -->
 
