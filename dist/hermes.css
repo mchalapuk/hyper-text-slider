@@ -35,6 +35,7 @@
 */
 .hermes-layout--slider {
   width: 100%;
+  height: 100%;
   overflow-x: visible;
   overflow-y: hidden;
   display: block;
@@ -47,16 +48,27 @@
   width: 100%;
   display: inline-block;
   position: relative;
-  font-size: 32px; }
+  font-size: 32px;
+  text-align: center; }
 
-.hermes-layout--background,
-.hermes-layout--content {
+.hermes-layout--background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: block; }
+  display: inline-block; }
+
+.hermes-layout--content {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle; }
+
+.hermes-layout--slide::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%; }
 
 /*
 
