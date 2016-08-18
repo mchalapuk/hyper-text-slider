@@ -14,10 +14,23 @@
 
 [hermes-boot]: javascript-api.md#bootcontainerelement
 [slider-start]: javascript-api.md#sliderstartcallback
+[slider-on]: javascript-api.md#sliderprototypeoneventname-listener
+[slider-remove-listener]: javascript-api.md#sliderprototyperemovelistenereventname-listener
+[slide-change-event]: javascript-api.md#slidechangeevent
 
 [time-class-names]: class-names.md#time-class-names
 [option-class-names]: class-names.md#option-class-names
 [slide-id]: class-names.md#hermes-slide-id-s
+
+# v0.4.0
+
+ * Added [`Slider.prototype.on(eventName, listener)`][slider-on] method,
+ * Added [`Slider.prototype.removeListener(eventName, listener)`][slider-remove-listener] method,
+ * Added [`SlideChangeEvent`][slide-change-event] class,
+ * Slides are inserted into slides array in proper order in Chromium,
+ * Fixed starting first transition in Chromium,
+ * Renamed `src` folder to `lib`,
+ * Default transition is compiled into hermes.css.
 
 # v0.3.2
 
