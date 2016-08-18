@@ -905,8 +905,8 @@ function searchForTransitions(elem) {
 
 function acceptSlide(priv, slideElement) {
   slideElement.classList.add(Flag.UPGRADED);
+  insertSlide(priv, slideElement);
 
-  priv.slides.push(slideElement);
   priv.phaser.addPhaseTrigger(slideElement.querySelector('.'+ Layout.CONTENT));
 
   if (priv.slides.length === 1) {
@@ -914,6 +914,22 @@ function acceptSlide(priv, slideElement) {
     // moving this to next tick is required in chromium for some reason
     window.setTimeout(moveToFirstSlide.bind(null, priv), 1);
   }
+}
+
+function insertSlide(priv, slideElement) {
+  var domIndex = [].indexOf.call(priv.elem.childNodes, slideElement);
+  var index = 0;
+
+  for (var i = 0; i < priv.slides.length; ++i) {
+    var next = priv.slides[i];
+    var nextDomIndex = [].indexOf.call(priv.elem.childNodes, next);
+    if (nextDomIndex > domIndex) {
+      break;
+    }
+    index += 1;
+  }
+
+  priv.slides.splice(index, 0, slideElement);
 }
 
 function moveToFirstSlide(priv) {
