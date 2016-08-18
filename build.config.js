@@ -34,24 +34,8 @@ module.exports = {
     {
       main: 'src/styles/hermes.scss',
       src: [
-        'src/*.scss',
-        'src/styles/*.scss',
+        'src/**/*.scss',
       ],
-    },
-
-    /*
-      For each transition there are two files:
-       1. main file located in `internal/{transition-name}.scss`
-         (each of those get compiled into dest folder),
-       2. an underscore-prefixed file with @import to the main file
-         (to be Sass-imported into other projects).
-    */
-    {
-      main: 'src/styles/transitions/internal/*.scss',
-      src: [
-        'src/styles/transitions/**/*.scss',
-      ],
-      dest: 'transitions/',
     },
   ],
 
