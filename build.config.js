@@ -1,11 +1,11 @@
 'use strict';
 
-var GithubMarkdownFormatter = require('./src/docgen/formatter');
+var GithubMarkdownFormatter = require('./lib/docgen/formatter');
 var formatter = new GithubMarkdownFormatter();
 
 module.exports = {
   dir: {
-    src: 'src/',
+    src: 'lib/',
     build: 'dist/',
     docs: 'doc/',
   },
@@ -32,9 +32,9 @@ module.exports = {
       `hermes.scss` imports all underscore-prefixed files.
     */
     {
-      main: 'src/styles/hermes.scss',
+      main: 'lib/styles/hermes.scss',
       src: [
-        'src/**/*.scss',
+        'lib/**/*.scss',
       ],
     },
   ],
@@ -49,16 +49,16 @@ module.exports = {
     */
     {
       name: 'core',
-      main: 'src/browser.js',
+      main: 'lib/browser.js',
       src: [
-        'src/enums/**/*.js',
-        'src/core/**/*.js',
-        '!src/**/*.spec.js',
-        '!src/**/*.spec-helper.js',
+        'lib/enums/**/*.js',
+        'lib/core/**/*.js',
+        '!lib/**/*.spec.js',
+        '!lib/**/*.spec-helper.js',
       ],
       spec: [
-        'src/core/**/*.spec-helper.js',
-        'src/core/**/*.spec.js',
+        'lib/core/**/*.spec-helper.js',
+        'lib/core/**/*.spec.js',
       ],
     },
 
@@ -67,15 +67,15 @@ module.exports = {
     */
     {
       name: 'polyfill',
-      main: 'src/polyfills.js',
+      main: 'lib/polyfills.js',
       src: [
-        'src/polyfills/*.js',
-        '!src/**/*.spec.js',
-        '!src/**/*.spec-helper.js',
+        'lib/polyfills/*.js',
+        '!lib/**/*.spec.js',
+        '!lib/**/*.spec-helper.js',
       ],
       spec: [
-        'src/polyfills/**/*.spec-heler.js',
-        'src/polyfills/**/*.spec.js',
+        'lib/polyfills/**/*.spec-heler.js',
+        'lib/polyfills/**/*.spec.js',
       ],
     },
 
@@ -85,13 +85,13 @@ module.exports = {
     {
       name: 'docgen',
       src: [
-        'src/docgen/**/*.js',
-        '!src/**/*.spec.js',
-        '!src/**/*.spec-helper.js',
+        'lib/docgen/**/*.js',
+        '!lib/**/*.spec.js',
+        '!lib/**/*.spec-helper.js',
       ],
       spec: [
-        'src/docgen/**/*.spec-helper.js',
-        'src/docgen/**/*.spec.js',
+        'lib/docgen/**/*.spec-helper.js',
+        'lib/docgen/**/*.spec.js',
       ],
     },
   ],
@@ -118,17 +118,17 @@ module.exports = {
       */
       {
         src: [
-          'src/enums/option.js',
-          'src/enums/time.js',
-          'src/enums/phase.js',
-          'src/enums/marker.js',
-          'src/enums/layout.js',
-          'src/enums/flag.js',
-          'src/enums/pattern.js',
+          'lib/enums/option.js',
+          'lib/enums/time.js',
+          'lib/enums/phase.js',
+          'lib/enums/marker.js',
+          'lib/enums/layout.js',
+          'lib/enums/flag.js',
+          'lib/enums/pattern.js',
         ],
         options: {
           formatter: formatter.format.bind(formatter),
-          template: 'src/docgen/class-names.md.ejs',
+          template: 'lib/docgen/class-names.md.ejs',
           concat: 'class-names.md',
           skipSingleStar: true,
           titleProperty: 'value',
@@ -140,13 +140,13 @@ module.exports = {
        */
       {
         src: [
-          'src/core/slider.js',
-          'src/core/phaser.js',
-          'src/core/boot.js',
+          'lib/core/slider.js',
+          'lib/core/phaser.js',
+          'lib/core/boot.js',
         ],
         options: {
           formatter: formatter.format.bind(formatter),
-          template: 'src/docgen/javascript-api.md.ejs',
+          template: 'lib/docgen/javascript-api.md.ejs',
           concat: 'javascript-api.md',
           skipSingleStar: true,
           titleProperty: 'signature',

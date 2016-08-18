@@ -1,4 +1,1686 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var autoboot = require('./core/autoboot');
+
+/**
+ * During project build, this script is compiled to `dist/hermes.js`,
+ * which contains ES5 code that can be run in all modern browsers.
+ * It is to be used only when programming in vanilla-browser style.
+ * When using nodejs-based javascript preprocessor, it's better to load
+ * hermes module and call ${link boot} function from client code.
+ */
+window.addEventListener('load', function() {
+  autoboot(document.body);
+});
+
+/*
+  eslint-env node, browser
+ */
+
+
+},{"./core/autoboot":2}],2:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var boot = require('./boot');
+var Option = require('../enums/option');
+
+module.exports = autoboot;
+
+/**
+ * Calls ${link boot} with passed element if it contains ${link Option.AUTOBOOT} option.
+ *
+ * @params {Element} containerElement element that will be passed to ${link boot}
+ */
+function autoboot(containerElement) {
+  if (containerElement.classList.contains(Option.AUTOBOOT)) {
+    boot(containerElement);
+  }
+}
+
+/*
+  eslint-env node
+*/
+
+
+},{"../enums/option":11,"./boot":3}],3:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var Slider = require('./slider');
+var Option = require('../enums/option');
+var Layout = require('../enums/layout');
+
+module.exports = boot;
+
+/**
+ * Default Hermes boot procedure.
+ *
+ * For each element with ${link Layout.SLIDER} class name found in passed container
+ * (typically document's `<body>`):
+ *
+ *  1. Adds ${link Option options class names} found on container element,
+ *  1. Creates ${link Slider} object,
+ *  2. Invokes its ${link Slider.prototype.start} method.
+ *
+ * If you are using browserify, you may want to call this function at some point...
+ *
+ * ```javascript
+ * var hermes = require('hermes-slider');
+ * hermes.boot(document.body);
+ * ```
+ *
+ * ...or even consider implementing bootup by yourself.
+ *
+ * @param {Element} containerElement element that contains sliders in (not necessarily immediate) children
+ * @return {Array<Slider>} array containing all created ${link Slider} instances
+ *
+ * @see Option.AUTOBOOT
+ * @fqn boot
+ */
+function boot(containerElement) {
+  var containerOptions = getEnabledOptions(containerElement);
+  var sliderElems = concatUnique(
+      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER)),
+      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER_SHORT))
+      );
+
+  var sliders = sliderElems.map(function(elem) {
+    containerOptions.forEach(function(option) {
+      if (elem.classList.contains(option)) {
+        return;
+      }
+      elem.classList.add(option);
+    });
+
+    return new Slider(elem);
+  });
+
+  sliders.forEach(function(slider) { slider.start(); });
+  return sliders;
+}
+
+// finds option class names on passed element
+function getEnabledOptions(element) {
+  var retVal = [];
+  Object.values(Option).forEach(function(option) {
+    if (element.classList.contains(option) && option !== Option.AUTOBOOT) {
+      retVal.push(option);
+    }
+  });
+  return retVal;
+}
+
+function concatUnique(unique, candidate) {
+  return unique.concat(candidate.filter(function(element) { return unique.indexOf(element) === -1; }));
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{"../enums/layout":9,"../enums/option":11,"./slider":6}],4:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var element = document.createElement('div');
+//var nameFromDomProperty = featureNameFromProperty.bind(null, element);
+var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
+
+module.exports = {
+  transformPropertyName: nameFromCssProperty('transform', {
+    transform: 'transform',
+    OTransform: '-o-transform',
+    MozTransform: '-moz-transform',
+    WebkitTransform: '-webkit-transform',
+  }),
+  transitionEventName: nameFromCssProperty('transitionend', {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  }),
+  animationEventName: nameFromCssProperty('animationstart', {
+    animation: 'animationstart',
+    webkitAnimation: 'webkitAnimationStart',
+    MSAnimation: 'MSAnimationStart',
+    MozAnimation: 'MozAnimationStart',
+  }),
+};
+
+/**
+ * Detects browser-specific names of browser features by checking availability
+ * of browser-specific properties in given object instance.
+ *
+ * @param {Object} instance object that will be checked for existence of properties
+ * @param {String} defaultName name used if nothing else detected (standard-compliant name)
+ * @param {Object} candidateMap browser-specific properties (keys) mapped to feature names (values)
+ * @return {String} value from candidateMap or defaultName
+ */
+function featureNameFromProperty(instance, defaultName, candidateMap) {
+  for (var key in candidateMap) {
+    if (typeof instance[key] !== 'undefined') {
+      return candidateMap[key];
+    }
+  }
+
+  console.warn('no feature name detected for '+ defaultName +' using default');
+  return defaultName;
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{}],5:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+/**
+ * This class controls phases of CSS transitions by setting proper
+ * ${link Phase phase class names} on slider element.
+ *
+ * It is an internal used by the ${link Slider}, but it can be used on any other DOM element
+ * that require explicit control (from JavaScript) of CSS transitions.
+ * To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
+ * will be used as an example throughout this documentation.
+ *
+ * There are 3 phases of a transition. Each phase is identified by a ${link Phase phase class name}
+ * that is set by the Phaser on the container DOM element. Transitions are as follows.
+ *
+ *  1. When transition is started, ${link Phase.BEFORE_TRANSITION} class name is set on container
+ *    DOM element. This phase is used to prepare all DOM elements inside a container element.
+ *    In case of slide's content, `opacity` is set to `0` and `transform` is set to `scale(1.15)`.
+ *    Slide is invisible and slightly zoomed-in. This phase lasts for 1 millisecond.
+ *  2. After 1 millisecond, next phase (${link Phase.DURING_TRANSITION}) is automatically started.
+ *    This is when all animation happens. Contents of current slide fading away
+ *    (`opacity:0; transform:scale(1);`) and next slide is fading-in
+ *    (`opacity:1; transform:scale(1.35);`). This phase last long (typically seconds).
+ *    Time varies depending on transition being used.
+ *  3. After animation is done, Phaser sets the phase to ${link Phase.AFTER_TRANSITION}.
+ *    There is a possibility of altering CSS in this phase (e.g. slight change of font color),
+ *    but in zoom-in-out there is no style change after transition.
+ *
+ * For all automatic phase changes to work, one of DOM elements that have transition specified
+ * must be added to the phaser as a phase trigger (see ${link Phaser.prototype.addPhaseTrigger}).
+ * Each time a transition on a phase trigger ends, ${link Phaser.prototype.nextPhase} method
+ * is called. During its startup, ${link Slider} sets phase change triggers on ${link Layout
+ * layout elements} (background and contents) of each slide and calls proper phase change methods
+ * when slider controls are being used.
+ *
+ * > ***DISCLAIMER***
+ * >
+ * > Implementation based on `window.setTimeout` function instead of `transitionend` event could
+ * > be simpler, but implementing a transition would have to involve JavaScript programming (now
+ * > it's purely declarative, CSS-only). Besides, using `window.setTimeout` would also mean using
+ * > `window.requestAnimationFrame` as timeout can pass without any rendering, which could result
+ * > in wrong animation (or no animation at all).
+ *
+ * @fqn Phaser
+ */
+module.exports = Phaser;
+
+var Phase = require('../enums/phase');
+var feature = require('./detect-features');
+var precond = require('precond');
+
+/**
+ * Creates Phaser.
+ *
+ * This constructor has no side-effects. This means that no ${link Phase phase class name}
+ * is set on given **element** and no eventlistener is set after calling it. For phaser to start
+ * doing some work, ${link Phaser.prototype.setPhase}, ${link Phaser.prototype.startTransition}
+ * or ${link Phaser.prototype.addPhaseTrigger} must be invoked.
+ *
+ * @param {Element} element container DOM element that will receive proper phase class names
+ * @fqn Phaser.prototype.constructor
+ */
+function Phaser(element) {
+  precond.checkArgument(element instanceof Element, 'elem is not an instance of Element');
+
+  var priv = {};
+  priv.elem = element;
+  priv.phase = null;
+  priv.listeners = [];
+  priv.phaseTriggers = new MultiMap();
+  priv.started = false;
+
+  var pub = {};
+  var methods = [
+    getPhase,
+    nextPhase,
+    addPhaseListener,
+    removePhaseListener,
+    addPhaseTrigger,
+    removePhaseTrigger,
+    startTransition,
+  ];
+
+  // This trick binds all methods to the public object
+  // passing `priv` as the first argument to each call.
+  methods.forEach(function(method) {
+    pub[method.name] = method.bind(pub, priv);
+  });
+
+  return pub;
+}
+
+/**
+ * A higher level method for starting a transition.
+ *
+ * ```javascript
+ * // a shorthand for
+ * phaser.setPhase(Phase.BEFORE_TRANSITION)
+ * ```
+ *
+ * @fqn Phaser.prototype.startTransition
+ */
+function startTransition(priv) {
+  setPhase(priv, Phase.BEFORE_TRANSITION);
+}
+
+/**
+ * Switches phase to next one.
+ *
+ * This method is automatically invoked each time a transition ends
+ * on DOM element added as phase trigger.
+ *
+ * @fqn Phaser.prototype.nextPhase
+ */
+function nextPhase(priv) {
+  var phases = [ null, Phase.BEFORE_TRANSITION, Phase.DURING_TRANSITION, Phase.AFTER_TRANSITION ];
+  setPhase(priv, phases[(phases.indexOf(priv.phase) + 1) % phases.length]);
+}
+
+/**
+ * Changes current phase.
+ *
+ * Invoking this method will result in setting CSS class name
+ * of requested phase on container element.
+ *
+ * @param {String} phase desired phase
+ * @fqn Phaser.prototype.setPhase
+ */
+function setPhase(priv, phase) {
+  if (priv.phase !== null) {
+    priv.elem.classList.remove(priv.phase);
+  }
+  priv.phase = phase;
+
+  if (phase !== null) {
+    priv.elem.classList.add(phase);
+  }
+  priv.listeners.forEach(function(listener) {
+    listener(phase);
+  });
+  maybeStart(priv);
+}
+
+/**
+ * Adds passed target to phase triggers.
+ *
+ * Phase will be automatically set to next each time a `transitionend` event of matching
+ * **target** and **propertyName** bubbles up to Phaser's container element.
+ *
+ * @param {Node} target (typically DOM Element) that will trigger next phase when matched
+ * @param {String} propertyName will trigger next phase when matched (optional, defaults to 'transform')
+ * @precondition **target** has container element as ancestor (see ${link Phaser.prototype.constructor})
+ * @precondition given pair of **target** and **propertyName** is not already a phase trigger
+ *
+ * @fqn Phaser.prototype.addPhaseTrigger
+ */
+function addPhaseTrigger(priv, target, propertyName) {
+  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
+  var property = propertyName || 'transform';
+  precond.checkIsString(property, 'propertyName is not a String');
+
+  if (property === 'transform') {
+    property = feature.transformPropertyName;
+  }
+  priv.phaseTriggers.put(property, target);
+  maybeStart(priv);
+}
+
+/**
+ * Adds a listener that will be notified on phase changes.
+ *
+ * It is used by the ${link Slider} to change styles of dots representing slides.
+ *
+ * @param {Function} listener listener to be added
+ *
+ * @fqn Phaser.prototype.addPhaseListener
+ */
+function addPhaseListener(priv, listener) {
+  priv.listeners.push(listener);
+}
+
+/**
+ * Removes passed target from phase triggers.
+ *
+ * @param {Node} target that will no longer be used as a phase trigger
+ * @param {String} transitionProperty that will no longer be a trigger (optional, defaults to 'transform')
+ * @precondition given pair of **target** and **propertyName** is registered as phase trigger
+ *
+ * @fqn Phaser.prototype.removePhaseTrigger
+ */
+function removePhaseTrigger(priv, target, propertyName) {
+  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
+  var property = propertyName || 'transform';
+  precond.checkIsString(property, 'transitionProperty is not a String');
+  var triggerElements = priv.phaseTriggers.get(property);
+  var index = triggerElements.indexOf(target);
+  precond.checkArgument(index !== -1,
+      'couldn\'t find phase trigger of given element and property \''+ property+'\'');
+
+  triggerElements.splice(index, 1);
+}
+
+/**
+ * Removes passed listener from the phaser.
+ *
+ * @param {Function} listener listener to be removed
+ * @fqn Phaser.prototype.removePhaseListener
+ */
+function removePhaseListener(priv, listener) {
+  priv.listeners.splice(priv.listeners.indexOf(listener), 1);
+}
+
+/**
+ * Returns a class name of the current phase.
+ *
+ * @return {String} current phase
+ * @fqn Phaser.prototype.getPhase
+ */
+function getPhase(priv) {
+  return priv.phase;
+}
+
+
+// Attaches event listener to phasers DOM element, if phaser was not previously started.
+function maybeStart(priv) {
+  if (priv.started) {
+    return;
+  }
+  priv.elem.addEventListener(feature.transitionEventName, handleTransitionEnd.bind(null, priv));
+  priv.started = true;
+}
+
+// Moves to next phase if transition that ended matches one of phase triggers.
+function handleTransitionEnd(priv, evt) {
+  if (evt.propertyName in priv.phaseTriggers &&
+      priv.phaseTriggers[evt.propertyName].indexOf(evt.target) !== -1) {
+    nextPhase(priv);
+  }
+}
+
+// A map of lists.
+function MultiMap() {}
+
+// Returns a list stored in **key**.
+// New list is created if instance doesn't given **key**.
+MultiMap.prototype.get = function(key) {
+  return this[key] || (this[key] = []);
+};
+
+// Adds new **value** to the list stored in **key**.
+MultiMap.prototype.put = function(key, value) {
+  this.get(key).push(value);
+};
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{"../enums/phase":13,"./detect-features":4,"precond":15}],6:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var phaser = require('./phaser');
+var upgrader = require('./upgrader');
+
+var precond = require('precond');
+
+/**
+ * > **DISCLAIMER**
+ * >
+ * > Hermes JavaScript API should be used only when specific initialization or integration
+ * > with other parts of the website is required. In other (simpler) cases please consider
+ * > using [declarative API](class-names.md).
+ *
+ * > **DISCLAIMER**
+ * >
+ * > JavaScript API is in early **alpha stage** and may change in the future.
+ *
+ * ### Example
+ *
+ * ```javascript
+ * // browserify is supported
+ * var hermes = require('hermes-slider');
+ *
+ * window.addEventListener('load', function() {
+ *   var slider = new hermes.Slider(document.getElementById('my-slider'));
+ *   slider.start();
+ * });
+ * ```
+ *
+ * @fqn Slider
+ */
+module.exports = Slider;
+
+// constants
+
+var Layout = require('../enums/layout');
+var Option = require('../enums/option');
+var Marker = require('../enums/marker');
+var Flag = require('../enums/flag');
+var Pattern = require('../enums/pattern');
+
+var DEFAULT_TRANSITION = 'hermes-transition--zoom-in-out';
+
+// public
+
+/**
+ * Constructs the slider.
+ *
+ * @param {Element} elem DOM element for the slider
+ *
+ * @fqn Slider.prototype.constructor
+ */
+function Slider(elem) {
+  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
+
+  var priv = {};
+  priv.elem = elem;
+  priv.transitions = [];
+  priv.phaser = phaser(elem);
+  priv.slides = [];
+  priv.upgrader = upgrader(elem);
+  priv.tempClasses = [];
+  priv.fromIndex = 1;
+  priv.toIndex = 0;
+  priv.started = false;
+
+  var pub = {};
+
+  /**
+   * Array containing all slide elements.
+   *
+   * @type Array
+   * @access read-only
+   *
+   * @fqn Slider.prototype.slides
+   */
+  pub.slides = priv.slides;
+
+  /**
+   * Index of currently active slide.
+   *
+   * Set to `null` if ${link Slider.prototype.start} was not called on this slider.
+   *
+   * @type Number
+   * @access read-write
+   *
+   * @fqn Slider.prototype.currentIndex
+   */
+  pub.currentIndex = null;
+  Object.defineProperty(pub, 'currentIndex', {
+    get: function() { return priv.slides.length !== 0? priv.toIndex: null; },
+    set: partial(moveTo, priv),
+  });
+
+  /**
+   * Currently active slide element.
+   *
+   * Set to `null` if ${link Slider.prototype.start} was not called on this slider.
+   *
+   * @type Element
+   * @access read-write
+   *
+   * @fqn Slider.prototype.currentSlide
+   */
+  pub.currentSlide = null;
+  Object.defineProperty(pub, 'currentSlide', {
+    get: function() { return priv.slides.length !== 0? priv.slides[priv.toIndex]: null; },
+    set: function() { throw new Error('read only property! please use currentIndex instead'); },
+  });
+
+  bindMethods(pub, [
+    start,
+    moveTo,
+    moveToNext,
+    moveToPrevious,
+  ], priv);
+
+  priv.pub = pub;
+  return pub;
+}
+
+/**
+ * Upgrades DOM elements and shows the first slide.
+ *
+ * Starting procedure involves manipuilating DOM and waiting for changes to be visible on the
+ * screen, therefore slider will not be started immediately after returning from this call.
+ * After all slides are upgraded and visible on the screen, given **callback** will be called
+ * by the slider. At that time it's safe to use all features of the slider.
+ *
+ * ```js
+ * slider.start(function() {
+ *   slider.currentIndex = 1;
+ * });
+ * ```
+ *
+ * @param {Function} callback that will be called after all slides are upgraded
+ * @precondition ${link Slider.prototype.start} was not called on this slider
+ * @postcondition calling ${link Slider.prototype.start} again will throw exception
+ * @see ${link Option.AUTOBOOT}
+ *
+ * @fqn Slider.prototype.start
+ */
+function start(priv, callback) {
+  precond.checkState(!priv.started, 'slider is already started');
+
+  priv.startCallback = callback || noop;
+  priv.transitions = searchForTransitions(priv.elem);
+  // For transition to work, it is required that a single transition class will be present
+  // on the slider element. Since there may be many transitions declared on the slider and
+  // since transitions can be configured also per slide, all transition class names are removed
+  // from the slider. Single transition class name will be added just before before-transition
+  // phase and removed right after hitting after-transition.
+  // TODO transitions are to be independent from slide time, this needs to change
+  // TODO is there a way to test removing transition class names during start?
+  priv.elem.className = priv.elem.className.replace(Pattern.TRANSITION, '').replace('\s+', ' ');
+
+  expandOptionGroups(priv);
+  if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
+    window.addEventListener('keydown', partial(keyBasedMove, priv), false);
+  }
+  priv.elem.addEventListener('click', partial(clickBasedMove, priv), false);
+
+  priv.upgrader.onSlideUpgraded = acceptSlide.bind(null, priv);
+  priv.upgrader.start();
+  priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
+
+  priv.started = true;
+}
+
+/**
+ * Moves slider to next slide.
+ *
+ * @precondition ${link Slider.prototype.start} was called on this slider
+ * @see ${link Option.AUTOPLAY}
+ *
+ * @fqn Slider.prototype.moveToNext
+ */
+function moveToNext(priv) {
+  moveTo(priv, (priv.toIndex + 1) % priv.slides.length);
+}
+
+/**
+ * Moves slider previous slide.
+ *
+ * @precondition ${link Slider.prototype.start} was called on this slider
+ *
+ * @fqn Slider.prototype.moveToPrevious
+ */
+function moveToPrevious(priv) {
+  moveTo(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
+}
+
+/**
+ * Moves slider slide of given index.
+ *
+ * @param {Number} index index of the slide that slider will be moved to
+ * @precondition ${link Slider.prototype.start} was called on this slider
+ *
+ * @fqn Slider.prototype.moveTo
+ */
+function moveTo(priv, index) {
+  precond.checkState(priv.started, 'slider not started');
+  precond.checkIsNumber(index, 'given index is not a number');
+  precond.checkArgument(priv.slides.length > index, 'given index is out of bounds');
+
+  var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
+  if (priv.toIndex === toIndex) {
+    return;
+  }
+
+  removeMarkersAndFlags(priv);
+  removeTempClasses(priv);
+
+  priv.fromIndex = priv.toIndex;
+  priv.toIndex = toIndex;
+
+  addMarkersAndFlags(priv);
+  var toSlide = priv.slides[priv.toIndex];
+  if (toSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ toSlide.id);
+  }
+  addTempClass(priv, chooseTransition(priv));
+
+  priv.phaser.startTransition();
+}
+
+// private
+
+// initialization functions
+
+function searchForTransitions(elem) {
+  var transitions = [];
+  var matches = elem.className.match(Pattern.TRANSITION);
+  if (matches) {
+    for (var i = 0; i < matches.length; ++i) {
+      transitions.push(matches[i]);
+    }
+  }
+  return transitions;
+}
+
+function acceptSlide(priv, slideElement) {
+  slideElement.classList.add(Flag.UPGRADED);
+
+  priv.slides.push(slideElement);
+  priv.phaser.addPhaseTrigger(slideElement.querySelector('.'+ Layout.CONTENT));
+
+  if (priv.slides.length === 1) {
+    moveToFirstSlide(priv);
+    priv.startCallback.call(null, priv.pub);
+  }
+}
+
+function moveToFirstSlide(priv) {
+  var firstSlide = priv.slides[priv.toIndex];
+  firstSlide.classList.add(Marker.SLIDE_TO);
+  if (firstSlide.id !== null) {
+    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
+  }
+  if (typeof firstSlide.dot !== 'undefined') {
+    firstSlide.dot.classList.add(Flag.ACTIVE);
+  }
+
+  addTempClass(priv, chooseTransition(priv));
+  priv.phaser.startTransition();
+}
+
+function expandOptionGroups(priv) {
+  var list = priv.elem.classList;
+
+  if (list.contains(Option.DEFAULTS)) {
+    list.add(Option.AUTOPLAY);
+    list.add(Option.ARROW_KEYS);
+    list.add(Option.SHOW_ARROWS);
+    list.add(Option.SHOW_DOTS);
+    list.add(Option.RESPONSIVE_CONTROLS);
+  }
+}
+
+// transition functions
+
+function removeMarkersAndFlags(priv) {
+  var fromSlide = priv.slides[priv.fromIndex];
+  var toSlide = priv.slides[priv.toIndex];
+  fromSlide.classList.remove(Marker.SLIDE_FROM);
+  toSlide.classList.remove(Marker.SLIDE_TO);
+  if (typeof toSlide.dot !== 'undefined') {
+    toSlide.dot.classList.remove(Flag.ACTIVE);
+  }
+}
+
+function addMarkersAndFlags(priv) {
+  var fromSlide = priv.slides[priv.fromIndex];
+  var toSlide = priv.slides[priv.toIndex];
+  fromSlide.classList.add(Marker.SLIDE_FROM);
+  toSlide.classList.add(Marker.SLIDE_TO);
+  if (typeof toSlide.dot !== 'undefined') {
+    toSlide.dot.classList.add(Flag.ACTIVE);
+  }
+}
+
+function addTempClass(priv, className) {
+  priv.tempClasses.push(className);
+  priv.elem.classList.add(className);
+}
+
+function removeTempClasses(priv) {
+  priv.tempClasses.forEach(function(className) {
+    priv.elem.classList.remove(className);
+  });
+  priv.tempClasses = [];
+}
+
+function onPhaseChange(priv, phase) {
+  if (phase === 'hermes-after-transition' && priv.elem.classList.contains(Option.AUTOPLAY)) {
+    moveToNext(priv);
+  }
+}
+
+function clickBasedMove(priv, event) {
+  var target = event.target;
+  if (!target.classList.contains(Layout.CONTROLS)) {
+    return;
+  }
+
+  if (target.classList.contains(Layout.ARROW_LEFT)) {
+    moveToPrevious(priv);
+    return;
+  }
+  if (target.classList.contains(Layout.ARROW_RIGHT)) {
+    moveToNext(priv);
+    return;
+  }
+  if (target.classList.contains(Layout.DOT)) {
+    moveTo(priv, [].indexOf.call(target.parentNode.childNodes, target));
+    return;
+  }
+
+  throw new Error('unknown controls element clicked');
+}
+
+function keyBasedMove(priv, event) {
+  switch (event.key) {
+    case 'ArrowLeft': moveToPrevious(priv); break;
+    case 'ArrowRight': moveToNext(priv); break;
+    default: break;
+  }
+}
+
+function chooseTransition(priv) {
+  var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
+  return match && match[0] ||
+      (priv.transitions.length && random(priv.transitions) ||
+      DEFAULT_TRANSITION);
+}
+
+function random(array) {
+  return array[parseInt(Math.random() * array.length, 10)];
+}
+
+// utilities
+
+function bindMethods(wrapper, methods, arg) {
+  methods.forEach(function(method) {
+    wrapper[method.name] = method.bind(wrapper, arg);
+  });
+}
+
+function partial(func) {
+  return func.bind.apply(func, [ null ].concat([].slice.call(arguments, 1)));
+}
+
+function noop() {
+  // noop
+}
+
+/*
+  eslint-env node, browser
+ */
+
+/*
+  eslint
+    complexity: [2, 5],
+ */
+
+
+},{"../enums/flag":8,"../enums/layout":9,"../enums/marker":10,"../enums/option":11,"../enums/pattern":12,"./phaser":5,"./upgrader":7,"precond":15}],7:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+module.exports = Upgrader;
+
+var feature = require('./detect-features');
+
+var Layout = require('../enums/layout');
+var Flag = require('../enums/flag');
+
+var Selector = (function() {
+  var selectors = {};
+  for (var name in Layout) {
+    selectors[name] = '.' + Layout[name];
+  }
+  return selectors;
+}());
+
+function Upgrader(elem) {
+  var priv = {};
+  priv.onSlideUpgraded = noop;
+  priv.elem = elem;
+  priv.dotsElement = null;
+
+  var pub = {};
+  pub.start = start.bind(pub, priv);
+
+  Object.defineProperty(pub, 'onSlideUpgraded', {
+    set: function(callback) { priv.onSlideUpgraded = callback; },
+    get: function() { return priv.onSlideUpgraded; },
+    enumerable: true,
+  });
+  return pub;
+}
+
+function start(priv) {
+  createArrowButtons(priv);
+  createDotButtons(priv);
+  upgradeSlides(priv);
+
+  if (!priv.elem.classList.contains(Layout.SLIDER)) {
+    priv.elem.classList.add(Layout.SLIDER);
+  }
+  priv.elem.classList.add(Flag.UPGRADED);
+}
+
+function createArrowButtons(priv) {
+  var previousButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_LEFT);
+  priv.elem.appendChild(previousButton);
+
+  var nextButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_RIGHT);
+  priv.elem.appendChild(nextButton);
+}
+
+function createDotButtons(priv) {
+  priv.dotsElement = create(Layout.CONTROLS, Layout.DOTS);
+  priv.elem.appendChild(priv.dotsElement);
+}
+
+function createDot(priv, slideElement) {
+  var dot = create(Layout.CONTROLS, Layout.DOT);
+  priv.dotsElement.appendChild(dot);
+  slideElement.dot = dot;
+}
+
+function upgradeSlides(priv) {
+  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
+
+  function maybeUpgradeSlide(evt) {
+    if (evt.animationName === 'hermesSlideInserted' &&
+        evt.target.parentNode === priv.elem &&
+        !evt.target.classList.contains(Layout.CONTROLS)) {
+      upgradeSlide(priv, evt.target);
+    }
+  }
+}
+
+function upgradeSlide(priv, slideElement) {
+  if (!slideElement.classList.contains(Layout.SLIDE)) {
+    slideElement.classList.add(Layout.SLIDE);
+  }
+
+  var contentElement = slideElement.querySelector(Selector.CONTENT);
+  var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
+
+  if (contentElement !== null && backgroundElement !== null) {
+    createDot(priv, slideElement);
+    priv.onSlideUpgraded.call(null, slideElement);
+    return;
+  }
+
+  if (contentElement === null) {
+    contentElement = createContentElement(slideElement);
+    slideElement.appendChild(contentElement);
+  }
+
+  if (backgroundElement === null) {
+    backgroundElement = createBackgroundElement(slideElement);
+    slideElement.insertBefore(backgroundElement, contentElement);
+  }
+
+  reinsertNode(slideElement);
+}
+
+function createContentElement(slideElement) {
+  var contentElement = create(Layout.CONTENT);
+  while (slideElement.childNodes.length) {
+    contentElement.appendChild(slideElement.childNodes[0]);
+  }
+  return contentElement;
+}
+
+function createBackgroundElement() {
+  return create(Layout.BACKGROUND);
+}
+
+function reinsertNode(node) {
+  var parent = node.parentNode;
+  var next = node.nextSibling;
+  parent.removeChild(node);
+  if (next) {
+    parent.insertBefore(node, next);
+  } else {
+    parent.appendChild(node);
+  }
+}
+
+function create() {
+  var elem = document.createElement('div');
+  elem.className = [].join.call(arguments, ' ');
+  return elem;
+}
+
+function noop() {
+  // noop
+}
+
+/*
+  eslint-env node, browser
+ */
+
+/*
+  eslint
+    complexity: [2, 6],
+ */
+
+
+},{"../enums/flag":8,"../enums/layout":9,"./detect-features":4}],8:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
+ * client HTML or JavaScript and **SHOULD be used only in client CSS**.
+ *
+ * @name Flag Class Names
+ */
+var Flag = {
+
+  /**
+   * Automatically set on slider after its upgrade.
+   *
+   * @fqn Flag.UPGRADED
+   */
+  UPGRADED: 'is-upgraded',
+
+  /**
+   * Automatically set on ${link Layout.DOT} button connected with currently active slide.
+   *
+   * @invariant This class is set on only one dot button.
+   *
+   * @fqn Flag.ACTIVE
+   */
+  ACTIVE: 'is-active',
+};
+
+module.exports = Flag;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],9:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * In most cases, most of layout classes **SHOULD not be used in client HTML**, as they are
+ * automatially applied to apropriate elements during [slider's upgrade procedure](dom-upgrade.md)
+ * (${link Layout.SLIDER_SHORT} is the only layout class name that MUST be applied in client HTML).
+ *
+ * Layout classes play following roles in slider's inner-workings.
+ *  1. **role-id** - class names are used to identify element's role during slider upgrade,
+ *  2. **transition** - class names must be used in definitions of CSS transitions,
+ *  3. **styling** - class names are recommended for usage in slide's styling.
+ *
+ * @name Layout Class Names
+ * @summary-column usage Usage
+ * @summary-column client-html Client HTML
+ */
+var Layout = {
+
+  /**
+   * Alias for ${link Layout.SLIDER}.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   *
+   * @fqn Layout.SLIDER_SHORT
+   */
+  SLIDER_SHORT: 'hermes-slider',
+
+  /**
+   * Identifies main slider element.
+   *
+   * This class must be set on all slider elements in client HTML.
+   * It can be used in client CSS code for styling.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   *
+   * @fqn Layout.SLIDER
+   */
+  SLIDER: 'hermes-layout--slider',
+
+  /**
+   * Identifies a slide.
+   *
+   * At least 2 slides must be defined in each slider.
+   * It can be used in client CSS code for styling.
+   *
+   * @usage role-id styling
+   * @client-html optional
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.SLIDE
+   */
+  SLIDE: 'hermes-layout--slide',
+
+  /**
+   * Identifies background of a slide.
+   *
+   * For slides in which this element is not present in slider declaration, empty background
+   * element will be generated during slider upgrade. This class name must be used in all
+   * definitions of background transitions.
+   *
+   * @usage role-id styling transition
+   * @client-html optional
+   * @parent-element Layout.SLIDE
+   *
+   * @fqn Layout.BACKGROUND
+   */
+  BACKGROUND: 'hermes-layout--background',
+
+  /**
+   * Identifies content of a slide.
+   *
+   * For slides in which this element is not present in slider declaration, it will be generated
+   * during slider upgrade. Contents of a slide will be moved inside generated element. If element
+   * is present in slider declaration, it must contain all contents of a slide. This class name
+   * must be used in all definitions of content transitions.
+   *
+   * @usage role-id styling transition
+   * @client-html optional
+   * @parent-element Layout.SLIDE
+   *
+   * @fqn Layout.CONTENT
+   */
+  CONTENT: 'hermes-layout--content',
+
+  /**
+   * Set during upgrade on all generated controls.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.CONTROLS
+   */
+  CONTROLS: 'hermes-layout--controls',
+
+  /**
+   * Set during upgrade on generated arrow buttons.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.ARROW
+   */
+  ARROW: 'hermes-layout--arrow',
+
+  /**
+   * Set during upgrade on generated left arrow button.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.ARROW_LEFT
+   */
+  ARROW_LEFT: 'hermes-layout--arrow-left',
+
+  /**
+   * Set during upgrade on generated right arrow button.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.ARROW_RIGHT
+   */
+  ARROW_RIGHT: 'hermes-layout--arrow-right',
+
+  /**
+   * Set during upgrade on container elements that contains dot buttons.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.SLIDER
+   *
+   * @fqn Layout.DOTS
+   */
+  DOTS: 'hermes-layout--dots',
+
+  /**
+   * Set during upgrade on each dot button element.
+   *
+   * This class name must not be used in client HTML.
+   * It may be used in client CSS for styling.
+   *
+   * @usage styling
+   * @client-html forbidden
+   * @parent-element Layout.DOTS
+   *
+   * @fqn Layout.DOT
+   */
+  DOT: 'hermes-layout--dot',
+};
+
+module.exports = Layout;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],10:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * They are automatically set on slide elements (${link Layout.SLIDE}).
+ * Marker class names MUST NOT be manipulated from client HTML or JavaScript
+ * and **SHOULD be used only in definitions of CSS transitions**.
+ *
+ * @name Transition Marker Class Names
+ */
+var Marker = {
+
+  /**
+   * Automatically set on previously active ${link Layout.SLIDE}.
+   *
+   * @invariant After starting first transition this class name is set on only one slide.
+   *
+   * @fqn Marker.SLIDE_FROM
+   */
+  SLIDE_FROM: 'hermes-slide-from',
+
+  /**
+   * Automatically set on currently active ${link Layout.SLIDE}.
+   *
+   * This class name is set on first slide after starting a slider
+   * and then set on currently active slide each time it changes.
+   *
+   * @invariant After starting slider this class name is set on only one slide.
+   *
+   * @fqn Marker.SLIDE_TO
+   */
+  SLIDE_TO: 'hermes-slide-to',
+};
+
+module.exports = Marker;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],11:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * Option classes enable features of the slider.
+ *
+ * Most options are intended to be set on ${link Layout.SLIDER} element, but they can also be
+ * set on document's `<body>`. Options set on `<body>` are treated as defaults for each ${link
+ * Layout.SLIDER} declared on the page.
+ *
+ * Two categories:
+ *  1. **single options** - each of which enables one feature,
+ *  2. **option groups** - that adds many option classes to the slider during upgrade.
+ *
+ * Each option class is checked by the slider in one of two ways:
+ *  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
+ *    in client HTML, slider will check for it only once during upgrade, adding/removing class
+ *    after upgrade make no effect,
+ *  2. <a href='#continuously' id='continuously'>**checked continuously**</a> -
+ *    class name may be added/removed at any time, slider will check if it is set every time
+ *    a decission connected with this class is made.
+ *
+ * @name Option Class Names
+ * @summary-column checked Checked
+ * @summary-column target Target Element
+ */
+var Option = {
+
+  /**
+   * Automatically creates ${link Slider} objects for all sliders declared on the page
+   * and invokes their ${link Slider.prototype.start} methods.
+   *
+   * This options can be set only on `<body>` element.
+   * It enabled using Hermes without any JavaScript programming.
+   *
+   * > ***WARNING***
+   * >
+   * > When using Hermes via node and broserify, this option is ignored.
+   *
+   * @target document's `<body>`
+   * @checked once
+   * @see boot
+   * @see Slider.prototype.start
+   *
+   * @fqn Option.AUTOBOOT
+   */
+  AUTOBOOT: 'hermes-autoboot',
+
+  /**
+   * Adds
+   * ${link Option.AUTOPLAY},
+   * ${link Option.SHOW_ARROWS},
+   * ${link Option.SHOW_DOTS},
+   * ${link Option.ARROW_KEYS},
+   * ${link Option.RESPONSIVE_CONTROLS}
+   * classes to the slider.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   *
+   * @fqn Option.DEFAULTS
+   */
+  DEFAULTS: 'hermes-defaults',
+
+  /**
+   * Automatically moves slider to next slide.
+   *
+   * Slider is moved to the next after time specified in ${link Time time class name}.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked continuously
+   * @see Slider.prototype.moveToNext
+   *
+   * @fqn Option.AUTOPLAY
+   */
+  AUTOPLAY: 'hermes-autoplay',
+
+  /**
+   * Shows side arrow buttons.
+   *
+   * `click` event on dispatched on left arrow moves slider to previous slide.
+   * `click` event on dispatched on right arrow moves slider to next slide.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked continuously
+   * @see Slider.prototype.moveToPrevious
+   * @see Slider.prototype.moveToNext
+   *
+   * @fqn Option.SHOW_ARROWS
+   */
+  SHOW_ARROWS: 'hermes-show-arrows',
+
+  /**
+   * Shows dot button for each slide.
+   *
+   * `click` event displatched on dot button moves slider to slide asociated with this dot button.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked continuously
+   * @see Slider.prototype.currentIndex
+   *
+   * @fqn Option.SHOW_DOTS
+   */
+  SHOW_DOTS: 'hermes-show-dots',
+
+  /**
+   * Adds keyboard control to slider.
+   *
+   * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
+   * slide, with `RightArrow` key moves slider to next slide.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   * @see Slider.prototype.currentIndex
+   *
+   * @fqn Option.ARROW_KEYS
+   */
+  ARROW_KEYS: 'hermes-arrow-keys',
+
+  /**
+   * Adds screen responsiveness to slider controls.
+   *
+   * Slider controls come in 3 different layouts. Each for different range of screen width.
+   *
+   * @target `<body` or ${link Layout.SLIDER}
+   * @checked once
+   * @see [Screen Responsiveness](responsiveness.md)
+   * @see Slider.breakpointNarrowToNormal
+   * @see Slider.breakpointNormalToWide
+   *
+   * @fqn Option.RESPONSIVE_CONTROLS
+   */
+  RESPONSIVE_CONTROLS: 'hermes-responsive-controls',
+};
+
+module.exports = Option;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],12:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * @name Other Class Names
+ */
+var Pattern = {
+
+  /**
+   * All transitions used by the slider must match this regular expression.
+   *
+   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
+   * transition class names. Transitions declared this way will be randomly used by the slider.
+   * After upgrade all declared transitions are removed from slider element.
+   *
+   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
+   * use transition declared on slide element when moving to this slide. Transition declarations of
+   * this type are [checked continuously](#continuously), therefore they may be added/removed
+   * on slides at runtime (client JavaScript).
+   *
+   * @invariant Class name of currently running transition is set on slider element.
+   *
+   * @fqn Pattern.TRANSITION
+   */
+  TRANSITION: /hermes-transition--([^\s]+)/g,
+
+  /**
+   * Slider keeps class name with id of current slide on ${link Layout.SLIDER} element.
+   *
+   * This functionality may be useful if slides other than current are to be partially visible
+   * or if appearence of controls or even whole slider needs to change from one slide to another.
+   *
+   * @invariant Class name with id of current slide is set on slider element.
+   *
+   * @fqn Pattern.SLIDE_ID
+   */
+  SLIDE_ID: /hermes-slide-id-([^\s]+)/,
+};
+
+module.exports = Pattern;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],13:[function(require,module,exports){
+/*!
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * All phase classes are automatically set on slider element (${link Layout.SLIDER}).
+ * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
+ * in definitions of CSS transitions**.
+ *
+ * @name Transition Phase Class Names
+ */
+var Phase = {
+
+  /**
+   * Set on slider element just before transition starts.
+   *
+   * This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
+   * to initial values before transition.
+   *
+   * @fqn Phase.BEFORE_TRANSITION
+   */
+  BEFORE_TRANSITION: 'hermes-before-transition',
+
+  /**
+   * Set on slider element while transition of ${link Layout.CONTENT} element is run.
+   *
+   * @fqn Phase.DURING_TRANSITION
+   */
+  DURING_TRANSITION: 'hermes-during-transition',
+
+  /**
+   * Set on slider element after transition of ${link Layout.CONTENT} element ends.
+   *
+   * @fqn Phase.AFTER_TRANSITION
+   */
+  AFTER_TRANSITION: 'hermes-after-transition',
+};
+
+module.exports = Phase;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],14:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -23,14 +1705,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],2:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
  */
 
 module.exports = require('./lib/checks');
-},{"./lib/checks":3}],3:[function(require,module,exports){
+},{"./lib/checks":16}],16:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
@@ -126,7 +1808,7 @@ module.exports.checkIsBoolean = typeCheck('boolean');
 module.exports.checkIsFunction = typeCheck('function');
 module.exports.checkIsObject = typeCheck('object');
 
-},{"./errors":4,"util":7}],4:[function(require,module,exports){
+},{"./errors":17,"util":20}],17:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
@@ -152,7 +1834,7 @@ IllegalStateError.prototype.name = 'IllegalStateError';
 
 module.exports.IllegalStateError = IllegalStateError;
 module.exports.IllegalArgumentError = IllegalArgumentError;
-},{"util":7}],5:[function(require,module,exports){
+},{"util":20}],18:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -286,14 +1968,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],6:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],7:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -883,1686 +2565,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":6,"_process":5,"inherits":1}],8:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var autoboot = require('./core/autoboot');
-
-/**
- * During project build, this script is compiled to `dist/hermes.js`,
- * which contains ES5 code that can be run in all modern browsers.
- * It is to be used only when programming in vanilla-browser style.
- * When using nodejs-based javascript preprocessor, it's better to load
- * hermes module and call ${link boot} function from client code.
- */
-window.addEventListener('load', function() {
-  autoboot(document.body);
-});
-
-/*
-  eslint-env node, browser
- */
-
-
-},{"./core/autoboot":9}],9:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var boot = require('./boot');
-var Option = require('../enums/option');
-
-module.exports = autoboot;
-
-/**
- * Calls ${link boot} with passed element if it contains ${link Option.AUTOBOOT} option.
- *
- * @params {Element} containerElement element that will be passed to ${link boot}
- */
-function autoboot(containerElement) {
-  if (containerElement.classList.contains(Option.AUTOBOOT)) {
-    boot(containerElement);
-  }
-}
-
-/*
-  eslint-env node
-*/
-
-
-},{"../enums/option":18,"./boot":10}],10:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var Slider = require('./slider');
-var Option = require('../enums/option');
-var Layout = require('../enums/layout');
-
-module.exports = boot;
-
-/**
- * Default Hermes boot procedure.
- *
- * For each element with ${link Layout.SLIDER} class name found in passed container
- * (typically document's `<body>`):
- *
- *  1. Adds ${link Option options class names} found on container element,
- *  1. Creates ${link Slider} object,
- *  2. Invokes its ${link Slider.prototype.start} method.
- *
- * If you are using browserify, you may want to call this function at some point...
- *
- * ```javascript
- * var hermes = require('hermes-slider');
- * hermes.boot(document.body);
- * ```
- *
- * ...or even consider implementing bootup by yourself.
- *
- * @param {Element} containerElement element that contains sliders in (not necessarily immediate) children
- * @return {Array<Slider>} array containing all created ${link Slider} instances
- *
- * @see Option.AUTOBOOT
- * @fqn boot
- */
-function boot(containerElement) {
-  var containerOptions = getEnabledOptions(containerElement);
-  var sliderElems = concatUnique(
-      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER)),
-      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER_SHORT))
-      );
-
-  var sliders = sliderElems.map(function(elem) {
-    containerOptions.forEach(function(option) {
-      if (elem.classList.contains(option)) {
-        return;
-      }
-      elem.classList.add(option);
-    });
-
-    return new Slider(elem);
-  });
-
-  sliders.forEach(function(slider) { slider.start(); });
-  return sliders;
-}
-
-// finds option class names on passed element
-function getEnabledOptions(element) {
-  var retVal = [];
-  Object.values(Option).forEach(function(option) {
-    if (element.classList.contains(option) && option !== Option.AUTOBOOT) {
-      retVal.push(option);
-    }
-  });
-  return retVal;
-}
-
-function concatUnique(unique, candidate) {
-  return unique.concat(candidate.filter(function(element) { return unique.indexOf(element) === -1; }));
-}
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{"../enums/layout":16,"../enums/option":18,"./slider":13}],11:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var element = document.createElement('div');
-//var nameFromDomProperty = featureNameFromProperty.bind(null, element);
-var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
-
-module.exports = {
-  transformPropertyName: nameFromCssProperty('transform', {
-    transform: 'transform',
-    OTransform: '-o-transform',
-    MozTransform: '-moz-transform',
-    WebkitTransform: '-webkit-transform',
-  }),
-  transitionEventName: nameFromCssProperty('transitionend', {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd',
-  }),
-  animationEventName: nameFromCssProperty('animationstart', {
-    animation: 'animationstart',
-    webkitAnimation: 'webkitAnimationStart',
-    MSAnimation: 'MSAnimationStart',
-    MozAnimation: 'MozAnimationStart',
-  }),
-};
-
-/**
- * Detects browser-specific names of browser features by checking availability
- * of browser-specific properties in given object instance.
- *
- * @param {Object} instance object that will be checked for existence of properties
- * @param {String} defaultName name used if nothing else detected (standard-compliant name)
- * @param {Object} candidateMap browser-specific properties (keys) mapped to feature names (values)
- * @return {String} value from candidateMap or defaultName
- */
-function featureNameFromProperty(instance, defaultName, candidateMap) {
-  for (var key in candidateMap) {
-    if (typeof instance[key] !== 'undefined') {
-      return candidateMap[key];
-    }
-  }
-
-  console.warn('no feature name detected for '+ defaultName +' using default');
-  return defaultName;
-}
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{}],12:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-/**
- * This class controls phases of CSS transitions by setting proper
- * ${link Phase phase class names} on slider element.
- *
- * It is an internal used by the ${link Slider}, but it can be used on any other DOM element
- * that require explicit control (from JavaScript) of CSS transitions.
- * To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
- * will be used as an example throughout this documentation.
- *
- * There are 3 phases of a transition. Each phase is identified by a ${link Phase phase class name}
- * that is set by the Phaser on the container DOM element. Transitions are as follows.
- *
- *  1. When transition is started, ${link Phase.BEFORE_TRANSITION} class name is set on container
- *    DOM element. This phase is used to prepare all DOM elements inside a container element.
- *    In case of slide's content, `opacity` is set to `0` and `transform` is set to `scale(1.15)`.
- *    Slide is invisible and slightly zoomed-in. This phase lasts for 1 millisecond.
- *  2. After 1 millisecond, next phase (${link Phase.DURING_TRANSITION}) is automatically started.
- *    This is when all animation happens. Contents of current slide fading away
- *    (`opacity:0; transform:scale(1);`) and next slide is fading-in
- *    (`opacity:1; transform:scale(1.35);`). This phase last long (typically seconds).
- *    Time varies depending on transition being used.
- *  3. After animation is done, Phaser sets the phase to ${link Phase.AFTER_TRANSITION}.
- *    There is a possibility of altering CSS in this phase (e.g. slight change of font color),
- *    but in zoom-in-out there is no style change after transition.
- *
- * For all automatic phase changes to work, one of DOM elements that have transition specified
- * must be added to the phaser as a phase trigger (see ${link Phaser.prototype.addPhaseTrigger}).
- * Each time a transition on a phase trigger ends, ${link Phaser.prototype.nextPhase} method
- * is called. During its startup, ${link Slider} sets phase change triggers on ${link Layout
- * layout elements} (background and contents) of each slide and calls proper phase change methods
- * when slider controls are being used.
- *
- * > ***DISCLAIMER***
- * >
- * > Implementation based on `window.setTimeout` function instead of `transitionend` event could
- * > be simpler, but implementing a transition would have to involve JavaScript programming (now
- * > it's purely declarative, CSS-only). Besides, using `window.setTimeout` would also mean using
- * > `window.requestAnimationFrame` as timeout can pass without any rendering, which could result
- * > in wrong animation (or no animation at all).
- *
- * @fqn Phaser
- */
-module.exports = Phaser;
-
-var Phase = require('../enums/phase');
-var feature = require('./detect-features');
-var precond = require('precond');
-
-/**
- * Creates Phaser.
- *
- * This constructor has no side-effects. This means that no ${link Phase phase class name}
- * is set on given **element** and no eventlistener is set after calling it. For phaser to start
- * doing some work, ${link Phaser.prototype.setPhase}, ${link Phaser.prototype.startTransition}
- * or ${link Phaser.prototype.addPhaseTrigger} must be invoked.
- *
- * @param {Element} element container DOM element that will receive proper phase class names
- * @fqn Phaser.prototype.constructor
- */
-function Phaser(element) {
-  precond.checkArgument(element instanceof Element, 'elem is not an instance of Element');
-
-  var priv = {};
-  priv.elem = element;
-  priv.phase = null;
-  priv.listeners = [];
-  priv.phaseTriggers = new MultiMap();
-  priv.started = false;
-
-  var pub = {};
-  var methods = [
-    getPhase,
-    nextPhase,
-    addPhaseListener,
-    removePhaseListener,
-    addPhaseTrigger,
-    removePhaseTrigger,
-    startTransition,
-  ];
-
-  // This trick binds all methods to the public object
-  // passing `priv` as the first argument to each call.
-  methods.forEach(function(method) {
-    pub[method.name] = method.bind(pub, priv);
-  });
-
-  return pub;
-}
-
-/**
- * A higher level method for starting a transition.
- *
- * ```javascript
- * // a shorthand for
- * phaser.setPhase(Phase.BEFORE_TRANSITION)
- * ```
- *
- * @fqn Phaser.prototype.startTransition
- */
-function startTransition(priv) {
-  setPhase(priv, Phase.BEFORE_TRANSITION);
-}
-
-/**
- * Switches phase to next one.
- *
- * This method is automatically invoked each time a transition ends
- * on DOM element added as phase trigger.
- *
- * @fqn Phaser.prototype.nextPhase
- */
-function nextPhase(priv) {
-  var phases = [ null, Phase.BEFORE_TRANSITION, Phase.DURING_TRANSITION, Phase.AFTER_TRANSITION ];
-  setPhase(priv, phases[(phases.indexOf(priv.phase) + 1) % phases.length]);
-}
-
-/**
- * Changes current phase.
- *
- * Invoking this method will result in setting CSS class name
- * of requested phase on container element.
- *
- * @param {String} phase desired phase
- * @fqn Phaser.prototype.setPhase
- */
-function setPhase(priv, phase) {
-  if (priv.phase !== null) {
-    priv.elem.classList.remove(priv.phase);
-  }
-  priv.phase = phase;
-
-  if (phase !== null) {
-    priv.elem.classList.add(phase);
-  }
-  priv.listeners.forEach(function(listener) {
-    listener(phase);
-  });
-  maybeStart(priv);
-}
-
-/**
- * Adds passed target to phase triggers.
- *
- * Phase will be automatically set to next each time a `transitionend` event of matching
- * **target** and **propertyName** bubbles up to Phaser's container element.
- *
- * @param {Node} target (typically DOM Element) that will trigger next phase when matched
- * @param {String} propertyName will trigger next phase when matched (optional, defaults to 'transform')
- * @precondition **target** has container element as ancestor (see ${link Phaser.prototype.constructor})
- * @precondition given pair of **target** and **propertyName** is not already a phase trigger
- *
- * @fqn Phaser.prototype.addPhaseTrigger
- */
-function addPhaseTrigger(priv, target, propertyName) {
-  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
-  var property = propertyName || 'transform';
-  precond.checkIsString(property, 'propertyName is not a String');
-
-  if (property === 'transform') {
-    property = feature.transformPropertyName;
-  }
-  priv.phaseTriggers.put(property, target);
-  maybeStart(priv);
-}
-
-/**
- * Adds a listener that will be notified on phase changes.
- *
- * It is used by the ${link Slider} to change styles of dots representing slides.
- *
- * @param {Function} listener listener to be added
- *
- * @fqn Phaser.prototype.addPhaseListener
- */
-function addPhaseListener(priv, listener) {
-  priv.listeners.push(listener);
-}
-
-/**
- * Removes passed target from phase triggers.
- *
- * @param {Node} target that will no longer be used as a phase trigger
- * @param {String} transitionProperty that will no longer be a trigger (optional, defaults to 'transform')
- * @precondition given pair of **target** and **propertyName** is registered as phase trigger
- *
- * @fqn Phaser.prototype.removePhaseTrigger
- */
-function removePhaseTrigger(priv, target, propertyName) {
-  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
-  var property = propertyName || 'transform';
-  precond.checkIsString(property, 'transitionProperty is not a String');
-  var triggerElements = priv.phaseTriggers.get(property);
-  var index = triggerElements.indexOf(target);
-  precond.checkArgument(index !== -1,
-      'couldn\'t find phase trigger of given element and property \''+ property+'\'');
-
-  triggerElements.splice(index, 1);
-}
-
-/**
- * Removes passed listener from the phaser.
- *
- * @param {Function} listener listener to be removed
- * @fqn Phaser.prototype.removePhaseListener
- */
-function removePhaseListener(priv, listener) {
-  priv.listeners.splice(priv.listeners.indexOf(listener), 1);
-}
-
-/**
- * Returns a class name of the current phase.
- *
- * @return {String} current phase
- * @fqn Phaser.prototype.getPhase
- */
-function getPhase(priv) {
-  return priv.phase;
-}
-
-
-// Attaches event listener to phasers DOM element, if phaser was not previously started.
-function maybeStart(priv) {
-  if (priv.started) {
-    return;
-  }
-  priv.elem.addEventListener(feature.transitionEventName, handleTransitionEnd.bind(null, priv));
-  priv.started = true;
-}
-
-// Moves to next phase if transition that ended matches one of phase triggers.
-function handleTransitionEnd(priv, evt) {
-  if (evt.propertyName in priv.phaseTriggers &&
-      priv.phaseTriggers[evt.propertyName].indexOf(evt.target) !== -1) {
-    nextPhase(priv);
-  }
-}
-
-// A map of lists.
-function MultiMap() {}
-
-// Returns a list stored in **key**.
-// New list is created if instance doesn't given **key**.
-MultiMap.prototype.get = function(key) {
-  return this[key] || (this[key] = []);
-};
-
-// Adds new **value** to the list stored in **key**.
-MultiMap.prototype.put = function(key, value) {
-  this.get(key).push(value);
-};
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{"../enums/phase":20,"./detect-features":11,"precond":2}],13:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var phaser = require('./phaser');
-var upgrader = require('./upgrader');
-
-var precond = require('precond');
-
-/**
- * > **DISCLAIMER**
- * >
- * > Hermes JavaScript API should be used only when specific initialization or integration
- * > with other parts of the website is required. In other (simpler) cases please consider
- * > using [declarative API](class-names.md).
- *
- * > **DISCLAIMER**
- * >
- * > JavaScript API is in early **alpha stage** and may change in the future.
- *
- * ### Example
- *
- * ```javascript
- * // browserify is supported
- * var hermes = require('hermes-slider');
- *
- * window.addEventListener('load', function() {
- *   var slider = new hermes.Slider(document.getElementById('my-slider'));
- *   slider.start();
- * });
- * ```
- *
- * @fqn Slider
- */
-module.exports = Slider;
-
-// constants
-
-var Layout = require('../enums/layout');
-var Option = require('../enums/option');
-var Marker = require('../enums/marker');
-var Flag = require('../enums/flag');
-var Pattern = require('../enums/pattern');
-
-var DEFAULT_TRANSITION = 'hermes-transition--zoom-in-out';
-
-// public
-
-/**
- * Constructs the slider.
- *
- * @param {Element} elem DOM element for the slider
- *
- * @fqn Slider.prototype.constructor
- */
-function Slider(elem) {
-  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
-
-  var priv = {};
-  priv.elem = elem;
-  priv.transitions = [];
-  priv.phaser = phaser(elem);
-  priv.slides = [];
-  priv.upgrader = upgrader(elem);
-  priv.tempClasses = [];
-  priv.fromIndex = 1;
-  priv.toIndex = 0;
-  priv.started = false;
-
-  var pub = {};
-
-  /**
-   * Array containing all slide elements.
-   *
-   * @type Array
-   * @access read-only
-   *
-   * @fqn Slider.prototype.slides
-   */
-  pub.slides = priv.slides;
-
-  /**
-   * Index of currently active slide.
-   *
-   * Set to `null` if ${link Slider.prototype.start} was not called on this slider.
-   *
-   * @type Number
-   * @access read-write
-   *
-   * @fqn Slider.prototype.currentIndex
-   */
-  pub.currentIndex = null;
-  Object.defineProperty(pub, 'currentIndex', {
-    get: function() { return priv.slides.length !== 0? priv.toIndex: null; },
-    set: partial(moveTo, priv),
-  });
-
-  /**
-   * Currently active slide element.
-   *
-   * Set to `null` if ${link Slider.prototype.start} was not called on this slider.
-   *
-   * @type Element
-   * @access read-write
-   *
-   * @fqn Slider.prototype.currentSlide
-   */
-  pub.currentSlide = null;
-  Object.defineProperty(pub, 'currentSlide', {
-    get: function() { return priv.slides.length !== 0? priv.slides[priv.toIndex]: null; },
-    set: function() { throw new Error('read only property! please use currentIndex instead'); },
-  });
-
-  bindMethods(pub, [
-    start,
-    moveTo,
-    moveToNext,
-    moveToPrevious,
-  ], priv);
-
-  priv.pub = pub;
-  return pub;
-}
-
-/**
- * Upgrades DOM elements and shows the first slide.
- *
- * Starting procedure involves manipuilating DOM and waiting for changes to be visible on the
- * screen, therefore slider will not be started immediately after returning from this call.
- * After all slides are upgraded and visible on the screen, given **callback** will be called
- * by the slider. At that time it's safe to use all features of the slider.
- *
- * ```js
- * slider.start(function() {
- *   slider.currentIndex = 1;
- * });
- * ```
- *
- * @param {Function} callback that will be called after all slides are upgraded
- * @precondition ${link Slider.prototype.start} was not called on this slider
- * @postcondition calling ${link Slider.prototype.start} again will throw exception
- * @see ${link Option.AUTOBOOT}
- *
- * @fqn Slider.prototype.start
- */
-function start(priv, callback) {
-  precond.checkState(!priv.started, 'slider is already started');
-
-  priv.startCallback = callback || noop;
-  priv.transitions = searchForTransitions(priv.elem);
-  // For transition to work, it is required that a single transition class will be present
-  // on the slider element. Since there may be many transitions declared on the slider and
-  // since transitions can be configured also per slide, all transition class names are removed
-  // from the slider. Single transition class name will be added just before before-transition
-  // phase and removed right after hitting after-transition.
-  // TODO transitions are to be independent from slide time, this needs to change
-  // TODO is there a way to test removing transition class names during start?
-  priv.elem.className = priv.elem.className.replace(Pattern.TRANSITION, '').replace('\s+', ' ');
-
-  expandOptionGroups(priv);
-  if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
-    window.addEventListener('keydown', partial(keyBasedMove, priv), false);
-  }
-  priv.elem.addEventListener('click', partial(clickBasedMove, priv), false);
-
-  priv.upgrader.onSlideUpgraded = acceptSlide.bind(null, priv);
-  priv.upgrader.start();
-  priv.phaser.addPhaseListener(partial(onPhaseChange, priv));
-
-  priv.started = true;
-}
-
-/**
- * Moves slider to next slide.
- *
- * @precondition ${link Slider.prototype.start} was called on this slider
- * @see ${link Option.AUTOPLAY}
- *
- * @fqn Slider.prototype.moveToNext
- */
-function moveToNext(priv) {
-  moveTo(priv, (priv.toIndex + 1) % priv.slides.length);
-}
-
-/**
- * Moves slider previous slide.
- *
- * @precondition ${link Slider.prototype.start} was called on this slider
- *
- * @fqn Slider.prototype.moveToPrevious
- */
-function moveToPrevious(priv) {
-  moveTo(priv, (priv.toIndex - 1 + priv.slides.length) % priv.slides.length);
-}
-
-/**
- * Moves slider slide of given index.
- *
- * @param {Number} index index of the slide that slider will be moved to
- * @precondition ${link Slider.prototype.start} was called on this slider
- *
- * @fqn Slider.prototype.moveTo
- */
-function moveTo(priv, index) {
-  precond.checkState(priv.started, 'slider not started');
-  precond.checkIsNumber(index, 'given index is not a number');
-  precond.checkArgument(priv.slides.length > index, 'given index is out of bounds');
-
-  var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
-  if (priv.toIndex === toIndex) {
-    return;
-  }
-
-  removeMarkersAndFlags(priv);
-  removeTempClasses(priv);
-
-  priv.fromIndex = priv.toIndex;
-  priv.toIndex = toIndex;
-
-  addMarkersAndFlags(priv);
-  var toSlide = priv.slides[priv.toIndex];
-  if (toSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ toSlide.id);
-  }
-  addTempClass(priv, chooseTransition(priv));
-
-  priv.phaser.startTransition();
-}
-
-// private
-
-// initialization functions
-
-function searchForTransitions(elem) {
-  var transitions = [];
-  var matches = elem.className.match(Pattern.TRANSITION);
-  if (matches) {
-    for (var i = 0; i < matches.length; ++i) {
-      transitions.push(matches[i]);
-    }
-  }
-  return transitions;
-}
-
-function acceptSlide(priv, slideElement) {
-  slideElement.classList.add(Flag.UPGRADED);
-
-  priv.slides.push(slideElement);
-  priv.phaser.addPhaseTrigger(slideElement.querySelector('.'+ Layout.CONTENT));
-
-  if (priv.slides.length === 1) {
-    moveToFirstSlide(priv);
-    priv.startCallback.call(null, priv.pub);
-  }
-}
-
-function moveToFirstSlide(priv) {
-  var firstSlide = priv.slides[priv.toIndex];
-  firstSlide.classList.add(Marker.SLIDE_TO);
-  if (firstSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
-  }
-  if (typeof firstSlide.dot !== 'undefined') {
-    firstSlide.dot.classList.add(Flag.ACTIVE);
-  }
-
-  addTempClass(priv, chooseTransition(priv));
-  priv.phaser.startTransition();
-}
-
-function expandOptionGroups(priv) {
-  var list = priv.elem.classList;
-
-  if (list.contains(Option.DEFAULTS)) {
-    list.add(Option.AUTOPLAY);
-    list.add(Option.ARROW_KEYS);
-    list.add(Option.SHOW_ARROWS);
-    list.add(Option.SHOW_DOTS);
-    list.add(Option.RESPONSIVE_CONTROLS);
-  }
-}
-
-// transition functions
-
-function removeMarkersAndFlags(priv) {
-  var fromSlide = priv.slides[priv.fromIndex];
-  var toSlide = priv.slides[priv.toIndex];
-  fromSlide.classList.remove(Marker.SLIDE_FROM);
-  toSlide.classList.remove(Marker.SLIDE_TO);
-  if (typeof toSlide.dot !== 'undefined') {
-    toSlide.dot.classList.remove(Flag.ACTIVE);
-  }
-}
-
-function addMarkersAndFlags(priv) {
-  var fromSlide = priv.slides[priv.fromIndex];
-  var toSlide = priv.slides[priv.toIndex];
-  fromSlide.classList.add(Marker.SLIDE_FROM);
-  toSlide.classList.add(Marker.SLIDE_TO);
-  if (typeof toSlide.dot !== 'undefined') {
-    toSlide.dot.classList.add(Flag.ACTIVE);
-  }
-}
-
-function addTempClass(priv, className) {
-  priv.tempClasses.push(className);
-  priv.elem.classList.add(className);
-}
-
-function removeTempClasses(priv) {
-  priv.tempClasses.forEach(function(className) {
-    priv.elem.classList.remove(className);
-  });
-  priv.tempClasses = [];
-}
-
-function onPhaseChange(priv, phase) {
-  if (phase === 'hermes-after-transition' && priv.elem.classList.contains(Option.AUTOPLAY)) {
-    moveToNext(priv);
-  }
-}
-
-function clickBasedMove(priv, event) {
-  var target = event.target;
-  if (!target.classList.contains(Layout.CONTROLS)) {
-    return;
-  }
-
-  if (target.classList.contains(Layout.ARROW_LEFT)) {
-    moveToPrevious(priv);
-    return;
-  }
-  if (target.classList.contains(Layout.ARROW_RIGHT)) {
-    moveToNext(priv);
-    return;
-  }
-  if (target.classList.contains(Layout.DOT)) {
-    moveTo(priv, [].indexOf.call(target.parentNode.childNodes, target));
-    return;
-  }
-
-  throw new Error('unknown controls element clicked');
-}
-
-function keyBasedMove(priv, event) {
-  switch (event.key) {
-    case 'ArrowLeft': moveToPrevious(priv); break;
-    case 'ArrowRight': moveToNext(priv); break;
-    default: break;
-  }
-}
-
-function chooseTransition(priv) {
-  var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
-  return match && match[0] ||
-      (priv.transitions.length && random(priv.transitions) ||
-      DEFAULT_TRANSITION);
-}
-
-function random(array) {
-  return array[parseInt(Math.random() * array.length, 10)];
-}
-
-// utilities
-
-function bindMethods(wrapper, methods, arg) {
-  methods.forEach(function(method) {
-    wrapper[method.name] = method.bind(wrapper, arg);
-  });
-}
-
-function partial(func) {
-  return func.bind.apply(func, [ null ].concat([].slice.call(arguments, 1)));
-}
-
-function noop() {
-  // noop
-}
-
-/*
-  eslint-env node, browser
- */
-
-/*
-  eslint
-    complexity: [2, 5],
- */
-
-
-},{"../enums/flag":15,"../enums/layout":16,"../enums/marker":17,"../enums/option":18,"../enums/pattern":19,"./phaser":12,"./upgrader":14,"precond":2}],14:[function(require,module,exports){
-/*!
-
-   Copyright 2016 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-module.exports = Upgrader;
-
-var feature = require('./detect-features');
-
-var Layout = require('../enums/layout');
-var Flag = require('../enums/flag');
-
-var Selector = (function() {
-  var selectors = {};
-  for (var name in Layout) {
-    selectors[name] = '.' + Layout[name];
-  }
-  return selectors;
-}());
-
-function Upgrader(elem) {
-  var priv = {};
-  priv.onSlideUpgraded = noop;
-  priv.elem = elem;
-  priv.dotsElement = null;
-
-  var pub = {};
-  pub.start = start.bind(pub, priv);
-
-  Object.defineProperty(pub, 'onSlideUpgraded', {
-    set: function(callback) { priv.onSlideUpgraded = callback; },
-    get: function() { return priv.onSlideUpgraded; },
-    enumerable: true,
-  });
-  return pub;
-}
-
-function start(priv) {
-  createArrowButtons(priv);
-  createDotButtons(priv);
-  upgradeSlides(priv);
-
-  if (!priv.elem.classList.contains(Layout.SLIDER)) {
-    priv.elem.classList.add(Layout.SLIDER);
-  }
-  priv.elem.classList.add(Flag.UPGRADED);
-}
-
-function createArrowButtons(priv) {
-  var previousButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_LEFT);
-  priv.elem.appendChild(previousButton);
-
-  var nextButton = create(Layout.ARROW, Layout.CONTROLS, Layout.ARROW_RIGHT);
-  priv.elem.appendChild(nextButton);
-}
-
-function createDotButtons(priv) {
-  priv.dotsElement = create(Layout.CONTROLS, Layout.DOTS);
-  priv.elem.appendChild(priv.dotsElement);
-}
-
-function createDot(priv, slideElement) {
-  var dot = create(Layout.CONTROLS, Layout.DOT);
-  priv.dotsElement.appendChild(dot);
-  slideElement.dot = dot;
-}
-
-function upgradeSlides(priv) {
-  priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
-
-  function maybeUpgradeSlide(evt) {
-    if (evt.animationName === 'hermesSlideInserted' &&
-        evt.target.parentNode === priv.elem &&
-        !evt.target.classList.contains(Layout.CONTROLS)) {
-      upgradeSlide(priv, evt.target);
-    }
-  }
-}
-
-function upgradeSlide(priv, slideElement) {
-  if (!slideElement.classList.contains(Layout.SLIDE)) {
-    slideElement.classList.add(Layout.SLIDE);
-  }
-
-  var contentElement = slideElement.querySelector(Selector.CONTENT);
-  var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
-
-  if (contentElement !== null && backgroundElement !== null) {
-    createDot(priv, slideElement);
-    priv.onSlideUpgraded.call(null, slideElement);
-    return;
-  }
-
-  if (contentElement === null) {
-    contentElement = createContentElement(slideElement);
-    slideElement.appendChild(contentElement);
-  }
-
-  if (backgroundElement === null) {
-    backgroundElement = createBackgroundElement(slideElement);
-    slideElement.insertBefore(backgroundElement, contentElement);
-  }
-
-  reinsertNode(slideElement);
-}
-
-function createContentElement(slideElement) {
-  var contentElement = create(Layout.CONTENT);
-  while (slideElement.childNodes.length) {
-    contentElement.appendChild(slideElement.childNodes[0]);
-  }
-  return contentElement;
-}
-
-function createBackgroundElement() {
-  return create(Layout.BACKGROUND);
-}
-
-function reinsertNode(node) {
-  var parent = node.parentNode;
-  var next = node.nextSibling;
-  parent.removeChild(node);
-  if (next) {
-    parent.insertBefore(node, next);
-  } else {
-    parent.appendChild(node);
-  }
-}
-
-function create() {
-  var elem = document.createElement('div');
-  elem.className = [].join.call(arguments, ' ');
-  return elem;
-}
-
-function noop() {
-  // noop
-}
-
-/*
-  eslint-env node, browser
- */
-
-/*
-  eslint
-    complexity: [2, 6],
- */
-
-
-},{"../enums/flag":15,"../enums/layout":16,"./detect-features":11}],15:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * They are automatically set by the slider. Flag class names MUST NOT be manipulated from
- * client HTML or JavaScript and **SHOULD be used only in client CSS**.
- *
- * @name Flag Class Names
- */
-var Flag = {
-
-  /**
-   * Automatically set on slider after its upgrade.
-   *
-   * @fqn Flag.UPGRADED
-   */
-  UPGRADED: 'is-upgraded',
-
-  /**
-   * Automatically set on ${link Layout.DOT} button connected with currently active slide.
-   *
-   * @invariant This class is set on only one dot button.
-   *
-   * @fqn Flag.ACTIVE
-   */
-  ACTIVE: 'is-active',
-};
-
-module.exports = Flag;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],16:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * In most cases, most of layout classes **SHOULD not be used in client HTML**, as they are
- * automatially applied to apropriate elements during [slider's upgrade procedure](dom-upgrade.md)
- * (${link Layout.SLIDER_SHORT} is the only layout class name that MUST be applied in client HTML).
- *
- * Layout classes play following roles in slider's inner-workings.
- *  1. **role-id** - class names are used to identify element's role during slider upgrade,
- *  2. **transition** - class names must be used in definitions of CSS transitions,
- *  3. **styling** - class names are recommended for usage in slide's styling.
- *
- * @name Layout Class Names
- * @summary-column usage Usage
- * @summary-column client-html Client HTML
- */
-var Layout = {
-
-  /**
-   * Alias for ${link Layout.SLIDER}.
-   *
-   * @usage role-id styling
-   * @client-html mandatory
-   *
-   * @fqn Layout.SLIDER_SHORT
-   */
-  SLIDER_SHORT: 'hermes-slider',
-
-  /**
-   * Identifies main slider element.
-   *
-   * This class must be set on all slider elements in client HTML.
-   * It can be used in client CSS code for styling.
-   *
-   * @usage role-id styling
-   * @client-html mandatory
-   *
-   * @fqn Layout.SLIDER
-   */
-  SLIDER: 'hermes-layout--slider',
-
-  /**
-   * Identifies a slide.
-   *
-   * At least 2 slides must be defined in each slider.
-   * It can be used in client CSS code for styling.
-   *
-   * @usage role-id styling
-   * @client-html optional
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.SLIDE
-   */
-  SLIDE: 'hermes-layout--slide',
-
-  /**
-   * Identifies background of a slide.
-   *
-   * For slides in which this element is not present in slider declaration, empty background
-   * element will be generated during slider upgrade. This class name must be used in all
-   * definitions of background transitions.
-   *
-   * @usage role-id styling transition
-   * @client-html optional
-   * @parent-element Layout.SLIDE
-   *
-   * @fqn Layout.BACKGROUND
-   */
-  BACKGROUND: 'hermes-layout--background',
-
-  /**
-   * Identifies content of a slide.
-   *
-   * For slides in which this element is not present in slider declaration, it will be generated
-   * during slider upgrade. Contents of a slide will be moved inside generated element. If element
-   * is present in slider declaration, it must contain all contents of a slide. This class name
-   * must be used in all definitions of content transitions.
-   *
-   * @usage role-id styling transition
-   * @client-html optional
-   * @parent-element Layout.SLIDE
-   *
-   * @fqn Layout.CONTENT
-   */
-  CONTENT: 'hermes-layout--content',
-
-  /**
-   * Set during upgrade on all generated controls.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.CONTROLS
-   */
-  CONTROLS: 'hermes-layout--controls',
-
-  /**
-   * Set during upgrade on generated arrow buttons.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.ARROW
-   */
-  ARROW: 'hermes-layout--arrow',
-
-  /**
-   * Set during upgrade on generated left arrow button.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.ARROW_LEFT
-   */
-  ARROW_LEFT: 'hermes-layout--arrow-left',
-
-  /**
-   * Set during upgrade on generated right arrow button.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.ARROW_RIGHT
-   */
-  ARROW_RIGHT: 'hermes-layout--arrow-right',
-
-  /**
-   * Set during upgrade on container elements that contains dot buttons.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.SLIDER
-   *
-   * @fqn Layout.DOTS
-   */
-  DOTS: 'hermes-layout--dots',
-
-  /**
-   * Set during upgrade on each dot button element.
-   *
-   * This class name must not be used in client HTML.
-   * It may be used in client CSS for styling.
-   *
-   * @usage styling
-   * @client-html forbidden
-   * @parent-element Layout.DOTS
-   *
-   * @fqn Layout.DOT
-   */
-  DOT: 'hermes-layout--dot',
-};
-
-module.exports = Layout;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],17:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * They are automatically set on slide elements (${link Layout.SLIDE}).
- * Marker class names MUST NOT be manipulated from client HTML or JavaScript
- * and **SHOULD be used only in definitions of CSS transitions**.
- *
- * @name Transition Marker Class Names
- */
-var Marker = {
-
-  /**
-   * Automatically set on previously active ${link Layout.SLIDE}.
-   *
-   * @invariant After starting first transition this class name is set on only one slide.
-   *
-   * @fqn Marker.SLIDE_FROM
-   */
-  SLIDE_FROM: 'hermes-slide-from',
-
-  /**
-   * Automatically set on currently active ${link Layout.SLIDE}.
-   *
-   * This class name is set on first slide after starting a slider
-   * and then set on currently active slide each time it changes.
-   *
-   * @invariant After starting slider this class name is set on only one slide.
-   *
-   * @fqn Marker.SLIDE_TO
-   */
-  SLIDE_TO: 'hermes-slide-to',
-};
-
-module.exports = Marker;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],18:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * Option classes enable features of the slider.
- *
- * Most options are intended to be set on ${link Layout.SLIDER} element, but they can also be
- * set on document's `<body>`. Options set on `<body>` are treated as defaults for each ${link
- * Layout.SLIDER} declared on the page.
- *
- * Two categories:
- *  1. **single options** - each of which enables one feature,
- *  2. **option groups** - that adds many option classes to the slider during upgrade.
- *
- * Each option class is checked by the slider in one of two ways:
- *  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
- *    in client HTML, slider will check for it only once during upgrade, adding/removing class
- *    after upgrade make no effect,
- *  2. <a href='#continuously' id='continuously'>**checked continuously**</a> -
- *    class name may be added/removed at any time, slider will check if it is set every time
- *    a decission connected with this class is made.
- *
- * @name Option Class Names
- * @summary-column checked Checked
- * @summary-column target Target Element
- */
-var Option = {
-
-  /**
-   * Automatically creates ${link Slider} objects for all sliders declared on the page
-   * and invokes their ${link Slider.prototype.start} methods.
-   *
-   * This options can be set only on `<body>` element.
-   * It enabled using Hermes without any JavaScript programming.
-   *
-   * > ***WARNING***
-   * >
-   * > When using Hermes via node and broserify, this option is ignored.
-   *
-   * @target document's `<body>`
-   * @checked once
-   * @see boot
-   * @see Slider.prototype.start
-   *
-   * @fqn Option.AUTOBOOT
-   */
-  AUTOBOOT: 'hermes-autoboot',
-
-  /**
-   * Adds
-   * ${link Option.AUTOPLAY},
-   * ${link Option.SHOW_ARROWS},
-   * ${link Option.SHOW_DOTS},
-   * ${link Option.ARROW_KEYS},
-   * ${link Option.RESPONSIVE_CONTROLS}
-   * classes to the slider.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   *
-   * @fqn Option.DEFAULTS
-   */
-  DEFAULTS: 'hermes-defaults',
-
-  /**
-   * Automatically moves slider to next slide.
-   *
-   * Slider is moved to the next after time specified in ${link Time time class name}.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked continuously
-   * @see Slider.prototype.moveToNext
-   *
-   * @fqn Option.AUTOPLAY
-   */
-  AUTOPLAY: 'hermes-autoplay',
-
-  /**
-   * Shows side arrow buttons.
-   *
-   * `click` event on dispatched on left arrow moves slider to previous slide.
-   * `click` event on dispatched on right arrow moves slider to next slide.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked continuously
-   * @see Slider.prototype.moveToPrevious
-   * @see Slider.prototype.moveToNext
-   *
-   * @fqn Option.SHOW_ARROWS
-   */
-  SHOW_ARROWS: 'hermes-show-arrows',
-
-  /**
-   * Shows dot button for each slide.
-   *
-   * `click` event displatched on dot button moves slider to slide asociated with this dot button.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked continuously
-   * @see Slider.prototype.currentIndex
-   *
-   * @fqn Option.SHOW_DOTS
-   */
-  SHOW_DOTS: 'hermes-show-dots',
-
-  /**
-   * Adds keyboard control to slider.
-   *
-   * `keydown` event displatched on `window` object with `LeftArrow` key moves slider to previous
-   * slide, with `RightArrow` key moves slider to next slide.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see Slider.prototype.currentIndex
-   *
-   * @fqn Option.ARROW_KEYS
-   */
-  ARROW_KEYS: 'hermes-arrow-keys',
-
-  /**
-   * Adds screen responsiveness to slider controls.
-   *
-   * Slider controls come in 3 different layouts. Each for different range of screen width.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see [Screen Responsiveness](responsiveness.md)
-   * @see Slider.breakpointNarrowToNormal
-   * @see Slider.breakpointNormalToWide
-   *
-   * @fqn Option.RESPONSIVE_CONTROLS
-   */
-  RESPONSIVE_CONTROLS: 'hermes-responsive-controls',
-};
-
-module.exports = Option;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],19:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * @name Other Class Names
- */
-var Pattern = {
-
-  /**
-   * All transitions used by the slider must match this regular expression.
-   *
-   * During slider upgrade ${link Layout.SLIDER} element is checked for presence of
-   * transition class names. Transitions declared this way will be randomly used by the slider.
-   * After upgrade all declared transitions are removed from slider element.
-   *
-   * Transitions may also be declared on ${link Layout.SLIDE} elements. Slider will always
-   * use transition declared on slide element when moving to this slide. Transition declarations of
-   * this type are [checked continuously](#continuously), therefore they may be added/removed
-   * on slides at runtime (client JavaScript).
-   *
-   * @invariant Class name of currently running transition is set on slider element.
-   *
-   * @fqn Pattern.TRANSITION
-   */
-  TRANSITION: /hermes-transition--([^\s]+)/g,
-
-  /**
-   * Slider keeps class name with id of current slide on ${link Layout.SLIDER} element.
-   *
-   * This functionality may be useful if slides other than current are to be partially visible
-   * or if appearence of controls or even whole slider needs to change from one slide to another.
-   *
-   * @invariant Class name with id of current slide is set on slider element.
-   *
-   * @fqn Pattern.SLIDE_ID
-   */
-  SLIDE_ID: /hermes-slide-id-([^\s]+)/,
-};
-
-module.exports = Pattern;
-
-/*
-  eslint-env node
-*/
-
-
-},{}],20:[function(require,module,exports){
-/*!
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-
-'use strict';
-
-/**
- * All phase classes are automatically set on slider element (${link Layout.SLIDER}).
- * They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
- * in definitions of CSS transitions**.
- *
- * @name Transition Phase Class Names
- */
-var Phase = {
-
-  /**
-   * Set on slider element just before transition starts.
-   *
-   * This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
-   * to initial values before transition.
-   *
-   * @fqn Phase.BEFORE_TRANSITION
-   */
-  BEFORE_TRANSITION: 'hermes-before-transition',
-
-  /**
-   * Set on slider element while transition of ${link Layout.CONTENT} element is run.
-   *
-   * @fqn Phase.DURING_TRANSITION
-   */
-  DURING_TRANSITION: 'hermes-during-transition',
-
-  /**
-   * Set on slider element after transition of ${link Layout.CONTENT} element ends.
-   *
-   * @fqn Phase.AFTER_TRANSITION
-   */
-  AFTER_TRANSITION: 'hermes-after-transition',
-};
-
-module.exports = Phase;
-
-/*
-  eslint-env node
-*/
-
-
-},{}]},{},[8]);
+},{"./support/isBuffer":19,"_process":18,"inherits":14}]},{},[1]);

@@ -59,7 +59,7 @@ limitations under the License.
 <li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
 <li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
 
-<!-- Start src/enums/option.js -->
+<!-- Start lib/enums/option.js -->
 
 ## Option Class Names
 
@@ -196,9 +196,9 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 *@see* - Slider.breakpointNormalToWide
 
-<!-- End src/enums/option.js -->
+<!-- End lib/enums/option.js -->
 
-<!-- Start src/enums/time.js -->
+<!-- Start lib/enums/time.js -->
 
 ## Time Class Names
 
@@ -232,9 +232,9 @@ Makes slide visible for 7 seconds before moving to next.
 
 *@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
-<!-- End src/enums/time.js -->
+<!-- End lib/enums/time.js -->
 
-<!-- Start src/enums/phase.js -->
+<!-- Start lib/enums/phase.js -->
 
 ## Transition Phase Class Names
 
@@ -267,9 +267,9 @@ Set on slider element while transition of [hermes-layout--content](class-names.m
 
 Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
 
-<!-- End src/enums/phase.js -->
+<!-- End lib/enums/phase.js -->
 
-<!-- Start src/enums/marker.js -->
+<!-- Start lib/enums/marker.js -->
 
 ## Transition Marker Class Names
 
@@ -301,9 +301,9 @@ and then set on currently active slide each time it changes.
 
 *@invariant* - After starting slider this class name is set on only one slide.
 
-<!-- End src/enums/marker.js -->
+<!-- End lib/enums/marker.js -->
 
-<!-- Start src/enums/layout.js -->
+<!-- Start lib/enums/layout.js -->
 
 ## Layout Class Names
 
@@ -429,9 +429,9 @@ It may be used in client CSS for styling.
 
 *@parent-element* - [hermes-layout--dots](class-names.md#hermes-layout--dots)
 
-<!-- End src/enums/layout.js -->
+<!-- End lib/enums/layout.js -->
 
-<!-- Start src/enums/flag.js -->
+<!-- Start lib/enums/flag.js -->
 
 ## Flag Class Names
 
@@ -457,9 +457,9 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 
 *@invariant* - This class is set on only one dot button.
 
-<!-- End src/enums/flag.js -->
+<!-- End lib/enums/flag.js -->
 
-<!-- Start src/enums/pattern.js -->
+<!-- Start lib/enums/pattern.js -->
 
 ## Other Class Names
 
@@ -496,7 +496,7 @@ or if appearence of controls or even whole slider needs to change from one slide
 
 *@invariant* - Class name with id of current slide is set on slider element.
 
-<!-- End src/enums/pattern.js -->
+<!-- End lib/enums/pattern.js -->
 
 <!-- End Template class-names.md.ejs -->
 

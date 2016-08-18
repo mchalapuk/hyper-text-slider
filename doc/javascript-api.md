@@ -43,7 +43,7 @@ limitations under the License.
 <li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
 3. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
 
-<!-- Start src/core/slider.js -->
+<!-- Start lib/core/slider.js -->
 
 ## Slider
 
@@ -165,9 +165,9 @@ Moves slider slide of given index.
 
 *@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
-<!-- End src/core/slider.js -->
+<!-- End lib/core/slider.js -->
 
-<!-- Start src/core/phaser.js -->
+<!-- Start lib/core/phaser.js -->
 
 ## Phaser
 
@@ -306,9 +306,9 @@ Returns a class name of the current phase.
 
 *@return* {String} current phase
 
-<!-- End src/core/phaser.js -->
+<!-- End lib/core/phaser.js -->
 
-<!-- Start src/core/boot.js -->
+<!-- Start lib/core/boot.js -->
 
 ## boot(containerElement)
 
@@ -336,7 +336,7 @@ hermes.boot(document.body);
 
 *@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
 
-<!-- End src/core/boot.js -->
+<!-- End lib/core/boot.js -->
 
 <!-- End Template javascript-api.md.ejs -->
 
