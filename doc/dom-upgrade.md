@@ -19,11 +19,14 @@
 # Slider's DOM Upgrade Procedure
 
 There are two opposing non-functional requirements for a slider component:
- * Simple declarations of between-slide CSS3 transitions require complicated DOM structure,
- * Simple HTML-only usage requires simple DOM structure.
+ * Declarations of between-slide [CSS3 transitions][transitions] should be simple,
+ * Slider declarations in HTML should be simple.
 
+[transitions]: https://www.w3.org/TR/css3-transitions/
+
+First require complicated DOM structure, second require simple DOM structure.
 In order to satisfy both requirements, upgrade procedure transforms simple DOM structure
-declared in HTML into more complicated DOM required by slider features.
+declared in HTML into more complicated one.
 
 ## How it works?
 
@@ -31,10 +34,10 @@ Calling [`Slider.prototype.start(callback)`][slider-start] method begins
 DOM upgrade, which consists of following operations:
  * Expansion of [option groups][option-classes] found on slider element,
  * Application of proper [layout class names][layout-classes],
- * Generating [background][layout-background] and [content][layout-content]
+ * Generation of [background][layout-background] and [content][layout-content]
    elements for each slide,
- * Generating DOM elements for slider [control buttons][layout-controls],
- * Marking slider and slides as [upgraded][flag-upgraded].
+ * Generation of DOM elements for slider [control buttons][layout-controls],
+ * Marking slider's and slides' elements as [upgraded][flag-upgraded].
 
 [slider-start]: javascript-api.md#sliderprototypestartcallback
 [option-classes]: class-names.md#option-class-names
