@@ -306,12 +306,12 @@
 */
 .hermes-layout--slider.is-upgraded {
   /* Default slide time (when nothing else specified). */ }
-  .hermes-layout--slider.is-upgraded .hermes-layout--background {
+  .hermes-layout--slider.is-upgraded .hermes-slide-to .hermes-layout--background {
     -webkit-transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -o-transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded .hermes-layout--content {
+  .hermes-layout--slider.is-upgraded .hermes-slide-to .hermes-layout--content {
     -webkit-transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -moz-transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -o-transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
@@ -326,12 +326,12 @@
     -moz-transition: all 5000ms ease-out, opacity 500ms ease-in-out;
     -o-transition: all 5000ms ease-out, opacity 500ms ease-in-out;
     transition: all 5000ms ease-out, opacity 500ms ease-in-out; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-layout--background {
+  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-to .hermes-layout--background {
     -webkit-transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -o-transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-layout--content {
+  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-to .hermes-layout--content {
     -webkit-transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -moz-transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -o-transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
@@ -346,12 +346,12 @@
     -moz-transition: all 7000ms ease-out, opacity 500ms ease-in-out;
     -o-transition: all 7000ms ease-out, opacity 500ms ease-in-out;
     transition: all 7000ms ease-out, opacity 500ms ease-in-out; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-layout--background {
+  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-slide-to .hermes-layout--background {
     -webkit-transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -o-transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-layout--content {
+  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-slide-to .hermes-layout--content {
     -webkit-transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -moz-transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -o-transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;

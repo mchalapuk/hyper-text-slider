@@ -22,6 +22,10 @@
 [option-class-names]: class-names.md#option-class-names
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.4.1
+
+ * Removed flash of all slides at startup.
+
 # v0.4.0
 
  * Added slide contents block centering to default styles,

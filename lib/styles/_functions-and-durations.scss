@@ -20,12 +20,14 @@
   @mixin slide-time($millis) {
     $time: $millis * 1ms;
 
-    .hermes-layout--background {
-      @include transition(all $time * 0.7 ease-out 300ms, opacity 750ms ease-in-out 300ms);
-    }
+    .hermes-slide-to {
+      .hermes-layout--background {
+        @include transition(all $time * 0.7 ease-out 300ms, opacity 750ms ease-in-out 300ms);
+      }
 
-    .hermes-layout--content {
-      @include transition(all $time ease-out 600ms, opacity 600ms ease-in-out 750ms);
+      .hermes-layout--content {
+        @include transition(all $time ease-out 600ms, opacity 600ms ease-in-out 750ms);
+      }
     }
 
     .hermes-slide-from {
