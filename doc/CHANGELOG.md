@@ -24,6 +24,7 @@
 
 # v0.4.0
 
+ * Added slide contents block centering to default styles,
  * Added [`Slider.prototype.on(eventName, listener)`][slider-on] method,
  * Added [`Slider.prototype.removeListener(eventName, listener)`][slider-remove-listener] method,
  * Added [`SlideChangeEvent`][slide-change-event] class,
