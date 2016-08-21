@@ -156,8 +156,7 @@
   height: 100%;
   z-index: 2;
   text-align: center;
-  cursor: pointer;
-  color: white; }
+  cursor: pointer; }
   .hermes-layout--arrow-left::after,
   .hermes-layout--arrow-right::after {
     position: relative;
@@ -228,7 +227,6 @@
   height: 13px;
   margin: 0 6.5px;
   border-radius: 13px;
-  background-color: rgba(255, 255, 255, 0.4);
   border: 3px solid white;
   display: inline-block;
   cursor: pointer;
@@ -236,8 +234,6 @@
   -moz-transition: background ease-in-out 500ms;
   -o-transition: background ease-in-out 500ms;
   transition: background ease-in-out 500ms; }
-  .hermes-layout--dot.is-active {
-    background-color: white; }
 
 /*
 
@@ -403,6 +399,66 @@
       -moz-transform: scale(0.5, 1);
       -o-transform: scale(0.5, 1);
       transform: scale(0.5, 1); } }
+
+/*
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+.hermes-theme--white .hermes-layout--background {
+  background: white; }
+
+.hermes-theme--white .hermes-layout--content,
+.hermes-theme--white .hermes-layout--arrow {
+  color: black; }
+
+.hermes-theme--white .hermes-layout--dot {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: black; }
+  .hermes-theme--white .hermes-layout--dot.is-active {
+    background: black; }
+
+/*
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+.hermes-theme--black .hermes-layout--background {
+  background: black; }
+
+.hermes-theme--black .hermes-layout--content,
+.hermes-theme--black .hermes-layout--arrow {
+  color: white; }
+
+.hermes-theme--black .hermes-layout--dot {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: white; }
+  .hermes-theme--black .hermes-layout--dot.is-active {
+    background: white; }
 
 /*
 

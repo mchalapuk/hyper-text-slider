@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,34 +16,23 @@
 
 */
 
-.hermes-show-dots {
-  .hermes-layout--dots {
-    display: block;
+.hermes-theme--black {
+  .hermes-layout--background {
+    background: black;
   }
-}
 
-.hermes-layout--dots {
-  display: none;
-  position: absolute;
-  width: 100%;
-  top: 86%;
-  text-align: center;
-  z-index: 1;
-  font-size: 0;
-  line-height: 1px;
-}
+  .hermes-layout--content,
+  .hermes-layout--arrow {
+    color: white;
+  }
 
-.hermes-layout--dot {
-  $dot-size: 13px;
+  .hermes-layout--dot {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: white;
 
-  width: $dot-size;
-  height: $dot-size;
-  margin: 0 $dot-size/2;
-  border-radius: $dot-size;
-  border: 3px solid white;
-  display: inline-block;
-  cursor: pointer;
-
-  @include transition(background ease-in-out 500ms);
+    &.is-active {
+      background: rgb(255, 255, 255);
+    }
+  }
 }
 
