@@ -119,6 +119,7 @@ module.exports = {
       {
         src: [
           'lib/enums/option.js',
+          'lib/enums/theme.js',
           'lib/enums/time.js',
           'lib/enums/phase.js',
           'lib/enums/marker.js',

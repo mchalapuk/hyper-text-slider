@@ -30,17 +30,20 @@ limitations under the License.
 <li>[hermes-show-dots](class-names.md#hermes-show-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
 <li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
-2. [Time Class Names](class-names.md#time-class-names)<ul>
+2. [Theme Class Names](class-names.md#theme-class-names)<ul>
+<li>[hermes-theme--white](class-names.md#hermes-theme--white)
+<li>[hermes-theme--black](class-names.md#hermes-theme--black)</ul>
+3. [Time Class Names](class-names.md#time-class-names)<ul>
 <li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
 <li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
-3. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
+4. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
 <li>[hermes-during-transition](class-names.md#hermes-during-transition)
 <li>[hermes-after-transition](class-names.md#hermes-after-transition)</ul>
-4. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
+5. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
 <li>[hermes-slide-from](class-names.md#hermes-slide-from)
 <li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
-5. [Layout Class Names](class-names.md#layout-class-names)<ul>
+6. [Layout Class Names](class-names.md#layout-class-names)<ul>
 <li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
 <li>[hermes-slider](class-names.md#hermes-slider)
 <li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
@@ -52,10 +55,10 @@ limitations under the License.
 <li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
 <li>[hermes-layout--dots](class-names.md#hermes-layout--dots)
 <li>[hermes-layout--dot](class-names.md#hermes-layout--dot)</ul>
-6. [Flag Class Names](class-names.md#flag-class-names)<ul>
+7. [Flag Class Names](class-names.md#flag-class-names)<ul>
 <li>[is-upgraded](class-names.md#is-upgraded)
 <li>[is-active](class-names.md#is-active)</ul>
-7. [Other Class Names](class-names.md#other-class-names)<ul>
+8. [Other Class Names](class-names.md#other-class-names)<ul>
 <li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
 <li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
 
@@ -70,7 +73,8 @@ set on document's `<body>`. Options set on `<body>` are treated as defaults for 
 
 Two categories:
  1. **single options** - each of which enables one feature,
- 2. **option groups** - that adds many option classes to the slider during upgrade.
+ 2. **option groups** - that adds many option classes to the slider during
+   [upgrade](dom-upgrade.md).
 
 Each option class is checked by the slider in one of two ways:
  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
@@ -197,6 +201,37 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 *@see* - Slider.breakpointNormalToWide
 
 <!-- End lib/enums/option.js -->
+
+<!-- Start lib/enums/theme.js -->
+
+## Theme Class Names
+
+Themes make slide look god without any other styling. It's purpose is to set default color
+for background and all foreground elements (text and all controls).
+
+A theme MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
+During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no theme specified
+receives a theme class which was declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
+If there is no theme specified on the slider, [hermes-theme--white](class-names.md#hermes-theme--white) is used as default.
+
+### Summary
+
+Name | Description
+--- | ---
+[hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground. This is the default theme if none specified.
+[hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground.
+
+### Details
+
+#### hermes-theme--white
+
+White background, dark foreground. This is the default theme if none specified.
+
+#### hermes-theme--black
+
+Black background, white foreground.
+
+<!-- End lib/enums/theme.js -->
 
 <!-- Start lib/enums/time.js -->
 
