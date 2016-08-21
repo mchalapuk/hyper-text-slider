@@ -262,6 +262,8 @@ function featureNameFromProperty(instance, defaultName, candidateMap) {
 
 module.exports = {
   findClassNames: findClassNames,
+  removeClassNames: removeClassNames,
+  extractClassNames: extractClassNames,
 };
 
 function findClassNames(elem, pattern) {
@@ -270,6 +272,16 @@ function findClassNames(elem, pattern) {
   for (var i = 0; matches && i < matches.length; ++i) {
     retVal.push(matches[i]);
   }
+  return retVal;
+}
+
+function removeClassNames(elem, pattern) {
+  elem.className = elem.className.replace(pattern, '').replace('\s+', ' ');
+}
+
+function extractClassNames(elem, pattern) {
+  var retVal = findClassNames(elem, pattern);
+  removeClassNames(elem, pattern);
   return retVal;
 }
 
@@ -668,7 +680,7 @@ SlideChangeEvent.prototype = {
 var phaser = require('./phaser');
 var upgrader = require('./upgrader');
 var slidechange = require('./slide-change-event');
-var dom = require('./dom');
+var DOM = require('./dom');
 
 var precond = require('precond');
 
@@ -815,7 +827,6 @@ function start(priv, callback) {
   precond.checkState(!priv.started, 'slider is already started');
 
   priv.startCallback = callback || noop;
-  priv.transitions = dom.findClassNames(priv.elem, Pattern.TRANSITION);
   // For transition to work, it is required that a single transition class will be present
   // on the slider element. Since there may be many transitions declared on the slider and
   // since transitions can be configured also per slide, all transition class names are removed
@@ -823,7 +834,7 @@ function start(priv, callback) {
   // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
-  priv.elem.className = priv.elem.className.replace(Pattern.TRANSITION, '').replace('\s+', ' ');
+  priv.transitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION);
 
   expandOptionGroups(priv);
   if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
@@ -2112,17 +2123,45 @@ var cachedClearTimeout;
 } ())
 function runTimeout(fun) {
     if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
         return setTimeout(fun, 0);
-    } else {
-        return cachedSetTimeout.call(null, fun, 0);
     }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
 }
 function runClearTimeout(marker) {
     if (cachedClearTimeout === clearTimeout) {
-        clearTimeout(marker);
-    } else {
-        cachedClearTimeout.call(null, marker);
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
     }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
 }
 var queue = [];
 var draining = false;
