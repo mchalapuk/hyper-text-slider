@@ -60,6 +60,7 @@ limitations under the License.
 <li>[is-active](class-names.md#is-active)</ul>
 8. [Other Class Names](class-names.md#other-class-names)<ul>
 <li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
+<li>[/hermes-theme--([^\s]+)/g](class-names.md#hermes-theme--\sg)
 <li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
 
 <!-- Start lib/enums/option.js -->
@@ -503,6 +504,7 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 Name | Description
 --- | ---
 [/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
+[/hermes-theme--([^\s]+)/g](class-names.md#hermes-theme--\sg) | All themes used by the slider must match this regular expression.
 [/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s) | Slider keeps class name with id of current slide on [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
 
 ### Details
@@ -511,9 +513,10 @@ Name | Description
 
 All transitions used by the slider must match this regular expression.
 
-During slider upgrade [hermes-layout--slider](class-names.md#hermes-layout--slider) element is checked for presence of
-transition class names. Transitions declared this way will be randomly used by the slider.
-After upgrade all declared transitions are removed from slider element.
+During [slider's DOM upgrade](dom-upgrade.md) [hermes-layout--slider](class-names.md#hermes-layout--slider) element is checked
+for presence of transition class names. Transitions declared this way will be randomly used
+by the slider. After upgrade all declared transitions are removed from slider element and
+added again for the duration of a transition between slides.
 
 Transitions may also be declared on [hermes-layout--slide](class-names.md#hermes-layout--slide) elements. Slider will always
 use transition declared on slide element when moving to this slide. Transition declarations of
@@ -521,6 +524,21 @@ this type are [checked continuously](#continuously), therefore they may be added
 on slides at runtime (client JavaScript).
 
 *@invariant* - Class name of currently running transition is set on slider element.
+
+#### /hermes-theme--([^\s]+)/g
+
+All themes used by the slider must match this regular expression.
+
+During [slider's DOM upgrade](dom-upgrade.md) [hermes-layout--slider](class-names.md#hermes-layout--slider) element is checked for
+presence of theme class names. Themes declared this way are then removed from the slider
+and added to all slides, which have no theme specified. Themes are added again to slider's
+element for the duration of slide being visible.
+
+Themes may also be declared on [hermes-layout--slide](class-names.md#hermes-layout--slide) elements. Theme declarations of
+this type are [checked continuously](#continuously), therefore they may be added/removed
+on slides at runtime (client JavaScript).
+
+*@invariant* - Theme class name's of currently active slide is added to slider element.
 
 #### /hermes-slide-id-([^\s]+)/
 
