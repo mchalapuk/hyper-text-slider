@@ -267,9 +267,13 @@ module.exports = {
 };
 
 function findClassNames(elem, pattern) {
-  var retVal = [];
   var matches = elem.className.match(pattern);
-  for (var i = 0; matches && i < matches.length; ++i) {
+  if (!matches) {
+    return null;
+  }
+
+  var retVal = [];
+  for (var i = 0; i < matches.length; ++i) {
     retVal.push(matches[i]);
   }
   return retVal;
@@ -834,7 +838,7 @@ function start(priv, callback) {
   // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
-  priv.transitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION);
+  priv.transitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION) || DEFAULT_TRANSITION;
 
   expandOptionGroups(priv);
   if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
@@ -1060,10 +1064,7 @@ function keyBasedMove(priv, event) {
 }
 
 function chooseTransition(priv) {
-  var match = priv.slides[priv.toIndex].className.match(Pattern.TRANSITION);
-  return match && match[0] ||
-      (priv.transitions.length && random(priv.transitions) ||
-      DEFAULT_TRANSITION);
+  return DOM.findClassNames(priv.slides[priv.toIndex], Pattern.TRANSITION) || random(priv.transitions);
 }
 
 function random(array) {
@@ -1139,10 +1140,12 @@ function noop() {
 module.exports = Upgrader;
 
 var feature = require('./detect-features');
+var DOM = require('./dom');
 
 var Layout = require('../enums/layout');
 var Flag = require('../enums/flag');
 var Theme = require('../enums/theme');
+var Pattern = require('../enums/pattern');
 
 var Selector = (function() {
   var selectors = {};
@@ -1152,11 +1155,16 @@ var Selector = (function() {
   return selectors;
 }());
 
+var DEFAULT_THEMES = [
+  Theme.WHITE,
+];
+
 function Upgrader(elem) {
   var priv = {};
   priv.onSlideUpgraded = noop;
   priv.elem = elem;
   priv.dotsElement = null;
+  priv.defaultThemes = null;
 
   var pub = {};
   pub.start = start.bind(pub, priv);
@@ -1170,6 +1178,8 @@ function Upgrader(elem) {
 }
 
 function start(priv) {
+  priv.defaultThemes = DOM.extractClassNames(priv.elem, Pattern.THEME) || DEFAULT_THEMES;
+
   createArrowButtons(priv);
   createDotButtons(priv);
   upgradeSlides(priv);
@@ -1193,18 +1203,6 @@ function createDotButtons(priv) {
   priv.elem.appendChild(priv.dotsElement);
 }
 
-function createDot(priv, slideElement) {
-  var dot = create(Layout.CONTROLS, Layout.DOT);
-  var index = [].indexOf.call(slideElement.parentNode.childNodes, slideElement);
-
-  var parent = priv.dotsElement;
-  if (index === parent.length) {
-    parent.appendChild(dot);
-  } else {
-    parent.insertBefore(dot, parent.childNodes[index]);
-  }
-}
-
 function upgradeSlides(priv) {
   priv.elem.addEventListener(feature.animationEventName, maybeUpgradeSlide, false);
 
@@ -1218,9 +1216,7 @@ function upgradeSlides(priv) {
 }
 
 function upgradeSlide(priv, slideElement) {
-  if (!slideElement.classList.contains(Layout.SLIDE)) {
-    slideElement.classList.add(Layout.SLIDE);
-  }
+  supplementClassNames(priv, slideElement);
 
   var contentElement = slideElement.querySelector(Selector.CONTENT);
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
@@ -1242,6 +1238,27 @@ function upgradeSlide(priv, slideElement) {
   }
 
   reinsertNode(slideElement);
+}
+
+function supplementClassNames(priv, slideElement) {
+  if (!slideElement.classList.contains(Layout.SLIDE)) {
+    slideElement.classList.add(Layout.SLIDE);
+  }
+  if (!DOM.findClassNames(slideElement, Pattern.THEME)) {
+    priv.defaultThemes.forEach(slideElement.classList.add.bind(slideElement.classList));
+  }
+}
+
+function createDot(priv, slideElement) {
+  var dot = create(Layout.CONTROLS, Layout.DOT);
+  var index = [].indexOf.call(slideElement.parentNode.childNodes, slideElement);
+
+  var parent = priv.dotsElement;
+  if (index === parent.length) {
+    parent.appendChild(dot);
+  } else {
+    parent.insertBefore(dot, parent.childNodes[index]);
+  }
 }
 
 function createContentElement(slideElement) {
@@ -1287,7 +1304,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":10,"../enums/layout":11,"../enums/theme":16,"./detect-features":4}],10:[function(require,module,exports){
+},{"../enums/flag":10,"../enums/layout":11,"../enums/pattern":14,"../enums/theme":16,"./detect-features":4,"./dom":5}],10:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
