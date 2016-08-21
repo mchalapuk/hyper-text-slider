@@ -77,7 +77,7 @@ function autoboot(containerElement) {
 */
 
 
-},{"../enums/option":12,"./boot":3}],3:[function(require,module,exports){
+},{"../enums/option":13,"./boot":3}],3:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -170,7 +170,7 @@ function concatUnique(unique, candidate) {
 */
 
 
-},{"../enums/layout":10,"../enums/option":12,"./slider":7}],4:[function(require,module,exports){
+},{"../enums/layout":11,"../enums/option":13,"./slider":8}],4:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -241,6 +241,44 @@ function featureNameFromProperty(instance, defaultName, candidateMap) {
 
 
 },{}],5:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+module.exports = {
+  findClassNames: findClassNames,
+};
+
+function findClassNames(elem, pattern) {
+  var retVal = [];
+  var matches = elem.className.match(pattern);
+  for (var i = 0; matches && i < matches.length; ++i) {
+    retVal.push(matches[i]);
+  }
+  return retVal;
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{}],6:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -516,7 +554,7 @@ MultiMap.prototype.put = function(key, value) {
 */
 
 
-},{"../enums/phase":14,"./detect-features":4,"precond":16}],6:[function(require,module,exports){
+},{"../enums/phase":15,"./detect-features":4,"precond":18}],7:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -607,7 +645,7 @@ SlideChangeEvent.prototype = {
 
 
 
-},{"precond":16}],7:[function(require,module,exports){
+},{"precond":18}],8:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -630,6 +668,7 @@ SlideChangeEvent.prototype = {
 var phaser = require('./phaser');
 var upgrader = require('./upgrader');
 var slidechange = require('./slide-change-event');
+var dom = require('./dom');
 
 var precond = require('precond');
 
@@ -776,7 +815,7 @@ function start(priv, callback) {
   precond.checkState(!priv.started, 'slider is already started');
 
   priv.startCallback = callback || noop;
-  priv.transitions = searchForTransitions(priv.elem);
+  priv.transitions = dom.findClassNames(priv.elem, Pattern.TRANSITION);
   // For transition to work, it is required that a single transition class will be present
   // on the slider element. Since there may be many transitions declared on the slider and
   // since transitions can be configured also per slide, all transition class names are removed
@@ -891,17 +930,6 @@ function removeListener(priv, eventName, listener) {
 // private
 
 // initialization functions
-
-function searchForTransitions(elem) {
-  var transitions = [];
-  var matches = elem.className.match(Pattern.TRANSITION);
-  if (matches) {
-    for (var i = 0; i < matches.length; ++i) {
-      transitions.push(matches[i]);
-    }
-  }
-  return transitions;
-}
 
 function acceptSlide(priv, slideElement) {
   slideElement.classList.add(Flag.UPGRADED);
@@ -1077,7 +1105,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":9,"../enums/layout":10,"../enums/marker":11,"../enums/option":12,"../enums/pattern":13,"./phaser":5,"./slide-change-event":6,"./upgrader":8,"precond":16}],8:[function(require,module,exports){
+},{"../enums/flag":10,"../enums/layout":11,"../enums/marker":12,"../enums/option":13,"../enums/pattern":14,"./dom":5,"./phaser":6,"./slide-change-event":7,"./upgrader":9,"precond":18}],9:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -1103,6 +1131,7 @@ var feature = require('./detect-features');
 
 var Layout = require('../enums/layout');
 var Flag = require('../enums/flag');
+var Theme = require('../enums/theme');
 
 var Selector = (function() {
   var selectors = {};
@@ -1247,7 +1276,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":9,"../enums/layout":10,"./detect-features":4}],9:[function(require,module,exports){
+},{"../enums/flag":10,"../enums/layout":11,"../enums/theme":16,"./detect-features":4}],10:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1300,7 +1329,7 @@ module.exports = Flag;
 */
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1497,7 +1526,7 @@ module.exports = Layout;
 */
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1556,7 +1585,7 @@ module.exports = Marker;
 */
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1717,7 +1746,7 @@ module.exports = Option;
 */
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1781,7 +1810,7 @@ module.exports = Pattern;
 */
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1843,7 +1872,63 @@ module.exports = Phase;
 */
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+
+'use strict';
+
+/**
+ * Themes make slide look god without any other styling. It's purpose is to set default color
+ * for background and all foreground elements (text and all controls).
+ *
+ * A theme MAY be specified for each slide element (${link Layout.SLIDE}) in client HTML.
+ * During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no theme specified
+ * receives a theme class which was declared on the slider element (${link Layout.SLIDER}).
+ * If there is no theme specified on the slider, ${link Theme.WHITE} is used as default.
+ *
+ * @name Theme Class Names
+ */
+var Theme = {
+
+  /**
+   * White background, dark foreground. This is the default theme if none specified.
+   *
+   * @fqn Theme.WHITE
+   */
+  WHITE: 'hermes-theme--white',
+
+  /**
+   * Black background, white foreground.
+   *
+   * @fqn Theme.BLACK
+   */
+  BLACK: 'hermes-theme--black',
+};
+
+module.exports = Theme;
+
+/*
+  eslint-env node
+*/
+
+
+},{}],17:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1868,14 +1953,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
  */
 
 module.exports = require('./lib/checks');
-},{"./lib/checks":17}],17:[function(require,module,exports){
+},{"./lib/checks":19}],19:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
@@ -1971,7 +2056,7 @@ module.exports.checkIsBoolean = typeCheck('boolean');
 module.exports.checkIsFunction = typeCheck('function');
 module.exports.checkIsObject = typeCheck('object');
 
-},{"./errors":18,"util":21}],18:[function(require,module,exports){
+},{"./errors":20,"util":23}],20:[function(require,module,exports){
 /*
  * Copyright (c) 2012 Mathieu Turcotte
  * Licensed under the MIT license.
@@ -1997,7 +2082,7 @@ IllegalStateError.prototype.name = 'IllegalStateError';
 
 module.exports.IllegalStateError = IllegalStateError;
 module.exports.IllegalArgumentError = IllegalArgumentError;
-},{"util":21}],19:[function(require,module,exports){
+},{"util":23}],21:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2131,14 +2216,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2728,4 +2813,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":20,"_process":19,"inherits":15}]},{},[1]);
+},{"./support/isBuffer":22,"_process":21,"inherits":17}]},{},[1]);
