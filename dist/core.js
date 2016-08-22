@@ -838,7 +838,7 @@ function start(priv, callback) {
   // phase and removed right after hitting after-transition.
   // TODO transitions are to be independent from slide time, this needs to change
   // TODO is there a way to test removing transition class names during start?
-  priv.transitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION) || DEFAULT_TRANSITION;
+  priv.transitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION) || [ DEFAULT_TRANSITION ];
 
   expandOptionGroups(priv);
   if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
@@ -895,18 +895,14 @@ function moveTo(priv, index) {
     return;
   }
 
-  removeMarkersAndFlags(priv);
   removeTempClasses(priv);
+  removeMarkers(priv);
 
   priv.fromIndex = priv.toIndex;
   priv.toIndex = toIndex;
 
-  addMarkersAndFlags(priv);
-  var toSlide = priv.slides[priv.toIndex];
-  if (toSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ toSlide.id);
-  }
-  addTempClass(priv, chooseTransition(priv));
+  addMarkers(priv);
+  addTempClasses(priv);
 
   priv.phaser.startTransition();
   emitEvent(priv, slidechange(priv.fromIndex, priv.toIndex));
@@ -977,13 +973,11 @@ function insertSlide(priv, slideElement) {
 
 function moveToFirstSlide(priv) {
   var firstSlide = priv.slides[priv.toIndex];
-  firstSlide.classList.add(Marker.SLIDE_TO);
-  if (firstSlide.id !== null) {
-    addTempClass(priv, 'hermes-slide-id-'+ firstSlide.id);
-  }
 
-  addTempClass(priv, chooseTransition(priv));
+  firstSlide.classList.add(Marker.SLIDE_TO);
+  addTempClasses(priv);
   priv.phaser.startTransition();
+
   emitEvent(priv, slidechange(priv.fromIndex, priv.toIndex));
 }
 
@@ -1001,23 +995,18 @@ function expandOptionGroups(priv) {
 
 // transition functions
 
-function removeMarkersAndFlags(priv) {
+function removeMarkers(priv) {
   var fromSlide = priv.slides[priv.fromIndex];
   var toSlide = priv.slides[priv.toIndex];
   fromSlide.classList.remove(Marker.SLIDE_FROM);
   toSlide.classList.remove(Marker.SLIDE_TO);
 }
 
-function addMarkersAndFlags(priv) {
+function addMarkers(priv) {
   var fromSlide = priv.slides[priv.fromIndex];
   var toSlide = priv.slides[priv.toIndex];
   fromSlide.classList.add(Marker.SLIDE_FROM);
   toSlide.classList.add(Marker.SLIDE_TO);
-}
-
-function addTempClass(priv, className) {
-  priv.tempClasses.push(className);
-  priv.elem.classList.add(className);
 }
 
 function removeTempClasses(priv) {
@@ -1025,6 +1014,19 @@ function removeTempClasses(priv) {
     priv.elem.classList.remove(className);
   });
   priv.tempClasses = [];
+}
+
+function addTempClasses(priv) {
+  var currentSlide = priv.slides[priv.toIndex];
+
+  priv.tempClasses = (currentSlide.id !== null? [ 'hermes-slide-id-'+ currentSlide.id ]: [])
+    .concat(DOM.findClassNames(currentSlide, Pattern.TRANSITION) || [ random(priv.transitions) ])
+    .concat(DOM.findClassNames(currentSlide, Pattern.THEME))
+    ;
+
+  priv.tempClasses.forEach(function(className) {
+    priv.elem.classList.add(className);
+  });
 }
 
 function onPhaseChange(priv, phase) {
@@ -1061,10 +1063,6 @@ function keyBasedMove(priv, event) {
     case 'ArrowRight': moveToNext(priv); break;
     default: break;
   }
-}
-
-function chooseTransition(priv) {
-  return DOM.findClassNames(priv.slides[priv.toIndex], Pattern.TRANSITION) || random(priv.transitions);
 }
 
 function random(array) {
@@ -1245,7 +1243,9 @@ function supplementClassNames(priv, slideElement) {
     slideElement.classList.add(Layout.SLIDE);
   }
   if (!DOM.findClassNames(slideElement, Pattern.THEME)) {
-    priv.defaultThemes.forEach(slideElement.classList.add.bind(slideElement.classList));
+    priv.defaultThemes.forEach(function(className) {
+      slideElement.classList.add(className);
+    });
   }
 }
 
