@@ -57,8 +57,40 @@ module.exports = {
         '!lib/**/*.spec-helper.js',
       ],
       spec: [
-        'lib/core/**/*.spec-helper.js',
+        'lib/**/*.spec-helper.js',
         'lib/core/**/*.spec.js',
+      ],
+    },
+
+    /*
+      Enums.
+    */
+    {
+      name: 'enums',
+      src: [
+        'lib/enums/**/*.js',
+        '!lib/**/*.spec.js',
+        '!lib/**/*.spec-helper.js',
+      ],
+      spec: [
+        'lib/**/*.spec-helper.js',
+        'lib/enums/**/*.spec.js',
+      ],
+    },
+
+    /*
+      Utility classes.
+    */
+    {
+      name: 'utils',
+      src: [
+        'lib/utils/*.js',
+        '!lib/**/*.spec.js',
+        '!lib/**/*.spec-helper.js',
+      ],
+      spec: [
+        'lib/**/*.spec-helper.js',
+        'lib/utils/**/*.spec.js',
       ],
     },
 
@@ -74,7 +106,7 @@ module.exports = {
         '!lib/**/*.spec-helper.js',
       ],
       spec: [
-        'lib/polyfills/**/*.spec-heler.js',
+        'lib/**/*.spec-helper.js',
         'lib/polyfills/**/*.spec.js',
       ],
     },
@@ -90,7 +122,7 @@ module.exports = {
         '!lib/**/*.spec-helper.js',
       ],
       spec: [
-        'lib/docgen/**/*.spec-helper.js',
+        'lib/**/*.spec-helper.js',
         'lib/docgen/**/*.spec.js',
       ],
     },

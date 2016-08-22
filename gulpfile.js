@@ -199,7 +199,9 @@ gulp.task('autoreload', function() {
 function task(name, deps, configObject, taskDefinition, mergedCallback) {
   return gulp.task(name, deps, function() {
     var actualConfig = configObject instanceof Array? configObject: [ configObject ];
-    var results = actualConfig.map(taskDefinition.bind(null))
+    var results = actualConfig
+        .filter(function(object) { return !object.ignore; })
+        .map(taskDefinition.bind(null))
         .filter(function(result) { return result !== null; });
     return (mergedCallback || pass)(mergeStream.apply(null, results));
   });

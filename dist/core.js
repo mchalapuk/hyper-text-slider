@@ -77,7 +77,7 @@ function autoboot(containerElement) {
 */
 
 
-},{"../enums/option":13,"./boot":3}],3:[function(require,module,exports){
+},{"../enums/option":11,"./boot":3}],3:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -170,131 +170,7 @@ function concatUnique(unique, candidate) {
 */
 
 
-},{"../enums/layout":11,"../enums/option":13,"./slider":8}],4:[function(require,module,exports){
-/*
-
-   Copyright 2015 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-var element = document.createElement('div');
-//var nameFromDomProperty = featureNameFromProperty.bind(null, element);
-var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
-
-module.exports = {
-  transformPropertyName: nameFromCssProperty('transform', {
-    transform: 'transform',
-    OTransform: '-o-transform',
-    MozTransform: '-moz-transform',
-    WebkitTransform: '-webkit-transform',
-  }),
-  transitionEventName: nameFromCssProperty('transitionend', {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd',
-  }),
-  animationEventName: nameFromCssProperty('animationstart', {
-    animation: 'animationstart',
-    webkitAnimation: 'webkitAnimationStart',
-    MSAnimation: 'MSAnimationStart',
-    MozAnimation: 'MozAnimationStart',
-  }),
-};
-
-/**
- * Detects browser-specific names of browser features by checking availability
- * of browser-specific properties in given object instance.
- *
- * @param {Object} instance object that will be checked for existence of properties
- * @param {String} defaultName name used if nothing else detected (standard-compliant name)
- * @param {Object} candidateMap browser-specific properties (keys) mapped to feature names (values)
- * @return {String} value from candidateMap or defaultName
- */
-function featureNameFromProperty(instance, defaultName, candidateMap) {
-  for (var key in candidateMap) {
-    if (typeof instance[key] !== 'undefined') {
-      return candidateMap[key];
-    }
-  }
-
-  console.warn('no feature name detected for '+ defaultName +' using default');
-  return defaultName;
-}
-
-/*
-  eslint-env node, browser
-*/
-
-
-},{}],5:[function(require,module,exports){
-/*!
-
-   Copyright 2016 Maciej Chałapuk
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-
-*/
-'use strict';
-
-module.exports = {
-  findClassNames: findClassNames,
-  removeClassNames: removeClassNames,
-  extractClassNames: extractClassNames,
-};
-
-function findClassNames(elem, pattern) {
-  var matches = elem.className.match(pattern);
-  if (!matches) {
-    return null;
-  }
-
-  var retVal = [];
-  for (var i = 0; i < matches.length; ++i) {
-    retVal.push(matches[i]);
-  }
-  return retVal;
-}
-
-function removeClassNames(elem, pattern) {
-  elem.className = elem.className.replace(pattern, '').replace('\s+', ' ');
-}
-
-function extractClassNames(elem, pattern) {
-  var retVal = findClassNames(elem, pattern);
-  removeClassNames(elem, pattern);
-  return retVal;
-}
-
-/*
-  eslint-env node
- */
-
-
-},{}],6:[function(require,module,exports){
+},{"../enums/layout":9,"../enums/option":11,"./slider":6}],4:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -359,7 +235,7 @@ function extractClassNames(elem, pattern) {
 module.exports = Phaser;
 
 var Phase = require('../enums/phase');
-var feature = require('./detect-features');
+var feature = require('../utils/detect-features');
 var precond = require('precond');
 
 /**
@@ -570,7 +446,7 @@ MultiMap.prototype.put = function(key, value) {
 */
 
 
-},{"../enums/phase":15,"./detect-features":4,"precond":18}],7:[function(require,module,exports){
+},{"../enums/phase":13,"../utils/detect-features":15,"precond":18}],5:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -661,7 +537,7 @@ SlideChangeEvent.prototype = {
 
 
 
-},{"precond":18}],8:[function(require,module,exports){
+},{"precond":18}],6:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -684,7 +560,7 @@ SlideChangeEvent.prototype = {
 var phaser = require('./phaser');
 var upgrader = require('./upgrader');
 var slidechange = require('./slide-change-event');
-var DOM = require('./dom');
+var DOM = require('../utils/dom');
 
 var precond = require('precond');
 
@@ -1115,7 +991,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":10,"../enums/layout":11,"../enums/marker":12,"../enums/option":13,"../enums/pattern":14,"./dom":5,"./phaser":6,"./slide-change-event":7,"./upgrader":9,"precond":18}],9:[function(require,module,exports){
+},{"../enums/flag":8,"../enums/layout":9,"../enums/marker":10,"../enums/option":11,"../enums/pattern":12,"../utils/dom":16,"./phaser":4,"./slide-change-event":5,"./upgrader":7,"precond":18}],7:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -1137,8 +1013,8 @@ function noop() {
 
 module.exports = Upgrader;
 
-var feature = require('./detect-features');
-var DOM = require('./dom');
+var feature = require('../utils/detect-features');
+var DOM = require('../utils/dom');
 
 var Layout = require('../enums/layout');
 var Flag = require('../enums/flag');
@@ -1304,7 +1180,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":10,"../enums/layout":11,"../enums/pattern":14,"../enums/theme":16,"./detect-features":4,"./dom":5}],10:[function(require,module,exports){
+},{"../enums/flag":8,"../enums/layout":9,"../enums/pattern":12,"../enums/theme":14,"../utils/detect-features":15,"../utils/dom":16}],8:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1357,7 +1233,7 @@ module.exports = Flag;
 */
 
 
-},{}],11:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1554,7 +1430,7 @@ module.exports = Layout;
 */
 
 
-},{}],12:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1613,7 +1489,7 @@ module.exports = Marker;
 */
 
 
-},{}],13:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1774,7 +1650,7 @@ module.exports = Option;
 */
 
 
-},{}],14:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1857,7 +1733,7 @@ module.exports = Pattern;
 */
 
 
-},{}],15:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1919,7 +1795,7 @@ module.exports = Phase;
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -1973,6 +1849,130 @@ module.exports = Theme;
 /*
   eslint-env node
 */
+
+
+},{}],15:[function(require,module,exports){
+/*
+
+   Copyright 2015 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var element = document.createElement('div');
+//var nameFromDomProperty = featureNameFromProperty.bind(null, element);
+var nameFromCssProperty = featureNameFromProperty.bind(null, element.style);
+
+module.exports = {
+  transformPropertyName: nameFromCssProperty('transform', {
+    transform: 'transform',
+    OTransform: '-o-transform',
+    MozTransform: '-moz-transform',
+    WebkitTransform: '-webkit-transform',
+  }),
+  transitionEventName: nameFromCssProperty('transitionend', {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  }),
+  animationEventName: nameFromCssProperty('animationstart', {
+    animation: 'animationstart',
+    webkitAnimation: 'webkitAnimationStart',
+    MSAnimation: 'MSAnimationStart',
+    MozAnimation: 'MozAnimationStart',
+  }),
+};
+
+/**
+ * Detects browser-specific names of browser features by checking availability
+ * of browser-specific properties in given object instance.
+ *
+ * @param {Object} instance object that will be checked for existence of properties
+ * @param {String} defaultName name used if nothing else detected (standard-compliant name)
+ * @param {Object} candidateMap browser-specific properties (keys) mapped to feature names (values)
+ * @return {String} value from candidateMap or defaultName
+ */
+function featureNameFromProperty(instance, defaultName, candidateMap) {
+  for (var key in candidateMap) {
+    if (typeof instance[key] !== 'undefined') {
+      return candidateMap[key];
+    }
+  }
+
+  console.warn('no feature name detected for '+ defaultName +' using default');
+  return defaultName;
+}
+
+/*
+  eslint-env node, browser
+*/
+
+
+},{}],16:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+module.exports = {
+  findClassNames: findClassNames,
+  removeClassNames: removeClassNames,
+  extractClassNames: extractClassNames,
+};
+
+function findClassNames(elem, pattern) {
+  var matches = elem.className.match(pattern);
+  if (!matches) {
+    return null;
+  }
+
+  var retVal = [];
+  for (var i = 0; i < matches.length; ++i) {
+    retVal.push(matches[i]);
+  }
+  return retVal;
+}
+
+function removeClassNames(elem, pattern) {
+  elem.className = elem.className.replace(pattern, '').replace('\s+', ' ');
+}
+
+function extractClassNames(elem, pattern) {
+  var retVal = findClassNames(elem, pattern);
+  removeClassNames(elem, pattern);
+  return retVal;
+}
+
+/*
+  eslint-env node
+ */
 
 
 },{}],17:[function(require,module,exports){
