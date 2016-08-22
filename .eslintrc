@@ -116,10 +116,10 @@
     "id-length": [
       1,
       {
-        "min": 3,
+        "min": 1,
         "max": 24,
         "properties": "never",
-        "exceptions": ["w", "a", "b", "c", "e", "i", "j", "x", "y", "z", "id", "_"]
+        "exceptions": ["w", "a", "b", "c", "e", "i", "j", "x", "y", "z", "id", "_", "on"]
       }
     ],
     "id-match": 0,
