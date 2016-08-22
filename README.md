@@ -74,7 +74,7 @@ npm install --save hermes-slider
     <div id=hello>
       <h1>Hello, Hermes!</h2>
     </div>
-    <div id=transitions>
+    <div id=transitions class=hermes-theme--black>
       <p>How's the waether?</p>
     </div>
   </div>
