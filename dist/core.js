@@ -58,6 +58,7 @@ window.addEventListener('load', function() {
 
 var boot = require('./boot');
 var Option = require('../enums/option');
+var check = require('../utils/check');
 
 module.exports = autoboot;
 
@@ -67,17 +68,19 @@ module.exports = autoboot;
  * @params {Element} containerElement element that will be passed to ${link boot}
  */
 function autoboot(containerElement) {
+  check(containerElement, 'containerElement').is.anInstanceOf(Element);
+
   if (containerElement.classList.contains(Option.AUTOBOOT)) {
     boot(containerElement);
   }
 }
 
 /*
-  eslint-env node
+  eslint-env node, browser
 */
 
 
-},{"../enums/option":11,"./boot":3}],3:[function(require,module,exports){
+},{"../enums/option":11,"../utils/check":15,"./boot":3}],3:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -100,6 +103,7 @@ function autoboot(containerElement) {
 var Slider = require('./slider');
 var Option = require('../enums/option');
 var Layout = require('../enums/layout');
+var check = require('../utils/check');
 
 module.exports = boot;
 
@@ -129,6 +133,8 @@ module.exports = boot;
  * @fqn boot
  */
 function boot(containerElement) {
+  check(containerElement, 'containerElement').is.anInstanceOf(Element);
+
   var containerOptions = getEnabledOptions(containerElement);
   var sliderElems = concatUnique(
       [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER)),
@@ -170,7 +176,7 @@ function concatUnique(unique, candidate) {
 */
 
 
-},{"../enums/layout":9,"../enums/option":11,"./slider":6}],4:[function(require,module,exports){
+},{"../enums/layout":9,"../enums/option":11,"../utils/check":15,"./slider":6}],4:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -236,7 +242,9 @@ module.exports = Phaser;
 
 var Phase = require('../enums/phase');
 var feature = require('../utils/detect-features');
-var precond = require('precond');
+var check = require('../utils/check');
+
+var PHASE_VALUES = [ null, Phase.BEFORE_TRANSITION, Phase.DURING_TRANSITION, Phase.AFTER_TRANSITION ];
 
 /**
  * Creates Phaser.
@@ -250,7 +258,7 @@ var precond = require('precond');
  * @fqn Phaser.prototype.constructor
  */
 function Phaser(element) {
-  precond.checkArgument(element instanceof Element, 'elem is not an instance of Element');
+  check(element, 'element').is.anInstanceOf(Element);
 
   var priv = {};
   priv.elem = element;
@@ -302,8 +310,7 @@ function startTransition(priv) {
  * @fqn Phaser.prototype.nextPhase
  */
 function nextPhase(priv) {
-  var phases = [ null, Phase.BEFORE_TRANSITION, Phase.DURING_TRANSITION, Phase.AFTER_TRANSITION ];
-  setPhase(priv, phases[(phases.indexOf(priv.phase) + 1) % phases.length]);
+  setPhase(priv, PHASE_VALUES[(PHASE_VALUES.indexOf(priv.phase) + 1) % PHASE_VALUES.length]);
 }
 
 /**
@@ -316,6 +323,7 @@ function nextPhase(priv) {
  * @fqn Phaser.prototype.setPhase
  */
 function setPhase(priv, phase) {
+  check(phase, 'phase').is.oneOf(PHASE_VALUES);
   if (priv.phase !== null) {
     priv.elem.classList.remove(priv.phase);
   }
@@ -344,9 +352,9 @@ function setPhase(priv, phase) {
  * @fqn Phaser.prototype.addPhaseTrigger
  */
 function addPhaseTrigger(priv, target, propertyName) {
-  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
+  check(target, 'target').is.instanceOf(EventTarget);
   var property = propertyName || 'transform';
-  precond.checkIsString(property, 'propertyName is not a String');
+  check(property, 'property').is.aString();
 
   if (property === 'transform') {
     property = feature.transformPropertyName;
@@ -365,7 +373,7 @@ function addPhaseTrigger(priv, target, propertyName) {
  * @fqn Phaser.prototype.addPhaseListener
  */
 function addPhaseListener(priv, listener) {
-  priv.listeners.push(listener);
+  priv.listeners.push(check(listener, 'listener').is.aFunction());
 }
 
 /**
@@ -378,15 +386,12 @@ function addPhaseListener(priv, listener) {
  * @fqn Phaser.prototype.removePhaseTrigger
  */
 function removePhaseTrigger(priv, target, propertyName) {
-  precond.checkArgument(target instanceof EventTarget, 'target is not an instance of EventTarget');
   var property = propertyName || 'transform';
-  precond.checkIsString(property, 'transitionProperty is not a String');
+  check(property, 'property').is.aString();
   var triggerElements = priv.phaseTriggers.get(property);
-  var index = triggerElements.indexOf(target);
-  precond.checkArgument(index !== -1,
-      'couldn\'t find phase trigger of given element and property \''+ property+'\'');
+  check(target, 'target').is.instanceOf(EventTarget).and.is.oneOf(triggerElements, 'phase triggers');
 
-  triggerElements.splice(index, 1);
+  triggerElements.splice(triggerElements.indexOf(target), 1);
 }
 
 /**
@@ -396,6 +401,7 @@ function removePhaseTrigger(priv, target, propertyName) {
  * @fqn Phaser.prototype.removePhaseListener
  */
 function removePhaseListener(priv, listener) {
+  check(listener, 'listener').is.aFunction.and.is.oneOf(priv.listeners, 'registered listeners');
   priv.listeners.splice(priv.listeners.indexOf(listener), 1);
 }
 
@@ -433,11 +439,13 @@ function MultiMap() {}
 // Returns a list stored in **key**.
 // New list is created if instance doesn't given **key**.
 MultiMap.prototype.get = function(key) {
+  check(key, 'key').is.aString();
   return this[key] || (this[key] = []);
 };
 
 // Adds new **value** to the list stored in **key**.
 MultiMap.prototype.put = function(key, value) {
+  check(key, 'key').is.aString();
   this.get(key).push(value);
 };
 
@@ -446,7 +454,7 @@ MultiMap.prototype.put = function(key, value) {
 */
 
 
-},{"../enums/phase":13,"../utils/detect-features":15,"precond":18}],5:[function(require,module,exports){
+},{"../enums/phase":13,"../utils/check":15,"../utils/detect-features":16}],5:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -466,7 +474,7 @@ MultiMap.prototype.put = function(key, value) {
 */
 'use strict';
 
-var precond = require('precond');
+var check = require('../utils/check');
 
 /**
  * Fired by the slider when currently visible slide changes.
@@ -484,8 +492,8 @@ module.exports = SlideChangeEvent;
  * @fqn SlideChangeEvent.prototype.constructor
  */
 function SlideChangeEvent(fromIndex, toIndex) {
-  precond.checkIsNumber(fromIndex, 'fromIndex must be a number');
-  precond.checkIsNumber(toIndex, 'toIndex must be a number');
+  check(fromIndex, 'fromIndex').is.aNumber();
+  check(toIndex, 'toIndex').is.aNumber();
 
   var pub = Object.create(SlideChangeEvent.prototype);
 
@@ -537,7 +545,7 @@ SlideChangeEvent.prototype = {
 
 
 
-},{"precond":18}],6:[function(require,module,exports){
+},{"../utils/check":15}],6:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -561,8 +569,7 @@ var phaser = require('./phaser');
 var upgrader = require('./upgrader');
 var slidechange = require('./slide-change-event');
 var DOM = require('../utils/dom');
-
-var precond = require('precond');
+var check = require('../utils/check');
 
 /**
  * > **DISCLAIMER**
@@ -600,6 +607,7 @@ var Flag = require('../enums/flag');
 var Pattern = require('../enums/pattern');
 
 var DEFAULT_TRANSITION = 'hermes-transition--zoom-in-out';
+var EVENT_NAMES = [ 'slideChange' ];
 
 // public
 
@@ -611,7 +619,7 @@ var DEFAULT_TRANSITION = 'hermes-transition--zoom-in-out';
  * @fqn Slider.prototype.constructor
  */
 function Slider(elem) {
-  precond.checkArgument(elem instanceof Element, 'elem is not an instance of Element');
+  check(elem, 'elem').is.anInstanceOf(Element);
 
   var priv = {};
   priv.elem = elem;
@@ -704,7 +712,8 @@ function Slider(elem) {
  * @fqn Slider.prototype.start
  */
 function start(priv, callback) {
-  precond.checkState(!priv.started, 'slider is already started');
+  check(priv.started, 'slider.started').is.False();
+  check(callback, 'callback').is.either.aFunction.or.Undefined();
 
   priv.startCallback = callback || noop;
   // For transition to work, it is required that a single transition class will be present
@@ -716,10 +725,7 @@ function start(priv, callback) {
   // TODO is there a way to test removing transition class names during start?
   priv.transitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION) || [ DEFAULT_TRANSITION ];
 
-  expandOptionGroups(priv);
-  if (priv.elem.classList.contains(Option.ARROW_KEYS)) {
-    window.addEventListener('keydown', partial(keyBasedMove, priv), false);
-  }
+  window.addEventListener('keydown', partial(keyBasedMove, priv), false);
   priv.elem.addEventListener('click', partial(clickBasedMove, priv), false);
 
   priv.upgrader.onSlideUpgraded = acceptSlide.bind(null, priv);
@@ -762,9 +768,8 @@ function moveToPrevious(priv) {
  * @fqn Slider.prototype.moveTo
  */
 function moveTo(priv, index) {
-  precond.checkState(priv.started, 'slider not started');
-  precond.checkIsNumber(index, 'given index is not a number');
-  precond.checkArgument(priv.slides.length > index, 'given index is out of bounds');
+  check(priv.started, 'slider.started').is.True();
+  check(index, 'index').is.inRange(0, priv.slides.length);
 
   var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
   if (priv.toIndex === toIndex) {
@@ -793,7 +798,9 @@ function moveTo(priv, index) {
  * @fqn Slider.prototype.on
  */
 function on(priv, eventName, listener) {
-  precond.checkArgument(typeof listener === 'function', 'listener must be a function');
+  check(eventName, 'eventName').is.aString.and.oneOf(EVENT_NAMES);
+  check(listener, 'listener').is.aFunction();
+
   getListeners(priv, eventName).push(listener);
 }
 
@@ -807,11 +814,11 @@ function on(priv, eventName, listener) {
  * @fqn Slider.prototype.removeListener
  */
 function removeListener(priv, eventName, listener) {
-  precond.checkArgument(typeof listener === 'function', 'listener must be a function');
+  check(eventName, 'eventName').is.aString.and.oneOf(EVENT_NAMES);
   var listeners = getListeners(priv, eventName);
-  var index = listeners.indexOf(listener);
-  precond.checkArgument(index !== -1, 'listener not found');
-  listeners.splice(index, 1);
+  check(listener, 'listener').is.aFunction.and.is.oneOf(listeners, 'registered listeners');
+
+  listeners.splice(listeners.indexOf(listener), 1);
 }
 
 // private
@@ -855,18 +862,6 @@ function moveToFirstSlide(priv) {
   priv.phaser.startTransition();
 
   emitEvent(priv, slidechange(priv.fromIndex, priv.toIndex));
-}
-
-function expandOptionGroups(priv) {
-  var list = priv.elem.classList;
-
-  if (list.contains(Option.DEFAULTS)) {
-    list.add(Option.AUTOPLAY);
-    list.add(Option.ARROW_KEYS);
-    list.add(Option.SHOW_ARROWS);
-    list.add(Option.SHOW_DOTS);
-    list.add(Option.RESPONSIVE_CONTROLS);
-  }
 }
 
 // transition functions
@@ -934,6 +929,9 @@ function clickBasedMove(priv, event) {
 }
 
 function keyBasedMove(priv, event) {
+  if (!priv.elem.classList.contains(Option.ARROW_KEYS)) {
+    return;
+  }
   switch (event.key) {
     case 'ArrowLeft': moveToPrevious(priv); break;
     case 'ArrowRight': moveToNext(priv); break;
@@ -991,7 +989,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":8,"../enums/layout":9,"../enums/marker":10,"../enums/option":11,"../enums/pattern":12,"../utils/dom":16,"./phaser":4,"./slide-change-event":5,"./upgrader":7,"precond":18}],7:[function(require,module,exports){
+},{"../enums/flag":8,"../enums/layout":9,"../enums/marker":10,"../enums/option":11,"../enums/pattern":12,"../utils/check":15,"../utils/dom":17,"./phaser":4,"./slide-change-event":5,"./upgrader":7}],7:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -1015,11 +1013,13 @@ module.exports = Upgrader;
 
 var feature = require('../utils/detect-features');
 var DOM = require('../utils/dom');
+var check = require('../utils/check');
 
 var Layout = require('../enums/layout');
 var Flag = require('../enums/flag');
 var Theme = require('../enums/theme');
 var Pattern = require('../enums/pattern');
+var Option = require('../enums/option');
 
 var Selector = (function() {
   var selectors = {};
@@ -1034,11 +1034,14 @@ var DEFAULT_THEMES = [
 ];
 
 function Upgrader(elem) {
+  check(elem, 'elem').is.anInstanceOf(Element);
+
   var priv = {};
   priv.onSlideUpgraded = noop;
   priv.elem = elem;
   priv.dotsElement = null;
   priv.defaultThemes = null;
+  priv.started = false;
 
   var pub = {};
   pub.start = start.bind(pub, priv);
@@ -1052,8 +1055,12 @@ function Upgrader(elem) {
 }
 
 function start(priv) {
+  check(priv.started, 'upgrader.started').is.False();
+  priv.started = true;
+
   priv.defaultThemes = DOM.extractClassNames(priv.elem, Pattern.THEME) || DEFAULT_THEMES;
 
+  expandOptionGroups(priv);
   createArrowButtons(priv);
   createDotButtons(priv);
   upgradeSlides(priv);
@@ -1062,6 +1069,18 @@ function start(priv) {
     priv.elem.classList.add(Layout.SLIDER);
   }
   priv.elem.classList.add(Flag.UPGRADED);
+}
+
+function expandOptionGroups(priv) {
+  var list = priv.elem.classList;
+
+  if (list.contains(Option.DEFAULTS)) {
+    list.add(Option.AUTOPLAY);
+    list.add(Option.ARROW_KEYS);
+    list.add(Option.SHOW_ARROWS);
+    list.add(Option.SHOW_DOTS);
+    list.add(Option.RESPONSIVE_CONTROLS);
+  }
 }
 
 function createArrowButtons(priv) {
@@ -1180,7 +1199,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":8,"../enums/layout":9,"../enums/pattern":12,"../enums/theme":14,"../utils/detect-features":15,"../utils/dom":16}],8:[function(require,module,exports){
+},{"../enums/flag":8,"../enums/layout":9,"../enums/option":11,"../enums/pattern":12,"../enums/theme":14,"../utils/check":15,"../utils/detect-features":16,"../utils/dom":17}],8:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1852,6 +1871,116 @@ module.exports = Theme;
 
 
 },{}],15:[function(require,module,exports){
+/*!
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+'use strict';
+
+var check = require('offensive');
+var Assertion = require('offensive/lib/model/assertion');
+var ParameterizedAssertion = require('offensive/lib/model/parameterized-assertion');
+
+module.exports = check;
+
+check.addAssertion('True', new Assertion(function() {
+  this.message = [ 'true' ];
+  this.condition = function(value) {
+    return value === true;
+  };
+}));
+
+check.addAssertion('False', new Assertion(function() {
+  this.message = [ 'false' ];
+
+  this.condition = function(value) {
+    return value === false;
+  };
+}));
+
+check.addAssertion('oneOf', new ParameterizedAssertion(function(context, set, setName) {
+  check(set, 'set').is.anArray();
+  check(setName, 'setName').is.either.aString.or.Undefined();
+
+  if (setName) {
+    this.message = [ 'one of', setName ];
+  } else {
+    this.message = [ 'one of [ ' ].concat(set.reduce(join(', '), [])).concat(' ]');
+  }
+  this.condition = function(value) {
+    return set.indexOf(value) !== -1;
+  };
+}));
+
+check.addAssertion('greaterThan', new ParameterizedAssertion(function(context, leftBounds) {
+  check(leftBounds, 'leftBounds').is.aNumber();
+
+  context.is.aNumber();
+  context._reset();
+
+  this.message = [ '> ', leftBounds ];
+  this.condition = function(value) {
+    return value > leftBounds;
+  };
+}));
+
+check.addAssertion('lessThan', new ParameterizedAssertion(function(context, rightBounds) {
+  check(rightBounds, 'rightBounds').is.aNumber();
+
+  context.is.aNumber();
+  context._reset();
+
+  this.message = [ '< ', rightBounds ];
+  this.condition = function(value) {
+    return value < rightBounds;
+  };
+}));
+
+check.addAssertion('inRange', new ParameterizedAssertion(function(context, leftBounds, rightBounds) {
+  check(leftBounds, 'leftBounds').is.aNumber();
+  check(rightBounds, 'rightBounds').is.aNumber();
+
+  this.message = [ 'in range <', leftBounds, ', ', rightBounds, '>' ];
+  context._push();
+  context.is.greaterThan(leftBounds - 1).and.lessThan(rightBounds);
+  context._pop();
+}));
+
+function join(separator) {
+  return function(retVal, object) {
+    if (retVal.length) {
+      retVal.push(separator);
+    }
+    retVal.push(object);
+    return retVal;
+  };
+}
+
+/*
+  eslint-env node
+ */
+
+/*
+  eslint
+    no-invalid-this: 0,
+    no-underscore-dangle: 0,
+ */
+
+
+},{"offensive":42,"offensive/lib/model/assertion":29,"offensive/lib/model/parameterized-assertion":32}],16:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1921,7 +2050,7 @@ function featureNameFromProperty(instance, defaultName, candidateMap) {
 */
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
 
    Copyright 2016 Maciej Chałapuk
@@ -1941,6 +2070,8 @@ function featureNameFromProperty(instance, defaultName, candidateMap) {
 */
 'use strict';
 
+var check = require('../utils/check');
+
 module.exports = {
   findClassNames: findClassNames,
   removeClassNames: removeClassNames,
@@ -1948,6 +2079,9 @@ module.exports = {
 };
 
 function findClassNames(elem, pattern) {
+  check(elem, 'elem').is.anInstanceOf(Element);
+  check(pattern, 'pattern').is.either.anInstanceOf(RegExp).or.aString();
+
   var matches = elem.className.match(pattern);
   if (!matches) {
     return null;
@@ -1961,13 +2095,128 @@ function findClassNames(elem, pattern) {
 }
 
 function removeClassNames(elem, pattern) {
+  check(elem, 'elem').is.anInstanceOf(Element);
+  check(pattern, 'pattern').is.either.anInstanceOf(RegExp).or.aString();
+
   elem.className = elem.className.replace(pattern, '').replace('\s+', ' ');
 }
 
 function extractClassNames(elem, pattern) {
+  check(elem, 'elem').is.anInstanceOf(Element);
+  check(pattern, 'pattern').is.either.anInstanceOf(RegExp).or.aString();
+
   var retVal = findClassNames(elem, pattern);
   removeClassNames(elem, pattern);
   return retVal;
+}
+
+/*
+  eslint-env node, browser
+ */
+
+
+},{"../utils/check":15}],18:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('../../model/assertion');
+var ParameterizedAssertion = require('../../model/parameterized-assertion');
+var Alias = require('../../model/alias');
+var Getters = require('../../getters');
+
+module.exports = {
+  'elementThatIs': new ParameterizedAssertion(function(context, index, assertName, condition) {
+    context._newCheck(assertName, 'assertName').is.aString();
+    context._newCheck(condition, 'condition').is.either.aFunction.or.anObject();
+
+    var conditionFunction = null;
+    if (typeof condition === 'object') {
+      context._newCheck(condition, 'condition').has.property('isSatisfiedBy');
+      conditionFunction = condition.isSatisfiedBy.bind(condition);
+    } else {
+      conditionFunction = condition;
+    }
+
+    this.getter = Getters.element(index);
+    this.message = assertName;
+    this.condition = elemSatisfiesCondition;
+
+    function elemSatisfiesCondition(value) {
+      return conditionFunction(value[index]);
+    }
+  }),
+  'elementWhichIs': new Alias('elementThatIs'),
+
+  'eachElementIs': new ParameterizedAssertion(function(context, assertName, condition) {
+    context._newCheck(assertName, 'assertName').is.aString();
+    context._newCheck(condition, 'condition').is.either.aFunction.or.anObject();
+    if (typeof condition === 'object') {
+      context._newCheck(condition, 'condition').has.property('isSatisfiedBy');
+    }
+
+    context._push();
+    if (!context.is.anArray._result || context._value.length === 0) {
+      context._pop();
+      return;
+    }
+    context._reset();
+    context._push();
+
+    context._value.map(generateIntegers(0)).forEach(function(index) {
+      if (context.elementThatIs(index, assertName, condition)._result) {
+        // we don't want satisfied assertions in error message
+        context._reset();
+        return;
+      }
+      context._pop();
+      noop(context._operatorContext.and);
+      context._push();
+    });
+
+    context._pop(true);
+    context._pop(true);
+  }),
+  'everyElementIs': new Alias('eachElementIs'),
+  'allElements': new Alias('eachElementIs'),
+  'onlyElements': new Alias('eachElementIs'),
+
+  'onlyNumbers': new Assertion(function(context) {
+    context.eachElementIs('a number', partial(isOfType, 'number'));
+  }),
+  'onlyStrings': new Assertion(function(context) {
+    context.eachElementIs('a string', partial(isOfType, 'string'));
+  }),
+  'onlyObjects': new Assertion(function(context) {
+    context.eachElementIs('an object', partial(isOfType, 'object'));
+  }),
+  'onlyFunctions': new Assertion(function(context) {
+    context.eachElementIs('a function', partial(isOfType, 'function'));
+  }),
+  'onlyInstancesOf': new ParameterizedAssertion(function(context, Class) {
+    context._newCheck(Class, 'Class').is.aFunction();
+    context.eachElementIs('an instance of '+ Class.name, partial(isInstanceOf, Class));
+  }),
+};
+
+function generateIntegers(startingFrom) {
+  var nextValue = startingFrom;
+  return function() {
+    return nextValue++;
+  };
+}
+
+function partial(func, arg) {
+  return func.bind(null, arg);
+}
+
+function isOfType(requiredType, value) {
+  return typeof value === requiredType;
+}
+function isInstanceOf(RequiredClass, value) {
+  return value instanceof RequiredClass;
+}
+
+function noop() {
+  // noop
 }
 
 /*
@@ -1975,917 +2224,1241 @@ function extractClassNames(elem, pattern) {
  */
 
 
-},{}],17:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
+},{"../../getters":26,"../../model/alias":28,"../../model/assertion":29,"../../model/parameterized-assertion":32}],19:[function(require,module,exports){
+'use strict';
 
-},{}],18:[function(require,module,exports){
+Object.assign = require('../../polyfill/assign');
+
+var nullAssertions = require('./null');
+var typeAssertions = require('./type');
+var propertyAssertions = require('./property');
+var arrayAssertions = require('./array');
+
+module.exports = Object.assign({},
+    nullAssertions, typeAssertions, propertyAssertions, arrayAssertions);
+
 /*
- * Copyright (c) 2012 Mathieu Turcotte
- * Licensed under the MIT license.
+  eslint-env node
  */
 
-module.exports = require('./lib/checks');
-},{"./lib/checks":19}],19:[function(require,module,exports){
+
+},{"../../polyfill/assign":35,"./array":18,"./null":20,"./property":21,"./type":22}],20:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('../../model/assertion');
+var Alias = require('../../model/alias');
+
+module.exports = {
+  'Null': new Assertion(function() {
+    this.message = 'null';
+    this.condition = isNull;
+  }),
+  'null': new Alias('Null'),
+  'Nil': new Alias('Null'),
+  'nil': new Alias('Nil'),
+  'Empty': new Assertion(function(context) {
+    this.message = 'empty';
+
+    context._push();
+    context.is.either.Null.or.Undefined();
+    context._pop();
+  }),
+  'empty': new Alias('Empty'),
+};
+
+function isNull(value) {
+  return value === null;
+}
+
 /*
- * Copyright (c) 2012 Mathieu Turcotte
- * Licensed under the MIT license.
+  eslint-env node
  */
 
-var util = require('util');
 
-var errors = module.exports = require('./errors');
+},{"../../model/alias":28,"../../model/assertion":29}],21:[function(require,module,exports){
+'use strict';
 
-function failCheck(ExceptionConstructor, callee, messageFormat, formatArgs) {
-    messageFormat = messageFormat || '';
-    var message = util.format.apply(this, [messageFormat].concat(formatArgs));
-    var error = new ExceptionConstructor(message);
-    Error.captureStackTrace(error, callee);
-    throw error;
-}
+Object.getPrototypeOf = require('../../polyfill/get-prototype-of');
 
-function failArgumentCheck(callee, message, formatArgs) {
-    failCheck(errors.IllegalArgumentError, callee, message, formatArgs);
-}
+var ParameterizedAssertion = require('../../model/parameterized-assertion');
+var Alias = require('../../model/alias');
+var Getters = require('../../getters');
 
-function failStateCheck(callee, message, formatArgs) {
-    failCheck(errors.IllegalStateError, callee, message, formatArgs);
-}
+module.exports = {
+  // property assertions
+  'property': new ParameterizedAssertion(function(context, propertyName, propertyValue) {
+    context._newCheck(propertyName, 'propertyName').is.aString();
 
-module.exports.checkArgument = function(value, message) {
-    if (!value) {
-        failArgumentCheck(arguments.callee, message,
-            Array.prototype.slice.call(arguments, 2));
-    }
-};
-
-module.exports.checkState = function(value, message) {
-    if (!value) {
-        failStateCheck(arguments.callee, message,
-            Array.prototype.slice.call(arguments, 2));
-    }
-};
-
-module.exports.checkIsDef = function(value, message) {
-    if (value !== undefined) {
-        return value;
+    context._push();
+    if (!context.is.not.Empty._result) {
+      context._pop();
+      return;
     }
 
-    failArgumentCheck(arguments.callee, message ||
-        'Expected value to be defined but was undefined.',
-        Array.prototype.slice.call(arguments, 2));
-};
+    context._reset();
 
-module.exports.checkIsDefAndNotNull = function(value, message) {
-    // Note that undefined == null.
-    if (value != null) {
-        return value;
-    }
-
-    failArgumentCheck(arguments.callee, message ||
-        'Expected value to be defined and not null but got "' +
-        typeOf(value) + '".', Array.prototype.slice.call(arguments, 2));
-};
-
-// Fixed version of the typeOf operator which returns 'null' for null values
-// and 'array' for arrays.
-function typeOf(value) {
-    var s = typeof value;
-    if (s == 'object') {
-        if (!value) {
-            return 'null';
-        } else if (value instanceof Array) {
-            return 'array';
-        }
-    }
-    return s;
-}
-
-function typeCheck(expect) {
-    return function(value, message) {
-        var type = typeOf(value);
-
-        if (type == expect) {
-            return value;
-        }
-
-        failArgumentCheck(arguments.callee, message ||
-            'Expected "' + expect + '" but got "' + type + '".',
-            Array.prototype.slice.call(arguments, 2));
-    };
-}
-
-module.exports.checkIsString = typeCheck('string');
-module.exports.checkIsArray = typeCheck('array');
-module.exports.checkIsNumber = typeCheck('number');
-module.exports.checkIsBoolean = typeCheck('boolean');
-module.exports.checkIsFunction = typeCheck('function');
-module.exports.checkIsObject = typeCheck('object');
-
-},{"./errors":20,"util":23}],20:[function(require,module,exports){
-/*
- * Copyright (c) 2012 Mathieu Turcotte
- * Licensed under the MIT license.
- */
-
-var util = require('util');
-
-function IllegalArgumentError(message) {
-    Error.call(this, message);
-    this.message = message;
-}
-util.inherits(IllegalArgumentError, Error);
-
-IllegalArgumentError.prototype.name = 'IllegalArgumentError';
-
-function IllegalStateError(message) {
-    Error.call(this, message);
-    this.message = message;
-}
-util.inherits(IllegalStateError, Error);
-
-IllegalStateError.prototype.name = 'IllegalStateError';
-
-module.exports.IllegalStateError = IllegalStateError;
-module.exports.IllegalArgumentError = IllegalArgumentError;
-},{"util":23}],21:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-(function () {
-    try {
-        cachedSetTimeout = setTimeout;
-    } catch (e) {
-        cachedSetTimeout = function () {
-            throw new Error('setTimeout is not defined');
-        }
-    }
-    try {
-        cachedClearTimeout = clearTimeout;
-    } catch (e) {
-        cachedClearTimeout = function () {
-            throw new Error('clearTimeout is not defined');
-        }
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],22:[function(require,module,exports){
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-},{}],23:[function(require,module,exports){
-(function (process,global){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function(f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function(fn, msg) {
-  // Allow for deprecating things in the process of starting up.
-  if (isUndefined(global.process)) {
-    return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function(set) {
-  if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
+    this.getter = Getters.property(propertyName);
+    if (typeof propertyValue !== 'undefined') {
+      this.message = propertyValue;
+      this.condition = function PropertyHasValue(value) {
+        return value[propertyName] === propertyValue;
       };
     } else {
-      debugs[set] = function() {};
+      this.message = 'not undefined';
+      this.condition = function PropertyIsDefined(value) {
+        return hasProperty(value, propertyName);
+      };
     }
-  }
-  return debugs[set];
+    context._pop();
+  }),
+  'field': new Alias('property'),
+
+  'method': new ParameterizedAssertion(function(context, methodName) {
+    context._newCheck(methodName, 'methodName').is.aString();
+
+    context._push();
+    if (!context.is.not.Empty._result) {
+      context._pop();
+      return;
+    }
+
+    context._reset();
+    this.getter = Getters.property(methodName);
+    this.message = 'a function';
+    this.condition = hasMethod;
+    context._pop();
+
+    function hasMethod(value) {
+      return typeof value[methodName] === 'function';
+    }
+  }),
+
+  // length assertions
+  'length': new ParameterizedAssertion(function(context, requiredLength) {
+    context._newCheck(requiredLength, 'requiredLength').is.aNumber();
+    context.has.property('length', requiredLength);
+  }),
+  'len': new Alias('length'),
+  // TODO 'lengthGT': new Alias('lengthGreaterThan'),
+  // TODO 'lengthLT': new Alias('lengthLessThan'),
 };
 
+function hasProperty(object, propertyName) {
+  var instance = object;
+  while (instance) {
+    if (instance.hasOwnProperty(propertyName)) {
+      return true;
+    }
+    instance = Object.getPrototypeOf(instance);
+  }
+  return false;
+}
 
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
+/*
+  eslint-env node
  */
-/* legacy: obj, showHidden, depth, colors*/
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
+
+
+},{"../../getters":26,"../../model/alias":28,"../../model/parameterized-assertion":32,"../../polyfill/get-prototype-of":36}],22:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('../../model/assertion');
+var ParameterizedAssertion = require('../../model/parameterized-assertion');
+var Alias = require('../../model/alias');
+
+module.exports = {
+  'aString': typeofAssertion('string'),
+  'String': new Alias('aString'),
+  'string': new Alias('aString'),
+  'aNumber': typeofAssertion('number'),
+  'Number': new Alias('aNumber'),
+  'number': new Alias('aNumber'),
+  'aBoolean': typeofAssertion('boolean'),
+  'Boolean': new Alias('aBoolean'),
+  'boolean': new Alias('aBoolean'),
+  'aFunction': typeofAssertion('function'),
+  'Function': new Alias('aFunction'),
+  'function': new Alias('aFunction'),
+  'anObject': typeofAssertion('object'),
+  'Object': new Alias('anObject'),
+  'object': new Alias('anObject'),
+  'Undefined': typeofAssertion('undefined'),
+  'undefined': new Alias('Undefined'),
+
+  'anArray': new Assertion(function(context) {
+    this.message = 'an array';
+
+    context._push();
+    context.has.method('splice').and.method('forEach');
+    context._pop();
+  }),
+  'Array': new Alias('anArray'),
+  'array': new Alias('anArray'),
+
+  'anInstanceOf': new ParameterizedAssertion(function(context, RequiredClass) {
+    context._newCheck(RequiredClass, 'RequiredClass').is.aFunction();
+
+    this.message = 'an instance of '+ RequiredClass.name;
+    this.condition = isInstanceOf;
+
+    function isInstanceOf(value) {
+      return value instanceof RequiredClass;
+    }
+  }),
+  'instanceOf': new Alias('anInstanceOf'),
+};
+
+function typeofAssertion(requiredType) {
+  function hasProperType(value) {
+    return typeof value === requiredType;
+  }
+  return new Assertion(function() {
+    this.message = getTypePrefix(requiredType) + requiredType;
+    this.condition = hasProperType;
+  });
+}
+
+function getTypePrefix(type) {
+  return type === 'object'? 'an ': type === 'undefined'? '': 'a ';
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"../../model/alias":28,"../../model/assertion":29,"../../model/parameterized-assertion":32}],23:[function(require,module,exports){
+'use strict';
+
+// names of context methods that will do nothing and return this
+module.exports = [
+  'is', 'be', 'being',
+  'which', 'that',
+  'to', 'from', 'under', 'over',
+  'has', 'have',
+  'defines', 'define',
+  'contains', 'contain',
+  'precondition', 'postcondition', 'invariant',
+];
+
+/*
+  eslint-env node
+ */
+
+
+},{}],24:[function(require,module,exports){
+'use strict';
+
+var UnaryOperator = require('../../model/unary-operator');
+var BinaryOperator = require('../../model/binary-operator');
+var Alias = require('../../model/alias');
+
+module.exports = {
+  'and': new BinaryOperator(function() {
+    this.message = 'and';
+    this.apply = applyAnd;
+  }),
+  'of': new Alias('and'),
+  'with': new Alias('and'),
+
+  'not': new UnaryOperator(function() {
+    this.message = 'not';
+    this.apply = applyNot;
+  }),
+  'no': new Alias('not'),
+  'dont': new Alias('not'),
+  'doesnt': new Alias('not'),
+
+  // either and or must be used in combination
+  'either': new UnaryOperator(function(context) {
+    context._push('either');
+  }),
+  'weather': new Alias('either'),
+
+  'or': new BinaryOperator(function(context) {
+    if (context._stackName !== 'either') {
+      throw new Error('.or used without .either');
+    }
+    this.message = 'or';
+    this.apply = applyOr;
+    context._pop();
+  }),
+};
+
+function applyAnd(lhs, rhs) {
+  return lhs() && rhs();
+}
+
+function applyOr(lhs, rhs) {
+  return lhs() || rhs();
+}
+
+function applyNot(operand) {
+  return !operand();
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"../../model/alias":28,"../../model/binary-operator":30,"../../model/unary-operator":33}],25:[function(require,module,exports){
+'use strict';
+
+Object.setPrototypeOf = require('./polyfill/set-prototype-of');
+
+var SyntaxTreeBuilder = require('./syntax-tree-builder');
+var MessageBuilder = require('./message-builder');
+var AssertionRegistry = require('./registry/assertion');
+var OperatorRegistry = require('./registry/operator');
+
+var nodsl = require('./nodsl');
+
+module.exports = CheckFactory;
+
+function CheckFactory(assertionRegistry, operatorRegistry) {
+  nodsl.check(assertionRegistry instanceof AssertionRegistry,
+      'assertionRegistry must be an instance of AssertionRegistry; got ', assertionRegistry);
+  nodsl.check(operatorRegistry instanceof OperatorRegistry,
+      'operatorRegistry must be an instance of OperatorRegistry; got ', operatorRegistry);
+
+  this.contextProto = {
+    assertion: assertionRegistry.contextProto,
+    operator: operatorRegistry.contextProto,
   };
-  // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  }
-  // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
 }
-exports.inspect = inspect;
 
-
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-inspect.colors = {
-  'bold' : [1, 22],
-  'italic' : [3, 23],
-  'underline' : [4, 24],
-  'inverse' : [7, 27],
-  'white' : [37, 39],
-  'grey' : [90, 39],
-  'black' : [30, 39],
-  'blue' : [34, 39],
-  'cyan' : [36, 39],
-  'green' : [32, 39],
-  'magenta' : [35, 39],
-  'red' : [31, 39],
-  'yellow' : [33, 39]
+CheckFactory.prototype = {
+  newCheck: newCheck,
+  onError: null,
 };
 
-// Don't use 'blue' not visible on cmd.exe
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
+function newCheck(value, name) {
+  nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
 
+  var factory = this;
+  var priv = {};
 
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
+  var context = Object.create(factory.contextProto.assertion);
+  context._value = value;
+  context._name = name;
+  context._assert = _assert;
+  context._operator = _operator;
+  context._newCheck = newCheck.bind(factory);
 
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-           '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function(val, idx) {
-    hash[val] = true;
+  var operatorContext = function() {
+    return value;
+  };
+  Object.keys(context).forEach(function(key) {
+    operatorContext[key] = context[key];
   });
+  Object.setPrototypeOf(operatorContext, factory.contextProto.operator);
 
-  return hash;
-}
+  var messageBuilder = new MessageBuilder(context);
 
+  var readOnlyGetters = {
+    '_stackName': function() { return priv.state.stackName; },
+    '_result': function() { return priv.state.evaluate(); },
+    '_message': messageBuilder.build.bind(messageBuilder),
+  };
+  defineReadOnly(context, readOnlyGetters);
+  defineReadOnly(operatorContext, readOnlyGetters);
 
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect &&
-      value &&
-      isFunction(value.inspect) &&
-      // Filter out the util module, it's inspect function is special
-      value.inspect !== exports.inspect &&
-      // Also filter out any prototype objects using the circular check.
-      !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
+  var extendedContext = extendContext(context, [ _push, _pop, _reset ]);
+  extendedContext._operatorContext = operatorContext;
 
-  // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
+  priv.state = new State();
+  priv.state.syntax.onEvaluateReady = flush;
 
-  // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
+  priv.stateStack = [];
+  priv.running = null;
 
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
+  return context;
 
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value)
-      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
+  // called by each assert method
+  function _assert(assertionName, proto, args) {
+    var assertion = Object.create(proto);
+    assertion.name = assertionName;
+    assertion.args = args || [];
+    assertion.children = [];
 
-  // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '', array = false, braces = ['{', '}'];
-
-  // Make Array say that they are Array
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  // Make functions say that they are functions
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  // Make RegExps say that they are RegExps
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  // Make dates with properties first say the date
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  // Make error with message first say the error
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function(key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    defineWriteOnly(assertion, {
+      'condition': function(condition) {
+        nodsl.check(typeof condition === 'function',
+            '.condition must be a function; got ', condition);
+        var operand = condition.bind(null, context._value);
+        priv.state.syntax.addOperand(operand);
+      },
     });
+
+    run(assertion, [ extendedContext ].concat(assertion.args));
+
+    return operatorContext;
   }
 
-  ctx.seen.pop();
+  // called by each operator method
+  function _operator(operatorName, proto) {
+    var operator = Object.create(proto);
+    operator.name = operatorName;
+    operator.children = [];
 
-  return reduceToSingleString(output, base, braces);
-}
+    defineWriteOnly(operator, {
+      'apply': function(apply) {
+        nodsl.check(typeof apply === 'function',
+            '.apply must be a function; got ', apply);
+        operator.addToSyntax(priv.state.syntax, apply);
+      },
+    });
 
+    run(operator, [ extendedContext ]);
 
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value))
-    return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                             .replace(/'/g, "\\'")
-                                             .replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
+    return context;
   }
-  if (isNumber(value))
-    return ctx.stylize('' + value, 'number');
-  if (isBoolean(value))
-    return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
-  if (isNull(value))
-    return ctx.stylize('null', 'null');
-}
 
+  // to be used inside assertions
 
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
-    } else {
-      output.push('');
+  function _push(stackName) {
+    priv.stateStack.push(priv.state);
+    priv.state = new State(stackName);
+    priv.state.calls = priv.running.children;
+    priv.state.startIndex = priv.state.calls.length;
+  }
+  function _pop(force) {
+    if (!priv.state.syntax.isEvaluateReady()) {
+      if (!force) {
+        priv.state.syntax.onEvaluateReady = pop0;
+        return;
+      }
+      priv.state.syntax.addOperand(returnTrue);
     }
+    pop0(priv.state.syntax.evaluate());
   }
-  keys.forEach(function(key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          key, true));
+  function _reset() {
+    priv.state.syntax.flush();
+    priv.state.calls.splice(priv.state.startIndex, priv.state.calls.length - priv.state.startIndex);
+  }
+
+  // private
+
+  function run(operation, args) {
+    priv.state.calls.push(operation);
+
+    var previous = priv.running;
+    priv.running = operation;
+    operation.runInContext.apply(operation, args);
+    priv.running = previous;
+  }
+
+  function pop0(evaluate) {
+    priv.state = priv.stateStack.pop();
+    priv.state.syntax.addOperand(evaluate);
+  }
+
+  function flush(evaluate) {
+    if (!evaluate()) {
+      messageBuilder.addAssertions(priv.state.calls);
+      if (factory.onError) {
+        factory.onError(context);
+      }
     }
+    // everything so far satisfied, so not needed in error message
+    priv.state.calls.splice(0, priv.state.calls.length);
+  }
+}
+
+// this gets pushed around alot
+function State(stackName) {
+  this.stackName = stackName;
+  this.syntax = new SyntaxTreeBuilder();
+  this.calls = [];
+}
+State.prototype = {
+  evaluate: function() {
+    return this.syntax.evaluate()();
+  },
+  startIndex: 0,
+};
+
+function defineReadOnly(instance, propertyGetters) {
+  Object.keys(propertyGetters).forEach(function(key) {
+    Object.defineProperty(instance, key, {
+      get: propertyGetters[key],
+      set: readOnlySetter(key),
+      enumerable: true,
+    });
   });
-  return output;
+}
+function defineWriteOnly(instance, propertySetters) {
+  Object.keys(propertySetters).forEach(function(key) {
+    Object.defineProperty(instance, key, {
+      get: writeOnlySetter(key),
+      set: propertySetters[key],
+      enumerable: true,
+    });
+  });
+}
+
+function readOnlySetter(key) {
+  return function() { throw new Error(key +' is read only'); };
+}
+function writeOnlySetter(key) {
+  return function() { throw new Error(key +' is write only'); };
 }
 
 
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function(line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function(line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'")
-                 .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
+function extendContext(proto, methods) {
+  var extended = Object.create(proto);
+  methods.forEach(function(method) { extended[method.name] = method; });
+  return extended;
 }
 
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function(prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] +
-           (base === '' ? '' : base + '\n ') +
-           ' ' +
-           output.join(',\n  ') +
-           ' ' +
-           braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+function returnTrue() {
+  return true;
 }
 
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = require('./support/isBuffer');
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-
-// log is just a thin wrapper to console.log that prepends a timestamp
-exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
+/*
+  eslint-env node
  */
-exports.inherits = require('inherits');
 
-exports._extend = function(origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
 
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
+},{"./message-builder":27,"./nodsl":34,"./polyfill/set-prototype-of":37,"./registry/assertion":38,"./registry/operator":40,"./syntax-tree-builder":41}],26:[function(require,module,exports){
+'use strict';
+
+// built in getters
+module.exports = {
+  value: {
+    name: function(context) { return context._name; },
+    value: function(context) { return context._value; },
+  },
+  property: function(propertyName) {
+    return {
+      name: function(context) { return context._name +'.'+ propertyName; },
+      value: function(context) { return context._value[propertyName]; },
+    };
+  },
+  element: function(index) {
+    return {
+      name: function(context) { return context._name +'['+ index +']'; },
+      value: function(context) { return context._value[index]; },
+    };
+  },
 };
 
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
+/*
+  eslint-env node
+ */
+
+
+},{}],27:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('./model/assertion');
+var UnaryOperator = require('./model/unary-operator');
+
+var nodsl = require('./nodsl');
+
+module.exports = MessageBuilder;
+
+// code that builds error message is invoked only when assertion fails
+// performace is not a concern here
+function MessageBuilder(context) {
+  var that = Object.create(MessageBuilder.prototype);
+  that.context = context;
+  that.assertions = [];
+  return that;
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":22,"_process":21,"inherits":17}]},{},[1]);
+MessageBuilder.prototype = {
+  addAssertions: function addAssertions(assertions) {
+    this.assertions = this.assertions.concat(assertions);
+    return this;
+  },
+
+  build: function build() {
+    nodsl.check(this.assertions.length !== 0, 'trying to build a message without failed assertions');
+
+    var groupByName = groupByVariableName.bind(null, this.context);
+    var toString = groupToString.bind(null, this.context);
+
+    var grouped = this.assertions
+      .reduce(replaceEmptyWithChildren, [])
+      .reduce(mergeWithOperators(), [])
+//      .map(tee.bind(null, console.log))
+      .reduce(removeDuplicates, [])
+      .reduce(groupByName, []);
+
+    function buildMessage(builder, group) {
+      return builder + toString(group);
+    }
+
+    grouped[0].operators.binary = '';
+    var message = grouped.reduce(buildMessage, '');
+    return message;
+  },
+};
+
+function removeDuplicates(retVal, assertion) {
+  var previous = retVal[retVal.length - 1];
+  if (retVal.length === 0 || !equal(previous, assertion)) {
+    retVal.push(assertion);
+  }
+  return retVal;
+}
+
+function equal(previous, next) {
+  return previous.message === next.message &&
+    arrayEqual(previous.args, next.args) &&
+    previous.operators.unary === next.operators.unary;
+}
+
+// naive implementation
+function arrayEqual(lhs, rhs) {
+  return JSON.stringify(lhs) === JSON.stringify(rhs);
+}
+
+function replaceEmptyWithChildren(retVal, group) {
+  if (group.message.length !== 0) {
+    retVal.push(group);
+  } else {
+    return group.children.reduce(replaceEmptyWithChildren, retVal);
+  }
+  return retVal;
+}
+
+function mergeWithOperators() {
+  var unary = [];
+  var binary = null;
+
+  return function(retVal, assertionOrOperator) {
+    if (assertionOrOperator instanceof Assertion) {
+      var assertion = assertionOrOperator;
+      assertion.operators = { unary: unary, binary: binary };
+      unary = [];
+      binary = null;
+      retVal.push(assertion);
+      return retVal;
+    }
+
+    var operator = assertionOrOperator;
+    if (operator instanceof UnaryOperator) {
+      unary.push(operator.message);
+      return retVal;
+    }
+
+    if (binary) {
+      throw new Error('BUG! Two binary operators before one assertion.');
+    }
+    binary = operator.message;
+    return retVal;
+  };
+}
+
+function groupByVariableName(context, retVal, assertion) {
+  var name = assertion.getter.name(context);
+  var current = retVal.length === 0? createGroup(assertion): retVal.pop();
+  var currentName = current.getter.name(context);
+  if (name !== currentName) {
+    retVal.push(current);
+    current = createGroup(assertion);
+  }
+  var operators = operatorsToString(assertion.operators).full;
+  var message = ensureArray(assertion.message).join(' ');
+  current.message.push(operators + message);
+  current.result &= assertion.result;
+  retVal.push(current);
+  return retVal;
+}
+
+function createGroup(assertion) {
+  // has the same properties as assertion
+  var group = {
+    operators: assertion.operators,
+    getter: assertion.getter,
+    message: [],
+    result: true,
+  };
+  assertion.operators = { unary: [], binary: '' };
+  return group;
+}
+
+function groupToString(context, group) {
+  var operators = operatorsToString(group.operators);
+  if (operators.binary) {
+    operators.binary = ' '+ operators.binary;
+  }
+  var name = group.getter.name(context);
+  var conditions = group.message.join(' ');
+  var value = group.getter.value(context);
+  var retVal = operators.binary + name +' must be '+ operators.unary + conditions +'; got '+ value;
+  return retVal;
+}
+
+function operatorsToString(operators) {
+  var unary = operators.unary.join(' ');
+  if (unary.length) {
+    unary += ' ';
+  }
+  var binary = operators.binary || '';
+  if (binary.length) {
+    binary += ' ';
+  }
+  return {
+    binary: binary,
+    unary: unary,
+    full: binary + unary,
+  };
+}
+
+function ensureArray(value) {
+  return value instanceof Array? value: [ value ];
+}
+
+// debugging
+
+/* eslint-disable no-unused-vars */
+
+function tee(func, group) {
+  func(group);
+  return group;
+}
+
+function pipe() {
+  var pipeline = [].slice.call(arguments);
+
+  return function(initialArg) {
+    return pipeline.reduce(function(arg, filter) { return filter(arg); }, initialArg);
+  };
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"./model/assertion":29,"./model/unary-operator":33,"./nodsl":34}],28:[function(require,module,exports){
+'use strict';
+
+module.exports = Alias;
+
+function Alias(originalName) {
+  var that = Object.create(Alias.prototype);
+  that.aliasFor = originalName;
+  return that;
+}
+
+Alias.prototype = {};
+
+/*
+  eslint-env node
+ */
+
+
+},{}],29:[function(require,module,exports){
+'use strict';
+
+var getters = require('../getters');
+
+module.exports = Assertion;
+
+function Assertion(assertFunction) {
+  var that = Object.create(Assertion.prototype);
+  that.runInContext = assertFunction;
+  return that;
+}
+
+Assertion.prototype = {
+  getter: getters.value,
+  message: [],
+};
+
+/*
+  eslint-env node
+ */
+
+
+},{"../getters":26}],30:[function(require,module,exports){
+'use strict';
+
+var Operator = require('./operator');
+
+module.exports = BinaryOperator;
+
+function BinaryOperator(operatorFunction) {
+  var that = Object.create(BinaryOperator.prototype);
+  that.runInContext = operatorFunction;
+  return that;
+}
+
+BinaryOperator.prototype = new Operator();
+
+BinaryOperator.prototype.addToSyntax = addBinaryOperator;
+
+function addBinaryOperator(syntax, applyFunction) {
+  syntax.addBinaryOperator(applyFunction);
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"./operator":31}],31:[function(require,module,exports){
+'use strict';
+
+module.exports = Operator;
+
+function Operator() {
+}
+
+Operator.prototype = {
+  message: [],
+};
+
+/*
+  eslint-env node
+ */
+
+
+},{}],32:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('./assertion');
+
+module.exports = ParameterizedAssertion;
+
+function ParameterizedAssertion(assertFunction) {
+  var that = Object.create(ParameterizedAssertion.prototype);
+  that.runInContext = assertFunction;
+  return that;
+}
+
+ParameterizedAssertion.prototype = new Assertion();
+
+/*
+  eslint-env node
+ */
+
+
+},{"./assertion":29}],33:[function(require,module,exports){
+'use strict';
+
+var Operator = require('./operator');
+
+module.exports = UnaryOperator;
+
+function UnaryOperator(operatorFunction) {
+  var that = Object.create(UnaryOperator.prototype);
+  that.runInContext = operatorFunction;
+  return that;
+}
+
+UnaryOperator.prototype = new Operator();
+
+UnaryOperator.prototype.addToSyntax = addUnaryOperator;
+
+function addUnaryOperator(syntax, applyFunction) {
+  syntax.addUnaryOperator(applyFunction);
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"./operator":31}],34:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  check: noDslCheck,
+};
+
+function noDslCheck(condition) {
+  if (!condition) {
+    throw new Error([].slice.call(arguments, 1).join(''));
+  }
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{}],35:[function(require,module,exports){
+'use strict';
+
+module.exports = Object.assign || polyfill;
+
+function polyfill(target) {
+  var sources = [].slice.call(arguments, 1);
+  return sources.reduce(assign0, target);
+}
+
+function assign0(target, source) {
+  for (var key in source) {
+    target[key] = source[key];
+  }
+  return target;
+}
+
+/*
+  eslint-env node
+ */
+
+/*
+  eslint no-proto: 0
+ */
+
+
+},{}],36:[function(require,module,exports){
+'use strict';
+
+module.exports = originalOrPolyfill();
+
+function originalOrPolyfill() {
+  try {
+    Object.getPrototypeOf(0);
+    // didn't throw for non-object - ES6
+    return Object.getPrototypeOf;
+  } catch (e) {
+    // ES5
+    return polyfill;
+  }
+}
+
+function polyfill(instance) {
+  return instance.__proto__;
+}
+
+/*
+  eslint-env node
+ */
+
+/*
+  eslint no-proto: 0
+ */
+
+
+},{}],37:[function(require,module,exports){
+'use strict';
+
+module.exports = Object.setPrototypeOf || polyfill;
+
+function polyfill(instance, prototype) {
+  instance.__proto__ = prototype;
+}
+
+/*
+  eslint-env node
+ */
+
+/*
+  eslint no-proto: 0
+ */
+
+
+},{}],38:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('../model/assertion');
+var ParameterizedAssertion = require('../model/parameterized-assertion');
+var Alias = require('../model/alias');
+
+var NoopRegistry = require('./noop');
+
+var nodsl = require('../nodsl');
+
+module.exports = AssertionRegistry;
+
+function AssertionRegistry(noopRegistry) {
+  nodsl.check(noopRegistry instanceof NoopRegistry,
+      'noopRegistry must be an instance of NoopRegistry; got ', noopRegistry);
+
+  this.contextProto = Object.create(noopRegistry.contextProto);
+  this.registered = {};
+}
+
+AssertionRegistry.prototype = {
+  add: function addAssertion(name, assertion) {
+    if (assertion instanceof Alias) {
+      var aliased = this.registered[assertion.aliasFor];
+      nodsl.check(typeof aliased === 'object',
+          'assertion of name ', assertion.aliasFor, ' pointed by alias ', name, ' not found');
+      this.add(name, aliased);
+      return;
+    }
+
+    nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
+    nodsl.check(!(name in this.registered), 'assertion of name ', name, ' already registered');
+    nodsl.check(assertion instanceof Assertion, 'assertion must be an instance of Assertion');
+
+    this.registered[name] = assertion;
+
+    if (assertion instanceof ParameterizedAssertion) {
+      Object.defineProperty(this.contextProto, name, {
+        value: assert(name, assertion),
+        enumerable: true,
+      });
+    } else {
+      Object.defineProperty(this.contextProto, name, {
+        get: assert(name, assertion),
+        enumerable: true,
+      });
+    }
+  },
+};
+
+function assert(name, assertion) {
+  return function() {
+    var args = [].slice.call(arguments);
+
+    try {
+      return this._assert(name, assertion, args);
+
+    } catch (e) {
+      if (e.name === 'ContractError') {
+        // just to shorten the stack trace
+        var error = new Error(e.message);
+        error.name = 'ContractError';
+        error.cause = e;
+        throw error;
+      }
+      throw e;
+    }
+  };
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"../model/alias":28,"../model/assertion":29,"../model/parameterized-assertion":32,"../nodsl":34,"./noop":39}],39:[function(require,module,exports){
+'use strict';
+
+var nodsl = require('../nodsl');
+
+module.exports = NoopRegistry;
+
+function NoopRegistry() {
+  this.contextProto = {};
+}
+
+NoopRegistry.prototype = {
+  add: function addNoop(name) {
+    nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
+
+    Object.defineProperty(this.contextProto, name, {
+      get: returnThis,
+      enumerable: true,
+    });
+  },
+};
+
+function returnThis() {
+  return this;
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"../nodsl":34}],40:[function(require,module,exports){
+'use strict';
+
+var Operator = require('../model/operator');
+var BinaryOperator = require('../model/binary-operator');
+var Alias = require('../model/alias');
+
+var NoopRegistry = require('./noop');
+var AssertionRegistry = require('./assertion');
+
+var nodsl = require('../nodsl');
+
+module.exports = OperatorRegistry;
+
+function OperatorRegistry(noopRegistry, assertionRegistry) {
+  nodsl.check(noopRegistry instanceof NoopRegistry,
+      'noopRegistry must be an instance of NoopRegistry; got ', noopRegistry);
+  nodsl.check(assertionRegistry instanceof AssertionRegistry,
+      'assertionRegistry must be an instance of AssertionRegistry; got ', assertionRegistry);
+
+  this.contextProto = Object.create(noopRegistry.contextProto);
+  this.assertionProto = assertionRegistry.contextProto;
+  this.registered = {};
+}
+
+OperatorRegistry.prototype = {
+  add: function addOperator(name, operator) {
+    if (operator instanceof Alias) {
+      var aliased = this.registered[operator.aliasFor];
+      nodsl.check(typeof aliased === 'object',
+          'operator of name ', operator.aliasFor, ' pointed by alias ', name, ' not found');
+      this.add(name, aliased);
+      return;
+    }
+
+    nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
+    nodsl.check(!(name in this.registered), 'operator of name ', name, ' already registered');
+    nodsl.check(operator instanceof Operator, 'operator must be an instance of Operator');
+
+    this.registered[name] = operator;
+
+    // only binary operators in operatorProto
+    var actualProto = operator instanceof BinaryOperator? this.contextProto: this.assertionProto;
+
+    Object.defineProperty(actualProto, name, {
+      get: function() { return this._operator(name, operator); },
+      enumerable: true,
+    });
+  },
+};
+
+/*
+  eslint-env node
+ */
+
+
+},{"../model/alias":28,"../model/binary-operator":30,"../model/operator":31,"../nodsl":34,"./assertion":38,"./noop":39}],41:[function(require,module,exports){
+'use strict';
+
+var nodsl = require('./nodsl');
+
+module.exports = SyntaxTreeBuilder;
+
+function SyntaxTreeBuilder() {
+  this.binary = null;
+  this.unary = null;
+  this.operands = [];
+  this.onEvaluateReady = noop;
+}
+
+SyntaxTreeBuilder.prototype = {
+  addOperand: function(operand) {
+    nodsl.check(typeof operand === 'function', 'operand must be a function; got ', operand);
+
+    if (this.unary) {
+      this.operands.push(this.unary.bind(null, operand));
+      this.unary = null;
+    } else {
+      this.operands.push(operand);
+    }
+
+    if (this.binary) {
+      this.operands = [ cacheResult(this.binary.bind(null, this.operands[0], this.operands[1])) ];
+      this.binary = null;
+    } else {
+      nodsl.check(this.operands.length === 1, 'expected binary operator; got operand');
+    }
+
+    this.onEvaluateReady(this.evaluate());
+  },
+
+  addBinaryOperator: function(operator) {
+    nodsl.check(typeof operator === 'function',
+        'operator must be a function; got ', operator);
+    nodsl.check(this.binary === null,
+        'expected operand or unary operator after binary operator; got binary operator');
+    nodsl.check(this.operands.length === 1,
+        'expected operand or unary operator; got binary operator');
+
+    this.binary = operator;
+  },
+  addUnaryOperator: function(operator) {
+    nodsl.check(typeof operator === 'function',
+        'operator must be a function; got ', operator);
+    nodsl.check(this.unary === null, 'expected operand after unary operator; got unary operator');
+    this.unary = operator;
+  },
+
+  isEvaluateReady: function() {
+    return this.operands.length === 1 && this.binary === null;
+  },
+  evaluate: function() {
+    nodsl.check(this.unary === null, 'trying to evaluate with dangling unary operator');
+    nodsl.check(this.binary === null, 'trying to evaluate with dangling binary operator');
+    nodsl.check(this.operands.length === 1, 'trying to evaluate an empty expression');
+    return this.operands[0];
+  },
+
+  flush: function() {
+    nodsl.check(this.unary === null, 'trying to flush with dangling unary operator');
+    nodsl.check(this.binary === null, 'trying to flush with dangling binary operator');
+    this.operands = [];
+  },
+};
+
+function noop() {
+  // noop
+}
+
+function cacheResult(evaluate) {
+  var strategy = loader;
+
+  function loader() {
+    var result = evaluate();
+    strategy = function getter() {
+      return result;
+    };
+    return result;
+  }
+
+  return strategy;
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"./nodsl":34}],42:[function(require,module,exports){
+'use strict';
+
+var CheckFactory = require('./lib/check-factory');
+
+var NoopRegistry = require('./lib/registry/noop');
+var AssertionRegistry = require('./lib/registry/assertion');
+var OperatorRegistry = require('./lib/registry/operator');
+
+var builtInNoops = require('./lib/built-ins/noops');
+var builtInAssertions = require('./lib/built-ins/assertions');
+var builtInOperators = require('./lib/built-ins/operators');
+
+var noopRegistry = new NoopRegistry();
+builtInNoops.forEach(function(name) {
+  noopRegistry.add(name);
+});
+
+var assertionRegistry = new AssertionRegistry(noopRegistry);
+Object.keys(builtInAssertions).forEach(function(name) {
+  assertionRegistry.add(name, builtInAssertions[name]);
+});
+
+var operatorRegistry = new OperatorRegistry(noopRegistry, assertionRegistry);
+Object.keys(builtInOperators).forEach(function(name) {
+  operatorRegistry.add(name, builtInOperators[name]);
+});
+
+var offensive = new CheckFactory(assertionRegistry, operatorRegistry);
+offensive.onError = throwContractError;
+
+var defensive = new CheckFactory(assertionRegistry, operatorRegistry);
+
+module.exports = offensive.newCheck.bind(offensive);
+module.exports.defensive = defensive.newCheck.bind(defensive);
+module.exports.addNoop = noopRegistry.add.bind(noopRegistry);
+module.exports.addAssertion = assertionRegistry.add.bind(assertionRegistry);
+module.exports.addOperator = operatorRegistry.add.bind(operatorRegistry);
+
+function throwContractError(context) {
+  var error = new Error(context._message);
+  error.name = 'ContractError';
+  throw error;
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"./lib/built-ins/assertions":19,"./lib/built-ins/noops":23,"./lib/built-ins/operators":24,"./lib/check-factory":25,"./lib/registry/assertion":38,"./lib/registry/noop":39,"./lib/registry/operator":40}]},{},[1]);

@@ -47,6 +47,6 @@
     "yargs": "^4.8.1"
   },
   "dependencies": {
-    "precond": "~0.2.3"
+    "offensive": "^0.6.0"
   }
 }
