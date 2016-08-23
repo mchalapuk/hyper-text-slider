@@ -16,7 +16,7 @@ var fixme = require('fixme');
 var connect = require('gulp-connect');
 var sequence = require('gulp-sequence');
 var rename = require('gulp-rename');
-var mergeStream = require('merge-stream');
+var merge = require('merge-stream');
 var del = require('del');
 var yargs = require('yargs');
 var _ = require('underscore');
@@ -99,15 +99,18 @@ task('spec', [ 'lint:spec' ], config.js, function(files) {
   return gulp.src(files.spec)
     .on('data', function(file) { vinyls.push(file); })
     .on('end', function() {
-      gutil.log('Module: '+ gutil.colors.black.bgCyan(files.name));
+//      gutil.log('Module: '+ gutil.colors.black.bgCyan(files.name));
 //      gutil.log('Glob:');
 //      files.spec.forEach(function(glob) { gutil.log('  '+ gutil.colors.cyan(glob)) });
-      gutil.log('Spec Files:');
-      vinyls.forEach(function(file) { gutil.log('  '+ gutil.colors.magenta(file.path)); });
+//      gutil.log('Spec Files:');
+//      vinyls.forEach(function(file) { gutil.log('  '+ gutil.colors.magenta(file.path)); });
       if (vinyls.length === 0) {
-        gutil.log('  '+ gutil.colors.yellow('(none)'));
+//        gutil.log('  '+ gutil.colors.yellow('(none)'));
       }
     })
+  ;
+}, function(merged) {
+  return merged
     .pipe(jasmine({
 //      verbose: true,
 //      includeStackTrace: true,
@@ -198,12 +201,12 @@ gulp.task('autoreload', function() {
 
 function task(name, deps, configObject, taskDefinition, mergedCallback) {
   return gulp.task(name, deps, function() {
-    var actualConfig = configObject instanceof Array? configObject: [ configObject ];
-    var results = actualConfig
+    var streams = (configObject instanceof Array? configObject: [ configObject ])
         .filter(function(object) { return !object.ignore; })
         .map(taskDefinition.bind(null))
-        .filter(function(result) { return result !== null; });
-    return (mergedCallback || pass)(mergeStream.apply(null, results));
+        .filter(function(result) { return result !== null; })
+        ;
+    return (mergedCallback || pass)(merge.apply(null, streams));
   });
 }
 
