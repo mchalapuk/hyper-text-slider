@@ -1928,25 +1928,35 @@ check.addAssertion('oneOf', new ParameterizedAssertion(function(context, set, se
 check.addAssertion('greaterThan', new ParameterizedAssertion(function(context, leftBounds) {
   check(leftBounds, 'leftBounds').is.aNumber();
 
-  context.is.aNumber();
+  context._push();
+  if (!context.is.aNumber._result) {
+    context._pop();
+    return;
+  }
   context._reset();
 
   this.message = [ '> ', leftBounds ];
   this.condition = function(value) {
     return value > leftBounds;
   };
+  context._pop();
 }));
 
 check.addAssertion('lessThan', new ParameterizedAssertion(function(context, rightBounds) {
   check(rightBounds, 'rightBounds').is.aNumber();
 
-  context.is.aNumber();
+  context._push();
+  if (!context.is.aNumber._result) {
+    context._pop();
+    return;
+  }
   context._reset();
 
   this.message = [ '< ', rightBounds ];
   this.condition = function(value) {
     return value < rightBounds;
   };
+  context._pop();
 }));
 
 check.addAssertion('inRange', new ParameterizedAssertion(function(context, leftBounds, rightBounds) {
