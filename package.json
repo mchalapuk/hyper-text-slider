@@ -47,6 +47,6 @@
     "yargs": "^4.8.1"
   },
   "dependencies": {
-    "offensive": "^0.6.0"
+    "offensive": "^0.7.0"
   }
 }

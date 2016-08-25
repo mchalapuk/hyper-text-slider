@@ -1891,93 +1891,8 @@ module.exports = Theme;
 'use strict';
 
 var check = require('offensive');
-var Assertion = require('offensive/lib/model/assertion');
-var ParameterizedAssertion = require('offensive/lib/model/parameterized-assertion');
 
 module.exports = check;
-
-check.addAssertion('True', new Assertion(function() {
-  this.message = [ 'true' ];
-  this.condition = function(value) {
-    return value === true;
-  };
-}));
-
-check.addAssertion('False', new Assertion(function() {
-  this.message = [ 'false' ];
-
-  this.condition = function(value) {
-    return value === false;
-  };
-}));
-
-check.addAssertion('oneOf', new ParameterizedAssertion(function(context, set, setName) {
-  check(set, 'set').is.anArray();
-  check(setName, 'setName').is.either.aString.or.Undefined();
-
-  if (setName) {
-    this.message = [ 'one of', setName ];
-  } else {
-    this.message = [ 'one of [ ' ].concat(set.reduce(join(', '), [])).concat(' ]');
-  }
-  this.condition = function(value) {
-    return set.indexOf(value) !== -1;
-  };
-}));
-
-check.addAssertion('greaterThan', new ParameterizedAssertion(function(context, leftBounds) {
-  check(leftBounds, 'leftBounds').is.aNumber();
-
-  context._push();
-  if (!context.is.aNumber._result) {
-    context._pop();
-    return;
-  }
-  context._reset();
-
-  this.message = [ '> ', leftBounds ];
-  this.condition = function(value) {
-    return value > leftBounds;
-  };
-  context._pop();
-}));
-
-check.addAssertion('lessThan', new ParameterizedAssertion(function(context, rightBounds) {
-  check(rightBounds, 'rightBounds').is.aNumber();
-
-  context._push();
-  if (!context.is.aNumber._result) {
-    context._pop();
-    return;
-  }
-  context._reset();
-
-  this.message = [ '< ', rightBounds ];
-  this.condition = function(value) {
-    return value < rightBounds;
-  };
-  context._pop();
-}));
-
-check.addAssertion('inRange', new ParameterizedAssertion(function(context, leftBounds, rightBounds) {
-  check(leftBounds, 'leftBounds').is.aNumber();
-  check(rightBounds, 'rightBounds').is.aNumber();
-
-  this.message = [ 'in range <', leftBounds, ', ', rightBounds, '>' ];
-  context._push();
-  context.is.greaterThan(leftBounds - 1).and.lessThan(rightBounds);
-  context._pop();
-}));
-
-function join(separator) {
-  return function(retVal, object) {
-    if (retVal.length) {
-      retVal.push(separator);
-    }
-    retVal.push(object);
-    return retVal;
-  };
-}
 
 /*
   eslint-env node
@@ -1990,7 +1905,7 @@ function join(separator) {
  */
 
 
-},{"offensive":42,"offensive/lib/model/assertion":29,"offensive/lib/model/parameterized-assertion":32}],16:[function(require,module,exports){
+},{"offensive":44}],16:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -2134,6 +2049,20 @@ var Alias = require('../../model/alias');
 var Getters = require('../../getters');
 
 module.exports = {
+  'oneOf': new ParameterizedAssertion(function(context, set, name) {
+    context._newCheck(set, 'set').is.anArray();
+    context._newCheck(name, 'name').is.either.aString.or.Undefined();
+
+    this.message = [ 'one of', name? name: '['+ set.join(', ') + ']' ];
+    this.condition = isContainedInSet;
+
+    function isContainedInSet(value) {
+      return set.indexOf(value) !== -1;
+    }
+  }),
+  'elementOf': new Alias('oneOf'),
+  'containedIn': new Alias('oneOf'),
+
   'elementThatIs': new ParameterizedAssertion(function(context, index, assertName, condition) {
     context._newCheck(assertName, 'assertName').is.aString();
     context._newCheck(condition, 'condition').is.either.aFunction.or.anObject();
@@ -2234,7 +2163,62 @@ function noop() {
  */
 
 
-},{"../../getters":26,"../../model/alias":28,"../../model/assertion":29,"../../model/parameterized-assertion":32}],19:[function(require,module,exports){
+},{"../../getters":28,"../../model/alias":30,"../../model/assertion":31,"../../model/parameterized-assertion":34}],19:[function(require,module,exports){
+'use strict';
+
+var Assertion = require('../../model/assertion');
+var Alias = require('../../model/alias');
+
+module.exports = {
+  'True': new Assertion(function() {
+    this.message = [ 'true' ];
+    this.condition = isTrue;
+  }),
+  'true': new Alias('True'),
+
+  'False': new Assertion(function() {
+    this.message = [ 'false' ];
+    this.condition = isFalse;
+  }),
+  'false': new Alias('False'),
+
+  'truthy': new Assertion(function() {
+    this.message = [ 'truthy' ];
+    this.condition = isTruethy;
+  }),
+  'Thuthy': new Alias('truthy'),
+  'thuethy': new Alias('truthy'),
+  'Thuethy': new Alias('truthy'),
+
+  'falsy': new Assertion(function() {
+    this.message = [ 'falsy' ];
+    this.condition = isFalsy;
+  }),
+  'Falsy': new Alias('falsy'),
+  'falsey': new Alias('falsy'),
+  'Falsey': new Alias('falsy'),
+};
+
+function isTrue(value) {
+  return value === true;
+}
+function isFalse(value) {
+  return value === false;
+}
+
+function isTruethy(value) {
+  return Boolean(value);
+}
+function isFalsy(value) {
+  return !value;
+}
+
+/*
+  eslint-env node
+ */
+
+
+},{"../../model/alias":30,"../../model/assertion":31}],20:[function(require,module,exports){
 'use strict';
 
 Object.assign = require('../../polyfill/assign');
@@ -2243,16 +2227,20 @@ var nullAssertions = require('./null');
 var typeAssertions = require('./type');
 var propertyAssertions = require('./property');
 var arrayAssertions = require('./array');
+var booleanAssertions = require('./boolean');
+var numberAssertions = require('./number');
 
 module.exports = Object.assign({},
-    nullAssertions, typeAssertions, propertyAssertions, arrayAssertions);
+    nullAssertions, typeAssertions, propertyAssertions, arrayAssertions,
+    booleanAssertions, numberAssertions
+    );
 
 /*
   eslint-env node
  */
 
 
-},{"../../polyfill/assign":35,"./array":18,"./null":20,"./property":21,"./type":22}],20:[function(require,module,exports){
+},{"../../polyfill/assign":37,"./array":18,"./boolean":19,"./null":21,"./number":22,"./property":23,"./type":24}],21:[function(require,module,exports){
 'use strict';
 
 var Assertion = require('../../model/assertion');
@@ -2285,7 +2273,69 @@ function isNull(value) {
  */
 
 
-},{"../../model/alias":28,"../../model/assertion":29}],21:[function(require,module,exports){
+},{"../../model/alias":30,"../../model/assertion":31}],22:[function(require,module,exports){
+'use strict';
+
+var ParameterizedAssertion = require('../../model/parameterized-assertion');
+var Alias = require('../../model/alias');
+
+module.exports = {
+  'greaterThan': new ParameterizedAssertion(function(context, leftBounds) {
+    context._newCheck(leftBounds, 'leftBounds').is.aNumber();
+
+    context._push();
+    if (!context.is.aNumber._result) {
+      context._pop();
+      return;
+    }
+    context._reset();
+
+    this.message = [ '>', leftBounds ];
+    this.condition = function(value) {
+      return value > leftBounds;
+    };
+    context._pop();
+  }),
+  'greater': new Alias('greaterThan'),
+  'gt': new Alias('greaterThan'),
+
+  'lessThan': new ParameterizedAssertion(function(context, rightBounds) {
+    context._newCheck(rightBounds, 'rightBounds').is.aNumber();
+
+    context._push();
+    if (!context.is.aNumber._result) {
+      context._pop();
+      return;
+    }
+    context._reset();
+
+    this.message = [ '<', rightBounds ];
+    this.condition = function(value) {
+      return value < rightBounds;
+    };
+    context._pop();
+  }),
+  'less': new Alias('lessThan'),
+  'lt': new Alias('lessThan'),
+
+  'inRange': new ParameterizedAssertion(function(context, leftBounds, rightBounds) {
+    context._newCheck(leftBounds, 'leftBounds').is.aNumber();
+    context._newCheck(rightBounds, 'rightBounds').is.aNumber();
+
+    this.message = 'in range <'+ leftBounds +', '+ rightBounds+ ')';
+    context._push();
+    context.is.greaterThan(leftBounds - 1).and.lessThan(rightBounds);
+    context._pop();
+  }),
+  'between': new Alias('inRange'),
+};
+
+/*
+  eslint-env node
+ */
+
+
+},{"../../model/alias":30,"../../model/parameterized-assertion":34}],23:[function(require,module,exports){
 'use strict';
 
 Object.getPrototypeOf = require('../../polyfill/get-prototype-of');
@@ -2369,7 +2419,7 @@ function hasProperty(object, propertyName) {
  */
 
 
-},{"../../getters":26,"../../model/alias":28,"../../model/parameterized-assertion":32,"../../polyfill/get-prototype-of":36}],22:[function(require,module,exports){
+},{"../../getters":28,"../../model/alias":30,"../../model/parameterized-assertion":34,"../../polyfill/get-prototype-of":38}],24:[function(require,module,exports){
 'use strict';
 
 var Assertion = require('../../model/assertion');
@@ -2437,7 +2487,7 @@ function getTypePrefix(type) {
  */
 
 
-},{"../../model/alias":28,"../../model/assertion":29,"../../model/parameterized-assertion":32}],23:[function(require,module,exports){
+},{"../../model/alias":30,"../../model/assertion":31,"../../model/parameterized-assertion":34}],25:[function(require,module,exports){
 'use strict';
 
 // names of context methods that will do nothing and return this
@@ -2456,7 +2506,7 @@ module.exports = [
  */
 
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var UnaryOperator = require('../../model/unary-operator');
@@ -2512,7 +2562,7 @@ function applyNot(operand) {
  */
 
 
-},{"../../model/alias":28,"../../model/binary-operator":30,"../../model/unary-operator":33}],25:[function(require,module,exports){
+},{"../../model/alias":30,"../../model/binary-operator":32,"../../model/unary-operator":35}],27:[function(require,module,exports){
 'use strict';
 
 Object.setPrototypeOf = require('./polyfill/set-prototype-of');
@@ -2731,7 +2781,7 @@ function returnTrue() {
  */
 
 
-},{"./message-builder":27,"./nodsl":34,"./polyfill/set-prototype-of":37,"./registry/assertion":38,"./registry/operator":40,"./syntax-tree-builder":41}],26:[function(require,module,exports){
+},{"./message-builder":29,"./nodsl":36,"./polyfill/set-prototype-of":39,"./registry/assertion":40,"./registry/operator":42,"./syntax-tree-builder":43}],28:[function(require,module,exports){
 'use strict';
 
 // built in getters
@@ -2759,7 +2809,7 @@ module.exports = {
  */
 
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var Assertion = require('./model/assertion');
@@ -2945,7 +2995,7 @@ function pipe() {
  */
 
 
-},{"./model/assertion":29,"./model/unary-operator":33,"./nodsl":34}],28:[function(require,module,exports){
+},{"./model/assertion":31,"./model/unary-operator":35,"./nodsl":36}],30:[function(require,module,exports){
 'use strict';
 
 module.exports = Alias;
@@ -2963,7 +3013,7 @@ Alias.prototype = {};
  */
 
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var getters = require('../getters');
@@ -2986,7 +3036,7 @@ Assertion.prototype = {
  */
 
 
-},{"../getters":26}],30:[function(require,module,exports){
+},{"../getters":28}],32:[function(require,module,exports){
 'use strict';
 
 var Operator = require('./operator');
@@ -3012,7 +3062,7 @@ function addBinaryOperator(syntax, applyFunction) {
  */
 
 
-},{"./operator":31}],31:[function(require,module,exports){
+},{"./operator":33}],33:[function(require,module,exports){
 'use strict';
 
 module.exports = Operator;
@@ -3029,7 +3079,7 @@ Operator.prototype = {
  */
 
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 var Assertion = require('./assertion');
@@ -3049,7 +3099,7 @@ ParameterizedAssertion.prototype = new Assertion();
  */
 
 
-},{"./assertion":29}],33:[function(require,module,exports){
+},{"./assertion":31}],35:[function(require,module,exports){
 'use strict';
 
 var Operator = require('./operator');
@@ -3075,7 +3125,7 @@ function addUnaryOperator(syntax, applyFunction) {
  */
 
 
-},{"./operator":31}],34:[function(require,module,exports){
+},{"./operator":33}],36:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -3093,7 +3143,7 @@ function noDslCheck(condition) {
  */
 
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 module.exports = Object.assign || polyfill;
@@ -3119,7 +3169,7 @@ function assign0(target, source) {
  */
 
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 module.exports = originalOrPolyfill();
@@ -3148,7 +3198,7 @@ function polyfill(instance) {
  */
 
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 module.exports = Object.setPrototypeOf || polyfill;
@@ -3166,7 +3216,7 @@ function polyfill(instance, prototype) {
  */
 
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 var Assertion = require('../model/assertion');
@@ -3242,7 +3292,7 @@ function assert(name, assertion) {
  */
 
 
-},{"../model/alias":28,"../model/assertion":29,"../model/parameterized-assertion":32,"../nodsl":34,"./noop":39}],39:[function(require,module,exports){
+},{"../model/alias":30,"../model/assertion":31,"../model/parameterized-assertion":34,"../nodsl":36,"./noop":41}],41:[function(require,module,exports){
 'use strict';
 
 var nodsl = require('../nodsl');
@@ -3273,7 +3323,7 @@ function returnThis() {
  */
 
 
-},{"../nodsl":34}],40:[function(require,module,exports){
+},{"../nodsl":36}],42:[function(require,module,exports){
 'use strict';
 
 var Operator = require('../model/operator');
@@ -3329,7 +3379,7 @@ OperatorRegistry.prototype = {
  */
 
 
-},{"../model/alias":28,"../model/binary-operator":30,"../model/operator":31,"../nodsl":34,"./assertion":38,"./noop":39}],41:[function(require,module,exports){
+},{"../model/alias":30,"../model/binary-operator":32,"../model/operator":33,"../nodsl":36,"./assertion":40,"./noop":41}],43:[function(require,module,exports){
 'use strict';
 
 var nodsl = require('./nodsl');
@@ -3421,7 +3471,7 @@ function cacheResult(evaluate) {
  */
 
 
-},{"./nodsl":34}],42:[function(require,module,exports){
+},{"./nodsl":36}],44:[function(require,module,exports){
 'use strict';
 
 var CheckFactory = require('./lib/check-factory');
@@ -3471,4 +3521,4 @@ function throwContractError(context) {
  */
 
 
-},{"./lib/built-ins/assertions":19,"./lib/built-ins/noops":23,"./lib/built-ins/operators":24,"./lib/check-factory":25,"./lib/registry/assertion":38,"./lib/registry/noop":39,"./lib/registry/operator":40}]},{},[1]);
+},{"./lib/built-ins/assertions":20,"./lib/built-ins/noops":25,"./lib/built-ins/operators":26,"./lib/check-factory":27,"./lib/registry/assertion":40,"./lib/registry/noop":41,"./lib/registry/operator":42}]},{},[1]);
