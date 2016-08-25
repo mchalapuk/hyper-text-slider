@@ -72,7 +72,7 @@ white foreground elements.
 
 [material-design-colors]: https://material.google.com/style/typography.html#typography-other-typographic-guidelines
 
-## Controls
+### Controls
 
 Default arrow styling uses `<` and `>` signs in `::after` pseudo-element.
 These will look good (or not) depending on the font in use, and will definitely
@@ -99,7 +99,7 @@ use svg images.
 Default dot styling uses `border-radius` and `background-color`.
 The same techinique can be used to change it.
 
-## Typography
+### Typography
 
 Theme can also specify typography rules for a slide.
 
