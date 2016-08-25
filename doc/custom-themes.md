@@ -21,8 +21,12 @@
 Themes which are built-in into hermes ([`hermes-theme--white`][theme-white],
 [`hermes-theme--black`][theme-black]) are very basic. They define background
 color and contrast color for foreground elements, nothing more. They are very
-useful when hacking a slider prototype, but production sliders shoould use other
-themes which define typography information.
+useful when hacking a slider prototype, but production sliders should use other
+themes which define more color variants, styling for controls and typography
+information.
+
+[theme-white]: class-names.md#hermes-theme--white
+[theme-black]: class-names.md#hermes-theme--black
 
 ## Defining a Theme
 
@@ -35,8 +39,8 @@ in this documentation use Sass.
 
 ### Colors
 
-Let's define a theme with a red background color and very contrasting white
-foreground elements.
+Example below defines a theme with a red background color and very contrasting
+white foreground elements.
 
 ```sass
 .hermes-theme--red {
@@ -64,16 +68,16 @@ foreground elements.
 >
 > Above colors are very simple, production-ready themes should specify slightly
 > different text colors for different text elements. It is recommended to use
-> style guides [Material Design][material-design-colors].
+> style guides such as [Material Design][material-design-colors].
 
 [material-design-colors]: https://material.google.com/style/typography.html#typography-other-typographic-guidelines
 
 ## Controls
 
 Default arrow styling uses `<` and `>` signs in `::after` pseudo-element.
-These look good or not depending on the font in use, and will definitely not
-fit every design. Following theme changes arrow styling so that they use svg
-images.
+These will look good (or not) depending on the font in use, and will definitely
+not fit in every design. Following theme changes arrow styling so that they
+use svg images.
 
 ```sass
 .hermes-theme--fancy-arrows {
@@ -92,8 +96,8 @@ images.
 }
 ```
 
-Default dots are elements use `border-radius` and `background-color`.
-The same techinique can be used to change them.
+Default dot styling uses `border-radius` and `background-color`.
+The same techinique can be used to change it.
 
 ## Typography
 
@@ -122,13 +126,15 @@ Theme can also specify typography rules for a slide.
 >
 > Above example is very simple. In production code, it is recommended
 > to define typography styles based on information from style guide
-> like [Material Design][material-design-typography].
+> like [Material Design][material-design-typography] and utilities like
+> [Sassline][sassline].
 
 [material-design-typography]: https://material.google.com/style/typography.html#typography-typeface
+[sassline]: https://github.com/jakegiltsoff/sassline
 
-# Using Themes
+## Using Themes
 
-To use a theme, add its class name on them on slider element or on specific
+To use a theme, add its class name on the slider element or on specific
 slide. Themes can be combined (many themes declared on one slide).
 
 ```html
@@ -149,5 +155,5 @@ slide. Themes can be combined (many themes declared on one slide).
 In example above, first slide uses `hermes-theme--red` and
 `hermes-theme--roboto` themes. Second slide uses `hermes-theme--black`
 and `hermes-theme--roboto` (rewriten from slider elemenet during
-[DOM upgrade][dom-upgrade.md]).
+[DOM upgrade](dom-upgrade.md)).
 
