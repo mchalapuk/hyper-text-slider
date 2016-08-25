@@ -36,6 +36,7 @@ npm install --save hermes-slider
 
  * [Declarative API](doc/class-names.md)
  * [JavaScript API](doc/javascript-api.md)
+ * [Adding Custom Themes](doc/custom-themes.md)
  * [Screen Responsiveness](doc/responsiveness.md)
  * [Slider's DOM Upgrade](doc/dom-upgrade.md)
  * [TODO List](doc/TODO.md)

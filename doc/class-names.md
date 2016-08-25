@@ -538,6 +538,9 @@ Themes may also be declared on [hermes-layout--slide](class-names.md#hermes-layo
 this type are [checked continuously](#continuously), therefore they may be added/removed
 on slides at runtime (client JavaScript).
 
+Hermes provides very basic [built-in themes](class-names.md#theme-class-names)
+(see [Adding Custom Themes](custom-themes.md)).
+
 *@invariant* - Theme class name's of currently active slide is added to slider element.
 
 #### /hermes-slide-id-([^\s]+)/

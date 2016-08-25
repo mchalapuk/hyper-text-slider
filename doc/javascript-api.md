@@ -22,7 +22,8 @@ limitations under the License.
 
 **Table of Contents**
 
-1. [Slider](javascript-api.md#slider)<ul>
+1. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
+2. [Slider](javascript-api.md#slider)<ul>
 <li>[.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem)
 <li>[.prototype.slides](javascript-api.md#sliderprototypeslides)
 <li>[.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
@@ -33,13 +34,13 @@ limitations under the License.
 <li>[.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex)
 <li>[.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
 <li>[.prototype.removeListener(eventName, listener)](javascript-api.md#sliderprototyperemovelistenereventname-listener)</ul>
-2. [SlideChangeEvent](javascript-api.md#slidechangeevent)<ul>
+3. [SlideChangeEvent](javascript-api.md#slidechangeevent)<ul>
 <li>[.prototype.constructor(from, to)](javascript-api.md#slidechangeeventprototypeconstructorfrom-to)
 <li>[.prototype.fromIndex](javascript-api.md#slidechangeeventprototypefromindex)
 <li>[.prototype.toIndex](javascript-api.md#slidechangeeventprototypetoindex)
 <li>[.prototype.eventName](javascript-api.md#slidechangeeventprototypeeventname)
 <li>[.prototype.target](javascript-api.md#slidechangeeventprototypetarget)</ul>
-3. [Phaser](javascript-api.md#phaser)<ul>
+4. [Phaser](javascript-api.md#phaser)<ul>
 <li>[.prototype.constructor(element)](javascript-api.md#phaserprototypeconstructorelement)
 <li>[.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)
 <li>[.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase)
@@ -49,7 +50,36 @@ limitations under the License.
 <li>[.prototype.removePhaseTrigger(target, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty)
 <li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
 <li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
-4. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
+
+<!-- Start lib/core/boot.js -->
+
+## boot(containerElement)
+
+Default Hermes boot procedure.
+
+For each element with [hermes-layout--slider](class-names.md#hermes-layout--slider) class name found in passed container
+(typically document's `<body>`):
+
+ 1. Adds [options class names](class-names.md#option-class-names) found on container element,
+ 1. Creates [Slider](javascript-api.md#slider) object,
+ 2. Invokes its [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) method.
+
+If you are using browserify, you may want to call this function at some point...
+
+```javascript
+var hermes = require('hermes-slider');
+hermes.boot(document.body);
+```
+
+...or even consider implementing bootup by yourself.
+
+*@param* {Element} **containerElement** - element that contains sliders in (not necessarily immediate) children
+
+*@return* - {Array<Slider>} array containing all created [Slider](javascript-api.md#slider) instances
+
+*@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
+
+<!-- End lib/core/boot.js -->
 
 <!-- Start lib/core/slider.js -->
 
@@ -403,36 +433,6 @@ Returns a class name of the current phase.
 *@return* {String} current phase
 
 <!-- End lib/core/phaser.js -->
-
-<!-- Start lib/core/boot.js -->
-
-## boot(containerElement)
-
-Default Hermes boot procedure.
-
-For each element with [hermes-layout--slider](class-names.md#hermes-layout--slider) class name found in passed container
-(typically document's `<body>`):
-
- 1. Adds [options class names](class-names.md#option-class-names) found on container element,
- 1. Creates [Slider](javascript-api.md#slider) object,
- 2. Invokes its [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) method.
-
-If you are using browserify, you may want to call this function at some point...
-
-```javascript
-var hermes = require('hermes-slider');
-hermes.boot(document.body);
-```
-
-...or even consider implementing bootup by yourself.
-
-*@param* {Element} **containerElement** - element that contains sliders in (not necessarily immediate) children
-
-*@return* - {Array<Slider>} array containing all created [Slider](javascript-api.md#slider) instances
-
-*@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
-
-<!-- End lib/core/boot.js -->
 
 <!-- End Template javascript-api.md.ejs -->
 

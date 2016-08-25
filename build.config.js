@@ -139,6 +139,7 @@ module.exports = {
     written: [
       'doc/responsiveness.md',
       'doc/dom-upgrade.md',
+      'doc/custom-themes.md',
       'doc/TODO.md',
       'doc/CHANGELOG.md',
     ],
@@ -173,10 +174,10 @@ module.exports = {
        */
       {
         src: [
+          'lib/core/boot.js',
           'lib/core/slider.js',
           'lib/core/slide-change-event.js',
           'lib/core/phaser.js',
-          'lib/core/boot.js',
         ],
         options: {
           formatter: formatter.format.bind(formatter),
