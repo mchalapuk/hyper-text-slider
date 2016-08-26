@@ -22,17 +22,16 @@ Themes which are built-in into hermes ([`hermes-theme--white`][theme-white],
 [`hermes-theme--black`][theme-black]) are very basic. They define background
 color and contrast color for foreground elements, nothing more. They are very
 useful when hacking a slider prototype, but production sliders should use other
-themes which define more color variants, styling for controls and typography
-information.
+themes which define more color variants, styling for controls and typography.
 
 [theme-white]: class-names.md#hermes-theme--white
 [theme-black]: class-names.md#hermes-theme--black
 
 ## Defining a Theme
 
-Themes are defined in CSS but, as the rules can bequite complicated, using
-a CSS preprocessor ([Sass][sass], [less][less]) is highly reccomended. Examples
-in this documentation use Sass.
+Themes are defined in CSS but, as the rules can be quite complicated, using
+a CSS preprocessor ([Sass][sass], [less][less]) is highly recommended. Examples
+in this document use Sass.
 
 [sass]: https://github.com/sass/sass
 [less]: https://github.com/less/less.js
@@ -135,7 +134,8 @@ Theme can also specify typography rules for a slide.
 ## Using Themes
 
 To use a theme, add its class name on the slider element or on specific
-slide. Themes can be combined (many themes declared on one slide).
+slide. Themes can be combined (many themes declared on one slide), which
+enables declaring color themes separately from typography.
 
 ```html
 <div class="hermes-slider
