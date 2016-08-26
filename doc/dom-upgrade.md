@@ -36,7 +36,7 @@ DOM upgrade, which consists of following operations:
  * Application of proper [layout class names][layout-classes],
  * Generation of [background][layout-background] and [content][layout-content]
    elements for each slide,
- * Adding default [theme class names][theme-classes] to slideswithout themes specified, 
+ * Addition of default [theme class names][theme-classes] to slides without themes specified, 
  * Generation of DOM elements for slider [control buttons][layout-controls],
  * Marking slider's and slides' elements as [upgraded][flag-upgraded].
 
