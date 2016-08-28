@@ -33,17 +33,19 @@ limitations under the License.
 2. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)</ul>
-3. [Time Class Names](class-names.md#time-class-names)<ul>
+3. [Transition Class Names](class-names.md#transition-class-names)<ul>
+<li>[hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out)</ul>
+4. [Time Class Names](class-names.md#time-class-names)<ul>
 <li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
 <li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
-4. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
+5. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
 <li>[hermes-during-transition](class-names.md#hermes-during-transition)
 <li>[hermes-after-transition](class-names.md#hermes-after-transition)</ul>
-5. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
+6. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
 <li>[hermes-slide-from](class-names.md#hermes-slide-from)
 <li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
-6. [Layout Class Names](class-names.md#layout-class-names)<ul>
+7. [Layout Class Names](class-names.md#layout-class-names)<ul>
 <li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
 <li>[hermes-slider](class-names.md#hermes-slider)
 <li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
@@ -55,10 +57,10 @@ limitations under the License.
 <li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
 <li>[hermes-layout--dots](class-names.md#hermes-layout--dots)
 <li>[hermes-layout--dot](class-names.md#hermes-layout--dot)</ul>
-7. [Flag Class Names](class-names.md#flag-class-names)<ul>
+8. [Flag Class Names](class-names.md#flag-class-names)<ul>
 <li>[is-upgraded](class-names.md#is-upgraded)
 <li>[is-active](class-names.md#is-active)</ul>
-8. [Other Class Names](class-names.md#other-class-names)<ul>
+9. [Other Class Names](class-names.md#other-class-names)<ul>
 <li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
 <li>[/hermes-theme--([^\s]+)/g](class-names.md#hermes-theme--\sg)
 <li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
@@ -233,6 +235,35 @@ White background, dark foreground. This is the default theme if none specified.
 Black background, white foreground.
 
 <!-- End lib/enums/theme.js -->
+
+<!-- Start lib/enums/transition.js -->
+
+## Transition Class Names
+
+Transitions add nice animations to slide changes. Typically, one transition adds animation
+to slide's content ([hermes-layout--content](class-names.md#hermes-layout--content)) or slide's background ([hermes-layout--background](class-names.md#hermes-layout--background)),
+or both. Custom transitions may also animate only parts of slide's content (e.g. to display
+some parts of the slide with a delay).
+
+A theme MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
+During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no ttransitions
+specified receives transitions which was declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
+If there is no transition specified on the slider, [hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out)
+is used as default. Each slider element MAY contain multiple transition class names.
+
+### Summary
+
+Name | Description
+--- | ---
+[hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out) | Delicate zooms in when slide appears, zoom-out when it disappears.
+
+### Details
+
+#### hermes-transition--zoom-in-out
+
+Delicate zooms in when slide appears, zoom-out when it disappears.
+
+<!-- End lib/enums/transition.js -->
 
 <!-- Start lib/enums/time.js -->
 
