@@ -209,13 +209,15 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 ## Theme Class Names
 
-Themes make slide look god without any other styling. It's purpose is to set default color
-for background and all foreground elements (text and all controls).
+Themes make slide look god without any other styling. Their purpose is to set default styles
+for a slide (typically background and font colors, typography and control elements).
 
-A theme MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
+Multiple themes MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
 During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no theme specified
-receives a theme class which was declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
+receives theme classes which were declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
 If there is no theme specified on the slider, [hermes-theme--white](class-names.md#hermes-theme--white) is used as default.
+
+[How to add custom theme?](custom-themes.md)
 
 ### Summary
 
@@ -245,11 +247,11 @@ to slide's content ([hermes-layout--content](class-names.md#hermes-layout--conte
 or both. Custom transitions may also animate only parts of slide's content (e.g. to display
 some parts of the slide with a delay).
 
-A theme MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
-During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no ttransitions
-specified receives transitions which was declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
+Multiple transitions MAY be added on each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
+During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no transitions
+specified receives transitions which were declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
 If there is no transition specified on the slider, [hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out)
-is used as default. Each slider element MAY contain multiple transition class names.
+is used as default.
 
 ### Summary
 
