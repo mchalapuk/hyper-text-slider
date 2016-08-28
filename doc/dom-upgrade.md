@@ -36,6 +36,7 @@ DOM upgrade, which consists of following operations:
  * Application of proper [layout class names][layout-classes],
  * Generation of [background][layout-background] and [content][layout-content]
    elements for each slide,
+ * Addition of default [transition class names][transition-classes] to slides without themes specified, 
  * Addition of default [theme class names][theme-classes] to slides without themes specified, 
  * Generation of DOM elements for slider [control buttons][layout-controls],
  * Marking slider's and slides' elements as [upgraded][flag-upgraded].
@@ -44,6 +45,7 @@ DOM upgrade, which consists of following operations:
 [option-classes]: class-names.md#option-class-names
 [layout-classes]: class-names.md#layout-class-names
 [theme-classes]: class-names.md#theme-class-names
+[transition-classes]: class-names.md#transition-class-names
 [layout-background]: class-names.md#hermes-layout--background
 [layout-content]: class-names.md#hermes-layout--content
 [layout-controls]: class-names.md#hermes-layout--controls
@@ -78,7 +80,10 @@ Following slider declaration:
             hermes-layout--slider
             is-upgraded">
 
-  <div class="hermes-layout--slide is-upgraded hermes-theme--white" id="hello">
+  <div id="hello" class="hermes-layout--slide
+                         is-upgraded
+                         hermes-theme--white
+                         hermes-transition--zoom-in-out">
     <div class="hermes-layout--background">
     </div>
     <div class="hermes-layout--content">
@@ -86,7 +91,10 @@ Following slider declaration:
     </div>
   </div>
 
-  <div class="hermes-layout--slide is-upgraded hermes-theme--white" id="transitions">
+  <div id="transitions" class="hermes-layout--slide
+                               is-upgraded
+                               hermes-theme--white
+                               hermes-transition--zoom-in-out">
     <div class="hermes-layout--background">
     </div>
     <div class="hermes-layout--content">
