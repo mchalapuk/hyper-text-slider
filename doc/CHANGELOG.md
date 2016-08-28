@@ -20,7 +20,21 @@
 
 [time-class-names]: class-names.md#time-class-names
 [option-class-names]: class-names.md#option-class-names
+[theme-white]: class-names.md#hermes-theme--white
+[theme-black]: class-names.md#hermes-theme--black
+[theme-regex]: class-names.md#hermes-theme--sg
+[zoom-in-out]: class-names.md#hermes-transition--zoom-in-out
 [slide-id]: class-names.md#hermes-slide-id-s
+
+
+# v0.5.0
+
+ * Added extendible [theme mechanism][theme-regex],
+ * Added [`hermes-theme--white`][theme-white] and [`hermes-theme--black`][theme-black],
+ * Documented [adding custom themes](custom-themes.md),
+ * Multiple transitions can be used on one slide,
+ * Each slide receives transition class name during [slider's DOM upgrade](dom-upgrade.md),
+ * Added [`hermes-transition--zoom-in-out`][zoom-in-out].
 
 # v0.4.1
 
