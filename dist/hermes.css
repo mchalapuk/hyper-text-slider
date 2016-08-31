@@ -469,17 +469,17 @@
 
 */
 .hermes-theme--white .hermes-layout--background {
-  background: white; }
+  background-color: white; }
 
 .hermes-theme--white .hermes-layout--content,
 .hermes-theme--white .hermes-layout--arrow {
   color: black; }
 
 .hermes-theme--white .hermes-layout--dot {
-  background: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   border-color: black; }
   .hermes-theme--white .hermes-layout--dot.is-active {
-    background: black; }
+    background-color: black; }
 
 /*
 
@@ -499,17 +499,17 @@
 
 */
 .hermes-theme--black .hermes-layout--background {
-  background: black; }
+  background-color: black; }
 
 .hermes-theme--black .hermes-layout--content,
 .hermes-theme--black .hermes-layout--arrow {
   color: white; }
 
 .hermes-theme--black .hermes-layout--dot {
-  background: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.4);
   border-color: white; }
   .hermes-theme--black .hermes-layout--dot.is-active {
-    background: white; }
+    background-color: white; }
 
 /*
 

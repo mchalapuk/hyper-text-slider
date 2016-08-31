@@ -18,7 +18,7 @@
 
 .hermes-theme--black {
   .hermes-layout--background {
-    background: black;
+    background-color: black;
   }
 
   .hermes-layout--content,
@@ -27,11 +27,11 @@
   }
 
   .hermes-layout--dot {
-    background: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.4);
     border-color: white;
 
     &.is-active {
-      background: rgb(255, 255, 255);
+      background-color: rgb(255, 255, 255);
     }
   }
 }
