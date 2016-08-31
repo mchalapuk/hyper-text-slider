@@ -62,7 +62,11 @@
 .hermes-layout--content {
   display: inline-block;
   text-align: left;
-  vertical-align: middle; }
+  vertical-align: middle;
+  z-index: 1; }
+
+.hermes-layout--controls {
+  z-index: 0; }
 
 .hermes-layout--slide::after {
   content: '';
