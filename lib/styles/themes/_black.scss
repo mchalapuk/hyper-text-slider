@@ -21,7 +21,27 @@
     background-color: black;
   }
 
-  .hermes-layout--content,
+  .hermes-layout--content {
+    color: white;
+  }
+
+  a {
+    transition: color ease-in-out 150ms;
+
+    &:link,
+    &:visited {
+      color: gray;
+    }
+
+    &:hover {
+      color: #4b84ff;
+    }
+
+    &:active {
+      color: white;
+    }
+  }
+
   .hermes-layout--arrow {
     color: white;
   }

@@ -471,7 +471,18 @@
 .hermes-theme--white .hermes-layout--background {
   background-color: white; }
 
-.hermes-theme--white .hermes-layout--content,
+.hermes-theme--white .hermes-layout--content {
+  color: black; }
+
+.hermes-theme--white a {
+  transition: color ease-in-out 150ms; }
+  .hermes-theme--white a:link, .hermes-theme--white a:visited {
+    color: #222; }
+  .hermes-theme--white a:hover {
+    color: #2962ff; }
+  .hermes-theme--white a:active {
+    color: #000; }
+
 .hermes-theme--white .hermes-layout--arrow {
   color: black; }
 
@@ -501,7 +512,18 @@
 .hermes-theme--black .hermes-layout--background {
   background-color: black; }
 
-.hermes-theme--black .hermes-layout--content,
+.hermes-theme--black .hermes-layout--content {
+  color: white; }
+
+.hermes-theme--black a {
+  transition: color ease-in-out 150ms; }
+  .hermes-theme--black a:link, .hermes-theme--black a:visited {
+    color: gray; }
+  .hermes-theme--black a:hover {
+    color: #4b84ff; }
+  .hermes-theme--black a:active {
+    color: white; }
+
 .hermes-theme--black .hermes-layout--arrow {
   color: white; }
 
