@@ -511,6 +511,12 @@
 */
 .hermes-theme--black .hermes-layout--background {
   background-color: black; }
+  .hermes-theme--black .hermes-layout--background::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAADklEQVQIW2NgQAXGZHAAGioAza6+Hk0AAAAASUVORK5CYII=") center center repeat; }
 
 .hermes-theme--black .hermes-layout--content {
   color: white; }
@@ -518,7 +524,7 @@
 .hermes-theme--black a {
   transition: color ease-in-out 150ms; }
   .hermes-theme--black a:link, .hermes-theme--black a:visited {
-    color: gray; }
+    color: #333; }
   .hermes-theme--black a:hover {
     color: #4b84ff; }
   .hermes-theme--black a:active {
