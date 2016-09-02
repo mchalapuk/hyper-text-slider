@@ -556,20 +556,55 @@
    limitations under the License.
 
 */
-.hermes-transition--zoom-in-out.hermes-before-transition .hermes-slide-to .hermes-layout--content {
-  -webkit-transform: scale(1.15, 1.15);
-  -moz-transform: scale(1.15, 1.15);
-  -o-transform: scale(1.15, 1.15);
-  transform: scale(1.15, 1.15); }
+.hermes-transition--zoom-out-in.hermes-before-transition .hermes-slide-to .hermes-layout--content {
+  -webkit-transform: scale(1.05, 1.05);
+  -moz-transform: scale(1.05, 1.05);
+  -o-transform: scale(1.05, 1.05);
+  transform: scale(1.05, 1.05); }
 
-.hermes-transition--zoom-in-out.hermes-during-transition .hermes-slide-from .hermes-layout--content {
+.hermes-transition--zoom-out-in.hermes-during-transition .hermes-slide-from .hermes-layout--content {
   -webkit-transform: scale(1.35, 1.15);
   -moz-transform: scale(1.35, 1.15);
   -o-transform: scale(1.35, 1.15);
   transform: scale(1.35, 1.15); }
 
-.hermes-transition--zoom-in-out.hermes-during-transition .hermes-slide-to .hermes-layout--content {
+.hermes-transition--zoom-out-in.hermes-during-transition .hermes-slide-to .hermes-layout--content {
   -webkit-transform: scale(1, 1);
   -moz-transform: scale(1, 1);
   -o-transform: scale(1, 1);
   transform: scale(1, 1); }
+
+/*
+
+   Copyright 2016 Maciej Chałapuk
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+*/
+.hermes-transition--bg-zoom-in-out.hermes-before-transition .hermes-slide-to .hermes-layout--background {
+  -webkit-transform: scale(1.07, 1.07);
+  -moz-transform: scale(1.07, 1.07);
+  -o-transform: scale(1.07, 1.07);
+  transform: scale(1.07, 1.07); }
+
+.hermes-transition--bg-zoom-in-out.hermes-during-transition .hermes-slide-from .hermes-layout--background {
+  -webkit-transform: scale(1, 1);
+  -moz-transform: scale(1, 1);
+  -o-transform: scale(1, 1);
+  transform: scale(1, 1); }
+
+.hermes-transition--bg-zoom-in-out.hermes-during-transition .hermes-slide-to .hermes-layout--background {
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+  -o-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1); }

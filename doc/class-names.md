@@ -34,7 +34,8 @@ limitations under the License.
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)</ul>
 3. [Transition Class Names](class-names.md#transition-class-names)<ul>
-<li>[hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out)</ul>
+<li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
+<li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
 4. [Time Class Names](class-names.md#time-class-names)<ul>
 <li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
 <li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
@@ -250,20 +251,25 @@ some parts of the slide with a delay).
 Multiple transitions MAY be added on each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
 During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no transitions
 specified receives transitions which were declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
-If there is no transition specified on the slider, [hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out)
-is used as default.
+If there is no transition specified on the slider, [hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
+and [hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out) are used as default.
 
 ### Summary
 
 Name | Description
 --- | ---
-[hermes-transition--zoom-in-out](class-names.md#hermes-transition--zoom-in-out) | Delicate zooms in when slide appears, zoom-out when it disappears.
+[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in) | Delicate content zoom out when slide appears, zoom in when it disappears.
+[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out) | Delicate background zoom in when slide appears, zoom out when it disappears.
 
 ### Details
 
-#### hermes-transition--zoom-in-out
+#### hermes-transition--zoom-out-in
 
-Delicate zooms in when slide appears, zoom-out when it disappears.
+Delicate content zoom out when slide appears, zoom in when it disappears.
+
+#### hermes-transition--bg-zoom-in-out
+
+Delicate background zoom in when slide appears, zoom out when it disappears.
 
 <!-- End lib/enums/transition.js -->
 

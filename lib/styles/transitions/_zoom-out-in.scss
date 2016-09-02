@@ -16,11 +16,11 @@
 
 */
 
-.hermes-transition--zoom-in-out {
+.hermes-transition--zoom-out-in {
   &.hermes-before-transition {
     .hermes-slide-to {
       .hermes-layout--content {
-        @include transform(scale(1.15, 1.15));
+        @include transform(scale(1.05, 1.05));
       }
     }
   }

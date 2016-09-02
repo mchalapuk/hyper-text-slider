@@ -1021,7 +1021,8 @@ var DEFAULT_THEMES = [
   Theme.WHITE,
 ];
 var DEFAULT_TRANSITIONS = [
-  Transition.ZOOM_IN_OUT,
+  Transition.ZOOM_OUT_IN,
+  Transition.BG_ZOOM_IN_OUT,
 ];
 
 function Upgrader(elem) {
@@ -1902,19 +1903,26 @@ module.exports = Theme;
  * Multiple transitions MAY be added on each slide element (${link Layout.SLIDE}) in client HTML.
  * During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no transitions
  * specified receives transitions which were declared on the slider element (${link Layout.SLIDER}).
- * If there is no transition specified on the slider, ${link Transition.ZOOM_IN_OUT}
- * is used as default.
+ * If there is no transition specified on the slider, ${link Transition.ZOOM_OUT_IN}
+ * and ${link Transition.BG_ZOOM_IN_OUT} are used as default.
  *
  * @name Transition Class Names
  */
 var Transition = {
 
   /**
-   * Delicate zooms in when slide appears, zoom-out when it disappears.
+   * Delicate content zoom out when slide appears, zoom in when it disappears.
    *
-   * @fqn Transition.ZOOM_IN_OUT
+   * @fqn Transition.ZOOM_OUT_IN
    */
-  ZOOM_IN_OUT: 'hermes-transition--zoom-in-out',
+  ZOOM_OUT_IN: 'hermes-transition--zoom-out-in',
+
+  /**
+   * Delicate background zoom in when slide appears, zoom out when it disappears.
+   *
+   * @fqn Transition.BG_ZOOM_IN_OUT
+   */
+  BG_ZOOM_IN_OUT: 'hermes-transition--bg-zoom-in-out',
 };
 
 module.exports = Transition;
