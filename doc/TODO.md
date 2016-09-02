@@ -14,6 +14,7 @@
  * ~~Make time classes optional~~
  * Separate slide time from transition time
  * Add vertical controls to options
+ * RWD breakpoint config
  * Add progress bar
  * Create transition library
  * Create project website
