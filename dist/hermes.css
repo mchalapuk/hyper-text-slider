@@ -477,7 +477,7 @@
 .hermes-theme--white a {
   transition: color ease-in-out 150ms; }
   .hermes-theme--white a:link, .hermes-theme--white a:visited {
-    color: #222; }
+    color: #333; }
   .hermes-theme--white a:hover {
     color: #2962ff; }
   .hermes-theme--white a:active {
@@ -524,7 +524,7 @@
 .hermes-theme--black a {
   transition: color ease-in-out 150ms; }
   .hermes-theme--black a:link, .hermes-theme--black a:visited {
-    color: #333; }
+    color: #bbb; }
   .hermes-theme--black a:hover {
     color: #4b84ff; }
   .hermes-theme--black a:active {
