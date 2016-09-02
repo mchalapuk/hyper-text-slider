@@ -11,6 +11,8 @@
 [show-dots]: class-names.md#hermes-show-dots
 [hermes-slider]: class-names.md#hermes-slider
 [layout-slider]: class-names.md#hermes-layout--slider
+[slide-from]: class-names.md#hermes-slide-from
+[slide-to]: class-names.md#hermes-slide-to
 
 [hermes-boot]: javascript-api.md#bootcontainerelement
 [slider-start]: javascript-api.md#sliderstartcallback
@@ -23,9 +25,18 @@
 [theme-white]: class-names.md#hermes-theme--white
 [theme-black]: class-names.md#hermes-theme--black
 [theme-regex]: class-names.md#hermes-theme--sg
-[zoom-in-out]: class-names.md#hermes-transition--zoom-in-out
+[zoom-out-in]: class-names.md#hermes-transition--zoom-out-in
+[bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.6.0
+
+ * Renamed `hermes-transition--zoom-in-out` to [`hermes-transition--zoom-out-in`][zoom-out-in],
+ * Added [`hermes-transition--bg-zoom-in-out`][bg-zoom-in-out],
+ * Added data URI pattern and darkening overlay out background in [`hermes-theme--black`][theme-black],
+ * Added anchor color definitions in [`hermes-theme--white`][theme-white] and [`hermes-theme--black`][theme-black],
+ * Added z-indices to [`hermes-slide-from`][slide-from], [`hermes-slide-to`][slide-to]
+   and [`hermes-layout--contols`][layout-controls].
 
 # v0.5.0
 
@@ -34,7 +45,7 @@
  * Documented [adding custom themes](custom-themes.md),
  * Multiple transitions can be used on one slide,
  * Each slide receives transition class name during [slider's DOM upgrade](dom-upgrade.md),
- * Added [`hermes-transition--zoom-in-out`][zoom-in-out].
+ * Added [`hermes-transition--zoom-in-out`][zoom-out-in].
 
 # v0.4.1
 
