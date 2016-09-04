@@ -1,14 +1,6 @@
 # TODO List
 
- * ~~Write documentation~~
- * Write a tutorial
- * Write more standalone examples
- * Examples in the documentation
- * Documentation for transition authors
- * ~~Documentation for theme authors~~
- * Documentation of CSS import options
- * Documentation of JavaScript import options
- * Screenshots in documentation of responsive elements
+Features:
  * ~~Add responsiveness to options (with configurable breakpoints)~~
  * ~~Configurable themes~~
  * ~~Make time classes optional~~
@@ -16,11 +8,28 @@
  * Add vertical controls to options
  * Hover-visible and hover-opaque controls
  * RWD breakpoint config
- * Add progress bar
+ * Progress bar
+
+Documentation:
+ * ~~Write documentation~~
+ * ~~Write a tutorial~~
+ * Write more standalone examples
+ * Examples in the documentation
+ * Documentation for transition authors
+ * ~~Documentation for theme authors~~
+ * Documentation of CSS import options
+ * Documentation of JavaScript import options
+ * Screenshots in documentation of responsive elements
+
+Optimization: 
+* Optimize size of compiled JavaScript
+
+Operations:
+ * ~~Set up CI~~
+ * Set up CDN
+
+Sister projects:
  * Create transition library
  * Create project website
  * Extract DOM spec helpers to another project
  * Extract documentation generator to another project
- * Optimize size of compiled JavaScript
- * ~~Set up CI~~
- * Set up CDN
