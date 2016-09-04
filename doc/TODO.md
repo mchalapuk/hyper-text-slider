@@ -1,6 +1,6 @@
 # TODO List
 
-Features:
+### Features
  * ~~Add responsiveness to options (with configurable breakpoints)~~
  * ~~Configurable themes~~
  * ~~Make time classes optional~~
@@ -10,7 +10,7 @@ Features:
  * RWD breakpoint config
  * Progress bar
 
-Documentation:
+### Documentation
  * ~~Write documentation~~
  * ~~Write a tutorial~~
  * Write more standalone examples
@@ -21,14 +21,14 @@ Documentation:
  * Documentation of JavaScript import options
  * Screenshots in documentation of responsive elements
 
-Optimization: 
+### Optimization
 * Optimize size of compiled JavaScript
 
-Operations:
+### Operations
  * ~~Set up CI~~
  * Set up CDN
 
-Sister projects:
+### Sister projects
  * Create transition library
  * Create project website
  * Extract DOM spec helpers to another project
