@@ -34,13 +34,23 @@ npm install --save hermes-slider
 
 ## Documentation
 
+API Reference:
  * [Declarative API](doc/class-names.md)
  * [JavaScript API](doc/javascript-api.md)
+
+User Guides:
  * [Adding Custom Themes](doc/custom-themes.md)
  * [Screen Responsiveness](doc/responsiveness.md)
  * [Slider's DOM Upgrade](doc/dom-upgrade.md)
+
+Tutorials:
+ * [Hermes via Node and Browserify (Example Project)][hermes-node-example]
+
+Other:
  * [TODO List](doc/TODO.md)
  * [CHANGELOG](doc/CHANGELOG.md)
+
+[hermes-node-example]: https://github.com/webfront-toolkit/hermes-node-example
 
 ## Hello, Hermes!
 
