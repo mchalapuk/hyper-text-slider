@@ -12,7 +12,6 @@
 
 ### Documentation
  * ~~Write documentation~~
- * ~~Write a tutorial~~
  * Write more standalone examples
  * Examples in the documentation
  * Documentation for transition authors
@@ -29,6 +28,7 @@
  * Set up CDN
 
 ### Sister projects
+ * ~~Create tutorial/example project~~
  * Create transition library
  * Create project website
  * Extract DOM spec helpers to another project
