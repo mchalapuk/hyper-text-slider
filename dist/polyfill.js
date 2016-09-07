@@ -27,7 +27,6 @@
  * hermes module and polyfills with `require()` function.
  */
 Object.values = require('./polyfills/values');
-window.DOMTokenList = require('./polyfills/dom-token-list');
 require('./polyfills/class-list')(window.Element);
 
 /*
@@ -35,7 +34,7 @@ require('./polyfills/class-list')(window.Element);
  */
 
 
-},{"./polyfills/class-list":2,"./polyfills/dom-token-list":3,"./polyfills/values":4}],2:[function(require,module,exports){
+},{"./polyfills/class-list":2,"./polyfills/values":4}],2:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -119,7 +118,6 @@ function throwError(message) {
 
 
 },{"./dom-token-list":3}],3:[function(require,module,exports){
-(function (global){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -143,9 +141,7 @@ function throwError(message) {
 // (it would be loaded in the browser twice otherwise)
 var nodsl = require('offensive/lib/nodsl');
 
-var namespace = typeof window !== 'undefined'? window: global;
-
-module.exports = namespace.DOMTokenList || Polyfill;
+module.exports = Polyfill;
 
 /**
  * Constructs Polyfill of DOMTokenList.
@@ -191,7 +187,6 @@ function Polyfill(object, key) {
  */
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"offensive/lib/nodsl":5}],4:[function(require,module,exports){
 /*
 
