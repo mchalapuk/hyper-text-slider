@@ -88,9 +88,9 @@
 */
 @keyframes hermesSlideInserted {
   from {
-    opacity: 0.1%; }
+    opacity: 0.01; }
   to {
-    opacity: 0%; } }
+    opacity: 0; } }
 
 .hermes-layout--slider.is-upgraded > :not(.hermes-layout--controls) {
   animation-duration: 1ms;
