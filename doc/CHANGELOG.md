@@ -29,6 +29,10 @@
 [bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.6.1
+
+ * Fixed startup in Opera 12.
+
 # v0.6.0
 
  * Renamed `hermes-transition--zoom-in-out` to [`hermes-transition--zoom-out-in`][zoom-out-in],
