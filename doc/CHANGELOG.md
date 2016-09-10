@@ -31,7 +31,7 @@
 
 # v0.6.1
 
- * Fixed startup in Opera 12.
+ * Fixed DOM upgrade in Opera 12.
 
 # v0.6.0
 
