@@ -352,7 +352,7 @@ function setPhase(priv, phase) {
  * @fqn Phaser.prototype.addPhaseTrigger
  */
 function addPhaseTrigger(priv, target, propertyName) {
-  check(target, 'target').is.instanceOf(EventTarget);
+  check(target, 'target').is.anEventTarget();
   var property = propertyName || 'transform';
   check(property, 'property').is.aString();
 
@@ -1953,8 +1953,24 @@ module.exports = Transition;
 'use strict';
 
 var check = require('offensive');
+var Assertion = require('offensive/lib/model/assertion');
 
 module.exports = check;
+
+var customAssertions = {
+  'anEventTarget': new Assertion(function(context) {
+    context._push();
+    context.has.method('addEventListener')
+      .and.method('removeEventListener')
+      .and.method('dispatchEvent')
+      ;
+    context._pop();
+  }),
+};
+
+for (var name in customAssertions) {
+  check.addAssertion(name, customAssertions[name]);
+}
 
 /*
   eslint-env node
@@ -1967,7 +1983,7 @@ module.exports = check;
  */
 
 
-},{"offensive":45}],17:[function(require,module,exports){
+},{"offensive":45,"offensive/lib/model/assertion":32}],17:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
