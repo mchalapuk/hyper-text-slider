@@ -5,7 +5,7 @@
 [![Dependency Status](https://david-dm.org/webfront-toolkit/hermes.svg
 )](https://david-dm.org/webfront-toolkit/hermes)
 [![devDependency Status](https://david-dm.org/webfront-toolkit/hermes/dev-status.svg
-)](https://david-dm.org/webfront-toolkit/hermes#info=devDependencies)
+)](https://david-dm.org/webfront-toolkit/hermes?type=dev)
 [![Documentation Status](https://inch-ci.org/github/webfront-toolkit/hermes.svg?branch=master
 )](https://inch-ci.org/github/webfront-toolkit/hermes)
 [![Code Climate](https://codeclimate.com/github/webfront-toolkit/hermes/badges/gpa.svg

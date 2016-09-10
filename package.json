@@ -40,11 +40,11 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.6",
     "merge-stream": "~1.0.0",
-    "stylelint-config-standard": "^12.0.0",
+    "stylelint-config-standard": "^13.0.0",
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "yargs": "^4.8.1"
+    "yargs": "^5.0.0"
   },
   "dependencies": {
     "offensive": "^0.7.0"
