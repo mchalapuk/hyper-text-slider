@@ -29,6 +29,10 @@
 [bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.6.2
+
+ * Removed flash of not upgraded content.
+
 # v0.6.1
 
  * Fixed DOM upgrade in Opera 12.
