@@ -86,6 +86,10 @@
    limitations under the License.
 
 */
+.hermes-layout--slider > :not(.is-upgraded):not(.hermes-layout--controls),
+.hermes-slider > :not(.is-upgraded):not(.hermes-layout--controls) {
+  opacity: 0; }
+
 @keyframes hermesSlideInserted {
   from {
     opacity: 0.01; }
