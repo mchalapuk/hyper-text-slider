@@ -83,7 +83,8 @@ Following slider declaration:
   <div id="hello" class="hermes-layout--slide
                          is-upgraded
                          hermes-theme--white
-                         hermes-transition--zoom-in-out">
+                         hermes-transition--zoom-out-in
+                         hermes-transition--bg-zoom-in-out">
     <div class="hermes-layout--background">
     </div>
     <div class="hermes-layout--content">
@@ -94,7 +95,8 @@ Following slider declaration:
   <div id="transitions" class="hermes-layout--slide
                                is-upgraded
                                hermes-theme--white
-                               hermes-transition--zoom-in-out">
+                               hermes-transition--zoom-out-in
+                               hermes-transition--bg-zoom-in-out">
     <div class="hermes-layout--background">
     </div>
     <div class="hermes-layout--content">
