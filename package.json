@@ -31,7 +31,7 @@
     "gulp-connect": "^5.0.0",
     "gulp-cssmin": "~0.1.7",
     "gulp-eslint": "~3.0.0",
-    "gulp-jasmine": "muroc/gulp-jasmine",
+    "gulp-jasmine": "^2.4.2",
     "gulp-markdox2": "~1.9.95",
     "gulp-rename": "~1.2.2",
     "gulp-sass": "~2.3.2",
@@ -44,7 +44,7 @@
     "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "yargs": "^5.0.0"
+    "yargs": "^6.0.0"
   },
   "dependencies": {
     "offensive": "^0.7.0"
