@@ -19,6 +19,7 @@
  * Documentation of CSS import options
  * Documentation of JavaScript import options
  * Screenshots in documentation of responsive elements
+ * Slide URL recipe
 
 ### Optimization
 * Optimize size of compiled JavaScript
