@@ -29,6 +29,11 @@
 [bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
 [slide-id]: class-names.md#hermes-slide-id-s
 
+# v0.6.4
+
+ * Fixed `white-space` (`normal` instead of `nowrap`) for slide content,
+ * Added default side padding for slide content (`80px`).
+
 # v0.6.2
 
  * Removed flash of not upgraded content.
