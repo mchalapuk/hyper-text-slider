@@ -11,6 +11,7 @@
 [show-dots]: class-names.md#hermes-show-dots
 [hermes-slider]: class-names.md#hermes-slider
 [layout-slider]: class-names.md#hermes-layout--slider
+[layout-content]: class-names.md#hermes-layout--content
 [slide-from]: class-names.md#hermes-slide-from
 [slide-to]: class-names.md#hermes-slide-to
 
@@ -31,8 +32,8 @@
 
 # v0.6.4
 
- * Fixed `white-space` (`normal` instead of `nowrap`) for slide content,
- * Added default side padding for slide content (`80px`).
+ * Fixed `white-space` (`normal` instead of `nowrap`) for [`hermes-layout--content`][layout-content],
+ * Added default side padding (`80px`) for [`hermes-layout--content`][layout-content].
 
 # v0.6.2
 
