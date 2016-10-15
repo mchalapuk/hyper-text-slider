@@ -47,9 +47,10 @@
   height: 100%;
   width: 100%;
   display: inline-block;
-  position: relative;
+  white-space: normal;
   font-size: 32px;
-  text-align: center; }
+  text-align: center;
+  position: relative; }
 
 .hermes-layout--background {
   position: absolute;
