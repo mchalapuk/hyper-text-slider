@@ -446,6 +446,7 @@
    limitations under the License.
 
 */
+/* All properties defined in this file can be safely overriden in client CSS. */
 .hermes-layout--background {
   background-repeat: no-repeat;
   background-position: center center;
@@ -453,7 +454,8 @@
 
 .hermes-layout--content {
   text-align: left;
-  font-size: 32px; }
+  font-size: 32px;
+  padding: 0 80px; }
 
 /*
 
