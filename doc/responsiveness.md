@@ -35,14 +35,14 @@
 
 ## Responsive Controls
 
-Adding class [hermes-responsive-controls][10] to slider element makes layout
-of slider arrows dependent on screen resolution.
+Adding class [hermes-theme--responsive-arrows][10] to slide (or slider) element
+makes layout of slider arrows dependent on screen resolution.
 
 ```html
 <div class="hermes-layout--slider
             hermes-create-arrows
             hermes-create-dots
-            hermes-responsive-controls">
+            hermes-theme--responsive-arrows">
   ...
 </div>
 ```
