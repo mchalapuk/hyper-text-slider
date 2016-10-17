@@ -63,7 +63,7 @@ white foreground elements.
 }
 ```
 
-> **DISCLAIMER**
+> **NOTE**
 >
 > Above colors are very simple, production-ready themes should specify slightly
 > different text colors for different text elements. It is recommended to use
@@ -121,7 +121,7 @@ Theme can also specify typography rules for a slide.
 }
 ```
 
-> **DISCLAIMER**
+> **NOTE**
 >
 > Above example is very simple. In production code, it is recommended
 > to define typography styles based on information from style guide

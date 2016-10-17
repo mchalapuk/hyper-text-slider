@@ -85,15 +85,11 @@ hermes.boot(document.body);
 
 ## Slider
 
-> **DISCLAIMER**
+> **NOTE**
 >
 > Hermes JavaScript API should be used only when specific initialization or integration
 > with other parts of the website is required. In other (simpler) cases please consider
 > using [declarative API](class-names.md).
-
-> **DISCLAIMER**
->
-> JavaScript API is in early **alpha stage** and may change in the future.
 
 ### Example
 
@@ -327,7 +323,7 @@ Each time a transition on a phase trigger ends, [.prototype.nextPhase()](javascr
 is called. During its startup, [Slider](javascript-api.md#slider) sets phase change triggers on [layout elements](class-names.md#layout-class-names) (background and contents) of each slide and calls proper phase change methods
 when slider controls are being used.
 
-> ***DISCLAIMER***
+> **NOTE**
 >
 > Implementation based on `window.setTimeout` function instead of `transitionend` event could
 > be simpler, but implementing a transition would have to involve JavaScript programming (now
