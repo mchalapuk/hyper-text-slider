@@ -5,7 +5,6 @@
 
 [hermes-autoboot]: class-names.md#hermes-autoboot
 [hermes-defaults]: class-names.md#hermes-defaults
-[responsive-controls]: class-names.md#hermes-responsive-controls
 [layout-controls]: class-names.md#hermes-layout--controls
 [show-arrows]: class-names.md#hermes-show-arrows
 [show-dots]: class-names.md#hermes-show-dots
@@ -25,10 +24,16 @@
 [option-class-names]: class-names.md#option-class-names
 [theme-white]: class-names.md#hermes-theme--white
 [theme-black]: class-names.md#hermes-theme--black
+[theme-responsive-arrows]: class-names.md#hermes-theme--responsive-arrows
 [theme-regex]: class-names.md#hermes-theme--sg
 [zoom-out-in]: class-names.md#hermes-transition--zoom-out-in
 [bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
 [slide-id]: class-names.md#hermes-slide-id-s
+
+# v0.7.0
+
+ * Removed option class `hermes-responsive-controls`,
+ * Added [`hermes-theme--responsive-arrows`][theme-responsive-arrows].
 
 # v0.6.4
 
@@ -97,8 +102,7 @@
  * Added [`boot(containerElement)`][hermes-boot] procedure.
  * Replaced `hermes-autostart` option with [`hermes-autoboot`][hermes-autoboot].
  * Made [`Slider.start(callback)` ][slider-start] method asynchronouse
- * Added [`hermes-responsive-controls`][responsive-controls] option to
-  [`hermes-defaults`][hermes-defaults].
+ * Added `hermes-responsive-controls` option to [`hermes-defaults`][hermes-defaults].
  * Added [`hermes-layout--controls`][layout-controls] class name.
  * Added default slide time of 5 sec.
  * Documented [Time Class Names][time-class-names].
@@ -114,7 +118,7 @@
 
 # v0.2.4
 
- * Added [`hermes-responsive-controls`][responsive-controls] class.
+ * Added `hermes-responsive-controls` option class.
  * Documented [Screen Responsiveness][v0.2.4_2].
  * Created [CHANGELOG][v0.2.4_3].
 
