@@ -28,11 +28,11 @@ limitations under the License.
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
 <li>[hermes-show-arrows](class-names.md#hermes-show-arrows)
 <li>[hermes-show-dots](class-names.md#hermes-show-dots)
-<li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)
-<li>[hermes-responsive-controls](class-names.md#hermes-responsive-controls)</ul>
+<li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)</ul>
 2. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
-<li>[hermes-theme--black](class-names.md#hermes-theme--black)</ul>
+<li>[hermes-theme--black](class-names.md#hermes-theme--black)
+<li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)</ul>
 3. [Transition Class Names](class-names.md#transition-class-names)<ul>
 <li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
 <li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
@@ -93,12 +93,11 @@ Each option class is checked by the slider in one of two ways:
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-show-arrows](class-names.md#hermes-show-arrows), [hermes-show-dots](class-names.md#hermes-show-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys), [hermes-responsive-controls](class-names.md#hermes-responsive-controls) classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-show-arrows](class-names.md#hermes-show-arrows), [hermes-show-dots](class-names.md#hermes-show-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-show-arrows](class-names.md#hermes-show-arrows) | Shows side arrow buttons. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-show-dots](class-names.md#hermes-show-dots) | Shows dot button for each slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-responsive-controls](class-names.md#hermes-responsive-controls) | Adds screen responsiveness to slider controls. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 ### Details
 
@@ -128,8 +127,7 @@ Adds
 [hermes-autoplay](class-names.md#hermes-autoplay),
 [hermes-show-arrows](class-names.md#hermes-show-arrows),
 [hermes-show-dots](class-names.md#hermes-show-dots),
-[hermes-arrow-keys](class-names.md#hermes-arrow-keys),
-[hermes-responsive-controls](class-names.md#hermes-responsive-controls)
+[hermes-arrow-keys](class-names.md#hermes-arrow-keys).
 classes to the slider.
 
 *@checked* - [once](#once)
@@ -188,22 +186,6 @@ slide, with `RightArrow` key moves slider to next slide.
 
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
-#### hermes-responsive-controls
-
-Adds screen responsiveness to slider controls.
-
-Slider controls come in 3 different layouts. Each for different range of screen width.
-
-*@checked* - [once](#once)
-
-*@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-*@see* - [Screen Responsiveness](responsiveness.md)
-
-*@see* - Slider.breakpointNarrowToNormal
-
-*@see* - Slider.breakpointNormalToWide
-
 <!-- End lib/enums/option.js -->
 
 <!-- Start lib/enums/theme.js -->
@@ -216,16 +198,17 @@ for a slide (typically background and font colors, typography and control elemen
 Multiple themes MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
 During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no theme specified
 receives theme classes which were declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
-If there is no theme specified on the slider, [hermes-theme--white](class-names.md#hermes-theme--white) is used as default.
+If there is no theme specified on the slider, default themes are used.
 
 [How to add custom theme?](custom-themes.md)
 
 ### Summary
 
-Name | Description
---- | ---
-[hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground. This is the default theme if none specified.
-[hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground.
+Name | Description | Is Default Theme
+--- | --- | ---
+[hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground. This is the default theme if none specified. | false
+[hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground. | true
+[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
 
 ### Details
 
@@ -236,6 +219,22 @@ White background, dark foreground. This is the default theme if none specified.
 #### hermes-theme--black
 
 Black background, white foreground.
+
+#### hermes-theme--responsive-arrows
+
+Adds screen responsiveness to slider arrows.
+
+Slider controls come in 3 different layouts. Each for different range of screen width.
+
+1. On wide screens arrows are located on sides out of content area,
+2. On mid-sized screens arrows are located on sides above content area,
+3. On small screens arrows are smaller and located on the bottom at the same height as dots.
+
+*@see* - [Screen Responsiveness](responsiveness.md)
+
+*@see* - Slider.breakpointNarrowToNormal
+
+*@see* - Slider.breakpointNormalToWide
 
 <!-- End lib/enums/theme.js -->
 

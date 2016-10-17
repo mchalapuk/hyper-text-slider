@@ -1019,6 +1019,7 @@ var Selector = (function() {
 
 var DEFAULT_THEMES = [
   Theme.WHITE,
+  Theme.RESPONSIVE_ARROWS,
 ];
 var DEFAULT_TRANSITIONS = [
   Transition.ZOOM_OUT_IN,
@@ -1072,7 +1073,6 @@ function expandOptionGroups(priv) {
     list.add(Option.ARROW_KEYS);
     list.add(Option.SHOW_ARROWS);
     list.add(Option.SHOW_DOTS);
-    list.add(Option.RESPONSIVE_CONTROLS);
   }
 }
 
@@ -1578,8 +1578,7 @@ var Option = {
    * ${link Option.AUTOPLAY},
    * ${link Option.SHOW_ARROWS},
    * ${link Option.SHOW_DOTS},
-   * ${link Option.ARROW_KEYS},
-   * ${link Option.RESPONSIVE_CONTROLS}
+   * ${link Option.ARROW_KEYS}.
    * classes to the slider.
    *
    * @target `<body` or ${link Layout.SLIDER}
@@ -1643,21 +1642,6 @@ var Option = {
    * @fqn Option.ARROW_KEYS
    */
   ARROW_KEYS: 'hermes-arrow-keys',
-
-  /**
-   * Adds screen responsiveness to slider controls.
-   *
-   * Slider controls come in 3 different layouts. Each for different range of screen width.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked once
-   * @see [Screen Responsiveness](responsiveness.md)
-   * @see Slider.breakpointNarrowToNormal
-   * @see Slider.breakpointNormalToWide
-   *
-   * @fqn Option.RESPONSIVE_CONTROLS
-   */
-  RESPONSIVE_CONTROLS: 'hermes-responsive-controls',
 };
 
 module.exports = Option;
@@ -1843,17 +1827,19 @@ module.exports = Phase;
  * Multiple themes MAY be specified for each slide element (${link Layout.SLIDE}) in client HTML.
  * During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no theme specified
  * receives theme classes which were declared on the slider element (${link Layout.SLIDER}).
- * If there is no theme specified on the slider, ${link Theme.WHITE} is used as default.
+ * If there is no theme specified on the slider, default themes are used.
  *
  * [How to add custom theme?](custom-themes.md)
  *
  * @name Theme Class Names
+ * @summary-column default Is Default Theme
  */
 var Theme = {
 
   /**
    * White background, dark foreground. This is the default theme if none specified.
    *
+   * @default false
    * @fqn Theme.WHITE
    */
   WHITE: 'hermes-theme--white',
@@ -1861,9 +1847,28 @@ var Theme = {
   /**
    * Black background, white foreground.
    *
+   * @default true
    * @fqn Theme.BLACK
    */
   BLACK: 'hermes-theme--black',
+
+  /**
+   * Adds screen responsiveness to slider arrows.
+   *
+   * Slider controls come in 3 different layouts. Each for different range of screen width.
+   *
+   * 1. On wide screens arrows are located on sides out of content area,
+   * 2. On mid-sized screens arrows are located on sides above content area,
+   * 3. On small screens arrows are smaller and located on the bottom at the same height as dots.
+   *
+   * @see [Screen Responsiveness](responsiveness.md)
+   * @see Slider.breakpointNarrowToNormal
+   * @see Slider.breakpointNormalToWide
+   *
+   * @default true
+   * @fqn Theme.RESPONSIVE_ARROWS
+   */
+  RESPONSIVE_ARROWS: 'hermes-theme--responsive-arrows',
 };
 
 module.exports = Theme;
