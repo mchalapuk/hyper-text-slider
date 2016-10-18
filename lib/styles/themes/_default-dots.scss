@@ -26,6 +26,8 @@
     z-index: 1;
     font-size: 0;
     line-height: 1px;
+
+    @include transition(all ease-in-out 500ms);
   }
 
   .hermes-layout--dot {
@@ -39,6 +41,6 @@
     display: inline-block;
     cursor: pointer;
 
-    @include transition(background ease-in-out 500ms);
+    @include transition(all ease-in-out 500ms);
   }
 }

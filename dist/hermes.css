@@ -426,7 +426,11 @@
   height: 100%;
   z-index: 2;
   text-align: center;
-  cursor: pointer; }
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
   .hermes-theme--default-arrows .hermes-layout--arrow-left::after,
   .hermes-theme--default-arrows .hermes-layout--arrow-right::after {
     position: relative;
@@ -487,7 +491,11 @@
   text-align: center;
   z-index: 1;
   font-size: 0;
-  line-height: 1px; }
+  line-height: 1px;
+  -webkit-transition: all ease-in-out 500ms;
+  -moz-transition: all ease-in-out 500ms;
+  -o-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms; }
 
 .hermes-theme--default-dots .hermes-layout--dot {
   width: 13px;
@@ -497,10 +505,10 @@
   border: 3px solid white;
   display: inline-block;
   cursor: pointer;
-  -webkit-transition: background ease-in-out 500ms;
-  -moz-transition: background ease-in-out 500ms;
-  -o-transition: background ease-in-out 500ms;
-  transition: background ease-in-out 500ms; }
+  -webkit-transition: all ease-in-out 500ms;
+  -moz-transition: all ease-in-out 500ms;
+  -o-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms; }
 
 /*
 
