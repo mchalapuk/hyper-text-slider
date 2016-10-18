@@ -603,7 +603,7 @@
 
 */
 .hermes-theme--hover-opaque-arrows .hermes-layout--arrow {
-  opacity: 0.3; }
+  opacity: 0.4; }
 
 .hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow {
   opacity: 0.8; }
@@ -626,7 +626,7 @@
 
 */
 .hermes-theme--hover-opaque-dots .hermes-layout--dot {
-  opacity: 0.3; }
+  opacity: 0.4; }
 
 .hermes-theme--hover-opaque-dots:hover .hermes-layout--dot, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot {
   opacity: 0.8; }
