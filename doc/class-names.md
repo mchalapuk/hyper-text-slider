@@ -200,13 +200,19 @@ Name | Description | Is Default Theme
 
 White background, dark foreground. This is the default theme if none specified.
 
+*@is-default-theme* - [false](#false)
+
 #### hermes-theme--black
 
 Black background, white foreground.
 
+*@is-default-theme* - [true](#true)
+
 #### hermes-theme--default-arrows
 
 Shows default side arrow buttons.
+
+*@is-default-theme* - [true](#true)
 
 #### hermes-theme--responsive-arrows
 
@@ -217,6 +223,8 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 1. On wide screens arrows are located on sides out of content area,
 2. On mid-sized screens arrows are located on sides above content area,
 3. On small screens arrows are smaller and located on the bottom at the same height as dots.
+
+*@is-default-theme* - [true](#true)
 
 *@see* - [Screen Responsiveness](responsiveness.md)
 
