@@ -1101,6 +1101,7 @@ function upgradeSlides(priv) {
 
 function upgradeSlide(priv, slideElement) {
   supplementClassNames(priv, slideElement);
+  expandThemeGroups(priv, slideElement);
 
   var contentElement = slideElement.querySelector(Selector.CONTENT);
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
@@ -1138,6 +1139,9 @@ function supplementClassNames(priv, slideElement) {
       slideElement.classList.add(className);
     });
   }
+}
+
+function expandThemeGroups(priv, slideElement) {
   if (slideElement.classList.contains(Theme.DEFAULT_CONTROLS)) {
     slideElement.classList.add(Theme.DEFAULT_ARROWS);
     slideElement.classList.add(Theme.DEFAULT_DOTS);
@@ -1145,6 +1149,10 @@ function supplementClassNames(priv, slideElement) {
   if (slideElement.classList.contains(Theme.HOVER_VISIBLE_CONTROLS)) {
     slideElement.classList.add(Theme.HOVER_VISIBLE_ARROWS);
     slideElement.classList.add(Theme.HOVER_VISIBLE_DOTS);
+  }
+  if (slideElement.classList.contains(Theme.HOVER_OPAQUE_CONTROLS)) {
+    slideElement.classList.add(Theme.HOVER_OPAQUE_ARROWS);
+    slideElement.classList.add(Theme.HOVER_OPAQUE_DOTS);
   }
 }
 
@@ -1957,6 +1965,17 @@ var Theme = {
    * @fqn Theme.HOVER_VISIBLE_CONTROLS
    */
   HOVER_VISIBLE_CONTROLS: 'hermes-theme--hover-visible-controls',
+
+  /**
+   * Adds
+   * ${link Theme.HOVER_OPAQUE_ARROWS},
+   * ${link Theme.HOVER_OPAQUE_DOTS}.
+   * classes to the slide.
+   *
+   * @default false
+   * @fqn Theme.HOVER_OPAQUE_CONTROLS
+   */
+  HOVER_OPAQUE_CONTROLS: 'hermes-theme--hover-opaque-controls',
 };
 
 module.exports = Theme;
