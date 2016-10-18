@@ -1142,6 +1142,10 @@ function supplementClassNames(priv, slideElement) {
     slideElement.classList.add(Theme.DEFAULT_ARROWS);
     slideElement.classList.add(Theme.DEFAULT_DOTS);
   }
+  if (slideElement.classList.contains(Theme.HOVER_VISIBLE_CONTROLS)) {
+    slideElement.classList.add(Theme.HOVER_VISIBLE_ARROWS);
+    slideElement.classList.add(Theme.HOVER_VISIBLE_DOTS);
+  }
 }
 
 function createDot(priv, slideElement) {
@@ -1942,6 +1946,17 @@ var Theme = {
    * @fqn Theme.DEFAULT_CONTROLS
    */
   DEFAULT_CONTROLS: 'hermes-theme--default-controls',
+
+  /**
+   * Adds
+   * ${link Theme.HOVER_VISIBLE_ARROWS},
+   * ${link Theme.HOVER_VISIBLE_DOTS}.
+   * classes to the slide.
+   *
+   * @default false
+   * @fqn Theme.HOVER_VISIBLE_CONTROLS
+   */
+  HOVER_VISIBLE_CONTROLS: 'hermes-theme--hover-visible-controls',
 };
 
 module.exports = Theme;
