@@ -39,7 +39,7 @@
    and [`hermes-theme--responsive-arrows`][theme-responsive-arrows],
  * Changed selectors of [`hermes-theme--white`][theme-white] and
    [`hermes-theme-black`][theme-black] to stronger ones, so they override
-   themes defining controls.
+   colors of controls defined in other themes.
 
 # v0.6.4
 
