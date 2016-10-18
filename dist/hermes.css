@@ -329,28 +329,28 @@
    limitations under the License.
 
 */
-.hermes-theme--white .hermes-layout--background {
+.hermes-layout--slider.hermes-theme--white .hermes-layout--background {
   background-color: white; }
 
-.hermes-theme--white .hermes-layout--content {
+.hermes-layout--slider.hermes-theme--white .hermes-layout--content {
   color: black; }
 
-.hermes-theme--white a {
+.hermes-layout--slider.hermes-theme--white a {
   transition: color ease-in-out 150ms; }
-  .hermes-theme--white a:link, .hermes-theme--white a:visited {
+  .hermes-layout--slider.hermes-theme--white a:link, .hermes-layout--slider.hermes-theme--white a:visited {
     color: #333; }
-  .hermes-theme--white a:hover {
+  .hermes-layout--slider.hermes-theme--white a:hover {
     color: #2962ff; }
-  .hermes-theme--white a:active {
+  .hermes-layout--slider.hermes-theme--white a:active {
     color: #000; }
 
-.hermes-theme--white .hermes-layout--arrow {
+.hermes-layout--slider.hermes-theme--white .hermes-layout--arrow {
   color: black; }
 
-.hermes-theme--white .hermes-layout--dot {
+.hermes-layout--slider.hermes-theme--white .hermes-layout--dot {
   background-color: rgba(0, 0, 0, 0.4);
   border-color: black; }
-  .hermes-theme--white .hermes-layout--dot.is-active {
+  .hermes-layout--slider.hermes-theme--white .hermes-layout--dot.is-active {
     background-color: black; }
 
 /*
@@ -370,34 +370,34 @@
    limitations under the License.
 
 */
-.hermes-theme--black .hermes-layout--background {
+.hermes-layout--slider.hermes-theme--black .hermes-layout--background {
   background-color: black; }
-  .hermes-theme--black .hermes-layout--background::after {
+  .hermes-layout--slider.hermes-theme--black .hermes-layout--background::after {
     content: '';
     display: block;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAADklEQVQIW2NgQAXGZHAAGioAza6+Hk0AAAAASUVORK5CYII=") center center repeat; }
 
-.hermes-theme--black .hermes-layout--content {
+.hermes-layout--slider.hermes-theme--black .hermes-layout--content {
   color: white; }
 
-.hermes-theme--black a {
+.hermes-layout--slider.hermes-theme--black a {
   transition: color ease-in-out 150ms; }
-  .hermes-theme--black a:link, .hermes-theme--black a:visited {
+  .hermes-layout--slider.hermes-theme--black a:link, .hermes-layout--slider.hermes-theme--black a:visited {
     color: #bbb; }
-  .hermes-theme--black a:hover {
+  .hermes-layout--slider.hermes-theme--black a:hover {
     color: #4b84ff; }
-  .hermes-theme--black a:active {
+  .hermes-layout--slider.hermes-theme--black a:active {
     color: white; }
 
-.hermes-theme--black .hermes-layout--arrow {
+.hermes-layout--slider.hermes-theme--black .hermes-layout--arrow {
   color: white; }
 
-.hermes-theme--black .hermes-layout--dot {
+.hermes-layout--slider.hermes-theme--black .hermes-layout--dot {
   background-color: rgba(255, 255, 255, 0.4);
   border-color: white; }
-  .hermes-theme--black .hermes-layout--dot.is-active {
+  .hermes-layout--slider.hermes-theme--black .hermes-layout--dot.is-active {
     background-color: white; }
 
 /*
