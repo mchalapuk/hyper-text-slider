@@ -30,9 +30,10 @@ limitations under the License.
 2. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)
+<li>[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)
 <li>[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows)
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
-<li>[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)</ul>
+<li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)</ul>
 3. [Transition Class Names](class-names.md#transition-class-names)<ul>
 <li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
 <li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
@@ -177,9 +178,10 @@ Name | Description | Is Default Theme
 --- | --- | ---
 [hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground elements (texts, dots, arrows). | false
 [hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground elements (texts, dots, arrows). | true
+[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) | Shows dot button for each slide. | true
 [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) | Shows default side arrow buttons. | true
 [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
-[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) | Shows dot button for each slide. | true
+[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent opacity change to arrows. | true
 
 ### Details
 
@@ -192,6 +194,17 @@ White background, dark foreground elements (texts, dots, arrows).
 #### hermes-theme--black
 
 Black background, white foreground elements (texts, dots, arrows).
+
+*@is-default-theme* - true
+
+#### hermes-theme--default-dots
+
+Shows dot button for each slide.
+
+This theme provides basic dot visuals. In case different styling of dots is needed, either
+extend this theme class or create your own from scratch. Extending this class may be
+prefereable as other themes ([hermes-theme--black](class-names.md#hermes-theme--black), [hermes-theme--white](class-names.md#hermes-theme--white)) are compatible
+with this one.
 
 *@is-default-theme* - true
 
@@ -228,14 +241,14 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 *@see* - Slider.breakpointNormalToWide
 
-#### hermes-theme--default-dots
+#### hermes-theme--hover-visible-arrows
 
-Shows dot button for each slide.
+Adds hover-dependent opacity change to arrows.
 
-This theme provides basic dot visuals. In case different styling of dots is needed, either
-extend this theme class or create your own from scratch. Extending this class may be
-prefereable as other themes ([hermes-theme--black](class-names.md#hermes-theme--black), [hermes-theme--white](class-names.md#hermes-theme--white)) are compatible
-with this one.
+> **NOTE**
+>
+> This class does not provide visual styles for arrows. It must be used in combination
+> with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) or custom theme that defines arrow visuals.
 
 *@is-default-theme* - true
 
