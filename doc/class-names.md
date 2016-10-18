@@ -187,13 +187,13 @@ Name | Description | Is Default Theme
 
 White background, dark foreground elements (texts, dots, arrows).
 
-*@is-default-theme* - [false](#false)
+*@is-default-theme* - false
 
 #### hermes-theme--black
 
 Black background, white foreground elements (texts, dots, arrows).
 
-*@is-default-theme* - [true](#true)
+*@is-default-theme* - true
 
 #### hermes-theme--default-arrows
 
@@ -203,7 +203,7 @@ This theme provides basic arrow visuals. In case different styling of arrows is 
 extend this theme class or create your own from scratch. Extending this class may be
 prefereable if you also want to use [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows).
 
-*@is-default-theme* - [true](#true)
+*@is-default-theme* - true
 
 #### hermes-theme--responsive-arrows
 
@@ -220,7 +220,7 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 > This class does not provide visual styles for arrows. It must be used in combination
 > with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows).
 
-*@is-default-theme* - [true](#true)
+*@is-default-theme* - true
 
 *@see* - [Screen Responsiveness](responsiveness.md)
 
@@ -237,7 +237,7 @@ extend this theme class or create your own from scratch. Extending this class ma
 prefereable as other themes ([hermes-theme--black](class-names.md#hermes-theme--black), [hermes-theme--white](class-names.md#hermes-theme--white)) are compatible
 with this one.
 
-*@is-default-theme* - [true](#true)
+*@is-default-theme* - true
 
 <!-- End lib/enums/theme.js -->
 
