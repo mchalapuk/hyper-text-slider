@@ -40,6 +40,7 @@
  * Changed selectors of [`hermes-theme--white`][theme-white] and
    [`hermes-theme-black`][theme-black] to stronger ones, so they override
    colors of&nbsp;control elements (arrows and dots) defined in other themes.
+   
 # v0.6.4
 
  * Fixed `white-space` (`normal` instead of `nowrap`) for [`hermes-layout--content`][layout-content],
