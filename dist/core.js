@@ -1833,6 +1833,21 @@ var Theme = {
   DEFAULT_DOTS: 'hermes-theme--default-dots',
 
   /**
+   * Adds hover-dependent visibility change to dots.
+   *
+   * Dots become visible when mouse is hovering above the slider.
+   *
+   * > **NOTE**
+   * >
+   * > This class does not provide visual styles for arrows. It must be used in combination
+   * > with ${link Theme.DEFAULT_DOTS} or custom theme that defines dot visuals.
+   *
+   * @default false
+   * @fqn Theme.HOVER_VISIBLE_DOTS
+   */
+  HOVER_VISIBLE_DOTS: 'hermes-theme--hover-visible-dots',
+
+  /**
    * Shows default side arrow buttons.
    *
    * This theme provides basic arrow visuals. In case different styling of arrows is needed, either
