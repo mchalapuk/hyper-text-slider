@@ -32,6 +32,7 @@ limitations under the License.
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)
 <li>[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)
 <li>[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots)
+<li>[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
 <li>[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows)
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
 <li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)
@@ -182,6 +183,7 @@ Name | Description | Is Default Theme
 [hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground elements (texts, dots, arrows). | true
 [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) | Shows dot button for each slide. | true
 [hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) | Adds hover-dependent visibility change to dots. | false
+[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) | Adds hover-dependent opacity change to dots. | true
 [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) | Shows default side arrow buttons. | true
 [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
 [hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent visibility change to arrows. | false
@@ -224,6 +226,19 @@ Dots become visible when mouse is hovering above the slider.
 > with [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) or custom theme that defines dot visuals.
 
 *@is-default-theme* - false
+
+#### hermes-theme--hover-opaque-dots
+
+Adds hover-dependent opacity change to dots.
+
+Dots become more opaque twhen mouseis hovering above the slider.
+
+> **NOTE**
+>
+> This class does not provide visual styles for dots. It must be used in combination
+> with [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) or custom theme that defines dot visuals.
+
+*@is-default-theme* - true
 
 #### hermes-theme--default-arrows
 
