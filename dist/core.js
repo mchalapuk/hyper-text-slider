@@ -1867,7 +1867,9 @@ var Theme = {
   RESPONSIVE_ARROWS: 'hermes-theme--responsive-arrows',
 
   /**
-   * Adds hover-dependent opacity change to arrows.
+   * Adds hover-dependent visibility change to arrows.
+   *
+   * Arrows become visible when mouse is hovering above the slider.
    *
    * > **NOTE**
    * >
@@ -1878,6 +1880,21 @@ var Theme = {
    * @fqn Theme.HOVER_VISIBLE_ARROWS
    */
   HOVER_VISIBLE_ARROWS: 'hermes-theme--hover-visible-arrows',
+
+  /**
+   * Adds hover-dependent opacity change to arrows.
+   *
+   * Arrows become more opaque twhen mouseis hovering above the slider.
+   *
+   * > **NOTE**
+   * >
+   * > This class does not provide visual styles for arrows. It must be used in combination
+   * > with ${link Theme.DEFAULT_ARROWS} or custom theme that defines arrow visuals.
+   *
+   * @default true
+   * @fqn Theme.HOVER_OPAQUE_ARROWS
+   */
+  HOVER_OPAQUE_ARROWS: 'hermes-theme--hover-opaque-arrows',
 };
 
 module.exports = Theme;

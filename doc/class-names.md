@@ -33,7 +33,8 @@ limitations under the License.
 <li>[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)
 <li>[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows)
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
-<li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)</ul>
+<li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)
+<li>[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows)</ul>
 3. [Transition Class Names](class-names.md#transition-class-names)<ul>
 <li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
 <li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
@@ -181,7 +182,8 @@ Name | Description | Is Default Theme
 [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) | Shows dot button for each slide. | true
 [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) | Shows default side arrow buttons. | true
 [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
-[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent opacity change to arrows. | true
+[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent visibility change to arrows. | true
+[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows) | Adds hover-dependent opacity change to arrows. | true
 
 ### Details
 
@@ -243,7 +245,22 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 #### hermes-theme--hover-visible-arrows
 
+Adds hover-dependent visibility change to arrows.
+
+Arrows become visible when mouse is hovering above the slider.
+
+> **NOTE**
+>
+> This class does not provide visual styles for arrows. It must be used in combination
+> with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) or custom theme that defines arrow visuals.
+
+*@is-default-theme* - true
+
+#### hermes-theme--hover-opaque-arrows
+
 Adds hover-dependent opacity change to arrows.
+
+Arrows become more opaque twhen mouseis hovering above the slider.
 
 > **NOTE**
 >
