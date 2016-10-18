@@ -1015,9 +1015,10 @@ var Selector = (function() {
 
 var DEFAULT_THEMES = [
   Theme.WHITE,
+  Theme.DEFAULT_DOTS,
   Theme.DEFAULT_ARROWS,
   Theme.RESPONSIVE_ARROWS,
-  Theme.DEFAULT_DOTS,
+  Theme.HOVER_OPAQUE_ARROWS,
 ];
 var DEFAULT_TRANSITIONS = [
   Transition.ZOOM_OUT_IN,
@@ -1876,7 +1877,7 @@ var Theme = {
    * > This class does not provide visual styles for arrows. It must be used in combination
    * > with ${link Theme.DEFAULT_ARROWS} or custom theme that defines arrow visuals.
    *
-   * @default true
+   * @default false
    * @fqn Theme.HOVER_VISIBLE_ARROWS
    */
   HOVER_VISIBLE_ARROWS: 'hermes-theme--hover-visible-arrows',
