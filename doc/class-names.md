@@ -212,6 +212,10 @@ Black background, white foreground.
 
 Shows default side arrow buttons.
 
+This theme provides basic arrow visuals. In case different styling of arrows is needed, either
+extend this theme class or create your own from scratch. Extending this class may be
+prefereable if you also want to use [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows).
+
 *@is-default-theme* - [true](#true)
 
 #### hermes-theme--responsive-arrows
@@ -223,6 +227,11 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 1. On wide screens arrows are located on sides out of content area,
 2. On mid-sized screens arrows are located on sides above content area,
 3. On small screens arrows are smaller and located on the bottom at the same height as dots.
+
+> **NOTE**
+>
+> This class does not provide visual styles for arrows. It must be used in combination
+> with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows).
 
 *@is-default-theme* - [true](#true)
 
