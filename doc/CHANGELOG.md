@@ -6,8 +6,6 @@
 [hermes-autoboot]: class-names.md#hermes-autoboot
 [hermes-defaults]: class-names.md#hermes-defaults
 [layout-controls]: class-names.md#hermes-layout--controls
-[show-arrows]: class-names.md#hermes-show-arrows
-[show-dots]: class-names.md#hermes-show-dots
 [hermes-slider]: class-names.md#hermes-slider
 [layout-slider]: class-names.md#hermes-layout--slider
 [layout-content]: class-names.md#hermes-layout--content
@@ -24,6 +22,8 @@
 [option-class-names]: class-names.md#option-class-names
 [theme-white]: class-names.md#hermes-theme--white
 [theme-black]: class-names.md#hermes-theme--black
+[theme-arrows]: class-names.md#hermes-theme--default-arrows
+[theme-dots]: class-names.md#hermes-theme--default-dots
 [theme-responsive-arrows]: class-names.md#hermes-theme--responsive-arrows
 [theme-regex]: class-names.md#hermes-theme--sg
 [zoom-out-in]: class-names.md#hermes-transition--zoom-out-in
@@ -32,8 +32,14 @@
 
 # v0.7.0
 
- * Removed option class `hermes-responsive-controls`,
- * Added [`hermes-theme--responsive-arrows`][theme-responsive-arrows].
+ * Removed `hermes-show-arrows`, `hermes-show-dots`, and
+  `hermes-responsive-controls` option classes,
+ * Added [`hermes-theme--default-arrows`][theme-arrows],
+   [`hermes-theme--default-dots`][theme-dots],
+   and [`hermes-theme--responsive-arrows`][theme-responsive-arrows],
+ * Changed selectors of [`hermes-theme--white`][theme-white] and
+   [`hermes-theme-black`][theme-black] to stronger ones, so they override
+   themes defining controls.
 
 # v0.6.4
 
@@ -89,8 +95,8 @@
 
  * Documented [slider's DOM upgrade procedure](dom-upgrade.md).
  * Added [`hermes-slider`][hermes-slider] as an alias for [`hermes-layout--slider`][layout-slider].
- * Replaced `hermes-create-arrows` with [`hermes-show-arrows`][show-arrows].
- * Replaced `hermes-create-dots` with [`hermes-show-dots`][show-dots].
+ * Replaced `hermes-create-arrows` with `hermes-show-arrows`.
+ * Replaced `hermes-create-dots` with `hermes-show-dots`.
  * Made specifying transition class optional (`hermes-transition--zoom-in-out` is default).
  * All direct children of slider are treated as slides.
  * Fixed click event listener of dot buttons.
