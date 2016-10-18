@@ -1016,9 +1016,10 @@ var Selector = (function() {
 var DEFAULT_THEMES = [
   Theme.WHITE,
   Theme.DEFAULT_DOTS,
+  Theme.HOVER_OPAQUE_DOTS,
   Theme.DEFAULT_ARROWS,
-  Theme.RESPONSIVE_ARROWS,
   Theme.HOVER_OPAQUE_ARROWS,
+  Theme.RESPONSIVE_ARROWS,
 ];
 var DEFAULT_TRANSITIONS = [
   Transition.ZOOM_OUT_IN,
