@@ -9,6 +9,7 @@
  * Hover-visible and hover-opaque controls
  * RWD breakpoint config
  * Progress bar
+ * Touch gestures
 
 ### Documentation
  * ~~Write documentation~~
