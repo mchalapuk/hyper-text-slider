@@ -558,8 +558,9 @@
 */
 .hermes-theme--hover-visible-arrows .hermes-layout--arrow {
   opacity: 0; }
-  .hermes-theme--hover-visible-arrows .hermes-layout--arrow:hover, .hermes-theme--hover-visible-arrows .hermes-layout--arrow:active {
-    opacity: 0.8; }
+
+.hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow {
+  opacity: 0.8; }
 
 /*
 
@@ -580,8 +581,9 @@
 */
 .hermes-theme--hover-visible-dots .hermes-layout--dot {
   opacity: 0; }
-  .hermes-theme--hover-visible-dots .hermes-layout--dot:hover, .hermes-theme--hover-visible-dots .hermes-layout--dot:active {
-    opacity: 0.8; }
+
+.hermes-theme--hover-visible-dots:hover .hermes-layout--dot, .hermes-theme--hover-visible-dots:active .hermes-layout--dot {
+  opacity: 0.8; }
 
 /*
 
@@ -602,8 +604,9 @@
 */
 .hermes-theme--hover-opaque-arrows .hermes-layout--arrow {
   opacity: 0.3; }
-  .hermes-theme--hover-opaque-arrows .hermes-layout--arrow:hover, .hermes-theme--hover-opaque-arrows .hermes-layout--arrow:active {
-    opacity: 0.8; }
+
+.hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow {
+  opacity: 0.8; }
 
 /*
 
@@ -624,8 +627,9 @@
 */
 .hermes-theme--hover-opaque-dots .hermes-layout--dot {
   opacity: 0.3; }
-  .hermes-theme--hover-opaque-dots .hermes-layout--dot:hover, .hermes-theme--hover-opaque-dots .hermes-layout--dot:active {
-    opacity: 0.8; }
+
+.hermes-theme--hover-opaque-dots:hover .hermes-layout--dot, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot {
+  opacity: 0.8; }
 
 /*
 

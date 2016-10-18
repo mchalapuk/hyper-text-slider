@@ -19,9 +19,11 @@
 .hermes-theme--hover-opaque-arrows {
   .hermes-layout--arrow {
     opacity: 0.3;
+  }
 
-    &:hover,
-    &:active {
+  &:hover,
+  &:active {
+    .hermes-layout--arrow {
       opacity: 0.8;
     }
   }

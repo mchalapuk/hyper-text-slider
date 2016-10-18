@@ -19,9 +19,11 @@
 .hermes-theme--hover-opaque-dots {
   .hermes-layout--dot {
     opacity: 0.3;
+  }
 
-    &:hover,
-    &:active {
+  &:hover,
+  &:active {
+    .hermes-layout--dot {
       opacity: 0.8;
     }
   }
