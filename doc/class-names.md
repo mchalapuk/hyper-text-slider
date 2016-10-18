@@ -26,13 +26,13 @@ limitations under the License.
 <li>[hermes-autoboot](class-names.md#hermes-autoboot)
 <li>[hermes-defaults](class-names.md#hermes-defaults)
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
-<li>[hermes-show-dots](class-names.md#hermes-show-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)</ul>
 2. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)
 <li>[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows)
-<li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)</ul>
+<li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
+<li>[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)</ul>
 3. [Transition Class Names](class-names.md#transition-class-names)<ul>
 <li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
 <li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
@@ -93,9 +93,8 @@ Each option class is checked by the slider in one of two ways:
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-show-dots](class-names.md#hermes-show-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-show-dots](class-names.md#hermes-show-dots) | Shows dot button for each slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 ### Details
@@ -124,7 +123,6 @@ It enabled using Hermes without any JavaScript programming.
 
 Adds
 [hermes-autoplay](class-names.md#hermes-autoplay),
-[hermes-show-dots](class-names.md#hermes-show-dots),
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys).
 classes to the slider.
 
@@ -143,18 +141,6 @@ Slider is moved to the next after time specified in [time class name](class-name
 *@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
-
-#### hermes-show-dots
-
-Shows dot button for each slide.
-
-`click` event displatched on dot button moves slider to slide asociated with this dot button.
-
-*@checked* - [continuously](#continuously)
-
-*@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-*@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
 #### hermes-arrow-keys
 
@@ -189,22 +175,23 @@ If there is no theme specified on the slider, default themes are used.
 
 Name | Description | Is Default Theme
 --- | --- | ---
-[hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground. This is the default theme if none specified. | false
-[hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground. | true
+[hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground elements (texts, dots, arrows). | false
+[hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground elements (texts, dots, arrows). | true
 [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) | Shows default side arrow buttons. | true
 [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
+[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) | Shows dot button for each slide. | true
 
 ### Details
 
 #### hermes-theme--white
 
-White background, dark foreground. This is the default theme if none specified.
+White background, dark foreground elements (texts, dots, arrows).
 
 *@is-default-theme* - [false](#false)
 
 #### hermes-theme--black
 
-Black background, white foreground.
+Black background, white foreground elements (texts, dots, arrows).
 
 *@is-default-theme* - [true](#true)
 
@@ -240,6 +227,17 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 *@see* - Slider.breakpointNarrowToNormal
 
 *@see* - Slider.breakpointNormalToWide
+
+#### hermes-theme--default-dots
+
+Shows dot button for each slide.
+
+This theme provides basic dot visuals. In case different styling of dots is needed, either
+extend this theme class or create your own from scratch. Extending this class may be
+prefereable as other themes ([hermes-theme--black](class-names.md#hermes-theme--black), [hermes-theme--white](class-names.md#hermes-theme--white)) are compatible
+with this one.
+
+*@is-default-theme* - [true](#true)
 
 <!-- End lib/enums/theme.js -->
 

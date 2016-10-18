@@ -1017,6 +1017,7 @@ var DEFAULT_THEMES = [
   Theme.WHITE,
   Theme.DEFAULT_ARROWS,
   Theme.RESPONSIVE_ARROWS,
+  Theme.DEFAULT_DOTS,
 ];
 var DEFAULT_TRANSITIONS = [
   Transition.ZOOM_OUT_IN,
@@ -1068,7 +1069,6 @@ function expandOptionGroups(priv) {
   if (list.contains(Option.DEFAULTS)) {
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
-    list.add(Option.SHOW_DOTS);
   }
 }
 
@@ -1572,7 +1572,6 @@ var Option = {
   /**
    * Adds
    * ${link Option.AUTOPLAY},
-   * ${link Option.SHOW_DOTS},
    * ${link Option.ARROW_KEYS}.
    * classes to the slider.
    *
@@ -1595,19 +1594,6 @@ var Option = {
    * @fqn Option.AUTOPLAY
    */
   AUTOPLAY: 'hermes-autoplay',
-
-  /**
-   * Shows dot button for each slide.
-   *
-   * `click` event displatched on dot button moves slider to slide asociated with this dot button.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked continuously
-   * @see Slider.prototype.currentIndex
-   *
-   * @fqn Option.SHOW_DOTS
-   */
-  SHOW_DOTS: 'hermes-show-dots',
 
   /**
    * Adds keyboard control to slider.
@@ -1817,7 +1803,7 @@ module.exports = Phase;
 var Theme = {
 
   /**
-   * White background, dark foreground. This is the default theme if none specified.
+   * White background, dark foreground elements (texts, dots, arrows).
    *
    * @default false
    * @fqn Theme.WHITE
@@ -1825,7 +1811,7 @@ var Theme = {
   WHITE: 'hermes-theme--white',
 
   /**
-   * Black background, white foreground.
+   * Black background, white foreground elements (texts, dots, arrows).
    *
    * @default true
    * @fqn Theme.BLACK
@@ -1866,6 +1852,19 @@ var Theme = {
    * @fqn Theme.RESPONSIVE_ARROWS
    */
   RESPONSIVE_ARROWS: 'hermes-theme--responsive-arrows',
+
+  /**
+   * Shows dot button for each slide.
+   *
+   * This theme provides basic dot visuals. In case different styling of dots is needed, either
+   * extend this theme class or create your own from scratch. Extending this class may be
+   * prefereable as other themes (${link Theme.BLACK}, ${link Theme.WHITE}) are compatible
+   * with this one.
+   *
+   * @default true
+   * @fqn Theme.DEFAULT_DOTS
+   */
+  DEFAULT_DOTS: 'hermes-theme--default-dots',
 };
 
 module.exports = Theme;
