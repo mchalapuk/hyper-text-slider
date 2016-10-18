@@ -26,12 +26,12 @@ limitations under the License.
 <li>[hermes-autoboot](class-names.md#hermes-autoboot)
 <li>[hermes-defaults](class-names.md#hermes-defaults)
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
-<li>[hermes-show-arrows](class-names.md#hermes-show-arrows)
 <li>[hermes-show-dots](class-names.md#hermes-show-dots)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)</ul>
 2. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)
+<li>[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows)
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)</ul>
 3. [Transition Class Names](class-names.md#transition-class-names)<ul>
 <li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
@@ -93,9 +93,8 @@ Each option class is checked by the slider in one of two ways:
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-show-arrows](class-names.md#hermes-show-arrows), [hermes-show-dots](class-names.md#hermes-show-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-show-dots](class-names.md#hermes-show-dots), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-show-arrows](class-names.md#hermes-show-arrows) | Shows side arrow buttons. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-show-dots](class-names.md#hermes-show-dots) | Shows dot button for each slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
@@ -125,7 +124,6 @@ It enabled using Hermes without any JavaScript programming.
 
 Adds
 [hermes-autoplay](class-names.md#hermes-autoplay),
-[hermes-show-arrows](class-names.md#hermes-show-arrows),
 [hermes-show-dots](class-names.md#hermes-show-dots),
 [hermes-arrow-keys](class-names.md#hermes-arrow-keys).
 classes to the slider.
@@ -143,21 +141,6 @@ Slider is moved to the next after time specified in [time class name](class-name
 *@checked* - [continuously](#continuously)
 
 *@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-*@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
-
-#### hermes-show-arrows
-
-Shows side arrow buttons.
-
-`click` event on dispatched on left arrow moves slider to previous slide.
-`click` event on dispatched on right arrow moves slider to next slide.
-
-*@checked* - [continuously](#continuously)
-
-*@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-*@see* - [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
@@ -208,6 +191,7 @@ Name | Description | Is Default Theme
 --- | --- | ---
 [hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground. This is the default theme if none specified. | false
 [hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground. | true
+[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) | Shows default side arrow buttons. | true
 [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
 
 ### Details
@@ -219,6 +203,10 @@ White background, dark foreground. This is the default theme if none specified.
 #### hermes-theme--black
 
 Black background, white foreground.
+
+#### hermes-theme--default-arrows
+
+Shows default side arrow buttons.
 
 #### hermes-theme--responsive-arrows
 

@@ -1015,6 +1015,7 @@ var Selector = (function() {
 
 var DEFAULT_THEMES = [
   Theme.WHITE,
+  Theme.DEFAULT_ARROWS,
   Theme.RESPONSIVE_ARROWS,
 ];
 var DEFAULT_TRANSITIONS = [
@@ -1067,7 +1068,6 @@ function expandOptionGroups(priv) {
   if (list.contains(Option.DEFAULTS)) {
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
-    list.add(Option.SHOW_ARROWS);
     list.add(Option.SHOW_DOTS);
   }
 }
@@ -1572,7 +1572,6 @@ var Option = {
   /**
    * Adds
    * ${link Option.AUTOPLAY},
-   * ${link Option.SHOW_ARROWS},
    * ${link Option.SHOW_DOTS},
    * ${link Option.ARROW_KEYS}.
    * classes to the slider.
@@ -1596,21 +1595,6 @@ var Option = {
    * @fqn Option.AUTOPLAY
    */
   AUTOPLAY: 'hermes-autoplay',
-
-  /**
-   * Shows side arrow buttons.
-   *
-   * `click` event on dispatched on left arrow moves slider to previous slide.
-   * `click` event on dispatched on right arrow moves slider to next slide.
-   *
-   * @target `<body` or ${link Layout.SLIDER}
-   * @checked continuously
-   * @see Slider.prototype.moveToPrevious
-   * @see Slider.prototype.moveToNext
-   *
-   * @fqn Option.SHOW_ARROWS
-   */
-  SHOW_ARROWS: 'hermes-show-arrows',
 
   /**
    * Shows dot button for each slide.
@@ -1847,6 +1831,14 @@ var Theme = {
    * @fqn Theme.BLACK
    */
   BLACK: 'hermes-theme--black',
+
+  /**
+   * Shows default side arrow buttons.
+   *
+   * @default true
+   * @fqn Theme.DEFAULT_ARROWS
+   */
+  DEFAULT_ARROWS: 'hermes-theme--default-arrows',
 
   /**
    * Adds screen responsiveness to slider arrows.
