@@ -1013,7 +1013,8 @@ var Selector = (function() {
   return selectors;
 }());
 
-var DEFAULT_THEMES = [
+var themeGroups = {};
+themeGroups[Theme.DEFAULTS] = [
   Theme.WHITE,
   Theme.DEFAULT_DOTS,
   Theme.HOVER_OPAQUE_DOTS,
@@ -1021,6 +1022,19 @@ var DEFAULT_THEMES = [
   Theme.HOVER_OPAQUE_ARROWS,
   Theme.RESPONSIVE_ARROWS,
 ];
+themeGroups[Theme.DEFAULT_CONTROLS] = [
+  Theme.DEFAULT_ARROWS,
+  Theme.DEFAULT_DOTS,
+];
+themeGroups[Theme.HOVER_VISIBLE_CONTROLS] = [
+  Theme.HOVER_VISIBLE_ARROWS,
+  Theme.HOVER_VISIBLE_DOTS,
+];
+themeGroups[Theme.HOVER_OPAQUE_CONTROLS] = [
+  Theme.HOVER_OPAQUE_ARROWS,
+  Theme.HOVER_OPAQUE_DOTS,
+];
+
 var DEFAULT_TRANSITIONS = [
   Transition.ZOOM_OUT_IN,
   Transition.BG_ZOOM_IN_OUT,
@@ -1051,7 +1065,7 @@ function start(priv) {
   check(priv.started, 'upgrader.started').is.False();
   priv.started = true;
 
-  priv.defaultThemes = DOM.extractClassNames(priv.elem, Pattern.THEME) || DEFAULT_THEMES;
+  priv.defaultThemes = DOM.extractClassNames(priv.elem, Pattern.THEME) || [ Theme.DEFAULTS ];
   priv.defaultTransitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION) || DEFAULT_TRANSITIONS;
 
   expandOptionGroups(priv);
@@ -1101,7 +1115,7 @@ function upgradeSlides(priv) {
 
 function upgradeSlide(priv, slideElement) {
   supplementClassNames(priv, slideElement);
-  expandThemeGroups(priv, slideElement);
+  Object.keys(themeGroups).forEach(expandThemeGroup.bind(null, priv, slideElement));
 
   var contentElement = slideElement.querySelector(Selector.CONTENT);
   var backgroundElement = slideElement.querySelector(Selector.BACKGROUND);
@@ -1141,18 +1155,9 @@ function supplementClassNames(priv, slideElement) {
   }
 }
 
-function expandThemeGroups(priv, slideElement) {
-  if (slideElement.classList.contains(Theme.DEFAULT_CONTROLS)) {
-    slideElement.classList.add(Theme.DEFAULT_ARROWS);
-    slideElement.classList.add(Theme.DEFAULT_DOTS);
-  }
-  if (slideElement.classList.contains(Theme.HOVER_VISIBLE_CONTROLS)) {
-    slideElement.classList.add(Theme.HOVER_VISIBLE_ARROWS);
-    slideElement.classList.add(Theme.HOVER_VISIBLE_DOTS);
-  }
-  if (slideElement.classList.contains(Theme.HOVER_OPAQUE_CONTROLS)) {
-    slideElement.classList.add(Theme.HOVER_OPAQUE_ARROWS);
-    slideElement.classList.add(Theme.HOVER_OPAQUE_DOTS);
+function expandThemeGroup(priv, slideElement, groupName) {
+  if (slideElement.classList.contains(groupName)) {
+    themeGroups[groupName].forEach(function(theme) { slideElement.classList.add(theme); });
   }
 }
 
@@ -1823,7 +1828,7 @@ var Theme = {
   /**
    * White background, dark foreground elements (texts, dots, arrows).
    *
-   * @default false
+   * @default true
    * @fqn Theme.WHITE
    */
   WHITE: 'hermes-theme--white',
@@ -1831,7 +1836,7 @@ var Theme = {
   /**
    * Black background, white foreground elements (texts, dots, arrows).
    *
-   * @default true
+   * @default false
    * @fqn Theme.BLACK
    */
   BLACK: 'hermes-theme--black',
@@ -1947,7 +1952,7 @@ var Theme = {
   /**
    * Adds
    * ${link Theme.DEFAULT_ARROWS},
-   * ${link Theme.DEFAULT_DOTS}.
+   * ${link Theme.DEFAULT_DOTS}
    * classes to the slide.
    *
    * @default false
@@ -1958,7 +1963,7 @@ var Theme = {
   /**
    * Adds
    * ${link Theme.HOVER_VISIBLE_ARROWS},
-   * ${link Theme.HOVER_VISIBLE_DOTS}.
+   * ${link Theme.HOVER_VISIBLE_DOTS}
    * classes to the slide.
    *
    * @default false
@@ -1969,13 +1974,26 @@ var Theme = {
   /**
    * Adds
    * ${link Theme.HOVER_OPAQUE_ARROWS},
-   * ${link Theme.HOVER_OPAQUE_DOTS}.
+   * ${link Theme.HOVER_OPAQUE_DOTS}
    * classes to the slide.
    *
    * @default false
    * @fqn Theme.HOVER_OPAQUE_CONTROLS
    */
   HOVER_OPAQUE_CONTROLS: 'hermes-theme--hover-opaque-controls',
+
+  /**
+   * Adds
+   * ${link Theme.DEFAULT_ARROWS},
+   * ${link Theme.DEFAULT_DOTS}.
+   * ${link Theme.HOVER_OPAQUE_ARROWS},
+   * ${link Theme.HOVER_OPAQUE_DOTS}
+   * classes to the slide.
+   *
+   * @default false
+   * @fqn Theme.DEFAULTS
+   */
+  DEFAULTS: 'hermes-theme--defaults',
 };
 
 module.exports = Theme;
