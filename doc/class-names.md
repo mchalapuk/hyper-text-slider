@@ -24,7 +24,8 @@ limitations under the License.
 
 1. [Common Class Names](class-names.md#common-class-names)<ul>
 <li>[hermes-autoboot](class-names.md#hermes-autoboot)
-<li>[hermes-slider](class-names.md#hermes-slider)</ul>
+<li>[hermes-slider](class-names.md#hermes-slider)
+<li>[hermes-defaults](class-names.md#hermes-defaults)</ul>
 2. [Option Class Names](class-names.md#option-class-names)<ul>
 <li>[hermes-option--defaults](class-names.md#hermes-option--defaults)
 <li>[hermes-option--autoplay](class-names.md#hermes-option--autoplay)
@@ -100,6 +101,7 @@ Name | Description | Checked | Target Element | Client HTML
 --- | --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>` | mandatory
 [hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | once | [hermes-layout--slider](class-names.md#hermes-layout--slider) | mandatory
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-option--defaults](class-names.md#hermes-option--defaults) and [hermes-theme--defaults](class-names.md#hermes-theme--defaults) classes to the slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider) | optional
 
 ### Details
 
@@ -131,6 +133,14 @@ Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider).
 
 *@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
+#### hermes-defaults
+
+Adds [hermes-option--defaults](class-names.md#hermes-option--defaults) and [hermes-theme--defaults](class-names.md#hermes-theme--defaults) classes to the slider.
+
+*@checked* - [once](#once)
+
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 <!-- End lib/enums/common.js -->
 
 <!-- Start lib/enums/option.js -->
@@ -146,7 +156,7 @@ set on document's `<body>`. Options set on `<body>` are treated as defaults for 
 
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
-[hermes-option--defaults](class-names.md#hermes-option--defaults) | Adds [hermes-option--autoplay](class-names.md#hermes-option--autoplay), [hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-option--defaults](class-names.md#hermes-option--defaults) | Adds [hermes-option--autoplay](class-names.md#hermes-option--autoplay), [hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys) classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-option--autoplay](class-names.md#hermes-option--autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 [hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
@@ -156,7 +166,7 @@ Name | Description | Checked | Target Element
 
 Adds
 [hermes-option--autoplay](class-names.md#hermes-option--autoplay),
-[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys).
+[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys)
 classes to the slider.
 
 *@checked* - [once](#once)

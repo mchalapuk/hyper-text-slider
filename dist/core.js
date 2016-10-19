@@ -1005,6 +1005,7 @@ var Theme = require('../enums/theme');
 var Transition = require('../enums/transition');
 var Pattern = require('../enums/pattern');
 var Option = require('../enums/option');
+var Common = require('../enums/common');
 
 var Selector = (function() {
   var selectors = {};
@@ -1083,6 +1084,10 @@ function start(priv) {
 function expandOptionGroups(priv) {
   var list = priv.elem.classList;
 
+  if (list.contains(Common.DEFAULTS)) {
+    list.add(Option.DEFAULTS);
+    list.add(Theme.DEFAULTS);
+  }
   if (list.contains(Option.DEFAULTS)) {
     list.add(Option.AUTOPLAY);
     list.add(Option.ARROW_KEYS);
@@ -1217,7 +1222,7 @@ function noop() {
  */
 
 
-},{"../enums/flag":9,"../enums/layout":10,"../enums/option":12,"../enums/pattern":13,"../enums/theme":15,"../enums/transition":16,"../utils/check":17,"../utils/detect-features":18,"../utils/dom":19}],8:[function(require,module,exports){
+},{"../enums/common":8,"../enums/flag":9,"../enums/layout":10,"../enums/option":12,"../enums/pattern":13,"../enums/theme":15,"../enums/transition":16,"../utils/check":17,"../utils/detect-features":18,"../utils/dom":19}],8:[function(require,module,exports){
 /*!
 
    Copyright 2015 Maciej Chałapuk
@@ -1292,6 +1297,17 @@ var Common = {
    * @fqn Common.SLIDER_SHORT
    */
   SLIDER_SHORT: 'hermes-slider',
+
+  /**
+   * Adds ${link Option.DEFAULTS} and ${link Theme.DEFAULTS} classes to the slider.
+   *
+   * @target ${link Layout.SLIDER}
+   * @checked once
+   * @client-html optional
+   *
+   * @fqn Common.DEFAULTS
+   */
+  DEFAULTS: 'hermes-defaults',
 };
 
 module.exports = Common;
@@ -1637,7 +1653,7 @@ var Option = {
   /**
    * Adds
    * ${link Option.AUTOPLAY},
-   * ${link Option.ARROW_KEYS}.
+   * ${link Option.ARROW_KEYS}
    * classes to the slider.
    *
    * @target `<body` or ${link Layout.SLIDER}
