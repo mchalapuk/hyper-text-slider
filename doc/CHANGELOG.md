@@ -29,6 +29,9 @@
 [theme-ho-arrows]: class-names.md#hermes-theme--hover-opaque-arrows
 [theme-ho-dots]: class-names.md#hermes-theme--hover-opaque-dots
 [theme-responsive-arrows]: class-names.md#hermes-theme--responsive-arrows
+[theme-controls]: class-names.md#hermes-theme--default-controls
+[theme-ho-controls]: class-names.md#hermes-theme--hover-opaque-controls
+[theme-hv-controls]: class-names.md#hermes-theme--hover-visible-controls
 [theme-regex]: class-names.md#hermes-theme--sg
 [zoom-out-in]: class-names.md#hermes-transition--zoom-out-in
 [bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
@@ -45,6 +48,9 @@
    [`hermes-theme--hover-visible-dots`][theme-hv-dots],
  * Added [`hermes-theme--hover-opaque-arrows`][theme-ho-arrows],
    [`hermes-theme--hover-opaque-dots`][theme-ho-dots],
+ * Added [`hermes-theme--default-controls`][theme-controls] theme group,
+ * Added [`hermes-theme--hover-visible-controls`][theme-hv-controls] theme group,
+ * Added [`hermes-theme--hover-opaque-controls`][theme-ho-controls] theme group,
  * Changed selectors of [`hermes-theme--white`][theme-white] and
    [`hermes-theme-black`][theme-black] to stronger ones, so they override
    colors of&nbsp;control elements (arrows and dots) defined in other themes.
