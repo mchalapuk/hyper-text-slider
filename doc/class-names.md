@@ -22,12 +22,13 @@ limitations under the License.
 
 **Table of Contents**
 
-1. [Option Class Names](class-names.md#option-class-names)<ul>
-<li>[hermes-autoboot](class-names.md#hermes-autoboot)
+1. [Common Class Names](class-names.md#common-class-names)<ul>
+<li>[hermes-autoboot](class-names.md#hermes-autoboot)</ul>
+2. [Option Class Names](class-names.md#option-class-names)<ul>
 <li>[hermes-defaults](class-names.md#hermes-defaults)
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
 <li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)</ul>
-2. [Theme Class Names](class-names.md#theme-class-names)<ul>
+3. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)
@@ -41,20 +42,20 @@ limitations under the License.
 <li>[hermes-theme--hover-visible-controls](class-names.md#hermes-theme--hover-visible-controls)
 <li>[hermes-theme--hover-opaque-controls](class-names.md#hermes-theme--hover-opaque-controls)
 <li>[hermes-theme--defaults](class-names.md#hermes-theme--defaults)</ul>
-3. [Transition Class Names](class-names.md#transition-class-names)<ul>
+4. [Transition Class Names](class-names.md#transition-class-names)<ul>
 <li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
 <li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
-4. [Time Class Names](class-names.md#time-class-names)<ul>
+5. [Time Class Names](class-names.md#time-class-names)<ul>
 <li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
 <li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
-5. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
+6. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
 <li>[hermes-before-transition](class-names.md#hermes-before-transition)
 <li>[hermes-during-transition](class-names.md#hermes-during-transition)
 <li>[hermes-after-transition](class-names.md#hermes-after-transition)</ul>
-6. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
+7. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
 <li>[hermes-slide-from](class-names.md#hermes-slide-from)
 <li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
-7. [Layout Class Names](class-names.md#layout-class-names)<ul>
+8. [Layout Class Names](class-names.md#layout-class-names)<ul>
 <li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
 <li>[hermes-slider](class-names.md#hermes-slider)
 <li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
@@ -66,29 +67,21 @@ limitations under the License.
 <li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
 <li>[hermes-layout--dots](class-names.md#hermes-layout--dots)
 <li>[hermes-layout--dot](class-names.md#hermes-layout--dot)</ul>
-8. [Flag Class Names](class-names.md#flag-class-names)<ul>
+9. [Flag Class Names](class-names.md#flag-class-names)<ul>
 <li>[is-upgraded](class-names.md#is-upgraded)
 <li>[is-active](class-names.md#is-active)</ul>
-9. [Other Class Names](class-names.md#other-class-names)<ul>
+10. [Other Class Names](class-names.md#other-class-names)<ul>
 <li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
 <li>[/hermes-theme--([^\s]+)/g](class-names.md#hermes-theme--\sg)
 <li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
 
-<!-- Start lib/enums/option.js -->
+<!-- Start lib/enums/common.js -->
 
-## Option Class Names
+## Common Class Names
 
-Option classes enable features of the slider.
+Most commonly used class names.
 
-Most options are intended to be set on [hermes-layout--slider](class-names.md#hermes-layout--slider) element, but they can also be
-set on document's `<body>`. Options set on `<body>` are treated as defaults for each [hermes-layout--slider](class-names.md#hermes-layout--slider) declared on the page.
-
-Two categories:
- 1. **single options** - each of which enables one feature,
- 2. **option groups** - that adds many option classes to the slider during
-   [upgrade](dom-upgrade.md).
-
-Each option class is checked by the slider in one of two ways:
+Each class is checked by the slider in one of two ways:
  1. <a href='#once' id='once'>**checked once**</a> - class name should be set
    in client HTML, slider will check for it only once during upgrade, adding/removing class
    after upgrade make no effect,
@@ -96,14 +89,16 @@ Each option class is checked by the slider in one of two ways:
    class name may be added/removed at any time, slider will check if it is set every time
    a decission connected with this class is made.
 
+There are two categories of class names:
+ 1. **functional classes** - each of which enables one feature,
+ 2. **class groups** - that adds many class names to the slider during its
+   [upgrade](dom-upgrade.md).
+
 ### Summary
 
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 ### Details
 
@@ -126,6 +121,27 @@ It enabled using Hermes without any JavaScript programming.
 *@see* - [boot(containerElement)](javascript-api.md#bootcontainerelement)
 
 *@see* - [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
+
+<!-- End lib/enums/common.js -->
+
+<!-- Start lib/enums/option.js -->
+
+## Option Class Names
+
+Option classes enable features of the slider.
+
+Most options are intended to be set on [hermes-layout--slider](class-names.md#hermes-layout--slider) element, but they can also be
+set on document's `<body>`. Options set on `<body>` are treated as defaults for each [hermes-layout--slider](class-names.md#hermes-layout--slider) declared on the page.
+
+### Summary
+
+Name | Description | Checked | Target Element
+--- | --- | --- | ---
+[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
+### Details
 
 #### hermes-defaults
 

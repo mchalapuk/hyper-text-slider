@@ -151,6 +151,7 @@ module.exports = {
       */
       {
         src: [
+          'lib/enums/common.js',
           'lib/enums/option.js',
           'lib/enums/theme.js',
           'lib/enums/transition.js',
