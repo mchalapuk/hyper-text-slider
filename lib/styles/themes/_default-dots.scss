@@ -42,5 +42,12 @@
     cursor: pointer;
 
     @include transition(all ease-in-out 500ms);
+
+    opacity: 0.8;
+
+    &:hover,
+    &:active {
+      opacity: 1;
+    }
   }
 }

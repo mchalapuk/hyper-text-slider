@@ -25,6 +25,11 @@
   &:active {
     .hermes-layout--dot {
       opacity: 0.8;
+
+      &:hover,
+      &:active {
+        opacity: 1;
+      }
     }
   }
 }

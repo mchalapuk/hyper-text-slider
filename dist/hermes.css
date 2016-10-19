@@ -430,7 +430,8 @@
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
+  transition: all 0.5s ease-in-out;
+  opacity: 0.8; }
   .hermes-theme--default-arrows .hermes-layout--arrow-left::after,
   .hermes-theme--default-arrows .hermes-layout--arrow-right::after {
     position: relative;
@@ -453,6 +454,10 @@
     -moz-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out; }
+  .hermes-theme--default-arrows .hermes-layout--arrow-left:hover, .hermes-theme--default-arrows .hermes-layout--arrow-left:active,
+  .hermes-theme--default-arrows .hermes-layout--arrow-right:hover,
+  .hermes-theme--default-arrows .hermes-layout--arrow-right:active {
+    opacity: 1; }
 
 .hermes-theme--default-arrows .hermes-layout--arrow-left {
   left: 0;
@@ -508,7 +513,10 @@
   -webkit-transition: all ease-in-out 500ms;
   -moz-transition: all ease-in-out 500ms;
   -o-transition: all ease-in-out 500ms;
-  transition: all ease-in-out 500ms; }
+  transition: all ease-in-out 500ms;
+  opacity: 0.8; }
+  .hermes-theme--default-dots .hermes-layout--dot:hover, .hermes-theme--default-dots .hermes-layout--dot:active {
+    opacity: 1; }
 
 /*
 
@@ -569,6 +577,8 @@
 
 .hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow {
   opacity: 0.8; }
+  .hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow:hover, .hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow:active, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow:hover, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow:active {
+    opacity: 1; }
 
 /*
 
@@ -592,6 +602,8 @@
 
 .hermes-theme--hover-visible-dots:hover .hermes-layout--dot, .hermes-theme--hover-visible-dots:active .hermes-layout--dot {
   opacity: 0.8; }
+  .hermes-theme--hover-visible-dots:hover .hermes-layout--dot:hover, .hermes-theme--hover-visible-dots:hover .hermes-layout--dot:active, .hermes-theme--hover-visible-dots:active .hermes-layout--dot:hover, .hermes-theme--hover-visible-dots:active .hermes-layout--dot:active {
+    opacity: 1; }
 
 /*
 
@@ -615,6 +627,8 @@
 
 .hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow {
   opacity: 0.8; }
+  .hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow:hover, .hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow:active, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow:hover, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow:active {
+    opacity: 1; }
 
 /*
 
@@ -638,6 +652,8 @@
 
 .hermes-theme--hover-opaque-dots:hover .hermes-layout--dot, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot {
   opacity: 0.8; }
+  .hermes-theme--hover-opaque-dots:hover .hermes-layout--dot:hover, .hermes-theme--hover-opaque-dots:hover .hermes-layout--dot:active, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot:hover, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot:active {
+    opacity: 1; }
 
 /*
 
