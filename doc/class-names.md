@@ -23,7 +23,8 @@ limitations under the License.
 **Table of Contents**
 
 1. [Common Class Names](class-names.md#common-class-names)<ul>
-<li>[hermes-autoboot](class-names.md#hermes-autoboot)</ul>
+<li>[hermes-autoboot](class-names.md#hermes-autoboot)
+<li>[hermes-slider](class-names.md#hermes-slider)</ul>
 2. [Option Class Names](class-names.md#option-class-names)<ul>
 <li>[hermes-defaults](class-names.md#hermes-defaults)
 <li>[hermes-autoplay](class-names.md#hermes-autoplay)
@@ -56,12 +57,11 @@ limitations under the License.
 <li>[hermes-slide-from](class-names.md#hermes-slide-from)
 <li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
 8. [Layout Class Names](class-names.md#layout-class-names)<ul>
-<li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
-<li>[hermes-slider](class-names.md#hermes-slider)
 <li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
 <li>[hermes-layout--slide](class-names.md#hermes-layout--slide)
 <li>[hermes-layout--background](class-names.md#hermes-layout--background)
 <li>[hermes-layout--content](class-names.md#hermes-layout--content)
+<li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
 <li>[hermes-layout--arrow](class-names.md#hermes-layout--arrow)
 <li>[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left)
 <li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
@@ -99,6 +99,7 @@ There are two categories of class names:
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
 [hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
+[hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | undefined | undefined
 
 ### Details
 
@@ -121,6 +122,10 @@ It enabled using Hermes without any JavaScript programming.
 *@see* - [boot(containerElement)](javascript-api.md#bootcontainerelement)
 
 *@see* - [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
+
+#### hermes-slider
+
+Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider).
 
 <!-- End lib/enums/common.js -->
 
@@ -519,12 +524,11 @@ Layout classes play following roles in slider's inner-workings.
 
 Name | Description | Usage | Client HTML
 --- | --- | --- | ---
-[hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
-[hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | role-id styling | mandatory
 [hermes-layout--slider](class-names.md#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
 [hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | optional
 [hermes-layout--background](class-names.md#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
 [hermes-layout--content](class-names.md#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
+[hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
 [hermes-layout--arrow](class-names.md#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
 [hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
 [hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
@@ -532,19 +536,6 @@ Name | Description | Usage | Client HTML
 [hermes-layout--dot](class-names.md#hermes-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden
 
 ### Details
-
-#### hermes-layout--controls
-
-Set during upgrade on all generated controls.
-
-This class name must not be used in client HTML.
-It may be used in client CSS for styling.
-
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-#### hermes-slider
-
-Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider).
 
 #### hermes-layout--slider
 
@@ -582,6 +573,15 @@ is present in slider declaration, it must contain all contents of a slide. This 
 must be used in all definitions of content transitions.
 
 *@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
+
+#### hermes-layout--controls
+
+Set during upgrade on all generated controls.
+
+This class name must not be used in client HTML.
+It may be used in client CSS for styling.
+
+*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 #### hermes-layout--arrow
 

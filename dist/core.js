@@ -102,6 +102,7 @@ function autoboot(containerElement) {
 
 var Slider = require('./slider');
 var Option = require('../enums/option');
+var Common = require('../enums/common');
 var Layout = require('../enums/layout');
 var check = require('../utils/check');
 
@@ -138,7 +139,7 @@ function boot(containerElement) {
   var containerOptions = getEnabledOptions(containerElement);
   var sliderElems = concatUnique(
       [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER)),
-      [].slice.call(containerElement.querySelectorAll('.'+ Layout.SLIDER_SHORT))
+      [].slice.call(containerElement.querySelectorAll('.'+ Common.SLIDER_SHORT))
       );
 
   var sliders = sliderElems.map(function(elem) {
@@ -176,7 +177,7 @@ function concatUnique(unique, candidate) {
 */
 
 
-},{"../enums/layout":10,"../enums/option":12,"../utils/check":17,"./slider":6}],4:[function(require,module,exports){
+},{"../enums/common":8,"../enums/layout":10,"../enums/option":12,"../utils/check":17,"./slider":6}],4:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -1278,6 +1279,16 @@ var Common = {
    * @fqn Common.AUTOBOOT
    */
   AUTOBOOT: 'hermes-autoboot',
+
+  /**
+   * Alias for ${link Layout.SLIDER}.
+   *
+   * @usage role-id styling
+   * @client-html mandatory
+   *
+   * @fqn Common.SLIDER_SHORT
+   */
+  SLIDER_SHORT: 'hermes-slider',
 };
 
 module.exports = Common;
@@ -1364,7 +1375,7 @@ module.exports = Flag;
 /**
  * In most cases, most of layout classes **SHOULD not be used in client HTML**, as they are
  * automatially applied to apropriate elements during [slider's upgrade procedure](dom-upgrade.md)
- * (${link Layout.SLIDER_SHORT} is the only layout class name that MUST be applied in client HTML).
+ * (${link Common.SLIDER_SHORT} is the only layout class name that MUST be applied in client HTML).
  *
  * Layout classes play following roles in slider's inner-workings.
  *  1. **role-id** - class names are used to identify element's role during slider upgrade,
@@ -1376,16 +1387,6 @@ module.exports = Flag;
  * @summary-column client-html Client HTML
  */
 var Layout = {
-
-  /**
-   * Alias for ${link Layout.SLIDER}.
-   *
-   * @usage role-id styling
-   * @client-html mandatory
-   *
-   * @fqn Layout.SLIDER_SHORT
-   */
-  SLIDER_SHORT: 'hermes-slider',
 
   /**
    * Identifies main slider element.
