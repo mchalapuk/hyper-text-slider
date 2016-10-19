@@ -185,7 +185,7 @@ Moves slider to next slide.
 
 *@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
-*@see* - [hermes-autoplay](class-names.md#hermes-autoplay)
+*@see* - [hermes-option--autoplay](class-names.md#hermes-option--autoplay)
 
 #### Slider.prototype.moveToPrevious()
 

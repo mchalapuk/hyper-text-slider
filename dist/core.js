@@ -1257,6 +1257,7 @@ function noop() {
  * @name Common Class Names
  * @summary-column checked Checked
  * @summary-column target Target Element
+ * @summary-column client-html Client HTML
  */
 var Common = {
 
@@ -1273,6 +1274,7 @@ var Common = {
    *
    * @target document's `<body>`
    * @checked once
+   * @client-html mandatory
    * @see boot
    * @see Slider.prototype.start
    *
@@ -1283,7 +1285,8 @@ var Common = {
   /**
    * Alias for ${link Layout.SLIDER}.
    *
-   * @usage role-id styling
+   * @target ${link Layout.SLIDER}
+   * @checked once
    * @client-html mandatory
    *
    * @fqn Common.SLIDER_SHORT
@@ -1642,7 +1645,7 @@ var Option = {
    *
    * @fqn Option.DEFAULTS
    */
-  DEFAULTS: 'hermes-defaults',
+  DEFAULTS: 'hermes-option--defaults',
 
   /**
    * Automatically moves slider to next slide.
@@ -1655,7 +1658,7 @@ var Option = {
    *
    * @fqn Option.AUTOPLAY
    */
-  AUTOPLAY: 'hermes-autoplay',
+  AUTOPLAY: 'hermes-option--autoplay',
 
   /**
    * Adds keyboard control to slider.
@@ -1669,7 +1672,7 @@ var Option = {
    *
    * @fqn Option.ARROW_KEYS
    */
-  ARROW_KEYS: 'hermes-arrow-keys',
+  ARROW_KEYS: 'hermes-option--arrow-keys',
 };
 
 module.exports = Option;

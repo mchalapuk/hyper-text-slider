@@ -26,9 +26,9 @@ limitations under the License.
 <li>[hermes-autoboot](class-names.md#hermes-autoboot)
 <li>[hermes-slider](class-names.md#hermes-slider)</ul>
 2. [Option Class Names](class-names.md#option-class-names)<ul>
-<li>[hermes-defaults](class-names.md#hermes-defaults)
-<li>[hermes-autoplay](class-names.md#hermes-autoplay)
-<li>[hermes-arrow-keys](class-names.md#hermes-arrow-keys)</ul>
+<li>[hermes-option--defaults](class-names.md#hermes-option--defaults)
+<li>[hermes-option--autoplay](class-names.md#hermes-option--autoplay)
+<li>[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys)</ul>
 3. [Theme Class Names](class-names.md#theme-class-names)<ul>
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
@@ -96,10 +96,10 @@ There are two categories of class names:
 
 ### Summary
 
-Name | Description | Checked | Target Element
---- | --- | --- | ---
-[hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>`
-[hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | undefined | undefined
+Name | Description | Checked | Target Element | Client HTML
+--- | --- | --- | --- | ---
+[hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>` | mandatory
+[hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | once | [hermes-layout--slider](class-names.md#hermes-layout--slider) | mandatory
 
 ### Details
 
@@ -127,6 +127,10 @@ It enabled using Hermes without any JavaScript programming.
 
 Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider).
 
+*@checked* - [once](#once)
+
+*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+
 <!-- End lib/enums/common.js -->
 
 <!-- Start lib/enums/option.js -->
@@ -142,24 +146,24 @@ set on document's `<body>`. Options set on `<body>` are treated as defaults for 
 
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-autoplay](class-names.md#hermes-autoplay), [hermes-arrow-keys](class-names.md#hermes-arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-autoplay](class-names.md#hermes-autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-arrow-keys](class-names.md#hermes-arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-option--defaults](class-names.md#hermes-option--defaults) | Adds [hermes-option--autoplay](class-names.md#hermes-option--autoplay), [hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys). classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-option--autoplay](class-names.md#hermes-option--autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
 ### Details
 
-#### hermes-defaults
+#### hermes-option--defaults
 
 Adds
-[hermes-autoplay](class-names.md#hermes-autoplay),
-[hermes-arrow-keys](class-names.md#hermes-arrow-keys).
+[hermes-option--autoplay](class-names.md#hermes-option--autoplay),
+[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys).
 classes to the slider.
 
 *@checked* - [once](#once)
 
 *@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
 
-#### hermes-autoplay
+#### hermes-option--autoplay
 
 Automatically moves slider to next slide.
 
@@ -171,7 +175,7 @@ Slider is moved to the next after time specified in [time class name](class-name
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
-#### hermes-arrow-keys
+#### hermes-option--arrow-keys
 
 Adds keyboard control to slider.
 
@@ -406,7 +410,7 @@ Delicate background zoom in when slide appears, zoom out when it disappears.
 
 ## Time Class Names
 
-Time classes configure [hermes-autoplay](class-names.md#hermes-autoplay) option. They control
+Time classes configure [hermes-option--autoplay](class-names.md#hermes-option--autoplay) option. They control
 time duration of one slide being visible before automatic change to the next.
 
 If no slide time is specified, slide is visible for 5 seconds.
