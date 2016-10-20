@@ -6,7 +6,7 @@
  * ~~Make time classes optional~~
  * Separate slide time from transition time
  * Add vertical controls to options
- * Hover-visible and hover-opaque controls
+ * ~~Hover-visible and hover-opaque controls~~
  * RWD breakpoint config
  * Progress bar
  * Touch gestures
