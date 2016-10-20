@@ -3,15 +3,6 @@
 [gulp-uglify]: https://github.com/terinjokes/gulp-uglify
 [stylelint]: https://github.com/stylelint/stylelint
 
-[hermes-autoboot]: class-names.md#hermes-autoboot
-[hermes-defaults]: class-names.md#hermes-defaults
-[layout-controls]: class-names.md#hermes-layout--controls
-[hermes-slider]: class-names.md#hermes-slider
-[layout-slider]: class-names.md#hermes-layout--slider
-[layout-content]: class-names.md#hermes-layout--content
-[slide-from]: class-names.md#hermes-slide-from
-[slide-to]: class-names.md#hermes-slide-to
-
 [hermes-boot]: javascript-api.md#bootcontainerelement
 [slider-start]: javascript-api.md#sliderstartcallback
 [slider-on]: javascript-api.md#sliderprototypeoneventname-listener
@@ -20,41 +11,60 @@
 
 [time-class-names]: class-names.md#time-class-names
 [option-class-names]: class-names.md#option-class-names
+[common-class-names]: class-names.md#common-class-names
+[hermes-autoboot]: class-names.md#hermes-autoboot
+[hermes-slider]: class-names.md#hermes-slider
+[hermes-defaults]: class-names.md#hermes-defaults
 [theme-white]: class-names.md#hermes-theme--white
 [theme-black]: class-names.md#hermes-theme--black
-[theme-arrows]: class-names.md#hermes-theme--default-arrows
-[theme-dots]: class-names.md#hermes-theme--default-dots
+[theme-arrows]: class-names.md#hermes-theme--basic-arrows
+[theme-dots]: class-names.md#hermes-theme--basic-dots
 [theme-hv-arrows]: class-names.md#hermes-theme--hover-visible-arrows
 [theme-hv-dots]: class-names.md#hermes-theme--hover-visible-dots
 [theme-ho-arrows]: class-names.md#hermes-theme--hover-opaque-arrows
 [theme-ho-dots]: class-names.md#hermes-theme--hover-opaque-dots
 [theme-responsive-arrows]: class-names.md#hermes-theme--responsive-arrows
-[theme-controls]: class-names.md#hermes-theme--default-controls
+[theme-controls]: class-names.md#hermes-theme--basic-controls
 [theme-ho-controls]: class-names.md#hermes-theme--hover-opaque-controls
 [theme-hv-controls]: class-names.md#hermes-theme--hover-visible-controls
+[theme-defaults]: class-names.md#hermes-theme--defaults
 [theme-regex]: class-names.md#hermes-theme--sg
+[option-defaults]: class-names.md#hermes-option--defaults
 [zoom-out-in]: class-names.md#hermes-transition--zoom-out-in
 [bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
+[layout-controls]: class-names.md#hermes-layout--controls
+[layout-slider]: class-names.md#hermes-layout--slider
+[layout-content]: class-names.md#hermes-layout--content
+[slide-from]: class-names.md#hermes-slide-from
+[slide-to]: class-names.md#hermes-slide-to
 [slide-id]: class-names.md#hermes-slide-id-s
 
 # v0.7.0
 
  * Removed `hermes-show-arrows`, `hermes-show-dots`, and
   `hermes-responsive-controls` option classes,
- * Added [`hermes-theme--default-arrows`][theme-arrows],
-   [`hermes-theme--default-dots`][theme-dots],
+ * Added [`hermes-theme--basic-arrows`][theme-arrows],
+   [`hermes-theme--basic-dots`][theme-dots],
  * Added [`hermes-theme--responsive-arrows`][theme-responsive-arrows],
  * Added [`hermes-theme--hover-visible-arrows`][theme-hv-arrows],
    [`hermes-theme--hover-visible-dots`][theme-hv-dots],
  * Added [`hermes-theme--hover-opaque-arrows`][theme-ho-arrows],
    [`hermes-theme--hover-opaque-dots`][theme-ho-dots],
- * Added [`hermes-theme--default-controls`][theme-controls] theme group,
+ * Added [`hermes-theme--basic-controls`][theme-controls] theme group,
  * Added [`hermes-theme--hover-visible-controls`][theme-hv-controls] theme group,
  * Added [`hermes-theme--hover-opaque-controls`][theme-ho-controls] theme group,
  * Changed selectors of [`hermes-theme--white`][theme-white] and
    [`hermes-theme-black`][theme-black] to stronger ones, so they override
-   colors of&nbsp;control elements (arrows and dots) defined in other themes.
-   
+   colors of&nbsp;control elements (arrows and dots) defined in other themes,
+ * Added [`hermes-theme--defaults`][theme-defaults],
+ * If no themes declared, themes from [`hermes-theme--defaults`][theme-defaults] are used,
+ * Extracted [`hermes-autoboot`][hermes-autoboot], [`hermes-slider`][hermes-slider] and [`hermes-defaults`][hermes-defaults]
+   to [Common Class Names][common-class-names],
+ * Added [`hermes-option--defaults`][option-defaults],
+ * [`hermes-defaults`][hermes-defaults] now adds
+   [`hermes-option--defaults`][option-defaults] and [`hermes-theme--defaults`][theme-defaults] classes,
+ * As of now, all option classes have `hermes-option--` prefix.
+ 
 # v0.6.4
 
  * Fixed `white-space` (`normal` instead of `nowrap`) for [`hermes-layout--content`][layout-content],
