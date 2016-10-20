@@ -1909,7 +1909,7 @@ var Theme = {
    * prefereable as other themes (${link Theme.BLACK}, ${link Theme.WHITE}) are compatible
    * with this one.
    *
-   * @basic true
+   * @default true
    * @fqn Theme.BASIC_DOTS
    */
   BASIC_DOTS: 'hermes-theme--basic-dots',
@@ -1924,7 +1924,7 @@ var Theme = {
    * > This class does not provide visual styles for arrows. It must be used in combination
    * > with ${link Theme.BASIC_DOTS} or custom theme that defines dot visuals.
    *
-   * @basic false
+   * @default false
    * @fqn Theme.HOVER_VISIBLE_DOTS
    */
   HOVER_VISIBLE_DOTS: 'hermes-theme--hover-visible-dots',
@@ -1939,7 +1939,7 @@ var Theme = {
    * > This class does not provide visual styles for dots. It must be used in combination
    * > with ${link Theme.BASIC_DOTS} or custom theme that defines dot visuals.
    *
-   * @basic true
+   * @default true
    * @fqn Theme.HOVER_OPAQUE_DOTS
    */
   HOVER_OPAQUE_DOTS: 'hermes-theme--hover-opaque-dots',
@@ -1951,7 +1951,7 @@ var Theme = {
    * extend this theme class or create your own from scratch. Extending this class may be
    * prefereable if you also want to use ${link Theme.RESPONSIVE_ARROWS}.
    *
-   * @basic true
+   * @default true
    * @fqn Theme.BASIC_ARROWS
    */
   BASIC_ARROWS: 'hermes-theme--basic-arrows',
@@ -1974,7 +1974,7 @@ var Theme = {
    * @see Slider.breakpointNarrowToNormal
    * @see Slider.breakpointNormalToWide
    *
-   * @basic true
+   * @default true
    * @fqn Theme.RESPONSIVE_ARROWS
    */
   RESPONSIVE_ARROWS: 'hermes-theme--responsive-arrows',
@@ -1989,7 +1989,7 @@ var Theme = {
    * > This class does not provide visual styles for arrows. It must be used in combination
    * > with ${link Theme.BASIC_ARROWS} or custom theme that defines arrow visuals.
    *
-   * @basic false
+   * @default false
    * @fqn Theme.HOVER_VISIBLE_ARROWS
    */
   HOVER_VISIBLE_ARROWS: 'hermes-theme--hover-visible-arrows',
@@ -2004,7 +2004,7 @@ var Theme = {
    * > This class does not provide visual styles for arrows. It must be used in combination
    * > with ${link Theme.BASIC_ARROWS} or custom theme that defines arrow visuals.
    *
-   * @basic true
+   * @default true
    * @fqn Theme.HOVER_OPAQUE_ARROWS
    */
   HOVER_OPAQUE_ARROWS: 'hermes-theme--hover-opaque-arrows',
@@ -2015,7 +2015,7 @@ var Theme = {
    * ${link Theme.BASIC_DOTS}
    * classes to the slide.
    *
-   * @basic false
+   * @default false
    * @fqn Theme.BASIC_CONTROLS
    */
   BASIC_CONTROLS: 'hermes-theme--basic-controls',
