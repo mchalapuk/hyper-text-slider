@@ -1067,18 +1067,20 @@ function start(priv) {
   check(priv.started, 'upgrader.started').is.False();
   priv.started = true;
 
+  expandOptionGroups(priv);
+
   priv.defaultThemes = DOM.extractClassNames(priv.elem, Pattern.THEME) || [ Theme.DEFAULTS ];
   priv.defaultTransitions = DOM.extractClassNames(priv.elem, Pattern.TRANSITION) || DEFAULT_TRANSITIONS;
 
-  expandOptionGroups(priv);
   createArrowButtons(priv);
   createDotButtons(priv);
   upgradeSlides(priv);
 
-  if (!priv.elem.classList.contains(Layout.SLIDER)) {
-    priv.elem.classList.add(Layout.SLIDER);
+  var list = priv.elem.classList;
+  if (!list.contains(Layout.SLIDER)) {
+    list.add(Layout.SLIDER);
   }
-  priv.elem.classList.add(Flag.UPGRADED);
+  list.add(Flag.UPGRADED);
 }
 
 function expandOptionGroups(priv) {
