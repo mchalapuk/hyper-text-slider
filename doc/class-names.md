@@ -230,7 +230,7 @@ Name | Description | Is Default Theme
 [hermes-theme--basic-controls](class-names.md#hermes-theme--basic-controls) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) classes to the slide. | false
 [hermes-theme--hover-visible-controls](class-names.md#hermes-theme--hover-visible-controls) | Adds [hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows), [hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) classes to the slide. | false
 [hermes-theme--hover-opaque-controls](class-names.md#hermes-theme--hover-opaque-controls) | Adds [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) classes to the slide. | false
-[hermes-theme--defaults](class-names.md#hermes-theme--defaults) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots). [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) classes to the slide. | false
+[hermes-theme--defaults](class-names.md#hermes-theme--defaults) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots). [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows), [hermes-theme--white](class-names.md#hermes-theme--white) classes to the slide. | false
 
 ### Details
 
@@ -376,6 +376,8 @@ Adds
 [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots).
 [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows),
 [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
+[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows),
+[hermes-theme--white](class-names.md#hermes-theme--white)
 classes to the slide.
 
 *@is-default-theme* - false
