@@ -34,13 +34,13 @@ limitations under the License.
 <li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
 <li>[hermes-theme--white](class-names.md#hermes-theme--white)
 <li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)
-<li>[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)
+<li>[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots)
 <li>[hermes-theme--black](class-names.md#hermes-theme--black)
 <li>[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots)
 <li>[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
-<li>[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows)
+<li>[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows)
 <li>[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows)
-<li>[hermes-theme--default-controls](class-names.md#hermes-theme--default-controls)
+<li>[hermes-theme--basic-controls](class-names.md#hermes-theme--basic-controls)
 <li>[hermes-theme--hover-visible-controls](class-names.md#hermes-theme--hover-visible-controls)
 <li>[hermes-theme--hover-opaque-controls](class-names.md#hermes-theme--hover-opaque-controls)
 <li>[hermes-theme--defaults](class-names.md#hermes-theme--defaults)</ul>
@@ -218,19 +218,19 @@ If there is no theme specified on the slider, default themes are used.
 
 Name | Description | Is Default Theme
 --- | --- | ---
-[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
+[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | undefined
 [hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground elements (texts, dots, arrows). | true
-[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent visibility change to arrows. | false
-[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) | Shows dot button for each slide. | true
+[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent visibility change to arrows. | undefined
+[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) | Shows dot button for each slide. | undefined
 [hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground elements (texts, dots, arrows). | false
-[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) | Adds hover-dependent visibility change to dots. | false
-[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) | Adds hover-dependent opacity change to dots. | true
-[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) | Shows default side arrow buttons. | true
-[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows) | Adds hover-dependent opacity change to arrows. | true
-[hermes-theme--default-controls](class-names.md#hermes-theme--default-controls) | Adds [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows), [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) classes to the slide. | false
+[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) | Adds hover-dependent visibility change to dots. | undefined
+[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) | Adds hover-dependent opacity change to dots. | undefined
+[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows) | Shows basic side arrow buttons. | undefined
+[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows) | Adds hover-dependent opacity change to arrows. | undefined
+[hermes-theme--basic-controls](class-names.md#hermes-theme--basic-controls) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) classes to the slide. | undefined
 [hermes-theme--hover-visible-controls](class-names.md#hermes-theme--hover-visible-controls) | Adds [hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows), [hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) classes to the slide. | false
 [hermes-theme--hover-opaque-controls](class-names.md#hermes-theme--hover-opaque-controls) | Adds [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) classes to the slide. | false
-[hermes-theme--defaults](class-names.md#hermes-theme--defaults) | Adds [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows), [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots). [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) classes to the slide. | false
+[hermes-theme--defaults](class-names.md#hermes-theme--defaults) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots). [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) classes to the slide. | false
 
 ### Details
 
@@ -247,9 +247,7 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows).
-
-*@is-default-theme* - true
+> with [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows).
 
 *@see* - [Screen Responsiveness](responsiveness.md)
 
@@ -272,11 +270,9 @@ Arrows become visible when mouse is hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) or custom theme that defines arrow visuals.
+> with [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows) or custom theme that defines arrow visuals.
 
-*@is-default-theme* - false
-
-#### hermes-theme--default-dots
+#### hermes-theme--basic-dots
 
 Shows dot button for each slide.
 
@@ -284,8 +280,6 @@ This theme provides basic dot visuals. In case different styling of dots is need
 extend this theme class or create your own from scratch. Extending this class may be
 prefereable as other themes ([hermes-theme--black](class-names.md#hermes-theme--black), [hermes-theme--white](class-names.md#hermes-theme--white)) are compatible
 with this one.
-
-*@is-default-theme* - true
 
 #### hermes-theme--black
 
@@ -302,9 +296,7 @@ Dots become visible when mouse is hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) or custom theme that defines dot visuals.
-
-*@is-default-theme* - false
+> with [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) or custom theme that defines dot visuals.
 
 #### hermes-theme--hover-opaque-dots
 
@@ -315,19 +307,15 @@ Dots become more opaque twhen mouseis hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for dots. It must be used in combination
-> with [hermes-theme--default-dots](class-names.md#hermes-theme--default-dots) or custom theme that defines dot visuals.
+> with [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) or custom theme that defines dot visuals.
 
-*@is-default-theme* - true
+#### hermes-theme--basic-arrows
 
-#### hermes-theme--default-arrows
-
-Shows default side arrow buttons.
+Shows basic side arrow buttons.
 
 This theme provides basic arrow visuals. In case different styling of arrows is needed, either
 extend this theme class or create your own from scratch. Extending this class may be
 prefereable if you also want to use [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows).
-
-*@is-default-theme* - true
 
 #### hermes-theme--hover-opaque-arrows
 
@@ -338,18 +326,14 @@ Arrows become more opaque twhen mouseis hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows) or custom theme that defines arrow visuals.
+> with [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows) or custom theme that defines arrow visuals.
 
-*@is-default-theme* - true
-
-#### hermes-theme--default-controls
+#### hermes-theme--basic-controls
 
 Adds
-[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows),
-[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots)
+[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows),
+[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots)
 classes to the slide.
-
-*@is-default-theme* - false
 
 #### hermes-theme--hover-visible-controls
 
@@ -372,8 +356,8 @@ classes to the slide.
 #### hermes-theme--defaults
 
 Adds
-[hermes-theme--default-arrows](class-names.md#hermes-theme--default-arrows),
-[hermes-theme--default-dots](class-names.md#hermes-theme--default-dots).
+[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows),
+[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots).
 [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows),
 [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
 classes to the slide.
