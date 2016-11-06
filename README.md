@@ -95,11 +95,15 @@ User Guides:
 Tutorials:
  * [Hermes via Node and Browserify][hermes-node-example]
 
-Other:
+See Also:
+ * [Animatable CSS Properties][animatable]
+
+Project Info:
  * [TODO List](doc/TODO.md)
  * [CHANGELOG](doc/CHANGELOG.md)
-
+ 
 [hermes-node-example]: https://github.com/webfront-toolkit/hermes-node-example
+[animatable]: https://drafts.csswg.org/css-transitions/#animatable-properties
 
 ## Contributing
 
