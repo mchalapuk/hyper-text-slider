@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <head>
 <meta charset=utf-8>
-<title>Hello, Hermes!</title>
+<title>Hello, HyperText Slider!</title>
 
-<!-- First thing to do is linking hermes css -->
-<link href=hermes.css rel=stylesheet type=text/css>
+<!-- First thing to do is link slider's css -->
+<link href=slider.css rel=stylesheet type=text/css>
 
 <!-- Roboto font from Google CDN -->
 <link href=//fonts.googleapis.com/css?family=Roboto:regular,thin&amp;lang=pl rel=stylesheet>
@@ -27,7 +27,7 @@
   }
 
 /* slider height */
-  .hermes-layout--slider {
+  .ht-layout--slider {
     height: 600px;
     position: absolute;
     top: 100px; /* for old browsers */
@@ -40,20 +40,20 @@
   autoboot option will automatically start
   all sliders declared on the webpage
 -->
-<body class="hermes-autoboot">
+<body class="ht-autoboot">
 
 <!-- declaration of a slider -->
-<div class="hermes-slider hermes-defaults">
+<div class="ht-slider ht-defaults">
   <div id="hello">
-    <h1>Hello, Hermes!</h1>
+    <h1>Hello, HyperText Slider!</h1>
   </div>
-  <div id="transitions" class="hermes-theme--black">
+  <div id="transitions" class="ht-theme--black">
     <p>God of Transitions.</p>
   </div>
 </div>
 
 <!-- polyfills -->
 <script src=polyfill.js type=text/javascript></script>
-<!-- hermes mechanism script -->
+<!-- HyperText Slider mechanism script -->
 <script src=core.js type=text/javascript></script>
 

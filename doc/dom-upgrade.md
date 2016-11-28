@@ -36,8 +36,8 @@ DOM upgrade, which consists of following operations:
  * Application of proper [layout class names][layout-classes],
  * Generation of [background][layout-background] and [content][layout-content]
    elements for each slide,
- * Addition of default [transition class names][transition-classes] to slides without themes specified, 
- * Addition of default [theme class names][theme-classes] to slides without themes specified, 
+ * Addition of default [transition class names][transition-classes] to slides without themes specified,
+ * Addition of default [theme class names][theme-classes] to slides without themes specified,
  * Generation of DOM elements for slider [control buttons][layout-controls],
  * Marking slider's and slides' elements as [upgraded][flag-upgraded].
 
@@ -46,9 +46,9 @@ DOM upgrade, which consists of following operations:
 [layout-classes]: class-names.md#layout-class-names
 [theme-classes]: class-names.md#theme-class-names
 [transition-classes]: class-names.md#transition-class-names
-[layout-background]: class-names.md#hermes-layout--background
-[layout-content]: class-names.md#hermes-layout--content
-[layout-controls]: class-names.md#hermes-layout--controls
+[layout-background]: class-names.md#ht-layout--background
+[layout-content]: class-names.md#ht-layout--content
+[layout-controls]: class-names.md#ht-layout--controls
 [flag-upgraded]: class-names.md#is-upgraded
 
 ## Example
@@ -56,9 +56,9 @@ DOM upgrade, which consists of following operations:
 Following slider declaration:
 
 ```html
-<div class="hermes-slider hermes-defaults">
+<div class="ht-slider ht-defaults">
   <div id="hello">
-    <h1>Hello, Hermes!</h1>
+    <h1>Hello, HyperText Slider!</h1>
   </div>
   <div id="transitions">
     <p>How's the weather?
@@ -70,53 +70,53 @@ Following slider declaration:
 
 
 ```html
-<div class="hermes-slider
-            hermes-defaults
-            hermes-autoplay
-            hermes-arrow-keys
-            hermes-show-arrows
-            hermes-show-dots
-            hermes-responsive-controls
-            hermes-layout--slider
+<div class="ht-slider
+            ht-defaults
+            ht-autoplay
+            ht-arrow-keys
+            ht-show-arrows
+            ht-show-dots
+            ht-responsive-controls
+            ht-layout--slider
             is-upgraded">
 
-  <div id="hello" class="hermes-layout--slide
+  <div id="hello" class="ht-layout--slide
                          is-upgraded
-                         hermes-theme--white
-                         hermes-transition--zoom-out-in
-                         hermes-transition--bg-zoom-in-out">
-    <div class="hermes-layout--background">
+                         ht-theme--white
+                         ht-transition--zoom-out-in
+                         ht-transition--bg-zoom-in-out">
+    <div class="ht-layout--background">
     </div>
-    <div class="hermes-layout--content">
-      <h1>Hello, Hermes!</h1>
+    <div class="ht-layout--content">
+      <h1>Hello, HyperText Slider!</h1>
     </div>
   </div>
 
-  <div id="transitions" class="hermes-layout--slide
+  <div id="transitions" class="ht-layout--slide
                                is-upgraded
-                               hermes-theme--white
-                               hermes-transition--zoom-out-in
-                               hermes-transition--bg-zoom-in-out">
-    <div class="hermes-layout--background">
+                               ht-theme--white
+                               ht-transition--zoom-out-in
+                               ht-transition--bg-zoom-in-out">
+    <div class="ht-layout--background">
     </div>
-    <div class="hermes-layout--content">
+    <div class="ht-layout--content">
       <p>How's the weather?</p>
     </div>
   </div>
 
-  <div class="hermes-layout--controls
-              hermes-layout--arrow
-              hermes-layout--arrow-left">
+  <div class="ht-layout--controls
+              ht-layout--arrow
+              ht-layout--arrow-left">
   </div>
-  <div class="hermes-layout--controls
-              hermes-layout--arrow
-              hermes-layout--arrow-right">
+  <div class="ht-layout--controls
+              ht-layout--arrow
+              ht-layout--arrow-right">
   </div>
 
-  <div class="hermes-layout--controls hermes-layout--dots">
-    <div class="hermes-layout--controls hermes-layout--dot">
+  <div class="ht-layout--controls ht-layout--dots">
+    <div class="ht-layout--controls ht-layout--dot">
     </div>
-    <div class="hermes-layout--controls hermes-layout--dot">
+    <div class="ht-layout--controls ht-layout--dot">
     </div>
   </div>
 </div>

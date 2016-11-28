@@ -55,9 +55,9 @@ limitations under the License.
 
 ## boot(containerElement)
 
-Default Hermes boot procedure.
+Default HyperText Slider boot procedure.
 
-For each element with [hermes-layout--slider](class-names.md#hermes-layout--slider) class name found in passed container
+For each element with [ht-layout--slider](class-names.md#ht-layout--slider) class name found in passed container
 (typically document's `<body>`):
 
  1. Adds [options class names](class-names.md#option-class-names) found on container element,
@@ -67,8 +67,8 @@ For each element with [hermes-layout--slider](class-names.md#hermes-layout--slid
 If you are using browserify, you may want to call this function at some point...
 
 ```javascript
-var hermes = require('hermes-slider');
-hermes.boot(document.body);
+var htSlider = require('hyper-text-slider');
+htSlider.boot(document.body);
 ```
 
 ...or even consider implementing bootup by yourself.
@@ -77,7 +77,7 @@ hermes.boot(document.body);
 
 *@return* - {Array<Slider>} array containing all created [Slider](javascript-api.md#slider) instances
 
-*@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
+*@see* - [ht-autoboot](class-names.md#ht-autoboot)
 
 <!-- End lib/core/boot.js -->
 
@@ -87,7 +87,7 @@ hermes.boot(document.body);
 
 > **NOTE**
 >
-> Hermes JavaScript API should be used only when specific initialization or integration
+> HyperText Slider JavaScript API should be used only when specific initialization or integration
 > with other parts of the website is required. In other (simpler) cases please consider
 > using [declarative API](class-names.md).
 
@@ -95,10 +95,10 @@ hermes.boot(document.body);
 
 ```javascript
 // browserify is supported
-var hermes = require('hermes-slider');
+var ht = require('hyper-text-slider');
 
 window.addEventListener('load', function() {
-  var slider = new hermes.Slider(document.getElementById('my-slider'));
+  var slider = new ht.Slider(document.getElementById('my-slider'));
   slider.start();
 });
 ```
@@ -177,7 +177,7 @@ slider.start(function() {
 
 *@postcondition* - calling [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) again will throw exception
 
-*@see* - [hermes-autoboot](class-names.md#hermes-autoboot)
+*@see* - [ht-autoboot](class-names.md#ht-autoboot)
 
 #### Slider.prototype.moveToNext()
 
@@ -185,7 +185,7 @@ Moves slider to next slide.
 
 *@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
 
-*@see* - [hermes-option--autoplay](class-names.md#hermes-option--autoplay)
+*@see* - [ht-option--autoplay](class-names.md#ht-option--autoplay)
 
 #### Slider.prototype.moveToPrevious()
 
@@ -304,16 +304,16 @@ will be used as an example throughout this documentation.
 There are 3 phases of a transition. Each phase is identified by a [phase class name](class-names.md#transition-phase-class-names)
 that is set by the Phaser on the container DOM element. Transitions are as follows.
 
- 1. When transition is started, [hermes-before-transition](class-names.md#hermes-before-transition) class name is set on container
+ 1. When transition is started, [ht-before-transition](class-names.md#ht-before-transition) class name is set on container
    DOM element. This phase is used to prepare all DOM elements inside a container element.
    In case of slide's content, `opacity` is set to `0` and `transform` is set to `scale(1.15)`.
    Slide is invisible and slightly zoomed-in. This phase lasts for 1 millisecond.
- 2. After 1 millisecond, next phase ([hermes-during-transition](class-names.md#hermes-during-transition)) is automatically started.
+ 2. After 1 millisecond, next phase ([ht-during-transition](class-names.md#ht-during-transition)) is automatically started.
    This is when all animation happens. Contents of current slide fading away
    (`opacity:0; transform:scale(1);`) and next slide is fading-in
    (`opacity:1; transform:scale(1.35);`). This phase last long (typically seconds).
    Time varies depending on transition being used.
- 3. After animation is done, Phaser sets the phase to [hermes-after-transition](class-names.md#hermes-after-transition).
+ 3. After animation is done, Phaser sets the phase to [ht-after-transition](class-names.md#ht-after-transition).
    There is a possibility of altering CSS in this phase (e.g. slight change of font color),
    but in zoom-in-out there is no style change after transition.
 

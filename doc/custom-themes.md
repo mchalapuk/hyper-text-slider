@@ -18,14 +18,14 @@
 
 # Adding Custom Themes
 
-Themes which are built-in into hermes ([`hermes-theme--white`][theme-white],
-[`hermes-theme--black`][theme-black]) are very basic. They define background
+Themes which are built-in into HyperText Slider ([`ht-theme--white`][theme-white],
+[`ht-theme--black`][theme-black]) are very basic. They define background
 color and contrast color for foreground elements, nothing more. They are very
 useful when hacking a slider prototype, but production sliders should use other
 themes which define more color variants, styling for controls and typography.
 
-[theme-white]: class-names.md#hermes-theme--white
-[theme-black]: class-names.md#hermes-theme--black
+[theme-white]: class-names.md#ht-theme--white
+[theme-black]: class-names.md#ht-theme--black
 
 ## Defining a Theme
 
@@ -42,17 +42,17 @@ Example below defines a theme with a red background color and very contrasting
 white foreground elements.
 
 ```sass
-.hermes-theme--red {
-  .hermes-layout--background {
+.ht-theme--red {
+  .ht-layout--background {
     background-color: red;
   }
 
-  .hermes-layout--content,
-  .hermes-layout--arrow {
+  .ht-layout--content,
+  .ht-layout--arrow {
     color: white;
   }
 
-  .hermes-layout--dot {
+  .ht-layout--dot {
     background-color: rgba(255, 255, 255, 0.4);
     border-color: white;
 
@@ -79,14 +79,14 @@ not fit in every design. Following theme changes arrow styling so that they
 use svg images.
 
 ```sass
-.hermes-theme--fancy-arrows {
-  .hermes-layout--arrow-left {
+.ht-theme--fancy-arrows {
+  .ht-layout--arrow-left {
     &::after {
       content: "", /* to remove default arrows */
     }
     background-image: url('images/fancy-arrow-left.svg');
   }
-  .hermes-layout--arrow-right {
+  .ht-layout--arrow-right {
     &::after {
       content: "", /* to remove default arrows */
     }
@@ -103,8 +103,8 @@ The same techinique can be used to change it.
 Theme can also specify typography rules for a slide.
 
 ```sass
-.hermes-theme--roboto {
-  .hermes-layout--content {
+.ht-theme--roboto {
+  .ht-layout--content {
     font-family: Roboto, Helvetica, sans-serif;
 
     p {
@@ -138,12 +138,12 @@ slide. Themes can be combined (many themes declared on one slide), which
 enables declaring color themes separately from typography.
 
 ```html
-<div class="hermes-slider
-            hermes-defaults
-            hermes-theme--black
-            hermes-theme--roboto">
-  <div id="hello" class="hermes-theme--red
-                         hermes-theme--roboto">
+<div class="ht-slider
+            ht-defaults
+            ht-theme--black
+            ht-theme--roboto">
+  <div id="hello" class="ht-theme--red
+                         ht-theme--roboto">
     <h1>Hello!!!</h1>
   </div>
   <div id="bye">
@@ -152,8 +152,8 @@ enables declaring color themes separately from typography.
 </div>
 ```
 
-In example above, first slide uses `hermes-theme--red` and
-`hermes-theme--roboto` themes. Second slide uses `hermes-theme--black`
-and `hermes-theme--roboto` (rewriten from slider elemenet during
+In example above, first slide uses `ht-theme--red` and
+`ht-theme--roboto` themes. Second slide uses `ht-theme--black`
+and `ht-theme--roboto` (rewriten from slider elemenet during
 [DOM upgrade](dom-upgrade.md)).
 

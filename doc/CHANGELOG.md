@@ -3,7 +3,7 @@
 [gulp-uglify]: https://github.com/terinjokes/gulp-uglify
 [stylelint]: https://github.com/stylelint/stylelint
 
-[hermes-boot]: javascript-api.md#bootcontainerelement
+[ht-boot]: javascript-api.md#bootcontainerelement
 [slider-start]: javascript-api.md#sliderstartcallback
 [slider-on]: javascript-api.md#sliderprototypeoneventname-listener
 [slider-remove-listener]: javascript-api.md#sliderprototyperemovelistenereventname-listener
@@ -12,63 +12,63 @@
 [time-class-names]: class-names.md#time-class-names
 [option-class-names]: class-names.md#option-class-names
 [common-class-names]: class-names.md#common-class-names
-[hermes-autoboot]: class-names.md#hermes-autoboot
-[hermes-slider]: class-names.md#hermes-slider
-[hermes-defaults]: class-names.md#hermes-defaults
-[theme-white]: class-names.md#hermes-theme--white
-[theme-black]: class-names.md#hermes-theme--black
-[theme-arrows]: class-names.md#hermes-theme--basic-arrows
-[theme-dots]: class-names.md#hermes-theme--basic-dots
-[theme-hv-arrows]: class-names.md#hermes-theme--hover-visible-arrows
-[theme-hv-dots]: class-names.md#hermes-theme--hover-visible-dots
-[theme-ho-arrows]: class-names.md#hermes-theme--hover-opaque-arrows
-[theme-ho-dots]: class-names.md#hermes-theme--hover-opaque-dots
-[theme-responsive-arrows]: class-names.md#hermes-theme--responsive-arrows
-[theme-controls]: class-names.md#hermes-theme--basic-controls
-[theme-ho-controls]: class-names.md#hermes-theme--hover-opaque-controls
-[theme-hv-controls]: class-names.md#hermes-theme--hover-visible-controls
-[theme-defaults]: class-names.md#hermes-theme--defaults
-[theme-regex]: class-names.md#hermes-theme--sg
-[option-defaults]: class-names.md#hermes-option--defaults
-[zoom-out-in]: class-names.md#hermes-transition--zoom-out-in
-[bg-zoom-in-out]: class-names.md#hermes-transition--bg-zoom-in-out
-[layout-controls]: class-names.md#hermes-layout--controls
-[layout-slider]: class-names.md#hermes-layout--slider
-[layout-content]: class-names.md#hermes-layout--content
-[slide-from]: class-names.md#hermes-slide-from
-[slide-to]: class-names.md#hermes-slide-to
-[slide-id]: class-names.md#hermes-slide-id-s
+[ht-autoboot]: class-names.md#ht-autoboot
+[ht-slider]: class-names.md#ht-slider
+[ht-defaults]: class-names.md#ht-defaults
+[theme-white]: class-names.md#ht-theme--white
+[theme-black]: class-names.md#ht-theme--black
+[theme-arrows]: class-names.md#ht-theme--basic-arrows
+[theme-dots]: class-names.md#ht-theme--basic-dots
+[theme-hv-arrows]: class-names.md#ht-theme--hover-visible-arrows
+[theme-hv-dots]: class-names.md#ht-theme--hover-visible-dots
+[theme-ho-arrows]: class-names.md#ht-theme--hover-opaque-arrows
+[theme-ho-dots]: class-names.md#ht-theme--hover-opaque-dots
+[theme-responsive-arrows]: class-names.md#ht-theme--responsive-arrows
+[theme-controls]: class-names.md#ht-theme--basic-controls
+[theme-ho-controls]: class-names.md#ht-theme--hover-opaque-controls
+[theme-hv-controls]: class-names.md#ht-theme--hover-visible-controls
+[theme-defaults]: class-names.md#ht-theme--defaults
+[theme-regex]: class-names.md#ht-theme--sg
+[option-defaults]: class-names.md#ht-option--defaults
+[zoom-out-in]: class-names.md#ht-transition--zoom-out-in
+[bg-zoom-in-out]: class-names.md#ht-transition--bg-zoom-in-out
+[layout-controls]: class-names.md#ht-layout--controls
+[layout-slider]: class-names.md#ht-layout--slider
+[layout-content]: class-names.md#ht-layout--content
+[slide-from]: class-names.md#ht-slide-from
+[slide-to]: class-names.md#ht-slide-to
+[slide-id]: class-names.md#ht-slide-id-s
 
 # v0.7.0
 
- * Removed `hermes-show-arrows`, `hermes-show-dots`, and
-  `hermes-responsive-controls` option classes,
- * Added [`hermes-theme--basic-arrows`][theme-arrows],
-   [`hermes-theme--basic-dots`][theme-dots],
- * Added [`hermes-theme--responsive-arrows`][theme-responsive-arrows],
- * Added [`hermes-theme--hover-visible-arrows`][theme-hv-arrows],
-   [`hermes-theme--hover-visible-dots`][theme-hv-dots],
- * Added [`hermes-theme--hover-opaque-arrows`][theme-ho-arrows],
-   [`hermes-theme--hover-opaque-dots`][theme-ho-dots],
- * Added [`hermes-theme--basic-controls`][theme-controls] theme group,
- * Added [`hermes-theme--hover-visible-controls`][theme-hv-controls] theme group,
- * Added [`hermes-theme--hover-opaque-controls`][theme-ho-controls] theme group,
- * Changed selectors of [`hermes-theme--white`][theme-white] and
-   [`hermes-theme-black`][theme-black] to stronger ones, so they override
+ * Removed `ht-show-arrows`, `ht-show-dots`, and
+  `ht-responsive-controls` option classes,
+ * Added [`ht-theme--basic-arrows`][theme-arrows],
+   [`ht-theme--basic-dots`][theme-dots],
+ * Added [`ht-theme--responsive-arrows`][theme-responsive-arrows],
+ * Added [`ht-theme--hover-visible-arrows`][theme-hv-arrows],
+   [`ht-theme--hover-visible-dots`][theme-hv-dots],
+ * Added [`ht-theme--hover-opaque-arrows`][theme-ho-arrows],
+   [`ht-theme--hover-opaque-dots`][theme-ho-dots],
+ * Added [`ht-theme--basic-controls`][theme-controls] theme group,
+ * Added [`ht-theme--hover-visible-controls`][theme-hv-controls] theme group,
+ * Added [`ht-theme--hover-opaque-controls`][theme-ho-controls] theme group,
+ * Changed selectors of [`ht-theme--white`][theme-white] and
+   [`ht-theme-black`][theme-black] to stronger ones, so they override
    colors of&nbsp;control elements (arrows and dots) defined in other themes,
- * Added [`hermes-theme--defaults`][theme-defaults],
- * If no themes declared, themes from [`hermes-theme--defaults`][theme-defaults] are used,
- * Extracted [`hermes-autoboot`][hermes-autoboot], [`hermes-slider`][hermes-slider] and [`hermes-defaults`][hermes-defaults]
+ * Added [`ht-theme--defaults`][theme-defaults],
+ * If no themes declared, themes from [`ht-theme--defaults`][theme-defaults] are used,
+ * Extracted [`ht-autoboot`][ht-autoboot], [`ht-slider`][ht-slider] and [`ht-defaults`][ht-defaults]
    to [Common Class Names][common-class-names],
- * Added [`hermes-option--defaults`][option-defaults],
- * [`hermes-defaults`][hermes-defaults] now adds
-   [`hermes-option--defaults`][option-defaults] and [`hermes-theme--defaults`][theme-defaults] classes,
- * As of now, all option classes have `hermes-option--` prefix.
- 
+ * Added [`ht-option--defaults`][option-defaults],
+ * [`ht-defaults`][ht-defaults] now adds
+   [`ht-option--defaults`][option-defaults] and [`ht-theme--defaults`][theme-defaults] classes,
+ * As of now, all option classes have `ht-option--` prefix.
+
 # v0.6.4
 
- * Fixed `white-space` (`normal` instead of `nowrap`) for [`hermes-layout--content`][layout-content],
- * Added default side padding (`80px`) for [`hermes-layout--content`][layout-content].
+ * Fixed `white-space` (`normal` instead of `nowrap`) for [`ht-layout--content`][layout-content],
+ * Added default side padding (`80px`) for [`ht-layout--content`][layout-content].
 
 # v0.6.2
 
@@ -80,21 +80,21 @@
 
 # v0.6.0
 
- * Renamed `hermes-transition--zoom-in-out` to [`hermes-transition--zoom-out-in`][zoom-out-in],
- * Added [`hermes-transition--bg-zoom-in-out`][bg-zoom-in-out],
- * Added data URI pattern and darkening overlay out background in [`hermes-theme--black`][theme-black],
- * Added anchor color definitions in [`hermes-theme--white`][theme-white] and [`hermes-theme--black`][theme-black],
- * Added z-indices to [`hermes-slide-from`][slide-from], [`hermes-slide-to`][slide-to]
-   and [`hermes-layout--contols`][layout-controls].
+ * Renamed `ht-transition--zoom-in-out` to [`ht-transition--zoom-out-in`][zoom-out-in],
+ * Added [`ht-transition--bg-zoom-in-out`][bg-zoom-in-out],
+ * Added data URI pattern and darkening overlay out background in [`ht-theme--black`][theme-black],
+ * Added anchor color definitions in [`ht-theme--white`][theme-white] and [`ht-theme--black`][theme-black],
+ * Added z-indices to [`ht-slide-from`][slide-from], [`ht-slide-to`][slide-to]
+   and [`ht-layout--contols`][layout-controls].
 
 # v0.5.0
 
  * Added extendible [theme mechanism][theme-regex],
- * Added [`hermes-theme--white`][theme-white] and [`hermes-theme--black`][theme-black],
+ * Added [`ht-theme--white`][theme-white] and [`ht-theme--black`][theme-black],
  * Documented [adding custom themes](custom-themes.md),
  * Multiple transitions can be used on one slide,
  * Each slide receives transition class name during [slider's DOM upgrade](dom-upgrade.md),
- * Added [`hermes-transition--zoom-in-out`][zoom-out-in].
+ * Added [`ht-transition--zoom-in-out`][zoom-out-in].
 
 # v0.4.1
 
@@ -109,31 +109,31 @@
  * Slides are inserted into slides array in proper order in Chromium,
  * Fixed starting first transition in Chromium,
  * Renamed `src` folder to `lib`,
- * Default transition is compiled into hermes.css.
+ * Default transition is compiled into slider.css.
 
 # v0.3.2
 
- * Fixed an import in [`src/_hermes.scss`](../src/_hermes.scss).
+ * Fixed an import in [`src/_slider.scss`](../src/_slider.scss).
 
 # v0.3.1
 
  * Documented [slider's DOM upgrade procedure](dom-upgrade.md).
- * Added [`hermes-slider`][hermes-slider] as an alias for [`hermes-layout--slider`][layout-slider].
- * Replaced `hermes-create-arrows` with `hermes-show-arrows`.
- * Replaced `hermes-create-dots` with `hermes-show-dots`.
- * Made specifying transition class optional (`hermes-transition--zoom-in-out` is default).
+ * Added [`ht-slider`][ht-slider] as an alias for [`ht-layout--slider`][layout-slider].
+ * Replaced `ht-create-arrows` with `ht-show-arrows`.
+ * Replaced `ht-create-dots` with `ht-show-dots`.
+ * Made specifying transition class optional (`ht-transition--zoom-in-out` is default).
  * All direct children of slider are treated as slides.
  * Fixed click event listener of dot buttons.
 
 # v0.3.0
 
  * Fixed DOM upgrade procedure.
- * Removed `hermes-layout--inner` CSS class.
- * Added [`boot(containerElement)`][hermes-boot] procedure.
- * Replaced `hermes-autostart` option with [`hermes-autoboot`][hermes-autoboot].
+ * Removed `ht-layout--inner` CSS class.
+ * Added [`boot(containerElement)`][ht-boot] procedure.
+ * Replaced `ht-autostart` option with [`ht-autoboot`][ht-autoboot].
  * Made [`Slider.start(callback)` ][slider-start] method asynchronouse
- * Added `hermes-responsive-controls` option to [`hermes-defaults`][hermes-defaults].
- * Added [`hermes-layout--controls`][layout-controls] class name.
+ * Added `ht-responsive-controls` option to [`ht-defaults`][ht-defaults].
+ * Added [`ht-layout--controls`][layout-controls] class name.
  * Added default slide time of 5 sec.
  * Documented [Time Class Names][time-class-names].
  * Added possibility of setting all [options][option-class-names]
@@ -148,7 +148,7 @@
 
 # v0.2.4
 
- * Added `hermes-responsive-controls` option class.
+ * Added `ht-responsive-controls` option class.
  * Documented [Screen Responsiveness][v0.2.4_2].
  * Created [CHANGELOG][v0.2.4_3].
 
@@ -174,7 +174,7 @@
  * Published in [NPM][v0.2.1_2].
 
 [v0.2.1_1]: package.json
-[v0.2.1_2]: https://www.npmjs.com/package/hermes-slider
+[v0.2.1_2]: https://www.npmjs.com/package/hyper-text-slider
 
 # v0.2.0
 
@@ -182,7 +182,7 @@
  * Written documentation for [Declarative API][v0.2.0_2].
  * Written documentation for [JavaScript API][v0.2.0_3].
 
-[v0.2.0_1]: https://travis-ci.org/webfront-toolkit/hermes
+[v0.2.0_1]: https://travis-ci.org/webfront-toolkit/hyper-text-slider
 [v0.2.0_2]: doc/class-names.md
 [v0.2.0_3]: doc/javascript-api.md
 

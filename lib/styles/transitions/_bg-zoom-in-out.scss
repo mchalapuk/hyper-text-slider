@@ -16,24 +16,24 @@
 
 */
 
-.hermes-transition--bg-zoom-in-out {
-  &.hermes-before-transition {
-    .hermes-slide-to {
-      .hermes-layout--background {
+.ht-transition--bg-zoom-in-out {
+  &.ht-before-transition {
+    .ht-slide-to {
+      .ht-layout--background {
         @include transform(scale(1.07, 1.07));
       }
     }
   }
 
-  &.hermes-during-transition {
-    .hermes-slide-from {
-      .hermes-layout--background {
+  &.ht-during-transition {
+    .ht-slide-from {
+      .ht-layout--background {
         @include transform(scale(1, 1));
       }
     }
 
-    .hermes-slide-to {
-      .hermes-layout--background {
+    .ht-slide-to {
+      .ht-layout--background {
         @include transform(scale(1.1, 1.1));
       }
     }

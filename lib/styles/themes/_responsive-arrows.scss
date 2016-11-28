@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,23 +18,23 @@
 
 /* slider arrows get smaller and move to bottom on tablets and phones */
 
-.hermes-theme--responsive-arrows {
-  .hermes-layout--arrow {
+.ht-theme--responsive-arrows {
+  .ht-layout--arrow {
     width: calc((100% - #{$max-slide-width} + 40px) / 2);
   }
 }
 
 @media screen and (min-width: $breakpoint-narrow-to-normal) and (max-width: $breakpoint-normal-to-wide) {
-  .hermes-theme--responsive-arrows {
-    .hermes-layout--arrow {
+  .ht-theme--responsive-arrows {
+    .ht-layout--arrow {
       width: 80px;
     }
   }
 }
 
 @media screen and (min-width: 0) and (max-width: $breakpoint-narrow-to-normal) {
-  .hermes-theme--responsive-arrows {
-    .hermes-layout--arrow {
+  .ht-theme--responsive-arrows {
+    .ht-layout--arrow {
       width: calc(40% - 40px);
       padding: 0;
 

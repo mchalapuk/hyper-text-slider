@@ -18,8 +18,8 @@
 
 $data: "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAADklEQVQIW2NgQAXGZHAAGioAza6+Hk0AAAAASUVORK5CYII=";
 
-.hermes-layout--slider.hermes-theme--black {
-  .hermes-layout--background {
+.ht-layout--slider.ht-theme--black {
+  .ht-layout--background {
     background-color: black;
 
     &::after {
@@ -31,7 +31,7 @@ $data: "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAADklEQVQIW2NgQAXGZHAAGioA
     }
   }
 
-  .hermes-layout--content {
+  .ht-layout--content {
     color: white;
   }
 
@@ -52,11 +52,11 @@ $data: "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAADklEQVQIW2NgQAXGZHAAGioA
     }
   }
 
-  .hermes-layout--arrow {
+  .ht-layout--arrow {
     color: white;
   }
 
-  .hermes-layout--dot {
+  .ht-layout--dot {
     background-color: rgba(255, 255, 255, 0.4);
     border-color: white;
 

@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 */
 
 /* TODO slider shouldn't be mentioned if Phaser is to be used alone */
-.hermes-layout--slider.is-upgraded.hermes-before-transition {
-  .hermes-slide-to {
-    .hermes-layout--background,
-    .hermes-layout--content {
+.ht-layout--slider.is-upgraded.ht-before-transition {
+  .ht-slide-to {
+    .ht-layout--background,
+    .ht-layout--content {
       @include transition(all 1ms linear);
     }
   }

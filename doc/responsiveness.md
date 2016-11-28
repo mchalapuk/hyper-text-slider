@@ -35,14 +35,14 @@
 
 ## Responsive Controls
 
-Adding class [hermes-theme--responsive-arrows][10] to slide (or slider) element
+Adding class [ht-theme--responsive-arrows][10] to slide (or slider) element
 makes layout of slider arrows dependent on screen resolution.
 
 ```html
-<div class="hermes-layout--slider
-            hermes-create-arrows
-            hermes-create-dots
-            hermes-theme--responsive-arrows">
+<div class="ht-layout--slider
+            ht-create-arrows
+            ht-create-dots
+            ht-theme--responsive-arrows">
   ...
 </div>
 ```
@@ -53,26 +53,26 @@ code (see [CSS Import Options][12]).
 
 ```sass
 // load default values of configuration variables
-@import 'bower_components/hermes/src/sass/_variables';
+@import 'bower_components/hyper-text-slider/src/sass/_variables';
 
 // override breakpoint-related variables
 $max-slide-width: 64 * 16px; // must be in px (it's used in calc expressions)
 $breakpoint-normal-to-wide: 64em;
 $breakpoint-narrow-to-normal: 38em;
 
-// load css code of hermes slider
-@import 'bower_components/hermes/src/sass/_styles';
+// load css code of HyperText Slider
+@import 'bower_components/hyper-text-slider/src/sass/_styles';
 ```
 
-[10]: class-names.md#hermes-responsive-controls
+[10]: class-names.md#ht-responsive-controls
 [11]: ../src/sass/_variables.scss
 [12]: css-import-options.md
 
 ## Responsive Slider Height
 
-There are no utilities inside hermes for changing slider height in response to
-screen resolution. Traditional [CSS Media Queries][20] must be used in order to
-achieve desired effect.
+There are no utilities inside HyperTest Slider for changing slider height
+in response to screen resolution. Traditional [CSS Media Queries][20]
+must be used in order to achieve responsive height.
 
 ```sass
 #slider {

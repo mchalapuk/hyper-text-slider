@@ -1,7 +1,7 @@
 {
-  "name": "hermes-slider",
+  "name": "hyper-text-slider",
   "version": "0.7.1",
-  "description": "Powerful CSS3 Slider",
+  "description": "Declarative CSS3-Powered Slider HTML Component",
   "main": "index.js",
   "keywords": [
     "slider",
@@ -18,10 +18,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webfront-toolkit/hermes"
+    "url": "https://github.com/muroc/hyper-text-slider"
   },
   "author": "Maciej Chałapuk",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "browserify": "^13.0.1",
     "colors": "^1.1.2",

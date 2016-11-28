@@ -16,14 +16,14 @@
 
 */
 
-.hermes-layout--slider,
-.hermes-slider {
-  > :not(.is-upgraded):not(.hermes-layout--controls) {
+.ht-layout--slider,
+.ht-slider {
+  > :not(.is-upgraded):not(.ht-layout--controls) {
     opacity: 0;
   }
 }
 
-@keyframes hermesSlideInserted {
+@keyframes htSlideInserted {
   from {
     opacity: 0.01;
   }
@@ -33,8 +33,8 @@
   }
 }
 
-.hermes-layout--slider.is-upgraded > :not(.hermes-layout--controls) {
+.ht-layout--slider.is-upgraded > :not(.ht-layout--controls) {
   animation-duration: 1ms;
-  animation-name: hermesSlideInserted;
+  animation-name: htSlideInserted;
 }
 

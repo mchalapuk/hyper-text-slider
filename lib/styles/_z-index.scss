@@ -16,19 +16,19 @@
 
 */
 
-.hermes-slide-from {
-  .hermes-layout--content {
+.ht-slide-from {
+  .ht-layout--content {
     z-index: -1;
   }
 }
 
-.hermes-slide-to {
-  .hermes-layout--content {
+.ht-slide-to {
+  .ht-layout--content {
     z-index: 1;
   }
 }
 
-.hermes-layout--consols {
+.ht-layout--consols {
   z-index: 0;
 }
 

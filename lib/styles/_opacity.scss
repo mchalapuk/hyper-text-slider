@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 */
 
-.hermes-layout--slider:not(.hermes-before-transition) {
-  .hermes-slide-to {
-    .hermes-layout--background {
+.ht-layout--slider:not(.ht-before-transition) {
+  .ht-slide-to {
+    .ht-layout--background {
       opacity: 1;
     }
 
-    .hermes-layout--content {
+    .ht-layout--content {
       opacity: 0.8;
     }
   }

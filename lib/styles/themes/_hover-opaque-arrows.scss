@@ -16,14 +16,14 @@
 
 */
 
-.hermes-theme--hover-opaque-arrows {
-  .hermes-layout--arrow {
+.ht-theme--hover-opaque-arrows {
+  .ht-layout--arrow {
     opacity: 0.4;
   }
 
   &:hover,
   &:active {
-    .hermes-layout--arrow {
+    .ht-layout--arrow {
       opacity: 0.8;
 
       &:hover,

@@ -29,10 +29,10 @@ module.exports = {
 
     /*
       Main styles for slider mechanism.
-      `hermes.scss` imports all underscore-prefixed files.
+      `slider.scss` imports all underscore-prefixed files.
     */
     {
-      main: 'lib/styles/hermes.scss',
+      main: 'lib/styles/slider.scss',
       src: [
         'lib/**/*.scss',
       ],

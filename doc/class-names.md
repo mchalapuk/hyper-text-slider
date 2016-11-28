@@ -23,58 +23,58 @@ limitations under the License.
 **Table of Contents**
 
 1. [Common Class Names](class-names.md#common-class-names)<ul>
-<li>[hermes-autoboot](class-names.md#hermes-autoboot)
-<li>[hermes-slider](class-names.md#hermes-slider)
-<li>[hermes-defaults](class-names.md#hermes-defaults)</ul>
+<li>[ht-autoboot](class-names.md#ht-autoboot)
+<li>[ht-slider](class-names.md#ht-slider)
+<li>[ht-defaults](class-names.md#ht-defaults)</ul>
 2. [Option Class Names](class-names.md#option-class-names)<ul>
-<li>[hermes-option--defaults](class-names.md#hermes-option--defaults)
-<li>[hermes-option--autoplay](class-names.md#hermes-option--autoplay)
-<li>[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys)</ul>
+<li>[ht-option--defaults](class-names.md#ht-option--defaults)
+<li>[ht-option--autoplay](class-names.md#ht-option--autoplay)
+<li>[ht-option--arrow-keys](class-names.md#ht-option--arrow-keys)</ul>
 3. [Theme Class Names](class-names.md#theme-class-names)<ul>
-<li>[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows)
-<li>[hermes-theme--white](class-names.md#hermes-theme--white)
-<li>[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows)
-<li>[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots)
-<li>[hermes-theme--black](class-names.md#hermes-theme--black)
-<li>[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots)
-<li>[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
-<li>[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows)
-<li>[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows)
-<li>[hermes-theme--basic-controls](class-names.md#hermes-theme--basic-controls)
-<li>[hermes-theme--hover-visible-controls](class-names.md#hermes-theme--hover-visible-controls)
-<li>[hermes-theme--hover-opaque-controls](class-names.md#hermes-theme--hover-opaque-controls)
-<li>[hermes-theme--defaults](class-names.md#hermes-theme--defaults)</ul>
+<li>[ht-theme--responsive-arrows](class-names.md#ht-theme--responsive-arrows)
+<li>[ht-theme--white](class-names.md#ht-theme--white)
+<li>[ht-theme--hover-visible-arrows](class-names.md#ht-theme--hover-visible-arrows)
+<li>[ht-theme--basic-dots](class-names.md#ht-theme--basic-dots)
+<li>[ht-theme--black](class-names.md#ht-theme--black)
+<li>[ht-theme--hover-visible-dots](class-names.md#ht-theme--hover-visible-dots)
+<li>[ht-theme--hover-opaque-dots](class-names.md#ht-theme--hover-opaque-dots)
+<li>[ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows)
+<li>[ht-theme--hover-opaque-arrows](class-names.md#ht-theme--hover-opaque-arrows)
+<li>[ht-theme--basic-controls](class-names.md#ht-theme--basic-controls)
+<li>[ht-theme--hover-visible-controls](class-names.md#ht-theme--hover-visible-controls)
+<li>[ht-theme--hover-opaque-controls](class-names.md#ht-theme--hover-opaque-controls)
+<li>[ht-theme--defaults](class-names.md#ht-theme--defaults)</ul>
 4. [Transition Class Names](class-names.md#transition-class-names)<ul>
-<li>[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
-<li>[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out)</ul>
+<li>[ht-transition--zoom-out-in](class-names.md#ht-transition--zoom-out-in)
+<li>[ht-transition--bg-zoom-in-out](class-names.md#ht-transition--bg-zoom-in-out)</ul>
 5. [Time Class Names](class-names.md#time-class-names)<ul>
-<li>[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec)
-<li>[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec)</ul>
+<li>[ht-slide-time-3sec](class-names.md#ht-slide-time-3sec)
+<li>[ht-slide-time-7sec](class-names.md#ht-slide-time-7sec)</ul>
 6. [Transition Phase Class Names](class-names.md#transition-phase-class-names)<ul>
-<li>[hermes-before-transition](class-names.md#hermes-before-transition)
-<li>[hermes-during-transition](class-names.md#hermes-during-transition)
-<li>[hermes-after-transition](class-names.md#hermes-after-transition)</ul>
+<li>[ht-before-transition](class-names.md#ht-before-transition)
+<li>[ht-during-transition](class-names.md#ht-during-transition)
+<li>[ht-after-transition](class-names.md#ht-after-transition)</ul>
 7. [Transition Marker Class Names](class-names.md#transition-marker-class-names)<ul>
-<li>[hermes-slide-from](class-names.md#hermes-slide-from)
-<li>[hermes-slide-to](class-names.md#hermes-slide-to)</ul>
+<li>[ht-slide-from](class-names.md#ht-slide-from)
+<li>[ht-slide-to](class-names.md#ht-slide-to)</ul>
 8. [Layout Class Names](class-names.md#layout-class-names)<ul>
-<li>[hermes-layout--slider](class-names.md#hermes-layout--slider)
-<li>[hermes-layout--slide](class-names.md#hermes-layout--slide)
-<li>[hermes-layout--background](class-names.md#hermes-layout--background)
-<li>[hermes-layout--content](class-names.md#hermes-layout--content)
-<li>[hermes-layout--controls](class-names.md#hermes-layout--controls)
-<li>[hermes-layout--arrow](class-names.md#hermes-layout--arrow)
-<li>[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left)
-<li>[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right)
-<li>[hermes-layout--dots](class-names.md#hermes-layout--dots)
-<li>[hermes-layout--dot](class-names.md#hermes-layout--dot)</ul>
+<li>[ht-layout--slider](class-names.md#ht-layout--slider)
+<li>[ht-layout--slide](class-names.md#ht-layout--slide)
+<li>[ht-layout--background](class-names.md#ht-layout--background)
+<li>[ht-layout--content](class-names.md#ht-layout--content)
+<li>[ht-layout--controls](class-names.md#ht-layout--controls)
+<li>[ht-layout--arrow](class-names.md#ht-layout--arrow)
+<li>[ht-layout--arrow-left](class-names.md#ht-layout--arrow-left)
+<li>[ht-layout--arrow-right](class-names.md#ht-layout--arrow-right)
+<li>[ht-layout--dots](class-names.md#ht-layout--dots)
+<li>[ht-layout--dot](class-names.md#ht-layout--dot)</ul>
 9. [Flag Class Names](class-names.md#flag-class-names)<ul>
 <li>[is-upgraded](class-names.md#is-upgraded)
 <li>[is-active](class-names.md#is-active)</ul>
 10. [Other Class Names](class-names.md#other-class-names)<ul>
-<li>[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg)
-<li>[/hermes-theme--([^\s]+)/g](class-names.md#hermes-theme--\sg)
-<li>[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s)</ul>
+<li>[/ht-transition--([^\s]+)/g](class-names.md#ht-transition--\sg)
+<li>[/ht-theme--([^\s]+)/g](class-names.md#ht-theme--\sg)
+<li>[/ht-slide-id-([^\s]+)/](class-names.md#ht-slide-id-\s)</ul>
 
 <!-- Start lib/enums/common.js -->
 
@@ -99,23 +99,23 @@ There are two categories of class names:
 
 Name | Description | Checked | Target Element | Client HTML
 --- | --- | --- | --- | ---
-[hermes-autoboot](class-names.md#hermes-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>` | mandatory
-[hermes-slider](class-names.md#hermes-slider) | Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider). | once | [hermes-layout--slider](class-names.md#hermes-layout--slider) | mandatory
-[hermes-defaults](class-names.md#hermes-defaults) | Adds [hermes-option--defaults](class-names.md#hermes-option--defaults) and [hermes-theme--defaults](class-names.md#hermes-theme--defaults) classes to the slider. | once | [hermes-layout--slider](class-names.md#hermes-layout--slider) | optional
+[ht-autoboot](class-names.md#ht-autoboot) | Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods. | once | document's `<body>` | mandatory
+[ht-slider](class-names.md#ht-slider) | Alias for [ht-layout--slider](class-names.md#ht-layout--slider). | once | [ht-layout--slider](class-names.md#ht-layout--slider) | mandatory
+[ht-defaults](class-names.md#ht-defaults) | Adds [ht-option--defaults](class-names.md#ht-option--defaults) and [ht-theme--defaults](class-names.md#ht-theme--defaults) classes to the slider. | once | [ht-layout--slider](class-names.md#ht-layout--slider) | optional
 
 ### Details
 
-#### hermes-autoboot
+#### ht-autoboot
 
 Automatically creates [Slider](javascript-api.md#slider) objects for all sliders declared on the page
 and invokes their [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) methods.
 
 This options can be set only on `<body>` element.
-It enabled using Hermes without any JavaScript programming.
+It enabled using HyperText Slider without any JavaScript programming.
 
 > ***WARNING***
 >
-> When using Hermes via node and broserify, this option is ignored.
+> When using HyperText Slider via node and broserify, this option is ignored.
 
 *@checked* - [once](#once)
 
@@ -125,21 +125,21 @@ It enabled using Hermes without any JavaScript programming.
 
 *@see* - [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
 
-#### hermes-slider
+#### ht-slider
 
-Alias for [hermes-layout--slider](class-names.md#hermes-layout--slider).
-
-*@checked* - [once](#once)
-
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
-
-#### hermes-defaults
-
-Adds [hermes-option--defaults](class-names.md#hermes-option--defaults) and [hermes-theme--defaults](class-names.md#hermes-theme--defaults) classes to the slider.
+Alias for [ht-layout--slider](class-names.md#ht-layout--slider).
 
 *@checked* - [once](#once)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - [ht-layout--slider](class-names.md#ht-layout--slider)
+
+#### ht-defaults
+
+Adds [ht-option--defaults](class-names.md#ht-option--defaults) and [ht-theme--defaults](class-names.md#ht-theme--defaults) classes to the slider.
+
+*@checked* - [once](#once)
+
+*@target* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
 <!-- End lib/enums/common.js -->
 
@@ -149,31 +149,31 @@ Adds [hermes-option--defaults](class-names.md#hermes-option--defaults) and [herm
 
 Option classes enable features of the slider.
 
-Most options are intended to be set on [hermes-layout--slider](class-names.md#hermes-layout--slider) element, but they can also be
-set on document's `<body>`. Options set on `<body>` are treated as defaults for each [hermes-layout--slider](class-names.md#hermes-layout--slider) declared on the page.
+Most options are intended to be set on [ht-layout--slider](class-names.md#ht-layout--slider) element, but they can also be
+set on document's `<body>`. Options set on `<body>` are treated as defaults for each [ht-layout--slider](class-names.md#ht-layout--slider) declared on the page.
 
 ### Summary
 
 Name | Description | Checked | Target Element
 --- | --- | --- | ---
-[hermes-option--defaults](class-names.md#hermes-option--defaults) | Adds [hermes-option--autoplay](class-names.md#hermes-option--autoplay), [hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys) classes to the slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-option--autoplay](class-names.md#hermes-option--autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
-[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys) | Adds keyboard control to slider. | once | `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+[ht-option--defaults](class-names.md#ht-option--defaults) | Adds [ht-option--autoplay](class-names.md#ht-option--autoplay), [ht-option--arrow-keys](class-names.md#ht-option--arrow-keys) classes to the slider. | once | `<body` or [ht-layout--slider](class-names.md#ht-layout--slider)
+[ht-option--autoplay](class-names.md#ht-option--autoplay) | Automatically moves slider to next slide. | continuously | `<body` or [ht-layout--slider](class-names.md#ht-layout--slider)
+[ht-option--arrow-keys](class-names.md#ht-option--arrow-keys) | Adds keyboard control to slider. | once | `<body` or [ht-layout--slider](class-names.md#ht-layout--slider)
 
 ### Details
 
-#### hermes-option--defaults
+#### ht-option--defaults
 
 Adds
-[hermes-option--autoplay](class-names.md#hermes-option--autoplay),
-[hermes-option--arrow-keys](class-names.md#hermes-option--arrow-keys)
+[ht-option--autoplay](class-names.md#ht-option--autoplay),
+[ht-option--arrow-keys](class-names.md#ht-option--arrow-keys)
 classes to the slider.
 
 *@checked* - [once](#once)
 
-*@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-option--autoplay
+#### ht-option--autoplay
 
 Automatically moves slider to next slide.
 
@@ -181,11 +181,11 @@ Slider is moved to the next after time specified in [time class name](class-name
 
 *@checked* - [continuously](#continuously)
 
-*@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or [ht-layout--slider](class-names.md#ht-layout--slider)
 
 *@see* - [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
 
-#### hermes-option--arrow-keys
+#### ht-option--arrow-keys
 
 Adds keyboard control to slider.
 
@@ -194,7 +194,7 @@ slide, with `RightArrow` key moves slider to next slide.
 
 *@checked* - [once](#once)
 
-*@target* - `<body` or [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - `<body` or [ht-layout--slider](class-names.md#ht-layout--slider)
 
 *@see* - [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
 
@@ -207,9 +207,9 @@ slide, with `RightArrow` key moves slider to next slide.
 Themes make slide look god without any other styling. Their purpose is to set default styles
 for a slide (typically background and font colors, typography and control elements).
 
-Multiple themes MAY be specified for each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
+Multiple themes MAY be specified for each slide element ([ht-layout--slide](class-names.md#ht-layout--slide)) in client HTML.
 During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no theme specified
-receives theme classes which were declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
+receives theme classes which were declared on the slider element ([ht-layout--slider](class-names.md#ht-layout--slider)).
 If there is no theme specified on the slider, default themes are used.
 
 [How to add custom theme?](custom-themes.md)
@@ -218,23 +218,23 @@ If there is no theme specified on the slider, default themes are used.
 
 Name | Description | Is Default Theme
 --- | --- | ---
-[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
-[hermes-theme--white](class-names.md#hermes-theme--white) | White background, dark foreground elements (texts, dots, arrows). | true
-[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows) | Adds hover-dependent visibility change to arrows. | false
-[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) | Shows dot button for each slide. | true
-[hermes-theme--black](class-names.md#hermes-theme--black) | Black background, white foreground elements (texts, dots, arrows). | false
-[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) | Adds hover-dependent visibility change to dots. | false
-[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) | Adds hover-dependent opacity change to dots. | true
-[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows) | Shows basic side arrow buttons. | true
-[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows) | Adds hover-dependent opacity change to arrows. | true
-[hermes-theme--basic-controls](class-names.md#hermes-theme--basic-controls) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) classes to the slide. | false
-[hermes-theme--hover-visible-controls](class-names.md#hermes-theme--hover-visible-controls) | Adds [hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows), [hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots) classes to the slide. | false
-[hermes-theme--hover-opaque-controls](class-names.md#hermes-theme--hover-opaque-controls) | Adds [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) classes to the slide. | false
-[hermes-theme--defaults](class-names.md#hermes-theme--defaults) | Adds [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows), [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots). [hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows), [hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots) [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows), [hermes-theme--white](class-names.md#hermes-theme--white) classes to the slide. | false
+[ht-theme--responsive-arrows](class-names.md#ht-theme--responsive-arrows) | Adds screen responsiveness to slider arrows. | true
+[ht-theme--white](class-names.md#ht-theme--white) | White background, dark foreground elements (texts, dots, arrows). | true
+[ht-theme--hover-visible-arrows](class-names.md#ht-theme--hover-visible-arrows) | Adds hover-dependent visibility change to arrows. | false
+[ht-theme--basic-dots](class-names.md#ht-theme--basic-dots) | Shows dot button for each slide. | true
+[ht-theme--black](class-names.md#ht-theme--black) | Black background, white foreground elements (texts, dots, arrows). | false
+[ht-theme--hover-visible-dots](class-names.md#ht-theme--hover-visible-dots) | Adds hover-dependent visibility change to dots. | false
+[ht-theme--hover-opaque-dots](class-names.md#ht-theme--hover-opaque-dots) | Adds hover-dependent opacity change to dots. | true
+[ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows) | Shows basic side arrow buttons. | true
+[ht-theme--hover-opaque-arrows](class-names.md#ht-theme--hover-opaque-arrows) | Adds hover-dependent opacity change to arrows. | true
+[ht-theme--basic-controls](class-names.md#ht-theme--basic-controls) | Adds [ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows), [ht-theme--basic-dots](class-names.md#ht-theme--basic-dots) classes to the slide. | false
+[ht-theme--hover-visible-controls](class-names.md#ht-theme--hover-visible-controls) | Adds [ht-theme--hover-visible-arrows](class-names.md#ht-theme--hover-visible-arrows), [ht-theme--hover-visible-dots](class-names.md#ht-theme--hover-visible-dots) classes to the slide. | false
+[ht-theme--hover-opaque-controls](class-names.md#ht-theme--hover-opaque-controls) | Adds [ht-theme--hover-opaque-arrows](class-names.md#ht-theme--hover-opaque-arrows), [ht-theme--hover-opaque-dots](class-names.md#ht-theme--hover-opaque-dots) classes to the slide. | false
+[ht-theme--defaults](class-names.md#ht-theme--defaults) | Adds [ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows), [ht-theme--basic-dots](class-names.md#ht-theme--basic-dots). [ht-theme--hover-opaque-arrows](class-names.md#ht-theme--hover-opaque-arrows), [ht-theme--hover-opaque-dots](class-names.md#ht-theme--hover-opaque-dots) [ht-theme--responsive-arrows](class-names.md#ht-theme--responsive-arrows), [ht-theme--white](class-names.md#ht-theme--white) classes to the slide. | false
 
 ### Details
 
-#### hermes-theme--responsive-arrows
+#### ht-theme--responsive-arrows
 
 Adds screen responsiveness to slider arrows.
 
@@ -247,7 +247,7 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows).
+> with [ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows).
 
 *@is-default-theme* - true
 
@@ -257,13 +257,13 @@ Slider controls come in 3 different layouts. Each for different range of screen 
 
 *@see* - Slider.breakpointNormalToWide
 
-#### hermes-theme--white
+#### ht-theme--white
 
 White background, dark foreground elements (texts, dots, arrows).
 
 *@is-default-theme* - true
 
-#### hermes-theme--hover-visible-arrows
+#### ht-theme--hover-visible-arrows
 
 Adds hover-dependent visibility change to arrows.
 
@@ -272,28 +272,28 @@ Arrows become visible when mouse is hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows) or custom theme that defines arrow visuals.
+> with [ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows) or custom theme that defines arrow visuals.
 
 *@is-default-theme* - false
 
-#### hermes-theme--basic-dots
+#### ht-theme--basic-dots
 
 Shows dot button for each slide.
 
 This theme provides basic dot visuals. In case different styling of dots is needed, either
 extend this theme class or create your own from scratch. Extending this class may be
-prefereable as other themes ([hermes-theme--black](class-names.md#hermes-theme--black), [hermes-theme--white](class-names.md#hermes-theme--white)) are compatible
+prefereable as other themes ([ht-theme--black](class-names.md#ht-theme--black), [ht-theme--white](class-names.md#ht-theme--white)) are compatible
 with this one.
 
 *@is-default-theme* - true
 
-#### hermes-theme--black
+#### ht-theme--black
 
 Black background, white foreground elements (texts, dots, arrows).
 
 *@is-default-theme* - false
 
-#### hermes-theme--hover-visible-dots
+#### ht-theme--hover-visible-dots
 
 Adds hover-dependent visibility change to dots.
 
@@ -302,11 +302,11 @@ Dots become visible when mouse is hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) or custom theme that defines dot visuals.
+> with [ht-theme--basic-dots](class-names.md#ht-theme--basic-dots) or custom theme that defines dot visuals.
 
 *@is-default-theme* - false
 
-#### hermes-theme--hover-opaque-dots
+#### ht-theme--hover-opaque-dots
 
 Adds hover-dependent opacity change to dots.
 
@@ -315,21 +315,21 @@ Dots become more opaque twhen mouseis hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for dots. It must be used in combination
-> with [hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots) or custom theme that defines dot visuals.
+> with [ht-theme--basic-dots](class-names.md#ht-theme--basic-dots) or custom theme that defines dot visuals.
 
 *@is-default-theme* - true
 
-#### hermes-theme--basic-arrows
+#### ht-theme--basic-arrows
 
 Shows basic side arrow buttons.
 
 This theme provides basic arrow visuals. In case different styling of arrows is needed, either
 extend this theme class or create your own from scratch. Extending this class may be
-prefereable if you also want to use [hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows).
+prefereable if you also want to use [ht-theme--responsive-arrows](class-names.md#ht-theme--responsive-arrows).
 
 *@is-default-theme* - true
 
-#### hermes-theme--hover-opaque-arrows
+#### ht-theme--hover-opaque-arrows
 
 Adds hover-dependent opacity change to arrows.
 
@@ -338,46 +338,46 @@ Arrows become more opaque twhen mouseis hovering above the slider.
 > **NOTE**
 >
 > This class does not provide visual styles for arrows. It must be used in combination
-> with [hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows) or custom theme that defines arrow visuals.
+> with [ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows) or custom theme that defines arrow visuals.
 
 *@is-default-theme* - true
 
-#### hermes-theme--basic-controls
+#### ht-theme--basic-controls
 
 Adds
-[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows),
-[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots)
+[ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows),
+[ht-theme--basic-dots](class-names.md#ht-theme--basic-dots)
 classes to the slide.
 
 *@is-default-theme* - false
 
-#### hermes-theme--hover-visible-controls
+#### ht-theme--hover-visible-controls
 
 Adds
-[hermes-theme--hover-visible-arrows](class-names.md#hermes-theme--hover-visible-arrows),
-[hermes-theme--hover-visible-dots](class-names.md#hermes-theme--hover-visible-dots)
+[ht-theme--hover-visible-arrows](class-names.md#ht-theme--hover-visible-arrows),
+[ht-theme--hover-visible-dots](class-names.md#ht-theme--hover-visible-dots)
 classes to the slide.
 
 *@is-default-theme* - false
 
-#### hermes-theme--hover-opaque-controls
+#### ht-theme--hover-opaque-controls
 
 Adds
-[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows),
-[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
+[ht-theme--hover-opaque-arrows](class-names.md#ht-theme--hover-opaque-arrows),
+[ht-theme--hover-opaque-dots](class-names.md#ht-theme--hover-opaque-dots)
 classes to the slide.
 
 *@is-default-theme* - false
 
-#### hermes-theme--defaults
+#### ht-theme--defaults
 
 Adds
-[hermes-theme--basic-arrows](class-names.md#hermes-theme--basic-arrows),
-[hermes-theme--basic-dots](class-names.md#hermes-theme--basic-dots).
-[hermes-theme--hover-opaque-arrows](class-names.md#hermes-theme--hover-opaque-arrows),
-[hermes-theme--hover-opaque-dots](class-names.md#hermes-theme--hover-opaque-dots)
-[hermes-theme--responsive-arrows](class-names.md#hermes-theme--responsive-arrows),
-[hermes-theme--white](class-names.md#hermes-theme--white)
+[ht-theme--basic-arrows](class-names.md#ht-theme--basic-arrows),
+[ht-theme--basic-dots](class-names.md#ht-theme--basic-dots).
+[ht-theme--hover-opaque-arrows](class-names.md#ht-theme--hover-opaque-arrows),
+[ht-theme--hover-opaque-dots](class-names.md#ht-theme--hover-opaque-dots)
+[ht-theme--responsive-arrows](class-names.md#ht-theme--responsive-arrows),
+[ht-theme--white](class-names.md#ht-theme--white)
 classes to the slide.
 
 *@is-default-theme* - false
@@ -389,30 +389,30 @@ classes to the slide.
 ## Transition Class Names
 
 Transitions add nice animations to slide changes. Typically, one transition adds animation
-to slide's content ([hermes-layout--content](class-names.md#hermes-layout--content)) or slide's background ([hermes-layout--background](class-names.md#hermes-layout--background)),
+to slide's content ([ht-layout--content](class-names.md#ht-layout--content)) or slide's background ([ht-layout--background](class-names.md#ht-layout--background)),
 or both. Custom transitions may also animate only parts of slide's content (e.g. to display
 some parts of the slide with a delay).
 
-Multiple transitions MAY be added on each slide element ([hermes-layout--slide](class-names.md#hermes-layout--slide)) in client HTML.
+Multiple transitions MAY be added on each slide element ([ht-layout--slide](class-names.md#ht-layout--slide)) in client HTML.
 During [slider's DOM upgrade procedure](dom-upgrade.md), each slide with no transitions
-specified receives transitions which were declared on the slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
-If there is no transition specified on the slider, [hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in)
-and [hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out) are used as default.
+specified receives transitions which were declared on the slider element ([ht-layout--slider](class-names.md#ht-layout--slider)).
+If there is no transition specified on the slider, [ht-transition--zoom-out-in](class-names.md#ht-transition--zoom-out-in)
+and [ht-transition--bg-zoom-in-out](class-names.md#ht-transition--bg-zoom-in-out) are used as default.
 
 ### Summary
 
 Name | Description
 --- | ---
-[hermes-transition--zoom-out-in](class-names.md#hermes-transition--zoom-out-in) | Delicate content zoom out when slide appears, zoom in when it disappears.
-[hermes-transition--bg-zoom-in-out](class-names.md#hermes-transition--bg-zoom-in-out) | Delicate background zoom in when slide appears, zoom out when it disappears.
+[ht-transition--zoom-out-in](class-names.md#ht-transition--zoom-out-in) | Delicate content zoom out when slide appears, zoom in when it disappears.
+[ht-transition--bg-zoom-in-out](class-names.md#ht-transition--bg-zoom-in-out) | Delicate background zoom in when slide appears, zoom out when it disappears.
 
 ### Details
 
-#### hermes-transition--zoom-out-in
+#### ht-transition--zoom-out-in
 
 Delicate content zoom out when slide appears, zoom in when it disappears.
 
-#### hermes-transition--bg-zoom-in-out
+#### ht-transition--bg-zoom-in-out
 
 Delicate background zoom in when slide appears, zoom out when it disappears.
 
@@ -422,7 +422,7 @@ Delicate background zoom in when slide appears, zoom out when it disappears.
 
 ## Time Class Names
 
-Time classes configure [hermes-option--autoplay](class-names.md#hermes-option--autoplay) option. They control
+Time classes configure [ht-option--autoplay](class-names.md#ht-option--autoplay) option. They control
 time duration of one slide being visible before automatic change to the next.
 
 If no slide time is specified, slide is visible for 5 seconds.
@@ -431,26 +431,26 @@ If no slide time is specified, slide is visible for 5 seconds.
 
 Name | Description
 --- | ---
-[hermes-slide-time-3sec](class-names.md#hermes-slide-time-3sec) | Makes slide visible for 3 seconds before moving to next.
-[hermes-slide-time-7sec](class-names.md#hermes-slide-time-7sec) | Makes slide visible for 7 seconds before moving to next.
+[ht-slide-time-3sec](class-names.md#ht-slide-time-3sec) | Makes slide visible for 3 seconds before moving to next.
+[ht-slide-time-7sec](class-names.md#ht-slide-time-7sec) | Makes slide visible for 7 seconds before moving to next.
 
 ### Details
 
-#### hermes-slide-time-3sec
+#### ht-slide-time-3sec
 
 Makes slide visible for 3 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-slide-time-7sec
+#### ht-slide-time-7sec
 
 Makes slide visible for 7 seconds before moving to next.
 
 *@checked* - [continously](#continously)
 
-*@target* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@target* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
 <!-- End lib/enums/time.js -->
 
@@ -458,7 +458,7 @@ Makes slide visible for 7 seconds before moving to next.
 
 ## Transition Phase Class Names
 
-All phase classes are automatically set on slider element ([hermes-layout--slider](class-names.md#hermes-layout--slider)).
+All phase classes are automatically set on slider element ([ht-layout--slider](class-names.md#ht-layout--slider)).
 They MUST NOT be manipulated from client HTML or JavaScript. They **should be used only
 in definitions of CSS transitions**.
 
@@ -466,26 +466,26 @@ in definitions of CSS transitions**.
 
 Name | Description
 --- | ---
-[hermes-before-transition](class-names.md#hermes-before-transition) | Set on slider element just before transition starts.
-[hermes-during-transition](class-names.md#hermes-during-transition) | Set on slider element while transition of [hermes-layout--content](class-names.md#hermes-layout--content) element is run.
-[hermes-after-transition](class-names.md#hermes-after-transition) | Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
+[ht-before-transition](class-names.md#ht-before-transition) | Set on slider element just before transition starts.
+[ht-during-transition](class-names.md#ht-during-transition) | Set on slider element while transition of [ht-layout--content](class-names.md#ht-layout--content) element is run.
+[ht-after-transition](class-names.md#ht-after-transition) | Set on slider element after transition of [ht-layout--content](class-names.md#ht-layout--content) element ends.
 
 ### Details
 
-#### hermes-before-transition
+#### ht-before-transition
 
 Set on slider element just before transition starts.
 
 This phase lasts for 1 millisecond. It exists just for the purpose of setting CSS properties
 to initial values before transition.
 
-#### hermes-during-transition
+#### ht-during-transition
 
-Set on slider element while transition of [hermes-layout--content](class-names.md#hermes-layout--content) element is run.
+Set on slider element while transition of [ht-layout--content](class-names.md#ht-layout--content) element is run.
 
-#### hermes-after-transition
+#### ht-after-transition
 
-Set on slider element after transition of [hermes-layout--content](class-names.md#hermes-layout--content) element ends.
+Set on slider element after transition of [ht-layout--content](class-names.md#ht-layout--content) element ends.
 
 <!-- End lib/enums/phase.js -->
 
@@ -493,7 +493,7 @@ Set on slider element after transition of [hermes-layout--content](class-names.m
 
 ## Transition Marker Class Names
 
-They are automatically set on slide elements ([hermes-layout--slide](class-names.md#hermes-layout--slide)).
+They are automatically set on slide elements ([ht-layout--slide](class-names.md#ht-layout--slide)).
 Marker class names MUST NOT be manipulated from client HTML or JavaScript
 and **SHOULD be used only in definitions of CSS transitions**.
 
@@ -501,20 +501,20 @@ and **SHOULD be used only in definitions of CSS transitions**.
 
 Name | Description
 --- | ---
-[hermes-slide-from](class-names.md#hermes-slide-from) | Automatically set on previously active [hermes-layout--slide](class-names.md#hermes-layout--slide).
-[hermes-slide-to](class-names.md#hermes-slide-to) | Automatically set on currently active [hermes-layout--slide](class-names.md#hermes-layout--slide).
+[ht-slide-from](class-names.md#ht-slide-from) | Automatically set on previously active [ht-layout--slide](class-names.md#ht-layout--slide).
+[ht-slide-to](class-names.md#ht-slide-to) | Automatically set on currently active [ht-layout--slide](class-names.md#ht-layout--slide).
 
 ### Details
 
-#### hermes-slide-from
+#### ht-slide-from
 
-Automatically set on previously active [hermes-layout--slide](class-names.md#hermes-layout--slide).
+Automatically set on previously active [ht-layout--slide](class-names.md#ht-layout--slide).
 
 *@invariant* - After starting first transition this class name is set on only one slide.
 
-#### hermes-slide-to
+#### ht-slide-to
 
-Automatically set on currently active [hermes-layout--slide](class-names.md#hermes-layout--slide).
+Automatically set on currently active [ht-layout--slide](class-names.md#ht-layout--slide).
 
 This class name is set on first slide after starting a slider
 and then set on currently active slide each time it changes.
@@ -529,7 +529,7 @@ and then set on currently active slide each time it changes.
 
 In most cases, most of layout classes **SHOULD not be used in client HTML**, as they are
 automatially applied to apropriate elements during [slider's upgrade procedure](dom-upgrade.md)
-([hermes-slider](class-names.md#hermes-slider) is the only layout class name that MUST be applied in client HTML).
+([ht-slider](class-names.md#ht-slider) is the only layout class name that MUST be applied in client HTML).
 
 Layout classes play following roles in slider's inner-workings.
  1. **role-id** - class names are used to identify element's role during slider upgrade,
@@ -540,36 +540,36 @@ Layout classes play following roles in slider's inner-workings.
 
 Name | Description | Usage | Client HTML
 --- | --- | --- | ---
-[hermes-layout--slider](class-names.md#hermes-layout--slider) | Identifies main slider element. | role-id styling | mandatory
-[hermes-layout--slide](class-names.md#hermes-layout--slide) | Identifies a slide. | role-id styling | optional
-[hermes-layout--background](class-names.md#hermes-layout--background) | Identifies background of a slide. | role-id styling transition | optional
-[hermes-layout--content](class-names.md#hermes-layout--content) | Identifies content of a slide. | role-id styling transition | optional
-[hermes-layout--controls](class-names.md#hermes-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
-[hermes-layout--arrow](class-names.md#hermes-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
-[hermes-layout--arrow-left](class-names.md#hermes-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
-[hermes-layout--arrow-right](class-names.md#hermes-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
-[hermes-layout--dots](class-names.md#hermes-layout--dots) | Set during upgrade on container elements that contains dot buttons. | styling | forbidden
-[hermes-layout--dot](class-names.md#hermes-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden
+[ht-layout--slider](class-names.md#ht-layout--slider) | Identifies main slider element. | role-id styling | mandatory
+[ht-layout--slide](class-names.md#ht-layout--slide) | Identifies a slide. | role-id styling | optional
+[ht-layout--background](class-names.md#ht-layout--background) | Identifies background of a slide. | role-id styling transition | optional
+[ht-layout--content](class-names.md#ht-layout--content) | Identifies content of a slide. | role-id styling transition | optional
+[ht-layout--controls](class-names.md#ht-layout--controls) | Set during upgrade on all generated controls. | styling | forbidden
+[ht-layout--arrow](class-names.md#ht-layout--arrow) | Set during upgrade on generated arrow buttons. | styling | forbidden
+[ht-layout--arrow-left](class-names.md#ht-layout--arrow-left) | Set during upgrade on generated left arrow button. | styling | forbidden
+[ht-layout--arrow-right](class-names.md#ht-layout--arrow-right) | Set during upgrade on generated right arrow button. | styling | forbidden
+[ht-layout--dots](class-names.md#ht-layout--dots) | Set during upgrade on container elements that contains dot buttons. | styling | forbidden
+[ht-layout--dot](class-names.md#ht-layout--dot) | Set during upgrade on each dot button element. | styling | forbidden
 
 ### Details
 
-#### hermes-layout--slider
+#### ht-layout--slider
 
 Identifies main slider element.
 
 This class must be set on all slider elements in client HTML.
 It can be used in client CSS code for styling.
 
-#### hermes-layout--slide
+#### ht-layout--slide
 
 Identifies a slide.
 
 At least 2 slides must be defined in each slider.
 It can be used in client CSS code for styling.
 
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@parent-element* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-layout--background
+#### ht-layout--background
 
 Identifies background of a slide.
 
@@ -577,9 +577,9 @@ For slides in which this element is not present in slider declaration, empty bac
 element will be generated during slider upgrade. This class name must be used in all
 definitions of background transitions.
 
-*@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
+*@parent-element* - [ht-layout--slide](class-names.md#ht-layout--slide)
 
-#### hermes-layout--content
+#### ht-layout--content
 
 Identifies content of a slide.
 
@@ -588,61 +588,61 @@ during slider upgrade. Contents of a slide will be moved inside generated elemen
 is present in slider declaration, it must contain all contents of a slide. This class name
 must be used in all definitions of content transitions.
 
-*@parent-element* - [hermes-layout--slide](class-names.md#hermes-layout--slide)
+*@parent-element* - [ht-layout--slide](class-names.md#ht-layout--slide)
 
-#### hermes-layout--controls
+#### ht-layout--controls
 
 Set during upgrade on all generated controls.
 
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@parent-element* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-layout--arrow
+#### ht-layout--arrow
 
 Set during upgrade on generated arrow buttons.
 
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@parent-element* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-layout--arrow-left
+#### ht-layout--arrow-left
 
 Set during upgrade on generated left arrow button.
 
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@parent-element* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-layout--arrow-right
+#### ht-layout--arrow-right
 
 Set during upgrade on generated right arrow button.
 
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@parent-element* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-layout--dots
+#### ht-layout--dots
 
 Set during upgrade on container elements that contains dot buttons.
 
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--slider](class-names.md#hermes-layout--slider)
+*@parent-element* - [ht-layout--slider](class-names.md#ht-layout--slider)
 
-#### hermes-layout--dot
+#### ht-layout--dot
 
 Set during upgrade on each dot button element.
 
 This class name must not be used in client HTML.
 It may be used in client CSS for styling.
 
-*@parent-element* - [hermes-layout--dots](class-names.md#hermes-layout--dots)
+*@parent-element* - [ht-layout--dots](class-names.md#ht-layout--dots)
 
 <!-- End lib/enums/layout.js -->
 
@@ -658,7 +658,7 @@ client HTML or JavaScript and **SHOULD be used only in client CSS**.
 Name | Description
 --- | ---
 [is-upgraded](class-names.md#is-upgraded) | Automatically set on slider after its upgrade.
-[is-active](class-names.md#is-active) | Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) button connected with currently active slide.
+[is-active](class-names.md#is-active) | Automatically set on [ht-layout--dot](class-names.md#ht-layout--dot) button connected with currently active slide.
 
 ### Details
 
@@ -668,7 +668,7 @@ Automatically set on slider after its upgrade.
 
 #### is-active
 
-Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) button connected with currently active slide.
+Automatically set on [ht-layout--dot](class-names.md#ht-layout--dot) button connected with currently active slide.
 
 *@invariant* - This class is set on only one dot button.
 
@@ -682,49 +682,49 @@ Automatically set on [hermes-layout--dot](class-names.md#hermes-layout--dot) but
 
 Name | Description
 --- | ---
-[/hermes-transition--([^\s]+)/g](class-names.md#hermes-transition--\sg) | All transitions used by the slider must match this regular expression.
-[/hermes-theme--([^\s]+)/g](class-names.md#hermes-theme--\sg) | All themes used by the slider must match this regular expression.
-[/hermes-slide-id-([^\s]+)/](class-names.md#hermes-slide-id-\s) | Slider keeps class name with id of current slide on [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
+[/ht-transition--([^\s]+)/g](class-names.md#ht-transition--\sg) | All transitions used by the slider must match this regular expression.
+[/ht-theme--([^\s]+)/g](class-names.md#ht-theme--\sg) | All themes used by the slider must match this regular expression.
+[/ht-slide-id-([^\s]+)/](class-names.md#ht-slide-id-\s) | Slider keeps class name with id of current slide on [ht-layout--slider](class-names.md#ht-layout--slider) element.
 
 ### Details
 
-#### /hermes-transition--([^\s]+)/g
+#### /ht-transition--([^\s]+)/g
 
 All transitions used by the slider must match this regular expression.
 
-During [slider's DOM upgrade](dom-upgrade.md) [hermes-layout--slider](class-names.md#hermes-layout--slider) element is checked
+During [slider's DOM upgrade](dom-upgrade.md) [ht-layout--slider](class-names.md#ht-layout--slider) element is checked
 for presence of transition class names. Transitions declared this way will be randomly used
 by the slider. After upgrade all declared transitions are removed from slider element and
 added again for the duration of a transition between slides.
 
-Transitions may also be declared on [hermes-layout--slide](class-names.md#hermes-layout--slide) elements. Slider will always
+Transitions may also be declared on [ht-layout--slide](class-names.md#ht-layout--slide) elements. Slider will always
 use transition declared on slide element when moving to this slide. Transition declarations of
 this type are [checked continuously](#continuously), therefore they may be added/removed
 on slides at runtime (client JavaScript).
 
 *@invariant* - Class name of currently running transition is set on slider element.
 
-#### /hermes-theme--([^\s]+)/g
+#### /ht-theme--([^\s]+)/g
 
 All themes used by the slider must match this regular expression.
 
-During [slider's DOM upgrade](dom-upgrade.md) [hermes-layout--slider](class-names.md#hermes-layout--slider) element is checked for
+During [slider's DOM upgrade](dom-upgrade.md) [ht-layout--slider](class-names.md#ht-layout--slider) element is checked for
 presence of theme class names. Themes declared this way are then removed from the slider
 and added to all slides, which have no theme specified. Themes are added again to slider's
 element for the duration of slide being visible.
 
-Themes may also be declared on [hermes-layout--slide](class-names.md#hermes-layout--slide) elements. Theme declarations of
+Themes may also be declared on [ht-layout--slide](class-names.md#ht-layout--slide) elements. Theme declarations of
 this type are [checked continuously](#continuously), therefore they may be added/removed
 on slides at runtime (client JavaScript).
 
-Hermes provides very basic [built-in themes](class-names.md#theme-class-names)
+HyperText Slider provides very basic [built-in themes](class-names.md#theme-class-names)
 (see [Adding Custom Themes](custom-themes.md)).
 
 *@invariant* - Theme class name's of currently active slide is added to slider element.
 
-#### /hermes-slide-id-([^\s]+)/
+#### /ht-slide-id-([^\s]+)/
 
-Slider keeps class name with id of current slide on [hermes-layout--slider](class-names.md#hermes-layout--slider) element.
+Slider keeps class name with id of current slide on [ht-layout--slider](class-names.md#ht-layout--slider) element.
 
 This functionality may be useful if slides other than current are to be partially visible
 or if appearence of controls or even whole slider needs to change from one slide to another.

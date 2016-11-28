@@ -24,7 +24,7 @@
  * which contains ES5 code that can be run in not-so-modern browsers.
  * It is to be used only when programming in vanilla-browser style.
  * When using nodejs-based javascript preprocessor, it's better to load
- * hermes module and polyfills with `require()` function.
+ * `hyper-text-slider` module and polyfills with `require()` function.
  */
 Object.values = require('./polyfills/values');
 require('./polyfills/class-list')(window.Element);

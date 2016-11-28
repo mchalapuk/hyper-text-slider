@@ -1,6 +1,6 @@
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,18 +16,18 @@
 
 */
 
-.hermes-layout--slider.is-upgraded {
+.ht-layout--slider.is-upgraded {
   overflow: hidden;
 }
 
-.hermes-layout--slide.is-upgraded {
+.ht-layout--slide.is-upgraded {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 1;
 
-  .hermes-layout--background,
-  .hermes-layout--content {
+  .ht-layout--background,
+  .ht-layout--content {
     opacity: 0;
   }
 }

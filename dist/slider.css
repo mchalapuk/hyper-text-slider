@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 */
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
    limitations under the License.
 
 */
-.hermes-layout--slider {
+.ht-layout--slider {
   width: 100%;
   height: 100%;
   overflow-x: visible;
@@ -43,7 +43,7 @@
   font-size: 0;
   position: relative; }
 
-.hermes-layout--slide {
+.ht-layout--slide {
   height: 100%;
   width: 100%;
   display: inline-block;
@@ -52,7 +52,7 @@
   text-align: center;
   position: relative; }
 
-.hermes-layout--background {
+.ht-layout--background {
   position: absolute;
   top: 0;
   left: 0;
@@ -60,11 +60,11 @@
   height: 100%;
   display: inline-block; }
 
-.hermes-layout--content {
+.ht-layout--content {
   display: inline-block;
   vertical-align: middle; }
 
-.hermes-layout--slide::after {
+.ht-layout--slide::after {
   content: '';
   display: inline-block;
   vertical-align: middle;
@@ -87,23 +87,23 @@
    limitations under the License.
 
 */
-.hermes-layout--slider > :not(.is-upgraded):not(.hermes-layout--controls),
-.hermes-slider > :not(.is-upgraded):not(.hermes-layout--controls) {
+.ht-layout--slider > :not(.is-upgraded):not(.ht-layout--controls),
+.ht-slider > :not(.is-upgraded):not(.ht-layout--controls) {
   opacity: 0; }
 
-@keyframes hermesSlideInserted {
+@keyframes htSlideInserted {
   from {
     opacity: 0.01; }
   to {
     opacity: 0; } }
 
-.hermes-layout--slider.is-upgraded > :not(.hermes-layout--controls) {
+.ht-layout--slider.is-upgraded > :not(.ht-layout--controls) {
   animation-duration: 1ms;
-  animation-name: hermesSlideInserted; }
+  animation-name: htSlideInserted; }
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -118,16 +118,16 @@
    limitations under the License.
 
 */
-.hermes-layout--slider.is-upgraded {
+.ht-layout--slider.is-upgraded {
   overflow: hidden; }
 
-.hermes-layout--slide.is-upgraded {
+.ht-layout--slide.is-upgraded {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 1; }
-  .hermes-layout--slide.is-upgraded .hermes-layout--background,
-  .hermes-layout--slide.is-upgraded .hermes-layout--content {
+  .ht-layout--slide.is-upgraded .ht-layout--background,
+  .ht-layout--slide.is-upgraded .ht-layout--content {
     opacity: 0; }
 
 /*
@@ -147,18 +147,18 @@
    limitations under the License.
 
 */
-.hermes-slide-from .hermes-layout--content {
+.ht-slide-from .ht-layout--content {
   z-index: -1; }
 
-.hermes-slide-to .hermes-layout--content {
+.ht-slide-to .ht-layout--content {
   z-index: 1; }
 
-.hermes-layout--consols {
+.ht-layout--consols {
   z-index: 0; }
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -173,15 +173,15 @@
    limitations under the License.
 
 */
-.hermes-layout--slider:not(.hermes-before-transition) .hermes-slide-to .hermes-layout--background {
+.ht-layout--slider:not(.ht-before-transition) .ht-slide-to .ht-layout--background {
   opacity: 1; }
 
-.hermes-layout--slider:not(.hermes-before-transition) .hermes-slide-to .hermes-layout--content {
+.ht-layout--slider:not(.ht-before-transition) .ht-slide-to .ht-layout--content {
   opacity: 0.8; }
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -197,8 +197,8 @@
 
 */
 /* TODO slider shouldn't be mentioned if Phaser is to be used alone */
-.hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--background,
-.hermes-layout--slider.is-upgraded.hermes-before-transition .hermes-slide-to .hermes-layout--content {
+.ht-layout--slider.is-upgraded.ht-before-transition .ht-slide-to .ht-layout--background,
+.ht-layout--slider.is-upgraded.ht-before-transition .ht-slide-to .ht-layout--content {
   -webkit-transition: all 1ms linear;
   -moz-transition: all 1ms linear;
   -o-transition: all 1ms linear;
@@ -206,7 +206,7 @@
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -221,64 +221,64 @@
    limitations under the License.
 
 */
-.hermes-layout--slider.is-upgraded {
+.ht-layout--slider.is-upgraded {
   /* Default slide time (when nothing else specified). */ }
-  .hermes-layout--slider.is-upgraded .hermes-slide-to .hermes-layout--background {
+  .ht-layout--slider.is-upgraded .ht-slide-to .ht-layout--background {
     -webkit-transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -o-transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     transition: all 3500ms ease-out 300ms, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded .hermes-slide-to .hermes-layout--content {
+  .ht-layout--slider.is-upgraded .ht-slide-to .ht-layout--content {
     -webkit-transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -moz-transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -o-transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     transition: all 5000ms ease-out 600ms, opacity 600ms ease-in-out 750ms; }
-  .hermes-layout--slider.is-upgraded .hermes-slide-from .hermes-layout--background {
+  .ht-layout--slider.is-upgraded .ht-slide-from .ht-layout--background {
     -webkit-transition: all 3500ms ease-out, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 3500ms ease-out, opacity 750ms ease-in-out 300ms;
     -o-transition: all 3500ms ease-out, opacity 750ms ease-in-out 300ms;
     transition: all 3500ms ease-out, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded .hermes-slide-from .hermes-layout--content {
+  .ht-layout--slider.is-upgraded .ht-slide-from .ht-layout--content {
     -webkit-transition: all 5000ms ease-out, opacity 500ms ease-in-out;
     -moz-transition: all 5000ms ease-out, opacity 500ms ease-in-out;
     -o-transition: all 5000ms ease-out, opacity 500ms ease-in-out;
     transition: all 5000ms ease-out, opacity 500ms ease-in-out; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-to .hermes-layout--background {
+  .ht-layout--slider.is-upgraded.ht-slide-time-7-sec .ht-slide-to .ht-layout--background {
     -webkit-transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -o-transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     transition: all 4900ms ease-out 300ms, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-to .hermes-layout--content {
+  .ht-layout--slider.is-upgraded.ht-slide-time-7-sec .ht-slide-to .ht-layout--content {
     -webkit-transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -moz-transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -o-transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     transition: all 7000ms ease-out 600ms, opacity 600ms ease-in-out 750ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-from .hermes-layout--background {
+  .ht-layout--slider.is-upgraded.ht-slide-time-7-sec .ht-slide-from .ht-layout--background {
     -webkit-transition: all 4900ms ease-out, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 4900ms ease-out, opacity 750ms ease-in-out 300ms;
     -o-transition: all 4900ms ease-out, opacity 750ms ease-in-out 300ms;
     transition: all 4900ms ease-out, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-7-sec .hermes-slide-from .hermes-layout--content {
+  .ht-layout--slider.is-upgraded.ht-slide-time-7-sec .ht-slide-from .ht-layout--content {
     -webkit-transition: all 7000ms ease-out, opacity 500ms ease-in-out;
     -moz-transition: all 7000ms ease-out, opacity 500ms ease-in-out;
     -o-transition: all 7000ms ease-out, opacity 500ms ease-in-out;
     transition: all 7000ms ease-out, opacity 500ms ease-in-out; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-slide-to .hermes-layout--background {
+  .ht-layout--slider.is-upgraded.ht-slide-time-3-sec .ht-slide-to .ht-layout--background {
     -webkit-transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     -o-transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms;
     transition: all 2100ms ease-out 300ms, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-slide-to .hermes-layout--content {
+  .ht-layout--slider.is-upgraded.ht-slide-time-3-sec .ht-slide-to .ht-layout--content {
     -webkit-transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -moz-transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     -o-transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms;
     transition: all 3000ms ease-out 600ms, opacity 600ms ease-in-out 750ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-slide-from .hermes-layout--background {
+  .ht-layout--slider.is-upgraded.ht-slide-time-3-sec .ht-slide-from .ht-layout--background {
     -webkit-transition: all 2100ms ease-out, opacity 750ms ease-in-out 300ms;
     -moz-transition: all 2100ms ease-out, opacity 750ms ease-in-out 300ms;
     -o-transition: all 2100ms ease-out, opacity 750ms ease-in-out 300ms;
     transition: all 2100ms ease-out, opacity 750ms ease-in-out 300ms; }
-  .hermes-layout--slider.is-upgraded.hermes-slide-time-3-sec .hermes-slide-from .hermes-layout--content {
+  .ht-layout--slider.is-upgraded.ht-slide-time-3-sec .ht-slide-from .ht-layout--content {
     -webkit-transition: all 3000ms ease-out, opacity 500ms ease-in-out;
     -moz-transition: all 3000ms ease-out, opacity 500ms ease-in-out;
     -o-transition: all 3000ms ease-out, opacity 500ms ease-in-out;
@@ -302,12 +302,12 @@
 
 */
 /* All properties defined in this file can be safely overriden in client CSS. */
-.hermes-layout--background {
+.ht-layout--background {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover; }
 
-.hermes-layout--content {
+.ht-layout--content {
   text-align: left;
   font-size: 32px;
   padding: 0 80px; }
@@ -329,28 +329,28 @@
    limitations under the License.
 
 */
-.hermes-layout--slider.hermes-theme--white .hermes-layout--background {
+.ht-layout--slider.ht-theme--white .ht-layout--background {
   background-color: white; }
 
-.hermes-layout--slider.hermes-theme--white .hermes-layout--content {
+.ht-layout--slider.ht-theme--white .ht-layout--content {
   color: black; }
 
-.hermes-layout--slider.hermes-theme--white a {
+.ht-layout--slider.ht-theme--white a {
   transition: color ease-in-out 150ms; }
-  .hermes-layout--slider.hermes-theme--white a:link, .hermes-layout--slider.hermes-theme--white a:visited {
+  .ht-layout--slider.ht-theme--white a:link, .ht-layout--slider.ht-theme--white a:visited {
     color: #333; }
-  .hermes-layout--slider.hermes-theme--white a:hover {
+  .ht-layout--slider.ht-theme--white a:hover {
     color: #2962ff; }
-  .hermes-layout--slider.hermes-theme--white a:active {
+  .ht-layout--slider.ht-theme--white a:active {
     color: #000; }
 
-.hermes-layout--slider.hermes-theme--white .hermes-layout--arrow {
+.ht-layout--slider.ht-theme--white .ht-layout--arrow {
   color: black; }
 
-.hermes-layout--slider.hermes-theme--white .hermes-layout--dot {
+.ht-layout--slider.ht-theme--white .ht-layout--dot {
   background-color: rgba(0, 0, 0, 0.4);
   border-color: black; }
-  .hermes-layout--slider.hermes-theme--white .hermes-layout--dot.is-active {
+  .ht-layout--slider.ht-theme--white .ht-layout--dot.is-active {
     background-color: black; }
 
 /*
@@ -370,39 +370,39 @@
    limitations under the License.
 
 */
-.hermes-layout--slider.hermes-theme--black .hermes-layout--background {
+.ht-layout--slider.ht-theme--black .ht-layout--background {
   background-color: black; }
-  .hermes-layout--slider.hermes-theme--black .hermes-layout--background::after {
+  .ht-layout--slider.ht-theme--black .ht-layout--background::after {
     content: '';
     display: block;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7) url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAADklEQVQIW2NgQAXGZHAAGioAza6+Hk0AAAAASUVORK5CYII=") center center repeat; }
 
-.hermes-layout--slider.hermes-theme--black .hermes-layout--content {
+.ht-layout--slider.ht-theme--black .ht-layout--content {
   color: white; }
 
-.hermes-layout--slider.hermes-theme--black a {
+.ht-layout--slider.ht-theme--black a {
   transition: color ease-in-out 150ms; }
-  .hermes-layout--slider.hermes-theme--black a:link, .hermes-layout--slider.hermes-theme--black a:visited {
+  .ht-layout--slider.ht-theme--black a:link, .ht-layout--slider.ht-theme--black a:visited {
     color: #bbb; }
-  .hermes-layout--slider.hermes-theme--black a:hover {
+  .ht-layout--slider.ht-theme--black a:hover {
     color: #4b84ff; }
-  .hermes-layout--slider.hermes-theme--black a:active {
+  .ht-layout--slider.ht-theme--black a:active {
     color: white; }
 
-.hermes-layout--slider.hermes-theme--black .hermes-layout--arrow {
+.ht-layout--slider.ht-theme--black .ht-layout--arrow {
   color: white; }
 
-.hermes-layout--slider.hermes-theme--black .hermes-layout--dot {
+.ht-layout--slider.ht-theme--black .ht-layout--dot {
   background-color: rgba(255, 255, 255, 0.4);
   border-color: white; }
-  .hermes-layout--slider.hermes-theme--black .hermes-layout--dot.is-active {
+  .ht-layout--slider.ht-theme--black .ht-layout--dot.is-active {
     background-color: white; }
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -417,8 +417,8 @@
    limitations under the License.
 
 */
-.hermes-theme--default-arrows .hermes-layout--arrow-left,
-.hermes-theme--default-arrows .hermes-layout--arrow-right {
+.ht-theme--default-arrows .ht-layout--arrow-left,
+.ht-theme--default-arrows .ht-layout--arrow-right {
   display: block;
   position: absolute;
   top: 0;
@@ -432,8 +432,8 @@
   -o-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
   opacity: 0.8; }
-  .hermes-theme--default-arrows .hermes-layout--arrow-left::after,
-  .hermes-theme--default-arrows .hermes-layout--arrow-right::after {
+  .ht-theme--default-arrows .ht-layout--arrow-left::after,
+  .ht-theme--default-arrows .ht-layout--arrow-right::after {
     position: relative;
     display: inline-block;
     top: 50%;
@@ -454,21 +454,21 @@
     -moz-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out; }
-  .hermes-theme--default-arrows .hermes-layout--arrow-left:hover, .hermes-theme--default-arrows .hermes-layout--arrow-left:active,
-  .hermes-theme--default-arrows .hermes-layout--arrow-right:hover,
-  .hermes-theme--default-arrows .hermes-layout--arrow-right:active {
+  .ht-theme--default-arrows .ht-layout--arrow-left:hover, .ht-theme--default-arrows .ht-layout--arrow-left:active,
+  .ht-theme--default-arrows .ht-layout--arrow-right:hover,
+  .ht-theme--default-arrows .ht-layout--arrow-right:active {
     opacity: 1; }
 
-.hermes-theme--default-arrows .hermes-layout--arrow-left {
+.ht-theme--default-arrows .ht-layout--arrow-left {
   left: 0;
   padding-right: 20%; }
-  .hermes-theme--default-arrows .hermes-layout--arrow-left::after {
+  .ht-theme--default-arrows .ht-layout--arrow-left::after {
     content: "<"; }
 
-.hermes-theme--default-arrows .hermes-layout--arrow-right {
+.ht-theme--default-arrows .ht-layout--arrow-right {
   right: 0;
   padding-left: 20%; }
-  .hermes-theme--default-arrows .hermes-layout--arrow-right::after {
+  .ht-theme--default-arrows .ht-layout--arrow-right::after {
     content: ">"; }
 
 /*
@@ -488,7 +488,7 @@
    limitations under the License.
 
 */
-.hermes-theme--default-dots .hermes-layout--dots {
+.ht-theme--default-dots .ht-layout--dots {
   display: block;
   position: absolute;
   width: 100%;
@@ -502,7 +502,7 @@
   -o-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms; }
 
-.hermes-theme--default-dots .hermes-layout--dot {
+.ht-theme--default-dots .ht-layout--dot {
   width: 13px;
   height: 13px;
   margin: 0 6.5px;
@@ -515,12 +515,12 @@
   -o-transition: all ease-in-out 500ms;
   transition: all ease-in-out 500ms;
   opacity: 0.8; }
-  .hermes-theme--default-dots .hermes-layout--dot:hover, .hermes-theme--default-dots .hermes-layout--dot:active {
+  .ht-theme--default-dots .ht-layout--dot:hover, .ht-theme--default-dots .ht-layout--dot:active {
     opacity: 1; }
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -536,18 +536,18 @@
 
 */
 /* slider arrows get smaller and move to bottom on tablets and phones */
-.hermes-theme--responsive-arrows .hermes-layout--arrow {
+.ht-theme--responsive-arrows .ht-layout--arrow {
   width: calc((100% - 1248px + 40px) / 2); }
 
 @media screen and (min-width: 42em) and (max-width: 78em) {
-  .hermes-theme--responsive-arrows .hermes-layout--arrow {
+  .ht-theme--responsive-arrows .ht-layout--arrow {
     width: 80px; } }
 
 @media screen and (min-width: 0) and (max-width: 42em) {
-  .hermes-theme--responsive-arrows .hermes-layout--arrow {
+  .ht-theme--responsive-arrows .ht-layout--arrow {
     width: calc(40% - 40px);
     padding: 0; }
-    .hermes-theme--responsive-arrows .hermes-layout--arrow::after {
+    .ht-theme--responsive-arrows .ht-layout--arrow::after {
       top: 87.2%;
       font-weight: 300;
       -webkit-transform: scale(0.5, 1);
@@ -572,12 +572,12 @@
    limitations under the License.
 
 */
-.hermes-theme--hover-visible-arrows .hermes-layout--arrow {
+.ht-theme--hover-visible-arrows .ht-layout--arrow {
   opacity: 0; }
 
-.hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow {
+.ht-theme--hover-visible-arrows:hover .ht-layout--arrow, .ht-theme--hover-visible-arrows:active .ht-layout--arrow {
   opacity: 0.8; }
-  .hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow:hover, .hermes-theme--hover-visible-arrows:hover .hermes-layout--arrow:active, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow:hover, .hermes-theme--hover-visible-arrows:active .hermes-layout--arrow:active {
+  .ht-theme--hover-visible-arrows:hover .ht-layout--arrow:hover, .ht-theme--hover-visible-arrows:hover .ht-layout--arrow:active, .ht-theme--hover-visible-arrows:active .ht-layout--arrow:hover, .ht-theme--hover-visible-arrows:active .ht-layout--arrow:active {
     opacity: 1; }
 
 /*
@@ -597,12 +597,12 @@
    limitations under the License.
 
 */
-.hermes-theme--hover-visible-dots .hermes-layout--dot {
+.ht-theme--hover-visible-dots .ht-layout--dot {
   opacity: 0; }
 
-.hermes-theme--hover-visible-dots:hover .hermes-layout--dot, .hermes-theme--hover-visible-dots:active .hermes-layout--dot {
+.ht-theme--hover-visible-dots:hover .ht-layout--dot, .ht-theme--hover-visible-dots:active .ht-layout--dot {
   opacity: 0.8; }
-  .hermes-theme--hover-visible-dots:hover .hermes-layout--dot:hover, .hermes-theme--hover-visible-dots:hover .hermes-layout--dot:active, .hermes-theme--hover-visible-dots:active .hermes-layout--dot:hover, .hermes-theme--hover-visible-dots:active .hermes-layout--dot:active {
+  .ht-theme--hover-visible-dots:hover .ht-layout--dot:hover, .ht-theme--hover-visible-dots:hover .ht-layout--dot:active, .ht-theme--hover-visible-dots:active .ht-layout--dot:hover, .ht-theme--hover-visible-dots:active .ht-layout--dot:active {
     opacity: 1; }
 
 /*
@@ -622,12 +622,12 @@
    limitations under the License.
 
 */
-.hermes-theme--hover-opaque-arrows .hermes-layout--arrow {
+.ht-theme--hover-opaque-arrows .ht-layout--arrow {
   opacity: 0.4; }
 
-.hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow {
+.ht-theme--hover-opaque-arrows:hover .ht-layout--arrow, .ht-theme--hover-opaque-arrows:active .ht-layout--arrow {
   opacity: 0.8; }
-  .hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow:hover, .hermes-theme--hover-opaque-arrows:hover .hermes-layout--arrow:active, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow:hover, .hermes-theme--hover-opaque-arrows:active .hermes-layout--arrow:active {
+  .ht-theme--hover-opaque-arrows:hover .ht-layout--arrow:hover, .ht-theme--hover-opaque-arrows:hover .ht-layout--arrow:active, .ht-theme--hover-opaque-arrows:active .ht-layout--arrow:hover, .ht-theme--hover-opaque-arrows:active .ht-layout--arrow:active {
     opacity: 1; }
 
 /*
@@ -647,17 +647,17 @@
    limitations under the License.
 
 */
-.hermes-theme--hover-opaque-dots .hermes-layout--dot {
+.ht-theme--hover-opaque-dots .ht-layout--dot {
   opacity: 0.4; }
 
-.hermes-theme--hover-opaque-dots:hover .hermes-layout--dot, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot {
+.ht-theme--hover-opaque-dots:hover .ht-layout--dot, .ht-theme--hover-opaque-dots:active .ht-layout--dot {
   opacity: 0.8; }
-  .hermes-theme--hover-opaque-dots:hover .hermes-layout--dot:hover, .hermes-theme--hover-opaque-dots:hover .hermes-layout--dot:active, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot:hover, .hermes-theme--hover-opaque-dots:active .hermes-layout--dot:active {
+  .ht-theme--hover-opaque-dots:hover .ht-layout--dot:hover, .ht-theme--hover-opaque-dots:hover .ht-layout--dot:active, .ht-theme--hover-opaque-dots:active .ht-layout--dot:hover, .ht-theme--hover-opaque-dots:active .ht-layout--dot:active {
     opacity: 1; }
 
 /*
 
-   Copyright 2015 Maciej Chałapuk
+   Copyright 2016 Maciej Chałapuk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -672,19 +672,19 @@
    limitations under the License.
 
 */
-.hermes-transition--zoom-out-in.hermes-before-transition .hermes-slide-to .hermes-layout--content {
+.ht-transition--zoom-out-in.ht-before-transition .ht-slide-to .ht-layout--content {
   -webkit-transform: scale(1.05, 1.05);
   -moz-transform: scale(1.05, 1.05);
   -o-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05); }
 
-.hermes-transition--zoom-out-in.hermes-during-transition .hermes-slide-from .hermes-layout--content {
+.ht-transition--zoom-out-in.ht-during-transition .ht-slide-from .ht-layout--content {
   -webkit-transform: scale(1.35, 1.15);
   -moz-transform: scale(1.35, 1.15);
   -o-transform: scale(1.35, 1.15);
   transform: scale(1.35, 1.15); }
 
-.hermes-transition--zoom-out-in.hermes-during-transition .hermes-slide-to .hermes-layout--content {
+.ht-transition--zoom-out-in.ht-during-transition .ht-slide-to .ht-layout--content {
   -webkit-transform: scale(1, 1);
   -moz-transform: scale(1, 1);
   -o-transform: scale(1, 1);
@@ -707,19 +707,19 @@
    limitations under the License.
 
 */
-.hermes-transition--bg-zoom-in-out.hermes-before-transition .hermes-slide-to .hermes-layout--background {
+.ht-transition--bg-zoom-in-out.ht-before-transition .ht-slide-to .ht-layout--background {
   -webkit-transform: scale(1.07, 1.07);
   -moz-transform: scale(1.07, 1.07);
   -o-transform: scale(1.07, 1.07);
   transform: scale(1.07, 1.07); }
 
-.hermes-transition--bg-zoom-in-out.hermes-during-transition .hermes-slide-from .hermes-layout--background {
+.ht-transition--bg-zoom-in-out.ht-during-transition .ht-slide-from .ht-layout--background {
   -webkit-transform: scale(1, 1);
   -moz-transform: scale(1, 1);
   -o-transform: scale(1, 1);
   transform: scale(1, 1); }
 
-.hermes-transition--bg-zoom-in-out.hermes-during-transition .hermes-slide-to .hermes-layout--background {
+.ht-transition--bg-zoom-in-out.ht-during-transition .ht-slide-to .ht-layout--background {
   -webkit-transform: scale(1.1, 1.1);
   -moz-transform: scale(1.1, 1.1);
   -o-transform: scale(1.1, 1.1);

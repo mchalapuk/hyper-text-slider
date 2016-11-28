@@ -1,11 +1,11 @@
 {
-  "name": "hermes",
+  "name": "hyper-text-slider",
   "version": "0.7.1",
   "authors": [
     "Maciej Chałapuk <maciej@chalapuk.pl>"
   ],
-  "main": "src/_hermes.scss",
-  "license": "Apache License 2.0",
+  "main": "src/_slider.scss",
+  "license": "Apache-2.0",
   "ignore": [
     "node_modules",
     "bower_components",
