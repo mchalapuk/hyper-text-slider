@@ -11,16 +11,13 @@
 [![Code Climate](https://codeclimate.com/github/muroc/hyper-text-slider/badges/gpa.svg
 )](https://codeclimate.com/github/muroc/hyper-text-slider)
 
-Declarative (HTML-programmable) slider component that utilizes
-[CSS3 Transitions][transitions].
+Web slideshow component which comes with:
 
-Comes with:
-
- * separately configurable background and content transitions,
+ * separately configurable background and content [CSS3 Transitions][transitions],
  * responsiveness (automatically adjusts it's layout to screen resolution),
  * extendability (adding new transtitions is very simple),
  * component-based approach (each feature can be enabled separately),
- * HTML/CSS programming interface (no JavaScript coding required).
+ * declarative (HTML/CSS) programming interface (no JavaScript coding required).
 
 [transitions]: http://www.w3.org/TR/css3-transitions/
 
