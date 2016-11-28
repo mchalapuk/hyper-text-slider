@@ -39,6 +39,10 @@
 [slide-to]: class-names.md#ht-slide-to
 [slide-id]: class-names.md#ht-slide-id-s
 
+# v0.7.1
+
+ * Rebranded the project from `hermes` to `hyper-text-slider`.
+
 # v0.7.0
 
  * Removed `ht-show-arrows`, `ht-show-dots`, and
