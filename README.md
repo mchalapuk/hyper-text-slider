@@ -1,6 +1,6 @@
 # HyperText Slider
 
-[![Build Status](https://travis-ci.org/webfront-toolkit/hyper-text-slider.svg?branch=master
+[![Build Status](https://travis-ci.org/muroc/hyper-text-slider.svg?branch=master
 )](https://travis-ci.org/muroc/hyper-text-slider)
 [![Dependency Status](https://david-dm.org/muroc/hyper-text-slider.svg
 )](https://david-dm.org/muroc/hyper-text-slider)
