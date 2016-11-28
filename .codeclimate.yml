@@ -33,9 +33,9 @@ engines:
 
 ratings:
   paths:
-  - 'src/node/**'
-  - 'src/sass/**'
-  - 'src/docs/**'
+  - "src/node/**"
+  - "src/sass/**"
+  - "src/docs/**"
 
 # You can globally exclude files from being analyzed by any engine using the
 # exclude_paths key.
