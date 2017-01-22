@@ -102,7 +102,7 @@ See Also:
  * [Animatable CSS Properties][animatable]
 
 Project Info:
- * [TODO List](doc/TODO.md)
+ * [TODO](doc/TODO.md)
  * [CHANGELOG](doc/CHANGELOG.md)
 
 [node-tutorial]: https://github.com/muroc/hyper-text-slider-node-tutorial
