@@ -1,4 +1,4 @@
-# TODO List
+# TODO
 
 ### Features
  * ~~Add responsiveness to options (with configurable breakpoints)~~
