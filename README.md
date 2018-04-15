@@ -1,15 +1,15 @@
 # HyperText Slider
 
-[![Build Status](https://travis-ci.org/muroc/hyper-text-slider.svg?branch=master
-)](https://travis-ci.org/muroc/hyper-text-slider)
-[![Dependency Status](https://david-dm.org/muroc/hyper-text-slider.svg
-)](https://david-dm.org/muroc/hyper-text-slider)
-[![devDependency Status](https://david-dm.org/muroc/hyper-text-slider/dev-status.svg
-)](https://david-dm.org/muroc/hyper-text-slider?type=dev)
-[![Documentation Status](https://inch-ci.org/github/muroc/hyper-text-slider.svg?branch=master
-)](https://inch-ci.org/github/muroc/hyper-text-slider)
-[![Code Climate](https://codeclimate.com/github/muroc/hyper-text-slider/badges/gpa.svg
-)](https://codeclimate.com/github/muroc/hyper-text-slider)
+[![Build Status](https://travis-ci.org/mchalapuk/hyper-text-slider.svg?branch=master
+)](https://travis-ci.org/mchalapuk/hyper-text-slider)
+[![Dependency Status](https://david-dm.org/mchalapuk/hyper-text-slider.svg
+)](https://david-dm.org/mchalapuk/hyper-text-slider)
+[![devDependency Status](https://david-dm.org/mchalapuk/hyper-text-slider/dev-status.svg
+)](https://david-dm.org/mchalapuk/hyper-text-slider?type=dev)
+[![Documentation Status](https://inch-ci.org/github/mchalapuk/hyper-text-slider.svg?branch=master
+)](https://inch-ci.org/github/mchalapuk/hyper-text-slider)
+[![Code Climate](https://codeclimate.com/github/mchalapuk/hyper-text-slider/badges/gpa.svg
+)](https://codeclimate.com/github/mchalapuk/hyper-text-slider)
 
 Web slideshow component which comes with:
 
@@ -105,7 +105,7 @@ Project Info:
  * [TODO](doc/TODO.md)
  * [CHANGELOG](doc/CHANGELOG.md)
 
-[node-tutorial]: https://github.com/muroc/hyper-text-slider-node-tutorial
+[node-tutorial]: https://github.com/mchalapuk/hyper-text-slider-node-tutorial
 [animatable]: https://drafts.csswg.org/css-transitions/#animatable-properties
 
 ## Contributing
