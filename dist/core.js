@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /*
 
    Copyright 2016 Maciej Chałapuk
@@ -30,10 +30,6 @@ var autoboot = require('./core/autoboot');
 window.addEventListener('load', function() {
   autoboot(document.body);
 });
-
-/*
-  eslint-env node, browser
- */
 
 
 },{"./core/autoboot":2}],2:[function(require,module,exports){
@@ -74,10 +70,6 @@ function autoboot(containerElement) {
     boot(containerElement);
   }
 }
-
-/*
-  eslint-env node, browser
-*/
 
 
 },{"../enums/common":8,"../utils/check":17,"./boot":3}],3:[function(require,module,exports){
@@ -171,10 +163,6 @@ function getEnabledOptions(element) {
 function concatUnique(unique, candidate) {
   return unique.concat(candidate.filter(function(element) { return unique.indexOf(element) === -1; }));
 }
-
-/*
-  eslint-env node, browser
-*/
 
 
 },{"../enums/common":8,"../enums/layout":10,"../enums/option":12,"../utils/check":17,"./slider":6}],4:[function(require,module,exports){
@@ -450,10 +438,6 @@ MultiMap.prototype.put = function(key, value) {
   this.get(key).push(value);
 };
 
-/*
-  eslint-env node, browser
-*/
-
 
 },{"../enums/phase":14,"../utils/check":17,"../utils/detect-features":18}],5:[function(require,module,exports){
 /*!
@@ -539,11 +523,6 @@ SlideChangeEvent.prototype = {
    */
   target: null,
 };
-
-/*
-  eslint-env node
- */
-
 
 
 },{"../utils/check":17}],6:[function(require,module,exports){
@@ -964,15 +943,6 @@ function noop() {
   // noop
 }
 
-/*
-  eslint-env node, browser
- */
-
-/*
-  eslint
-    complexity: [2, 5],
- */
-
 
 },{"../enums/flag":9,"../enums/layout":10,"../enums/marker":11,"../enums/option":12,"../enums/pattern":13,"../enums/phase":14,"../utils/check":17,"../utils/dom":19,"./phaser":4,"./slide-change-event":5,"./upgrader":7}],7:[function(require,module,exports){
 /*!
@@ -1215,15 +1185,6 @@ function noop() {
   // noop
 }
 
-/*
-  eslint-env node, browser
- */
-
-/*
-  eslint
-    complexity: [2, 6],
- */
-
 
 },{"../enums/common":8,"../enums/flag":9,"../enums/layout":10,"../enums/option":12,"../enums/pattern":13,"../enums/theme":15,"../enums/transition":16,"../utils/check":17,"../utils/detect-features":18,"../utils/dom":19}],8:[function(require,module,exports){
 /*!
@@ -1315,10 +1276,6 @@ var Common = {
 
 module.exports = Common;
 
-/*
-  eslint-env node
-*/
-
 
 },{}],9:[function(require,module,exports){
 /*!
@@ -1367,10 +1324,6 @@ var Flag = {
 };
 
 module.exports = Flag;
-
-/*
-  eslint-env node
-*/
 
 
 },{}],10:[function(require,module,exports){
@@ -1555,10 +1508,6 @@ var Layout = {
 
 module.exports = Layout;
 
-/*
-  eslint-env node
-*/
-
 
 },{}],11:[function(require,module,exports){
 /*!
@@ -1613,10 +1562,6 @@ var Marker = {
 };
 
 module.exports = Marker;
-
-/*
-  eslint-env node
-*/
 
 
 },{}],12:[function(require,module,exports){
@@ -1695,10 +1640,6 @@ var Option = {
 };
 
 module.exports = Option;
-
-/*
-  eslint-env node
-*/
 
 
 },{}],13:[function(require,module,exports){
@@ -1782,10 +1723,6 @@ var Pattern = {
 
 module.exports = Pattern;
 
-/*
-  eslint-env node
-*/
-
 
 },{}],14:[function(require,module,exports){
 /*!
@@ -1843,10 +1780,6 @@ var Phase = {
 };
 
 module.exports = Phase;
-
-/*
-  eslint-env node
-*/
 
 
 },{}],15:[function(require,module,exports){
@@ -2061,10 +1994,6 @@ var Theme = {
 
 module.exports = Theme;
 
-/*
-  eslint-env node
-*/
-
 
 },{}],16:[function(require,module,exports){
 /*!
@@ -2120,10 +2049,6 @@ var Transition = {
 
 module.exports = Transition;
 
-/*
-  eslint-env node
-*/
-
 
 },{}],17:[function(require,module,exports){
 /*!
@@ -2164,16 +2089,6 @@ var customAssertions = {
 for (var name in customAssertions) {
   check.addAssertion(name, customAssertions[name]);
 }
-
-/*
-  eslint-env node
- */
-
-/*
-  eslint
-    no-invalid-this: 0,
-    no-underscore-dangle: 0,
- */
 
 
 },{"offensive":46,"offensive/lib/model/assertion":33}],18:[function(require,module,exports){
@@ -2241,10 +2156,6 @@ function featureNameFromProperty(instance, defaultName, candidateMap) {
   return defaultName;
 }
 
-/*
-  eslint-env node, browser
-*/
-
 
 },{}],19:[function(require,module,exports){
 /*!
@@ -2305,10 +2216,6 @@ function extractClassNames(elem, pattern) {
   removeClassNames(elem, pattern);
   return retVal;
 }
-
-/*
-  eslint-env node, browser
- */
 
 
 },{"../utils/check":17}],20:[function(require,module,exports){

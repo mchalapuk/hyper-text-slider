@@ -4,17 +4,14 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
-var stylelint = require('gulp-stylelint');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var jasmine = require('gulp-jasmine');
 var cssmin = require('gulp-cssmin');
-var markdox = require('gulp-markdox2');
+var markdox = require('gulp-markdox');
 var fixme = require('fixme');
 var connect = require('gulp-connect');
-var sequence = require('gulp-sequence');
 var rename = require('gulp-rename');
 var merge = require('merge-stream');
 var del = require('del');
@@ -26,24 +23,7 @@ var child = require('child_process');
 var config = require('./build.config');
 var watching = false;
 
-task('lint:config', [], config.config, function(files) {
-  return gulp.src(files.src)
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(watching? gutil.noop(): eslint.failAfterError())
-  ;
-});
-
-task('lint:sass', [], config.css, function(files) {
-  return gulp.src(files.src)
-    .pipe(stylelint({
-      reporters: [ { formatter: 'string', console: true } ],
-      failAfterError: !watching,
-    }))
-  ;
-});
-
-task('sass', [ 'lint:sass' ], config.css, function(files) {
+task('sass', config.css, function(files) {
   var buildDir = config.dir.build + (files.dest || '');
 
   return gulp.src(files.main)
@@ -55,15 +35,7 @@ task('sass', [ 'lint:sass' ], config.css, function(files) {
   ;
 });
 
-task('lint:javascript', [], config.js, function(files) {
-  return gulp.src(files.src)
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(watching? gutil.noop(): eslint.failAfterError())
-  ;
-});
-
-task('javascript', [ 'lint:javascript' ], config.js, function(files) {
+task('javascript', config.js, function(files) {
   if (!files.main) {
     return null;
   }
@@ -78,18 +50,7 @@ task('javascript', [ 'lint:javascript' ], config.js, function(files) {
   ;
 });
 
-task('lint:spec', [], config.js, function(files) {
-  if (!files.spec) {
-    return null;
-  }
-  return gulp.src(files.spec)
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(watching? gutil.noop(): eslint.failAfterError())
-  ;
-});
-
-task('spec', [ 'lint:spec' ], config.js, function(files) {
+task('spec', config.js, function(files) {
   if (!files.spec) {
     return null;
   }
@@ -124,7 +85,8 @@ gulp.task('clean:dist', function(callback) {
   return del([ config.dir.build +'**/*', '!'+ config.dir.build ], { force: true }, callback);
 });
 
-gulp.task('dist', [ 'clean:dist' ], sequence('sass', 'spec', 'javascript'));
+gulp.task('dist', gulp.series('clean:dist', 'sass', 'spec', 'javascript'));
+gulp.task('clean-dist', gulp.series('clean:dist', 'dist'));
 
 gulp.task('clean:doc', function(callback) {
   config.doc.formatter.reset();
@@ -133,7 +95,7 @@ gulp.task('clean:doc', function(callback) {
   return del(cleanPaths, { force: true }, callback);
 });
 
-task('doc', [ 'clean:doc' ], config.doc.generated, function(files) {
+task('doc', config.doc.generated, function(files) {
   return gulp.src(files.src)
     .pipe(markdox.parse(files.options))
     .pipe(markdox.format())
@@ -144,13 +106,14 @@ task('doc', [ 'clean:doc' ], config.doc.generated, function(files) {
     .pipe(gulp.dest(config.dir.docs))
   ;
 });
+gulp.task('clean-doc', gulp.series('clean:doc', 'doc'));
 
 gulp.task('fixme', _.partial(fixme, {
   file_patterns: [ '**/*.js', '**/*.scss' ],
   ignored_directories: [ 'node_modules/**', '.git/**', 'dist/**' ],
 }));
 
-gulp.task('default', [ 'lint:config', 'dist', 'doc' ]);
+gulp.task('default', gulp.series('clean-dist', 'clean-doc'));
 
 gulp.task('watch', function() {
   var allCssSources = flatten(config.css, 'src');
@@ -199,8 +162,8 @@ gulp.task('autoreload', function() {
   spawnAnotherChild();
 });
 
-function task(name, deps, configObject, taskDefinition, mergedCallback) {
-  return gulp.task(name, deps, function() {
+function task(name, configObject, taskDefinition, mergedCallback) {
+  return gulp.task(name, function() {
     var streams = (configObject instanceof Array? configObject: [ configObject ])
         .filter(function(object) { return !object.ignore; })
         .map(taskDefinition.bind(null))
@@ -225,16 +188,4 @@ function logError(err) {
 function pass(arg) {
   return arg;
 }
-
-/*
-  eslint-env node
-*/
-
-/*
-  eslint
-    camelcase: 0,
-    no-process-exit: 0,
-    no-underscore-dangle: 0,
-    no-invalid-this: 0,
-*/
 
