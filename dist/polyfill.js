@@ -124,9 +124,9 @@ function throwError(message) {
 */
 'use strict';
 
-// polyfills must no use full offensivejs library
+// polyfills must not use full offensivejs library
 // (it would be loaded in the browser twice otherwise)
-var nodsl = require('offensive/lib/nodsl');
+var nodsl = require('offensive/NoDsl').default;
 
 module.exports = Polyfill;
 
@@ -170,7 +170,7 @@ function Polyfill(object, key) {
 }
 
 
-},{"offensive/lib/nodsl":5}],4:[function(require,module,exports){
+},{"offensive/NoDsl":5}],4:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -190,9 +190,9 @@ function Polyfill(object, key) {
 */
 'use strict';
 
-// polyfills must no use full offensivejs library
+// polyfills must not use full offensivejs library
 // (it would be loaded in the browser twice otherwise)
-var nodsl = require('offensive/lib/nodsl');
+var nodsl = require('offensive/NoDsl').default;
 
 module.exports = Object.values || polyfill;
 
@@ -208,22 +208,136 @@ function polyfill(object) {
 }
 
 
-},{"offensive/lib/nodsl":5}],5:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  check: noDslCheck,
-};
-
-function noDslCheck(condition) {
-  if (!condition) {
-    throw new Error([].slice.call(arguments, 1).join(''));
-  }
-}
-
-/*
-  eslint-env node
+},{"offensive/NoDsl":5}],5:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ObjectSerializer_1 = require("./ObjectSerializer");
+var serializer = new ObjectSerializer_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
  */
+var NoDsl = /** @class */ (function () {
+    function NoDsl(errorName) {
+        if (errorName === void 0) { errorName = 'Error'; }
+        this.errorName = errorName;
+    }
+    NoDsl.prototype.check = function (condition) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (condition) {
+            return;
+        }
+        var message = args
+            .map(function (arg) { return typeof arg === 'string' ? arg : serializer.serializeAny(arg); })
+            .join('');
+        var error = new Error(message);
+        error.name = this.errorName;
+        throw error;
+    };
+    return NoDsl;
+}());
+exports.NoDsl = NoDsl;
+exports.nodsl = new NoDsl();
+exports.default = exports.nodsl;
+exports.nodslArguments = new NoDsl('ArgumentError');
 
+},{"./ObjectSerializer":6}],6:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var ObjectSerializer = /** @class */ (function () {
+    function ObjectSerializer() {
+    }
+    ObjectSerializer.prototype.serializeAny = function (arg) {
+        switch (typeof arg) {
+            default:
+                return String(arg);
+            case 'string':
+                return '\'' + arg + '\'';
+            case 'function':
+                return this.serializeFunction(arg);
+            case 'object':
+                return this.serializeObject(arg);
+        }
+    };
+    ObjectSerializer.prototype.serializeFunction = function (func) {
+        return func.name ? "function " + func.name : 'unnamed function';
+    };
+    ObjectSerializer.prototype.serializeObject = function (arg) {
+        var _this = this;
+        if (arg instanceof NoObject) {
+            return "no object (" + this.serializeAny(arg.value) + ")";
+        }
+        if (arg instanceof NoArrayOperator) {
+            return "no array operator (" + this.serializeAny(arg.value) + ")";
+        }
+        if (arg === null) {
+            return 'null';
+        }
+        if (Array.isArray(arg)) {
+            return "[" + arg.map(this.serializeField.bind(this)).join(', ') + "]";
+        }
+        var keys = Object.keys(arg);
+        if (keys.length === 0) {
+            return '{}';
+        }
+        var keyToString = function (key) { return key + ": " + _this.serializeField(arg[key]); };
+        return "{ " + keys.map(keyToString).join(', ') + " }";
+    };
+    ObjectSerializer.prototype.serializeField = function (arg) {
+        switch (typeof arg) {
+            default:
+                return String(arg);
+            case 'string':
+                return "'" + arg + "'";
+            case 'function':
+                return this.serializeFunction(arg);
+            case 'object':
+                return this.serializeObjectField(arg);
+        }
+    };
+    ObjectSerializer.prototype.serializeObjectField = function (arg) {
+        if (arg === null) {
+            return 'null';
+        }
+        if (arg instanceof Array) {
+            return '[ ... ]';
+        }
+        return '{ ... }';
+    };
+    return ObjectSerializer;
+}());
+exports.ObjectSerializer = ObjectSerializer;
+exports.default = ObjectSerializer;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var NoArrayOperator = /** @class */ (function () {
+    function NoArrayOperator(value) {
+        this.value = value;
+    }
+    NoArrayOperator.prototype.cast = function () {
+        return this;
+    };
+    return NoArrayOperator;
+}());
+exports.NoArrayOperator = NoArrayOperator;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var NoObject = /** @class */ (function () {
+    function NoObject(value) {
+        this.value = value;
+    }
+    NoObject.prototype.cast = function () {
+        return this;
+    };
+    return NoObject;
+}());
+exports.NoObject = NoObject;
 
 },{}]},{},[1]);

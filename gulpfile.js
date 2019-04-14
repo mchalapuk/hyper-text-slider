@@ -73,8 +73,8 @@ task('spec', config.js, function(files) {
 }, function(merged) {
   return merged
     .pipe(jasmine({
-//      verbose: true,
-//      includeStackTrace: true,
+      verbose: true,
+      includeStackTrace: true,
       errorOnFail: !watching,
     }))
     .on('error', logError)
@@ -182,6 +182,7 @@ function flatten(unflattened, key0, key1) {
 
 function logError(err) {
   gutil.log(err.toString());
+  process.exitCode = 1;
   this.emit('end');
 }
 

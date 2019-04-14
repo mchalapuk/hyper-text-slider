@@ -64,7 +64,7 @@ module.exports = autoboot;
  * @params {Element} containerElement element that will be passed to ${link boot}
  */
 function autoboot(containerElement) {
-  check(containerElement, 'containerElement').is.anInstanceOf(Element);
+  check(containerElement, 'containerElement').is.anInstanceOf(Element)();
 
   if (containerElement.classList.contains(Common.AUTOBOOT)) {
     boot(containerElement);
@@ -126,7 +126,7 @@ module.exports = boot;
  * @fqn boot
  */
 function boot(containerElement) {
-  check(containerElement, 'containerElement').is.anInstanceOf(Element);
+  check(containerElement, 'containerElement').is.anInstanceOf(Element)();
 
   var containerOptions = getEnabledOptions(containerElement);
   var sliderElems = concatUnique(
@@ -247,7 +247,7 @@ var PHASE_VALUES = [ null, Phase.BEFORE_TRANSITION, Phase.DURING_TRANSITION, Pha
  * @fqn Phaser.prototype.constructor
  */
 function Phaser(element) {
-  check(element, 'element').is.anInstanceOf(Element);
+  check(element, 'element').is.anInstanceOf(Element)();
 
   var priv = {};
   priv.elem = element;
@@ -312,7 +312,7 @@ function nextPhase(priv) {
  * @fqn Phaser.prototype.setPhase
  */
 function setPhase(priv, phase) {
-  check(phase, 'phase').is.oneOf(PHASE_VALUES);
+  check(phase, 'phase').is.oneOf(PHASE_VALUES)();
   if (priv.phase !== null) {
     priv.elem.classList.remove(priv.phase);
   }
@@ -378,7 +378,7 @@ function removePhaseTrigger(priv, target, propertyName) {
   var property = propertyName || 'transform';
   check(property, 'property').is.aString();
   var triggerElements = priv.phaseTriggers.get(property);
-  check(target, 'target').is.instanceOf(EventTarget).and.is.oneOf(triggerElements, 'phase triggers');
+  check(target, 'target').is.instanceOf(EventTarget).and.is.oneOf(triggerElements, 'phase triggers')();
 
   triggerElements.splice(triggerElements.indexOf(target), 1);
 }
@@ -390,7 +390,7 @@ function removePhaseTrigger(priv, target, propertyName) {
  * @fqn Phaser.prototype.removePhaseListener
  */
 function removePhaseListener(priv, listener) {
-  check(listener, 'listener').is.aFunction.and.is.oneOf(priv.listeners, 'registered listeners');
+  check(listener, 'listener').is.aFunction.and.is.oneOf(priv.listeners, 'registered listeners')();
   priv.listeners.splice(priv.listeners.indexOf(listener), 1);
 }
 
@@ -595,7 +595,7 @@ var EVENT_NAMES = [ 'slideChange' ];
  * @fqn Slider.prototype.constructor
  */
 function Slider(elem) {
-  check(elem, 'elem').is.anInstanceOf(Element);
+  check(elem, 'elem').is.anInstanceOf(Element)();
 
   var priv = {};
   priv.elem = elem;
@@ -689,7 +689,7 @@ function Slider(elem) {
  */
 function start(priv, callback) {
   check(priv.started, 'slider.started').is.False();
-  check(callback, 'callback').is.either.aFunction.or.Undefined();
+  check(callback, 'callback').is.aFunction.or.Undefined();
 
   priv.startCallback = callback || noop;
 
@@ -737,7 +737,7 @@ function moveToPrevious(priv) {
  */
 function moveTo(priv, index) {
   check(priv.started, 'slider.started').is.True();
-  check(index, 'index').is.inRange(0, priv.slides.length);
+  check(index, 'index').is.inRange(0, priv.slides.length)();
 
   var toIndex = index <= priv.slides.length? index % priv.slides.length: index;
   if (priv.toIndex === toIndex) {
@@ -766,7 +766,7 @@ function moveTo(priv, index) {
  * @fqn Slider.prototype.on
  */
 function on(priv, eventName, listener) {
-  check(eventName, 'eventName').is.aString.and.oneOf(EVENT_NAMES);
+  check(eventName, 'eventName').is.aString.and.oneOf(EVENT_NAMES)();
   check(listener, 'listener').is.aFunction();
 
   getListeners(priv, eventName).push(listener);
@@ -782,9 +782,9 @@ function on(priv, eventName, listener) {
  * @fqn Slider.prototype.removeListener
  */
 function removeListener(priv, eventName, listener) {
-  check(eventName, 'eventName').is.aString.and.oneOf(EVENT_NAMES);
+  check(eventName, 'eventName').is.aString.and.oneOf(EVENT_NAMES)();
   var listeners = getListeners(priv, eventName);
-  check(listener, 'listener').is.aFunction.and.is.oneOf(listeners, 'registered listeners');
+  check(listener, 'listener').is.aFunction.and.is.oneOf(listeners, 'registered listeners')();
 
   listeners.splice(listeners.indexOf(listener), 1);
 }
@@ -1014,7 +1014,7 @@ var DEFAULT_TRANSITIONS = [
 ];
 
 function Upgrader(elem) {
-  check(elem, 'elem').is.anInstanceOf(Element);
+  check(elem, 'elem').is.anInstanceOf(Element)();
 
   var priv = {};
   priv.onSlideUpgraded = noop;
@@ -2070,28 +2070,35 @@ module.exports = Transition;
 */
 'use strict';
 
-var check = require('offensive');
-var Assertion = require('offensive/lib/model/assertion');
+var check = require('offensive').default;
+var Registry = require('offensive/Registry').default;
+
+require('offensive/assertions/method/register');
+require('offensive/assertions/anInstanceOf/register');
+require('offensive/assertions/aString/register');
+require('offensive/assertions/aNumber/register');
+require('offensive/assertions/inRange/register');
+require('offensive/assertions/Undefined/register');
+require('offensive/assertions/oneOf/register');
+require('offensive/assertions/True/register');
+require('offensive/assertions/False/register');
 
 module.exports = check;
 
-var customAssertions = {
-  'anEventTarget': new Assertion(function(context) {
-    context._push();
-    context.has.method('addEventListener')
-      .and.method('removeEventListener')
-      .and.method('dispatchEvent')
+Registry.instance.addAssertion({
+  'anEventTarget': {
+    assert: function(value, name, check) {
+      return check(value, name)
+        .has.method('addEventListener')
+        .and.method('removeEventListener')
+        .and.method('dispatchEvent')
       ;
-    context._pop();
-  }),
-};
-
-for (var name in customAssertions) {
-  check.addAssertion(name, customAssertions[name]);
-}
+    },
+  },
+});
 
 
-},{"offensive":46,"offensive/lib/model/assertion":33}],18:[function(require,module,exports){
+},{"offensive":63,"offensive/Registry":24,"offensive/assertions/False/register":28,"offensive/assertions/True/register":31,"offensive/assertions/Undefined/register":33,"offensive/assertions/aNumber/register":36,"offensive/assertions/aString/register":38,"offensive/assertions/anInstanceOf/register":41,"offensive/assertions/inRange/register":50,"offensive/assertions/method/register":55,"offensive/assertions/oneOf/register":60}],18:[function(require,module,exports){
 /*
 
    Copyright 2015 Maciej Chałapuk
@@ -2186,8 +2193,8 @@ module.exports = {
 };
 
 function findClassNames(elem, pattern) {
-  check(elem, 'elem').is.anInstanceOf(Element);
-  check(pattern, 'pattern').is.either.anInstanceOf(RegExp).or.aString();
+  check(elem, 'elem').is.anInstanceOf(Element)();
+  check(pattern, 'pattern').is.anInstanceOf(RegExp).or.aString();
 
   var matches = elem.className.match(pattern);
   if (!matches) {
@@ -2202,15 +2209,15 @@ function findClassNames(elem, pattern) {
 }
 
 function removeClassNames(elem, pattern) {
-  check(elem, 'elem').is.anInstanceOf(Element);
-  check(pattern, 'pattern').is.either.anInstanceOf(RegExp).or.aString();
+  check(elem, 'elem').is.anInstanceOf(Element)();
+  check(pattern, 'pattern').is.anInstanceOf(RegExp).or.aString();
 
   elem.className = elem.className.replace(pattern, '').replace('\s+', ' ');
 }
 
 function extractClassNames(elem, pattern) {
-  check(elem, 'elem').is.anInstanceOf(Element);
-  check(pattern, 'pattern').is.either.anInstanceOf(RegExp).or.aString();
+  check(elem, 'elem').is.anInstanceOf(Element)();
+  check(pattern, 'pattern').is.anInstanceOf(RegExp).or.aString();
 
   var retVal = findClassNames(elem, pattern);
   removeClassNames(elem, pattern);
@@ -2219,1485 +2226,1914 @@ function extractClassNames(elem, pattern) {
 
 
 },{"../utils/check":17}],20:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('../../model/assertion');
-var ParameterizedAssertion = require('../../model/parameterized-assertion');
-var Alias = require('../../model/alias');
-var Getters = require('../../getters');
-
-module.exports = {
-  'oneOf': new ParameterizedAssertion(function(context, set, name) {
-    context._newCheck(set, 'set').is.anArray();
-    context._newCheck(name, 'name').is.either.aString.or.Undefined();
-
-    this.message = [ 'one of', name? name: '['+ set.join(', ') + ']' ];
-    this.condition = isContainedInSet;
-
-    function isContainedInSet(value) {
-      return set.indexOf(value) !== -1;
-    }
-  }),
-  'elementOf': new Alias('oneOf'),
-  'containedIn': new Alias('oneOf'),
-
-  'elementThatIs': new ParameterizedAssertion(function(context, index, assertName, condition) {
-    context._newCheck(assertName, 'assertName').is.aString();
-    context._newCheck(condition, 'condition').is.either.aFunction.or.anObject();
-
-    var conditionFunction = null;
-    if (typeof condition === 'object') {
-      context._newCheck(condition, 'condition').has.property('isSatisfiedBy');
-      conditionFunction = condition.isSatisfiedBy.bind(condition);
-    } else {
-      conditionFunction = condition;
-    }
-
-    this.getter = Getters.element(index);
-    this.message = assertName;
-    this.condition = elemSatisfiesCondition;
-
-    function elemSatisfiesCondition(value) {
-      return conditionFunction(value[index]);
-    }
-  }),
-  'elementWhichIs': new Alias('elementThatIs'),
-
-  'eachElementIs': new ParameterizedAssertion(function(context, assertName, condition) {
-    context._newCheck(assertName, 'assertName').is.aString();
-    context._newCheck(condition, 'condition').is.either.aFunction.or.anObject();
-    if (typeof condition === 'object') {
-      context._newCheck(condition, 'condition').has.property('isSatisfiedBy');
-    }
-
-    context._push();
-    if (!context.is.anArray._result || context._value.length === 0) {
-      context._pop();
-      return;
-    }
-    context._reset();
-    context._push();
-
-    context._value.map(generateIntegers(0)).forEach(function(index) {
-      if (context.elementThatIs(index, assertName, condition)._result) {
-        // we don't want satisfied assertions in error message
-        context._reset();
-        return;
-      }
-      context._pop();
-      noop(context._operatorContext.and);
-      context._push();
-    });
-
-    context._pop(true);
-    context._pop(true);
-  }),
-  'everyElementIs': new Alias('eachElementIs'),
-  'allElements': new Alias('eachElementIs'),
-  'onlyElements': new Alias('eachElementIs'),
-
-  'onlyNumbers': new Assertion(function(context) {
-    context.eachElementIs('a number', partial(isOfType, 'number'));
-  }),
-  'onlyStrings': new Assertion(function(context) {
-    context.eachElementIs('a string', partial(isOfType, 'string'));
-  }),
-  'onlyObjects': new Assertion(function(context) {
-    context.eachElementIs('an object', partial(isOfType, 'object'));
-  }),
-  'onlyFunctions': new Assertion(function(context) {
-    context.eachElementIs('a function', partial(isOfType, 'function'));
-  }),
-  'onlyInstancesOf': new ParameterizedAssertion(function(context, Class) {
-    context._newCheck(Class, 'Class').is.aFunction();
-    context.eachElementIs('an instance of '+ Class.name, partial(isInstanceOf, Class));
-  }),
-};
-
-function generateIntegers(startingFrom) {
-  var nextValue = startingFrom;
-  return function() {
-    return nextValue++;
-  };
-}
-
-function partial(func, arg) {
-  return func.bind(null, arg);
-}
-
-function isOfType(requiredType, value) {
-  return typeof value === requiredType;
-}
-function isInstanceOf(RequiredClass, value) {
-  return value instanceof RequiredClass;
-}
-
-function noop() {
-  // noop
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../../getters":30,"../../model/alias":32,"../../model/assertion":33,"../../model/parameterized-assertion":36}],21:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('../../model/assertion');
-var Alias = require('../../model/alias');
-
-module.exports = {
-  'True': new Assertion(function() {
-    this.message = [ 'true' ];
-    this.condition = isTrue;
-  }),
-  'true': new Alias('True'),
-
-  'False': new Assertion(function() {
-    this.message = [ 'false' ];
-    this.condition = isFalse;
-  }),
-  'false': new Alias('False'),
-
-  'truthy': new Assertion(function() {
-    this.message = [ 'truthy' ];
-    this.condition = isTruethy;
-  }),
-  'Thuthy': new Alias('truthy'),
-  'thuethy': new Alias('truthy'),
-  'Thuethy': new Alias('truthy'),
-
-  'falsy': new Assertion(function() {
-    this.message = [ 'falsy' ];
-    this.condition = isFalsy;
-  }),
-  'Falsy': new Alias('falsy'),
-  'falsey': new Alias('falsy'),
-  'Falsey': new Alias('falsy'),
-};
-
-function isTrue(value) {
-  return value === true;
-}
-function isFalse(value) {
-  return value === false;
-}
-
-function isTruethy(value) {
-  return Boolean(value);
-}
-function isFalsy(value) {
-  return !value;
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../../model/alias":32,"../../model/assertion":33}],22:[function(require,module,exports){
-'use strict';
-
-Object.assign = require('../../polyfill/assign');
-
-var nullAssertions = require('./null');
-var typeAssertions = require('./type');
-var propertyAssertions = require('./property');
-var arrayAssertions = require('./array');
-var booleanAssertions = require('./boolean');
-var numberAssertions = require('./number');
-
-module.exports = Object.assign({},
-    nullAssertions, typeAssertions, propertyAssertions, arrayAssertions,
-    booleanAssertions, numberAssertions
-    );
-
-/*
-  eslint-env node
- */
-
-
-},{"../../polyfill/assign":39,"./array":20,"./boolean":21,"./null":23,"./number":24,"./property":25,"./type":26}],23:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('../../model/assertion');
-var Alias = require('../../model/alias');
-
-module.exports = {
-  'Null': new Assertion(function() {
-    this.message = 'null';
-    this.condition = isNull;
-  }),
-  'null': new Alias('Null'),
-  'Nil': new Alias('Null'),
-  'nil': new Alias('Nil'),
-  'Empty': new Assertion(function(context) {
-    this.message = 'empty';
-
-    context._push();
-    context.is.either.Null.or.Undefined();
-    context._pop();
-  }),
-  'empty': new Alias('Empty'),
-};
-
-function isNull(value) {
-  return value === null;
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../../model/alias":32,"../../model/assertion":33}],24:[function(require,module,exports){
-'use strict';
-
-var ParameterizedAssertion = require('../../model/parameterized-assertion');
-var Alias = require('../../model/alias');
-
-module.exports = {
-  'greaterThan': new ParameterizedAssertion(function(context, leftBounds) {
-    context._newCheck(leftBounds, 'leftBounds').is.aNumber();
-
-    context._push();
-    if (!context.is.aNumber._result) {
-      context._pop();
-      return;
-    }
-    context._reset();
-
-    this.message = [ '>', leftBounds ];
-    this.condition = function(value) {
-      return value > leftBounds;
+(function (process){
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
     };
-    context._pop();
-  }),
-  'greater': new Alias('greaterThan'),
-  'gt': new Alias('greaterThan'),
-
-  'lessThan': new ParameterizedAssertion(function(context, rightBounds) {
-    context._newCheck(rightBounds, 'rightBounds').is.aNumber();
-
-    context._push();
-    if (!context.is.aNumber._result) {
-      context._pop();
-      return;
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var BuilderImpl_1 = require("./BuilderImpl");
+var ObjectSerializer_1 = require("./ObjectSerializer");
+var serializer = new ObjectSerializer_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var BuilderFactory = /** @class */ (function () {
+    function BuilderFactory(assertions, operators) {
+        this.assertions = assertions;
+        this.operators = operators;
+        this.currentBuilder = null;
+        this.currentStack = '';
+        var innerCheck = this.createInner.bind(this);
+        var factory = this;
+        // Copy the BuilderImpl class in order to be able to set its prototype
+        // to different object in each instance of the factory.
+        this.Constructor = function BuilderConstructor(testedValue, varName) {
+            var self = this;
+            // In order to have a call operator (() : T) on the `OperatorBuilder`,
+            // we need to create a function and set its prototype to `OperatorBuilder.prototype`.
+            function operatorBuilder() {
+                factory.currentBuilder = null;
+                var result = self.__evaluate();
+                if (!result.success) {
+                    var error = new Error(result.message.toString());
+                    error.name = 'ContractError';
+                    throw error;
+                }
+                return testedValue;
+            }
+            Object.setPrototypeOf(operatorBuilder, operators);
+            BuilderImpl_1.default.call(self, testedValue, varName, operatorBuilder, innerCheck);
+        };
+        this.Constructor.prototype = __assign({}, BuilderImpl_1.default.prototype);
+        Object.setPrototypeOf(this.Constructor.prototype, assertions);
+        // Different constructor for inner checks in order to forbid invoking call operator.
+        this.InnerConstructor = function InnerBuilderConstructor(testedValue, varName) {
+            function innerOperatorBuilder() {
+                throw new Error("invoking call operator inside inner check is forbidden (" + varName + ")");
+            }
+            Object.setPrototypeOf(innerOperatorBuilder, operators);
+            BuilderImpl_1.default.call(this, testedValue, varName, innerOperatorBuilder, innerCheck);
+        };
+        this.InnerConstructor.prototype = this.Constructor.prototype;
     }
-    context._reset();
-
-    this.message = [ '<', rightBounds ];
-    this.condition = function(value) {
-      return value < rightBounds;
+    BuilderFactory.prototype.create = function (testedValue, varName) {
+        if (this.currentBuilder !== null) {
+            throw new Error("Previous top-level assertion builder not finished (varName='" + this.currentBuilder._varName + "'). Did you forget to invoke call operator?" + this.currentStack);
+        }
+        this.currentBuilder = new this.Constructor(testedValue, varName);
+        if (process.env.NODE_ENV !== 'production') {
+            this.currentStack = extractStackTrace(new Error());
+        }
+        return this.currentBuilder;
     };
-    context._pop();
-  }),
-  'less': new Alias('lessThan'),
-  'lt': new Alias('lessThan'),
-
-  'inRange': new ParameterizedAssertion(function(context, leftBounds, rightBounds) {
-    context._newCheck(leftBounds, 'leftBounds').is.aNumber();
-    context._newCheck(rightBounds, 'rightBounds').is.aNumber();
-
-    this.message = 'in range <'+ leftBounds +', '+ rightBounds+ ')';
-    context._push();
-    context.is.greaterThan(leftBounds - 1).and.lessThan(rightBounds);
-    context._pop();
-  }),
-  'between': new Alias('inRange'),
-};
-
-/*
-  eslint-env node
- */
-
-
-},{"../../model/alias":32,"../../model/parameterized-assertion":36}],25:[function(require,module,exports){
-'use strict';
-
-Object.getPrototypeOf = require('../../polyfill/get-prototype-of');
-
-var ParameterizedAssertion = require('../../model/parameterized-assertion');
-var Alias = require('../../model/alias');
-var Getters = require('../../getters');
-
-module.exports = {
-  // property assertions
-  'property': new ParameterizedAssertion(function(context, propertyName, propertyValue) {
-    context._newCheck(propertyName, 'propertyName').is.aString();
-
-    context._push();
-    if (!context.is.not.Empty._result) {
-      context._pop();
-      return;
-    }
-
-    context._reset();
-
-    this.getter = Getters.property(propertyName);
-    if (typeof propertyValue !== 'undefined') {
-      this.message = propertyValue;
-      this.condition = function PropertyHasValue(value) {
-        return value[propertyName] === propertyValue;
-      };
-    } else {
-      this.message = 'not undefined';
-      this.condition = function PropertyIsDefined(value) {
-        return hasProperty(value, propertyName);
-      };
-    }
-    context._pop();
-  }),
-  'field': new Alias('property'),
-
-  'method': new ParameterizedAssertion(function(context, methodName) {
-    context._newCheck(methodName, 'methodName').is.aString();
-
-    context._push();
-    if (!context.is.not.Empty._result) {
-      context._pop();
-      return;
-    }
-
-    context._reset();
-    this.getter = Getters.property(methodName);
-    this.message = 'a function';
-    this.condition = hasMethod;
-    context._pop();
-
-    function hasMethod(value) {
-      return typeof value[methodName] === 'function';
-    }
-  }),
-
-  // length assertions
-  'length': new ParameterizedAssertion(function(context, requiredLength) {
-    context._newCheck(requiredLength, 'requiredLength').is.aNumber();
-    context.has.property('length', requiredLength);
-  }),
-  'len': new Alias('length'),
-  // TODO 'lengthGT': new Alias('lengthGreaterThan'),
-  // TODO 'lengthLT': new Alias('lengthLessThan'),
-};
-
-function hasProperty(object, propertyName) {
-  var instance = object;
-  while (instance) {
-    if (instance.hasOwnProperty(propertyName)) {
-      return true;
-    }
-    instance = Object.getPrototypeOf(instance);
-  }
-  return false;
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../../getters":30,"../../model/alias":32,"../../model/parameterized-assertion":36,"../../polyfill/get-prototype-of":40}],26:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('../../model/assertion');
-var ParameterizedAssertion = require('../../model/parameterized-assertion');
-var Alias = require('../../model/alias');
-
-module.exports = {
-  'aString': typeofAssertion('string'),
-  'String': new Alias('aString'),
-  'string': new Alias('aString'),
-  'aNumber': typeofAssertion('number'),
-  'Number': new Alias('aNumber'),
-  'number': new Alias('aNumber'),
-  'aBoolean': typeofAssertion('boolean'),
-  'Boolean': new Alias('aBoolean'),
-  'boolean': new Alias('aBoolean'),
-  'aFunction': typeofAssertion('function'),
-  'Function': new Alias('aFunction'),
-  'function': new Alias('aFunction'),
-  'anObject': typeofAssertion('object'),
-  'Object': new Alias('anObject'),
-  'object': new Alias('anObject'),
-  'Undefined': typeofAssertion('undefined'),
-  'undefined': new Alias('Undefined'),
-
-  'anArray': new Assertion(function(context) {
-    this.message = 'an array';
-
-    context._push();
-    context.has.method('splice').and.method('forEach');
-    context._pop();
-  }),
-  'Array': new Alias('anArray'),
-  'array': new Alias('anArray'),
-
-  'anInstanceOf': new ParameterizedAssertion(function(context, RequiredClass) {
-    context._newCheck(RequiredClass, 'RequiredClass').is.aFunction();
-
-    this.message = 'an instance of '+ RequiredClass.name;
-    this.condition = isInstanceOf;
-
-    function isInstanceOf(value) {
-      return value instanceof RequiredClass;
-    }
-  }),
-  'instanceOf': new Alias('anInstanceOf'),
-};
-
-function typeofAssertion(requiredType) {
-  function hasProperType(value) {
-    return typeof value === requiredType;
-  }
-  return new Assertion(function() {
-    this.message = getTypePrefix(requiredType) + requiredType;
-    this.condition = hasProperType;
-  });
-}
-
-function getTypePrefix(type) {
-  return type === 'object'? 'an ': type === 'undefined'? '': 'a ';
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../../model/alias":32,"../../model/assertion":33,"../../model/parameterized-assertion":36}],27:[function(require,module,exports){
-'use strict';
-
-// names of context methods that will do nothing and return this
-module.exports = [
-  'is', 'be', 'being',
-  'which', 'that',
-  'to', 'from', 'under', 'over',
-  'has', 'have',
-  'defines', 'define',
-  'contains', 'contain',
-  'precondition', 'postcondition', 'invariant',
-];
-
-/*
-  eslint-env node
- */
-
-
-},{}],28:[function(require,module,exports){
-'use strict';
-
-var UnaryOperator = require('../../model/unary-operator');
-var BinaryOperator = require('../../model/binary-operator');
-var Alias = require('../../model/alias');
-
-module.exports = {
-  'and': new BinaryOperator(function() {
-    this.message = 'and';
-    this.apply = applyAnd;
-  }),
-  'of': new Alias('and'),
-  'with': new Alias('and'),
-
-  'not': new UnaryOperator(function() {
-    this.message = 'not';
-    this.apply = applyNot;
-  }),
-  'no': new Alias('not'),
-  'dont': new Alias('not'),
-  'doesnt': new Alias('not'),
-
-  // either and or must be used in combination
-  'either': new UnaryOperator(function(context) {
-    context._push('either');
-  }),
-  'weather': new Alias('either'),
-
-  'or': new BinaryOperator(function(context) {
-    if (context._stackName !== 'either') {
-      throw new Error('.or used without .either');
-    }
-    this.message = 'or';
-    this.apply = applyOr;
-    context._pop();
-  }),
-};
-
-function applyAnd(lhs, rhs) {
-  return lhs() && rhs();
-}
-
-function applyOr(lhs, rhs) {
-  return lhs() || rhs();
-}
-
-function applyNot(operand) {
-  return !operand();
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../../model/alias":32,"../../model/binary-operator":34,"../../model/unary-operator":37}],29:[function(require,module,exports){
-'use strict';
-
-Object.setPrototypeOf = require('./polyfill/set-prototype-of');
-
-var SyntaxTreeBuilder = require('./syntax-tree-builder');
-var MessageBuilder = require('./message-builder');
-var AssertionRegistry = require('./registry/assertion');
-var OperatorRegistry = require('./registry/operator');
-
-var nodsl = require('./nodsl');
-
-module.exports = CheckFactory;
-
-function CheckFactory(assertionRegistry, operatorRegistry) {
-  nodsl.check(assertionRegistry instanceof AssertionRegistry,
-      'assertionRegistry must be an instance of AssertionRegistry; got ', assertionRegistry);
-  nodsl.check(operatorRegistry instanceof OperatorRegistry,
-      'operatorRegistry must be an instance of OperatorRegistry; got ', operatorRegistry);
-
-  this.contextProto = {
-    assertion: assertionRegistry.contextProto,
-    operator: operatorRegistry.contextProto,
-  };
-}
-
-CheckFactory.prototype = {
-  newCheck: newCheck,
-  onError: null,
-};
-
-function newCheck(value, name) {
-  nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
-
-  var factory = this;
-  var priv = {};
-
-  var context = Object.create(factory.contextProto.assertion);
-  context._value = value;
-  context._name = name;
-  context._assert = _assert;
-  context._operator = _operator;
-  context._newCheck = newCheck.bind(factory);
-
-  var operatorContext = function() {
-    return value;
-  };
-  Object.keys(context).forEach(function(key) {
-    operatorContext[key] = context[key];
-  });
-  Object.setPrototypeOf(operatorContext, factory.contextProto.operator);
-
-  var messageBuilder = new MessageBuilder(context);
-
-  var readOnlyGetters = {
-    '_stackName': function() { return priv.state.stackName; },
-    '_result': function() { return priv.state.evaluate(); },
-    '_message': messageBuilder.build.bind(messageBuilder),
-  };
-  defineReadOnly(context, readOnlyGetters);
-  defineReadOnly(operatorContext, readOnlyGetters);
-
-  var extendedContext = extendContext(context, [ _push, _pop, _reset ]);
-  extendedContext._operatorContext = operatorContext;
-
-  priv.state = new State();
-  priv.state.syntax.onEvaluateReady = flush;
-
-  priv.stateStack = [];
-  priv.running = null;
-
-  return context;
-
-  // called by each assert method
-  function _assert(assertionName, proto, args) {
-    var assertion = Object.create(proto);
-    assertion.name = assertionName;
-    assertion.args = args || [];
-    assertion.children = [];
-
-    defineWriteOnly(assertion, {
-      'condition': function(condition) {
-        nodsl.check(typeof condition === 'function',
-            '.condition must be a function; got ', condition);
-        var operand = condition.bind(null, context._value);
-        priv.state.syntax.addOperand(operand);
-      },
-    });
-
-    run(assertion, [ extendedContext ].concat(assertion.args));
-
-    return operatorContext;
-  }
-
-  // called by each operator method
-  function _operator(operatorName, proto) {
-    var operator = Object.create(proto);
-    operator.name = operatorName;
-    operator.children = [];
-
-    defineWriteOnly(operator, {
-      'apply': function(apply) {
-        nodsl.check(typeof apply === 'function',
-            '.apply must be a function; got ', apply);
-        operator.addToSyntax(priv.state.syntax, apply);
-      },
-    });
-
-    run(operator, [ extendedContext ]);
-
-    return context;
-  }
-
-  // to be used inside assertions
-
-  function _push(stackName) {
-    priv.stateStack.push(priv.state);
-    priv.state = new State(stackName);
-    priv.state.calls = priv.running.children;
-    priv.state.startIndex = priv.state.calls.length;
-  }
-  function _pop(force) {
-    if (!priv.state.syntax.isEvaluateReady()) {
-      if (!force) {
-        priv.state.syntax.onEvaluateReady = pop0;
-        return;
-      }
-      priv.state.syntax.addOperand(returnTrue);
-    }
-    pop0(priv.state.syntax.evaluate());
-  }
-  function _reset() {
-    priv.state.syntax.flush();
-    priv.state.calls.splice(priv.state.startIndex, priv.state.calls.length - priv.state.startIndex);
-  }
-
-  // private
-
-  function run(operation, args) {
-    priv.state.calls.push(operation);
-
-    var previous = priv.running;
-    priv.running = operation;
-    operation.runInContext.apply(operation, args);
-    priv.running = previous;
-  }
-
-  function pop0(evaluate) {
-    priv.state = priv.stateStack.pop();
-    priv.state.syntax.addOperand(evaluate);
-  }
-
-  function flush(evaluate) {
-    if (!evaluate()) {
-      messageBuilder.addAssertions(priv.state.calls);
-      if (factory.onError) {
-        factory.onError(context);
-      }
-    }
-    // everything so far satisfied, so not needed in error message
-    priv.state.calls.splice(0, priv.state.calls.length);
-  }
-}
-
-// this gets pushed around alot
-function State(stackName) {
-  this.stackName = stackName;
-  this.syntax = new SyntaxTreeBuilder();
-  this.calls = [];
-}
-State.prototype = {
-  evaluate: function() {
-    return this.syntax.evaluate()();
-  },
-  startIndex: 0,
-};
-
-function defineReadOnly(instance, propertyGetters) {
-  Object.keys(propertyGetters).forEach(function(key) {
-    Object.defineProperty(instance, key, {
-      get: propertyGetters[key],
-      set: readOnlySetter(key),
-      enumerable: true,
-    });
-  });
-}
-function defineWriteOnly(instance, propertySetters) {
-  Object.keys(propertySetters).forEach(function(key) {
-    Object.defineProperty(instance, key, {
-      get: writeOnlySetter(key),
-      set: propertySetters[key],
-      enumerable: true,
-    });
-  });
-}
-
-function readOnlySetter(key) {
-  return function() { throw new Error(key +' is read only'); };
-}
-function writeOnlySetter(key) {
-  return function() { throw new Error(key +' is write only'); };
-}
-
-
-function extendContext(proto, methods) {
-  var extended = Object.create(proto);
-  methods.forEach(function(method) { extended[method.name] = method; });
-  return extended;
-}
-
-function returnTrue() {
-  return true;
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"./message-builder":31,"./nodsl":38,"./polyfill/set-prototype-of":41,"./registry/assertion":42,"./registry/operator":44,"./syntax-tree-builder":45}],30:[function(require,module,exports){
-'use strict';
-
-// built in getters
-module.exports = {
-  value: {
-    name: function(context) { return context._name; },
-    value: function(context) { return context._value; },
-  },
-  property: function(propertyName) {
-    return {
-      name: function(context) { return context._name +'.'+ propertyName; },
-      value: function(context) { return context._value[propertyName]; },
+    BuilderFactory.prototype.createInner = function (testedValue, varName) {
+        var context = new this.InnerConstructor(testedValue, varName);
+        return context;
     };
-  },
-  element: function(index) {
-    return {
-      name: function(context) { return context._name +'['+ index +']'; },
-      value: function(context) { return context._value[index]; },
+    return BuilderFactory;
+}());
+exports.BuilderFactory = BuilderFactory;
+exports.default = BuilderFactory;
+function extractStackTrace(error) {
+    var stack = error.stack;
+    return '\n  TRACE OF PREVIOUS CALL:\n' + stack.split('\n')
+        .slice(3, 8)
+        .concat(['  ...'])
+        .map(function (row) { return "  " + row; })
+        .join('\n');
+}
+
+}).call(this,require('_process'))
+},{"./BuilderImpl":21,"./ObjectSerializer":23,"_process":76}],21:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var NoDsl_1 = require("./NoDsl");
+var nodsl = new NoDsl_1.NoDsl('DslError');
+/**
+ * All implemnentation details are prefixed with double underscore (__)
+ * in order to leave non-underscored names for registered assertions and operators.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var BuilderImpl = /** @class */ (function () {
+    function BuilderImpl(_testedValue, _varName, _operatorBuilder, _check) {
+        var _this = this;
+        this._testedValue = _testedValue;
+        this._varName = _varName;
+        this._operatorBuilder = _operatorBuilder;
+        this._check = _check;
+        // NOTE:
+        // Prototype of this class is being copied in `BuilderFactory`.
+        // It's important that it doesn't have any property getters.
+        this.__result = null;
+        this.__unary = null;
+        this.__operands = [];
+        this.__binary = null;
+        var pushBinaryOperator = this.__pushBinaryOperator.bind(this);
+        // Object literal created for the purpose of proper minification of methods and properties.
+        var props = {
+            success: function () { return _this.__evaluate().success; },
+            message: function () { return _this.__evaluate().message; },
+            __pushBinaryOperator: function () { return pushBinaryOperator; },
+        };
+        var keys = Object.keys(props);
+        keys.forEach(function (key) {
+            Object.defineProperty(_operatorBuilder, key, { get: props[key], enumerable: false });
+        });
+    }
+    BuilderImpl.prototype.__pushAssertionFactory = function (factory, args) {
+        return this.__pushAssertion(factory(args));
     };
-  },
-};
+    BuilderImpl.prototype.__pushAssertion = function (assertion) {
+        this.__setResult(assertion.assert(this._testedValue, this._varName, this._check));
+        return this._operatorBuilder;
+    };
+    BuilderImpl.prototype.__pushBinaryOperator = function (operator) {
+        nodsl.check(this.__unary === null, 'Calling binary operator after unary operator is forbidden.');
+        nodsl.check(this.__result !== null || this.__operands.length !== 0, 'Calling binary operator without preceeding assertion is forbidden.');
+        switch (this.__binary) {
+            case operator:
+                // already doing the same operator
+                return this;
+            default:
+                // operator changed, we need to evaluate previous one
+                this.__applyBinary();
+                break;
+            case null:
+                // noop
+                break;
+        }
+        this.__binary = operator;
+        this.__operands.push(this.__result);
+        this.__result = null;
+        return this;
+    };
+    BuilderImpl.prototype.__pushUnaryOperator = function (operator) {
+        nodsl.check(this.__unary === null, 'Calling unary operator after unary operator is forbidden.');
+        nodsl.check(this.__result === null, 'Calling unary operator after assertion is forbidden.');
+        this.__unary = operator;
+        return this;
+    };
+    BuilderImpl.prototype.__evaluate = function () {
+        if (this.__binary !== null) {
+            this.__applyBinary();
+        }
+        nodsl.check(this.__result !== null, 'No result found.');
+        return this.__result;
+    };
+    BuilderImpl.prototype.__applyBinary = function () {
+        nodsl.check(this.__operands.length >= 2, 'Trying to apply binary operator with less than two operands.');
+        nodsl.check(this.__unary === null, 'Trying to apply binary operator with dangling unary operator.');
+        this.__result = this.__binary.apply(this.__operands);
+        this.__binary = null;
+        this.__operands = [];
+    };
+    BuilderImpl.prototype.__setResult = function (result) {
+        if (this.__unary !== null) {
+            var nextResult = this.__unary.apply(result);
+            this.__unary = null;
+            this.__setResult(nextResult);
+            return;
+        }
+        if (this.__binary !== null) {
+            this.__operands.push(result);
+            return;
+        }
+        this.__result = result;
+    };
+    return BuilderImpl;
+}());
+exports.BuilderImpl = BuilderImpl;
+exports.default = BuilderImpl;
 
-/*
-  eslint-env node
+},{"./NoDsl":22}],22:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ObjectSerializer_1 = require("./ObjectSerializer");
+var serializer = new ObjectSerializer_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
  */
-
-
-},{}],31:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('./model/assertion');
-var UnaryOperator = require('./model/unary-operator');
-
-var nodsl = require('./nodsl');
-
-module.exports = MessageBuilder;
-
-// code that builds error message is invoked only when assertion fails
-// performace is not a concern here
-function MessageBuilder(context) {
-  var that = Object.create(MessageBuilder.prototype);
-  that.context = context;
-  that.assertions = [];
-  return that;
-}
-
-MessageBuilder.prototype = {
-  addAssertions: function addAssertions(assertions) {
-    this.assertions = this.assertions.concat(assertions);
-    return this;
-  },
-
-  build: function build() {
-    nodsl.check(this.assertions.length !== 0, 'trying to build a message without failed assertions');
-
-    var groupByName = groupByVariableName.bind(null, this.context);
-    var toString = groupToString.bind(null, this.context);
-
-    var grouped = this.assertions
-      .reduce(replaceEmptyWithChildren, [])
-      .reduce(mergeWithOperators(), [])
-//      .map(tee.bind(null, console.log))
-      .reduce(removeDuplicates, [])
-      .reduce(groupByName, []);
-
-    function buildMessage(builder, group) {
-      return builder + toString(group);
+var NoDsl = /** @class */ (function () {
+    function NoDsl(errorName) {
+        if (errorName === void 0) { errorName = 'Error'; }
+        this.errorName = errorName;
     }
-
-    grouped[0].operators.binary = '';
-    var message = grouped.reduce(buildMessage, '');
-    return message;
-  },
-};
-
-function removeDuplicates(retVal, assertion) {
-  var previous = retVal[retVal.length - 1];
-  if (retVal.length === 0 || !equal(previous, assertion)) {
-    retVal.push(assertion);
-  }
-  return retVal;
-}
-
-function equal(previous, next) {
-  return previous.message === next.message &&
-    arrayEqual(previous.args, next.args) &&
-    previous.operators.unary === next.operators.unary;
-}
-
-// naive implementation
-function arrayEqual(lhs, rhs) {
-  return JSON.stringify(lhs) === JSON.stringify(rhs);
-}
-
-function replaceEmptyWithChildren(retVal, group) {
-  if (group.message.length !== 0) {
-    retVal.push(group);
-  } else {
-    return group.children.reduce(replaceEmptyWithChildren, retVal);
-  }
-  return retVal;
-}
-
-function mergeWithOperators() {
-  var unary = [];
-  var binary = null;
-
-  return function(retVal, assertionOrOperator) {
-    if (assertionOrOperator instanceof Assertion) {
-      var assertion = assertionOrOperator;
-      assertion.operators = { unary: unary, binary: binary };
-      unary = [];
-      binary = null;
-      retVal.push(assertion);
-      return retVal;
-    }
-
-    var operator = assertionOrOperator;
-    if (operator instanceof UnaryOperator) {
-      unary.push(operator.message);
-      return retVal;
-    }
-
-    if (binary) {
-      throw new Error('BUG! Two binary operators before one assertion.');
-    }
-    binary = operator.message;
-    return retVal;
-  };
-}
-
-function groupByVariableName(context, retVal, assertion) {
-  var name = assertion.getter.name(context);
-  var current = retVal.length === 0? createGroup(assertion): retVal.pop();
-  var currentName = current.getter.name(context);
-  if (name !== currentName) {
-    retVal.push(current);
-    current = createGroup(assertion);
-  }
-  var operators = operatorsToString(assertion.operators).full;
-  var message = ensureArray(assertion.message).join(' ');
-  current.message.push(operators + message);
-  current.result &= assertion.result;
-  retVal.push(current);
-  return retVal;
-}
-
-function createGroup(assertion) {
-  // has the same properties as assertion
-  var group = {
-    operators: assertion.operators,
-    getter: assertion.getter,
-    message: [],
-    result: true,
-  };
-  assertion.operators = { unary: [], binary: '' };
-  return group;
-}
-
-function groupToString(context, group) {
-  var operators = operatorsToString(group.operators);
-  if (operators.binary) {
-    operators.binary = ' '+ operators.binary;
-  }
-  var name = group.getter.name(context);
-  var conditions = group.message.join(' ');
-  var value = group.getter.value(context);
-  var retVal = operators.binary + name +' must be '+ operators.unary + conditions +'; got '+ value;
-  return retVal;
-}
-
-function operatorsToString(operators) {
-  var unary = operators.unary.join(' ');
-  if (unary.length) {
-    unary += ' ';
-  }
-  var binary = operators.binary || '';
-  if (binary.length) {
-    binary += ' ';
-  }
-  return {
-    binary: binary,
-    unary: unary,
-    full: binary + unary,
-  };
-}
-
-function ensureArray(value) {
-  return value instanceof Array? value: [ value ];
-}
-
-// debugging
-
-/* eslint-disable no-unused-vars */
-
-function tee(func, group) {
-  func(group);
-  return group;
-}
-
-function pipe() {
-  var pipeline = [].slice.call(arguments);
-
-  return function(initialArg) {
-    return pipeline.reduce(function(arg, filter) { return filter(arg); }, initialArg);
-  };
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"./model/assertion":33,"./model/unary-operator":37,"./nodsl":38}],32:[function(require,module,exports){
-'use strict';
-
-module.exports = Alias;
-
-function Alias(originalName) {
-  var that = Object.create(Alias.prototype);
-  that.aliasFor = originalName;
-  return that;
-}
-
-Alias.prototype = {};
-
-/*
-  eslint-env node
- */
-
-
-},{}],33:[function(require,module,exports){
-'use strict';
-
-var getters = require('../getters');
-
-module.exports = Assertion;
-
-function Assertion(assertFunction) {
-  var that = Object.create(Assertion.prototype);
-  that.runInContext = assertFunction;
-  return that;
-}
-
-Assertion.prototype = {
-  getter: getters.value,
-  message: [],
-};
-
-/*
-  eslint-env node
- */
-
-
-},{"../getters":30}],34:[function(require,module,exports){
-'use strict';
-
-var Operator = require('./operator');
-
-module.exports = BinaryOperator;
-
-function BinaryOperator(operatorFunction) {
-  var that = Object.create(BinaryOperator.prototype);
-  that.runInContext = operatorFunction;
-  return that;
-}
-
-BinaryOperator.prototype = new Operator();
-
-BinaryOperator.prototype.addToSyntax = addBinaryOperator;
-
-function addBinaryOperator(syntax, applyFunction) {
-  syntax.addBinaryOperator(applyFunction);
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"./operator":35}],35:[function(require,module,exports){
-'use strict';
-
-module.exports = Operator;
-
-function Operator() {
-}
-
-Operator.prototype = {
-  message: [],
-};
-
-/*
-  eslint-env node
- */
-
-
-},{}],36:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('./assertion');
-
-module.exports = ParameterizedAssertion;
-
-function ParameterizedAssertion(assertFunction) {
-  var that = Object.create(ParameterizedAssertion.prototype);
-  that.runInContext = assertFunction;
-  return that;
-}
-
-ParameterizedAssertion.prototype = new Assertion();
-
-/*
-  eslint-env node
- */
-
-
-},{"./assertion":33}],37:[function(require,module,exports){
-'use strict';
-
-var Operator = require('./operator');
-
-module.exports = UnaryOperator;
-
-function UnaryOperator(operatorFunction) {
-  var that = Object.create(UnaryOperator.prototype);
-  that.runInContext = operatorFunction;
-  return that;
-}
-
-UnaryOperator.prototype = new Operator();
-
-UnaryOperator.prototype.addToSyntax = addUnaryOperator;
-
-function addUnaryOperator(syntax, applyFunction) {
-  syntax.addUnaryOperator(applyFunction);
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"./operator":35}],38:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  check: noDslCheck,
-};
-
-function noDslCheck(condition) {
-  if (!condition) {
-    throw new Error([].slice.call(arguments, 1).join(''));
-  }
-}
-
-/*
-  eslint-env node
- */
-
-
-},{}],39:[function(require,module,exports){
-'use strict';
-
-module.exports = Object.assign || polyfill;
-
-function polyfill(target) {
-  var sources = [].slice.call(arguments, 1);
-  return sources.reduce(assign0, target);
-}
-
-function assign0(target, source) {
-  for (var key in source) {
-    target[key] = source[key];
-  }
-  return target;
-}
-
-/*
-  eslint-env node
- */
-
-/*
-  eslint no-proto: 0
- */
-
-
-},{}],40:[function(require,module,exports){
-'use strict';
-
-module.exports = originalOrPolyfill();
-
-function originalOrPolyfill() {
-  try {
-    Object.getPrototypeOf(0);
-    // didn't throw for non-object - ES6
-    return Object.getPrototypeOf;
-  } catch (e) {
-    // ES5
-    return polyfill;
-  }
-}
-
-function polyfill(instance) {
-  return instance.__proto__;
-}
-
-/*
-  eslint-env node
- */
-
-/*
-  eslint no-proto: 0
- */
-
-
-},{}],41:[function(require,module,exports){
-'use strict';
-
-module.exports = Object.setPrototypeOf || polyfill;
-
-function polyfill(instance, prototype) {
-  instance.__proto__ = prototype;
-}
-
-/*
-  eslint-env node
- */
-
-/*
-  eslint no-proto: 0
- */
-
-
-},{}],42:[function(require,module,exports){
-'use strict';
-
-var Assertion = require('../model/assertion');
-var ParameterizedAssertion = require('../model/parameterized-assertion');
-var Alias = require('../model/alias');
-
-var NoopRegistry = require('./noop');
-
-var nodsl = require('../nodsl');
-
-module.exports = AssertionRegistry;
-
-function AssertionRegistry(noopRegistry) {
-  nodsl.check(noopRegistry instanceof NoopRegistry,
-      'noopRegistry must be an instance of NoopRegistry; got ', noopRegistry);
-
-  this.contextProto = Object.create(noopRegistry.contextProto);
-  this.registered = {};
-}
-
-AssertionRegistry.prototype = {
-  add: function addAssertion(name, assertion) {
-    if (assertion instanceof Alias) {
-      var aliased = this.registered[assertion.aliasFor];
-      nodsl.check(typeof aliased === 'object',
-          'assertion of name ', assertion.aliasFor, ' pointed by alias ', name, ' not found');
-      this.add(name, aliased);
-      return;
-    }
-
-    nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
-    nodsl.check(!(name in this.registered), 'assertion of name ', name, ' already registered');
-    nodsl.check(assertion instanceof Assertion, 'assertion must be an instance of Assertion');
-
-    this.registered[name] = assertion;
-
-    if (assertion instanceof ParameterizedAssertion) {
-      Object.defineProperty(this.contextProto, name, {
-        value: assert(name, assertion),
-        enumerable: true,
-      });
-    } else {
-      Object.defineProperty(this.contextProto, name, {
-        get: assert(name, assertion),
-        enumerable: true,
-      });
-    }
-  },
-};
-
-function assert(name, assertion) {
-  return function() {
-    var args = [].slice.call(arguments);
-
-    try {
-      return this._assert(name, assertion, args);
-
-    } catch (e) {
-      if (e.name === 'ContractError') {
-        // just to shorten the stack trace
-        var error = new Error(e.message);
-        error.name = 'ContractError';
-        error.cause = e;
+    NoDsl.prototype.check = function (condition) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (condition) {
+            return;
+        }
+        var message = args
+            .map(function (arg) { return typeof arg === 'string' ? arg : serializer.serializeAny(arg); })
+            .join('');
+        var error = new Error(message);
+        error.name = this.errorName;
         throw error;
-      }
-      throw e;
-    }
-  };
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../model/alias":32,"../model/assertion":33,"../model/parameterized-assertion":36,"../nodsl":38,"./noop":43}],43:[function(require,module,exports){
-'use strict';
-
-var nodsl = require('../nodsl');
-
-module.exports = NoopRegistry;
-
-function NoopRegistry() {
-  this.contextProto = {};
-}
-
-NoopRegistry.prototype = {
-  add: function addNoop(name) {
-    nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
-
-    Object.defineProperty(this.contextProto, name, {
-      get: returnThis,
-      enumerable: true,
-    });
-  },
-};
-
-function returnThis() {
-  return this;
-}
-
-/*
-  eslint-env node
- */
-
-
-},{"../nodsl":38}],44:[function(require,module,exports){
-'use strict';
-
-var Operator = require('../model/operator');
-var BinaryOperator = require('../model/binary-operator');
-var Alias = require('../model/alias');
-
-var NoopRegistry = require('./noop');
-var AssertionRegistry = require('./assertion');
-
-var nodsl = require('../nodsl');
-
-module.exports = OperatorRegistry;
-
-function OperatorRegistry(noopRegistry, assertionRegistry) {
-  nodsl.check(noopRegistry instanceof NoopRegistry,
-      'noopRegistry must be an instance of NoopRegistry; got ', noopRegistry);
-  nodsl.check(assertionRegistry instanceof AssertionRegistry,
-      'assertionRegistry must be an instance of AssertionRegistry; got ', assertionRegistry);
-
-  this.contextProto = Object.create(noopRegistry.contextProto);
-  this.assertionProto = assertionRegistry.contextProto;
-  this.registered = {};
-}
-
-OperatorRegistry.prototype = {
-  add: function addOperator(name, operator) {
-    if (operator instanceof Alias) {
-      var aliased = this.registered[operator.aliasFor];
-      nodsl.check(typeof aliased === 'object',
-          'operator of name ', operator.aliasFor, ' pointed by alias ', name, ' not found');
-      this.add(name, aliased);
-      return;
-    }
-
-    nodsl.check(typeof name === 'string', 'name must be a string; got ', name);
-    nodsl.check(!(name in this.registered), 'operator of name ', name, ' already registered');
-    nodsl.check(operator instanceof Operator, 'operator must be an instance of Operator');
-
-    this.registered[name] = operator;
-
-    // only binary operators in operatorProto
-    var actualProto = operator instanceof BinaryOperator? this.contextProto: this.assertionProto;
-
-    Object.defineProperty(actualProto, name, {
-      get: function() { return this._operator(name, operator); },
-      enumerable: true,
-    });
-  },
-};
-
-/*
-  eslint-env node
- */
-
-
-},{"../model/alias":32,"../model/binary-operator":34,"../model/operator":35,"../nodsl":38,"./assertion":42,"./noop":43}],45:[function(require,module,exports){
-'use strict';
-
-var nodsl = require('./nodsl');
-
-module.exports = SyntaxTreeBuilder;
-
-function SyntaxTreeBuilder() {
-  this.binary = null;
-  this.unary = null;
-  this.operands = [];
-  this.onEvaluateReady = noop;
-}
-
-SyntaxTreeBuilder.prototype = {
-  addOperand: function(operand) {
-    nodsl.check(typeof operand === 'function', 'operand must be a function; got ', operand);
-
-    if (this.unary) {
-      this.operands.push(this.unary.bind(null, operand));
-      this.unary = null;
-    } else {
-      this.operands.push(operand);
-    }
-
-    if (this.binary) {
-      this.operands = [ cacheResult(this.binary.bind(null, this.operands[0], this.operands[1])) ];
-      this.binary = null;
-    } else {
-      nodsl.check(this.operands.length === 1, 'expected binary operator; got operand');
-    }
-
-    this.onEvaluateReady(this.evaluate());
-  },
-
-  addBinaryOperator: function(operator) {
-    nodsl.check(typeof operator === 'function',
-        'operator must be a function; got ', operator);
-    nodsl.check(this.binary === null,
-        'expected operand or unary operator after binary operator; got binary operator');
-    nodsl.check(this.operands.length === 1,
-        'expected operand or unary operator; got binary operator');
-
-    this.binary = operator;
-  },
-  addUnaryOperator: function(operator) {
-    nodsl.check(typeof operator === 'function',
-        'operator must be a function; got ', operator);
-    nodsl.check(this.unary === null, 'expected operand after unary operator; got unary operator');
-    this.unary = operator;
-  },
-
-  isEvaluateReady: function() {
-    return this.operands.length === 1 && this.binary === null;
-  },
-  evaluate: function() {
-    nodsl.check(this.unary === null, 'trying to evaluate with dangling unary operator');
-    nodsl.check(this.binary === null, 'trying to evaluate with dangling binary operator');
-    nodsl.check(this.operands.length === 1, 'trying to evaluate an empty expression');
-    return this.operands[0];
-  },
-
-  flush: function() {
-    nodsl.check(this.unary === null, 'trying to flush with dangling unary operator');
-    nodsl.check(this.binary === null, 'trying to flush with dangling binary operator');
-    this.operands = [];
-  },
-};
-
-function noop() {
-  // noop
-}
-
-function cacheResult(evaluate) {
-  var strategy = loader;
-
-  function loader() {
-    var result = evaluate();
-    strategy = function getter() {
-      return result;
     };
-    return result;
-  }
+    return NoDsl;
+}());
+exports.NoDsl = NoDsl;
+exports.nodsl = new NoDsl();
+exports.default = exports.nodsl;
+exports.nodslArguments = new NoDsl('ArgumentError');
 
-  return strategy;
+},{"./ObjectSerializer":23}],23:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var ObjectSerializer = /** @class */ (function () {
+    function ObjectSerializer() {
+    }
+    ObjectSerializer.prototype.serializeAny = function (arg) {
+        switch (typeof arg) {
+            default:
+                return String(arg);
+            case 'string':
+                return '\'' + arg + '\'';
+            case 'function':
+                return this.serializeFunction(arg);
+            case 'object':
+                return this.serializeObject(arg);
+        }
+    };
+    ObjectSerializer.prototype.serializeFunction = function (func) {
+        return func.name ? "function " + func.name : 'unnamed function';
+    };
+    ObjectSerializer.prototype.serializeObject = function (arg) {
+        var _this = this;
+        if (arg instanceof NoObject) {
+            return "no object (" + this.serializeAny(arg.value) + ")";
+        }
+        if (arg instanceof NoArrayOperator) {
+            return "no array operator (" + this.serializeAny(arg.value) + ")";
+        }
+        if (arg === null) {
+            return 'null';
+        }
+        if (Array.isArray(arg)) {
+            return "[" + arg.map(this.serializeField.bind(this)).join(', ') + "]";
+        }
+        var keys = Object.keys(arg);
+        if (keys.length === 0) {
+            return '{}';
+        }
+        var keyToString = function (key) { return key + ": " + _this.serializeField(arg[key]); };
+        return "{ " + keys.map(keyToString).join(', ') + " }";
+    };
+    ObjectSerializer.prototype.serializeField = function (arg) {
+        switch (typeof arg) {
+            default:
+                return String(arg);
+            case 'string':
+                return "'" + arg + "'";
+            case 'function':
+                return this.serializeFunction(arg);
+            case 'object':
+                return this.serializeObjectField(arg);
+        }
+    };
+    ObjectSerializer.prototype.serializeObjectField = function (arg) {
+        if (arg === null) {
+            return 'null';
+        }
+        if (arg instanceof Array) {
+            return '[ ... ]';
+        }
+        return '{ ... }';
+    };
+    return ObjectSerializer;
+}());
+exports.ObjectSerializer = ObjectSerializer;
+exports.default = ObjectSerializer;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var NoArrayOperator = /** @class */ (function () {
+    function NoArrayOperator(value) {
+        this.value = value;
+    }
+    NoArrayOperator.prototype.cast = function () {
+        return this;
+    };
+    return NoArrayOperator;
+}());
+exports.NoArrayOperator = NoArrayOperator;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var NoObject = /** @class */ (function () {
+    function NoObject(value) {
+        this.value = value;
+    }
+    NoObject.prototype.cast = function () {
+        return this;
+    };
+    return NoObject;
+}());
+exports.NoObject = NoObject;
+
+},{}],24:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var NoDsl_1 = require("./NoDsl");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var Registry = /** @class */ (function () {
+    function Registry() {
+        this.contextProto = {
+            assertions: {},
+            operators: {},
+            connectors: {},
+        };
+        this.traces = {};
+        this.entities = {};
+        var _a = this.contextProto, assertions = _a.assertions, operators = _a.operators, connectors = _a.connectors;
+        Object.setPrototypeOf(assertions, connectors);
+        Object.setPrototypeOf(operators, connectors);
+        // Fields names of `Result` interface are reserved
+        // as `OperatorBuilder` implements `Result`.
+        var trace = prepareTrace();
+        this.traces['success'] = this.traces['message'] = trace;
+        this.entities['success'] = this.entities['message'] = {};
+    }
+    Registry.prototype.addAssertion = function (assertions) {
+        var newAssertions = this.filterAlreadyRegistered(assertions);
+        this.extendPrototype(this.contextProto.assertions, newAssertions, function getAssertion(assertion) {
+            return this.__pushAssertion(assertion);
+        });
+        return this;
+    };
+    Registry.prototype.addAssertionFactory = function (factories) {
+        var newFactories = this.filterAlreadyRegistered(factories);
+        this.extendPrototype(this.contextProto.assertions, newFactories, function getAssertionFactory(factory) {
+            var _this = this;
+            return function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                return _this.__pushAssertionFactory(factory, args);
+            };
+        });
+        return this;
+    };
+    Registry.prototype.addUnaryOperator = function (operators) {
+        var newOperators = this.filterAlreadyRegistered(operators);
+        // Unary operators must be added on prototype of `AssertionBuilder`.
+        this.extendPrototype(this.contextProto.assertions, newOperators, function getUnaryOperator(operator) {
+            return this.__pushUnaryOperator(operator);
+        });
+        return this;
+    };
+    Registry.prototype.addBinaryOperator = function (operators) {
+        var newOperators = this.filterAlreadyRegistered(operators);
+        this.extendPrototype(this.contextProto.operators, newOperators, function getBinaryOperator(operator) {
+            return this.__pushBinaryOperator(operator);
+        });
+        return this;
+    };
+    Registry.prototype.addConnectors = function (connectors) {
+        var newConnectors = this.filterAlreadyRegistered(connectors);
+        this.extendPrototype(this.contextProto.connectors, newConnectors, function getConnector() {
+            // noop
+            return this;
+        });
+        return this;
+    };
+    Registry.prototype.filterAlreadyRegistered = function (entities) {
+        var _this = this;
+        var trace = prepareTrace();
+        return Object.keys(entities)
+            .filter(function (name) {
+            NoDsl_1.default.check(name.length !== 0, 'name.length must be > 0 (got \'', name, '\')');
+            NoDsl_1.default.check(name[0] !== '_', 'name must not start with underscore (got \'', name, '\')');
+            var alreadyRegistered = _this.entities[name];
+            if (alreadyRegistered === undefined) {
+                return true;
+            }
+            NoDsl_1.default.check(alreadyRegistered === entities[name], 'Entity of name ', name, ' already registered.\n', 'PREVIOUS REGISTRATION STACK TRACE:\n', _this.traces[name], 'CURRENT REGISTRATION STACK TRACE:\n');
+            return false;
+        })
+            .reduce(function (result, name) {
+            _this.traces[name] = trace;
+            _this.entities[name] = entities[name];
+            result[name] = entities[name];
+            return result;
+        }, {});
+    };
+    Registry.prototype.extendPrototype = function (proto, newElements, getter) {
+        var enumerable = true;
+        var names = Object.keys(newElements);
+        names.forEach(function (name) {
+            function get() {
+                return getter.call(this, newElements[name]);
+            }
+            Object.defineProperty(proto, name, { get: get, enumerable: enumerable });
+        });
+    };
+    Registry.instance = new Registry();
+    return Registry;
+}());
+exports.Registry = Registry;
+exports.default = Registry;
+function prepareTrace() {
+    var stack = new Error().stack;
+    var firstNewlineIndex = stack.indexOf('\n');
+    var secondNewlineIndex = stack.indexOf('\n', firstNewlineIndex + 1);
+    var trace = stack.substring(secondNewlineIndex + 1)
+        .split('\n')
+        .map(function (line) { return "  " + line; })
+        .join('\n');
 }
 
-/*
-  eslint-env node
+},{"./NoDsl":22}],25:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("../Null");
+require("../Undefined");
+require("../../connectors");
+require("../../operators/or");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
  */
+var EmptyAssertion = /** @class */ (function () {
+    function EmptyAssertion() {
+    }
+    EmptyAssertion.prototype.assert = function (testedValue, varName, check) {
+        return check(testedValue, varName).is.Null.or.Undefined;
+    };
+    return EmptyAssertion;
+}());
+exports.EmptyAssertion = EmptyAssertion;
+exports.default = EmptyAssertion;
 
+},{"../../connectors":61,"../../operators/or":74,"../Null":29,"../Undefined":32}],26:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var EmptyAssertion_1 = require("./EmptyAssertion");
+exports.EmptyAssertion = EmptyAssertion_1.default;
+var Null = require("../Null");
+var Undefined = require("../Undefined");
+var or = require("../../operators/or");
+var connectors = require("../../connectors");
+exports.default = EmptyAssertion_1.default;
+exports.instance = new EmptyAssertion_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    Null.registerIn(registry);
+    Undefined.registerIn(registry);
+    or.registerIn(registry);
+    connectors.registerIn(registry);
+    registry.addAssertion({
+        Empty: exports.instance,
+        empty: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-},{"./nodsl":38}],46:[function(require,module,exports){
-'use strict';
+},{"../../connectors":61,"../../operators/or":74,"../Null":29,"../Undefined":32,"./EmptyAssertion":25}],27:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var exactly_1 = require("../exactly");
+exports.instance = new exactly_1.default(false);
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        False: exports.instance,
+        false: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-var CheckFactory = require('./lib/check-factory');
+},{"../exactly":43}],28:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var False = require(".");
+/**
+ * Register `.False` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+False.registerIn(Registry_1.default.instance);
 
-var NoopRegistry = require('./lib/registry/noop');
-var AssertionRegistry = require('./lib/registry/assertion');
-var OperatorRegistry = require('./lib/registry/operator');
+},{".":27,"../../Registry":24}],29:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var exactly_1 = require("../exactly");
+exports.instance = new exactly_1.default(null);
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        Null: exports.instance,
+        null: exports.instance,
+        Nil: exports.instance,
+        nil: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-var builtInNoops = require('./lib/built-ins/noops');
-var builtInAssertions = require('./lib/built-ins/assertions');
-var builtInOperators = require('./lib/built-ins/operators');
+},{"../exactly":43}],30:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var exactly_1 = require("../exactly");
+exports.instance = new exactly_1.default(true);
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        True: exports.instance,
+        true: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-var noopRegistry = new NoopRegistry();
-builtInNoops.forEach(function(name) {
-  noopRegistry.add(name);
-});
+},{"../exactly":43}],31:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var True = require(".");
+/**
+ * Register `.True` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+True.registerIn(Registry_1.default.instance);
 
-var assertionRegistry = new AssertionRegistry(noopRegistry);
-Object.keys(builtInAssertions).forEach(function(name) {
-  assertionRegistry.add(name, builtInAssertions[name]);
-});
+},{".":30,"../../Registry":24}],32:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ofType_1 = require("../ofType");
+exports.instance = new ofType_1.default('undefined');
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        Undefined: exports.instance,
+        undefined: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-var operatorRegistry = new OperatorRegistry(noopRegistry, assertionRegistry);
-Object.keys(builtInOperators).forEach(function(name) {
-  operatorRegistry.add(name, builtInOperators[name]);
-});
+},{"../ofType":57}],33:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var Undefined = require(".");
+/**
+ * Register `.Undefined` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+Undefined.registerIn(Registry_1.default.instance);
 
-var offensive = new CheckFactory(assertionRegistry, operatorRegistry);
-offensive.onError = throwContractError;
+},{".":32,"../../Registry":24}],34:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ofType_1 = require("../ofType");
+exports.instance = new ofType_1.default('function');
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        aFunction: exports.instance,
+        Function: exports.instance,
+        function: exports.instance,
+        aFunc: exports.instance,
+        Func: exports.instance,
+        func: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-var defensive = new CheckFactory(assertionRegistry, operatorRegistry);
+},{"../ofType":57}],35:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ofType_1 = require("../ofType");
+exports.instance = new ofType_1.default('number');
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        aNumber: exports.instance,
+        Number: exports.instance,
+        number: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
 
-module.exports = offensive.newCheck.bind(offensive);
-module.exports.defensive = defensive.newCheck.bind(defensive);
-module.exports.addNoop = noopRegistry.add.bind(noopRegistry);
-module.exports.addAssertion = assertionRegistry.add.bind(assertionRegistry);
-module.exports.addOperator = operatorRegistry.add.bind(operatorRegistry);
-module.exports.default = module.exports;
+},{"../ofType":57}],36:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var aNumber = require(".");
+/**
+ * Register `.aNumber` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+aNumber.registerIn(Registry_1.default.instance);
 
-function throwContractError(context) {
-  var error = new Error(context._message);
-  error.name = 'ContractError';
-  throw error;
+},{".":35,"../../Registry":24}],37:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ofType_1 = require("../ofType");
+exports.instance = new ofType_1.default('string');
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertion({
+        aString: exports.instance,
+        String: exports.instance,
+        string: exports.instance,
+        str: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"../ofType":57}],38:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var aString = require(".");
+/**
+ * Register `.aString` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+aString.registerIn(Registry_1.default.instance);
+
+},{".":37,"../../Registry":24}],39:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+var NoDsl_1 = require("../../NoDsl");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var InstanceOfAssertion = /** @class */ (function () {
+    function InstanceOfAssertion(requiredType) {
+        this.requiredType = requiredType;
+    }
+    InstanceOfAssertion.prototype.assert = function (testedValue, varName) {
+        var requiredType = this.requiredType;
+        return {
+            get success() {
+                return testedValue instanceof requiredType;
+            },
+            get message() {
+                return new model_1.StandardMessage(varName, "be an instance of " + serializeType(requiredType), testedValue);
+            },
+        };
+    };
+    return InstanceOfAssertion;
+}());
+exports.InstanceOfAssertion = InstanceOfAssertion;
+(function (InstanceOfAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 1, '.instanceOf requires 1 argument (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(typeof args[0] === 'function', 'requiredType must be a function (got ', (typeof args[0]), ')');
+        return new InstanceOfAssertion(args[0]);
+    }
+    InstanceOfAssertion.factory = factory;
+})(InstanceOfAssertion = exports.InstanceOfAssertion || (exports.InstanceOfAssertion = {}));
+exports.InstanceOfAssertion = InstanceOfAssertion;
+exports.default = InstanceOfAssertion;
+function serializeType(type) {
+    return type.name || 'unknown type';
 }
 
-/*
-  eslint-env node
+},{"../../NoDsl":22,"../../model":67}],40:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var InstanceOfAssertion_1 = require("./InstanceOfAssertion");
+exports.InstanceOfAssertion = InstanceOfAssertion_1.default;
+exports.default = InstanceOfAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
  */
+function registerIn(registry) {
+    registry.addAssertionFactory({
+        anInstanceOf: InstanceOfAssertion_1.default.factory,
+        instanceOf: InstanceOfAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./InstanceOfAssertion":39}],41:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var anInstanceOf = require(".");
+/**
+ * Register `.anInstanceOf` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+anInstanceOf.registerIn(Registry_1.default.instance);
+
+},{".":40,"../../Registry":24}],42:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+var ObjectSerializer_1 = require("../../ObjectSerializer");
+var NoDsl_1 = require("../../NoDsl");
+var serializer = new ObjectSerializer_1.ObjectSerializer();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var ExactlyAssertion = /** @class */ (function () {
+    function ExactlyAssertion(comparedValue) {
+        this.comparedValue = comparedValue;
+    }
+    ExactlyAssertion.prototype.assert = function (testedValue, varName) {
+        var comparedValue = this.comparedValue;
+        return {
+            get success() {
+                return testedValue === comparedValue;
+            },
+            get message() {
+                return new model_1.StandardMessage(varName, "be " + serializer.serializeAny(comparedValue), testedValue);
+            },
+        };
+    };
+    return ExactlyAssertion;
+}());
+exports.ExactlyAssertion = ExactlyAssertion;
+(function (ExactlyAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 1, '.exactly requires 1 argument (got ', args.length, ')');
+        return new ExactlyAssertion(args[0]);
+    }
+    ExactlyAssertion.factory = factory;
+})(ExactlyAssertion = exports.ExactlyAssertion || (exports.ExactlyAssertion = {}));
+exports.ExactlyAssertion = ExactlyAssertion;
+exports.default = ExactlyAssertion;
+
+},{"../../NoDsl":22,"../../ObjectSerializer":23,"../../model":67}],43:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ExactlyAssertion_1 = require("./ExactlyAssertion");
+exports.ExactlyAssertion = ExactlyAssertion_1.default;
+exports.default = ExactlyAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertionFactory({
+        exactly: ExactlyAssertion_1.default.factory,
+        Exactly: ExactlyAssertion_1.default.factory,
+        exactlyEqualTo: ExactlyAssertion_1.default.factory,
+        ExactlyEqualTo: ExactlyAssertion_1.default.factory,
+        exactlyEquals: ExactlyAssertion_1.default.factory,
+        ExactlyEquals: ExactlyAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./ExactlyAssertion":42}],44:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var NoDsl_1 = require("../../NoDsl");
+var ObjectSerializer_1 = require("../../ObjectSerializer");
+require("../Empty");
+require("../../operators/not");
+require("../../connectors");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var FieldThatAssertion = /** @class */ (function () {
+    function FieldThatAssertion(fieldName, innerAssert) {
+        this.fieldName = fieldName;
+        this.innerAssert = innerAssert;
+    }
+    FieldThatAssertion.prototype.assert = function (testedValue, varName, check) {
+        var _a = this, fieldName = _a.fieldName, innerAssert = _a.innerAssert;
+        if (!check(testedValue, varName).is.not.Empty.success) {
+            return {
+                get success() {
+                    return false;
+                },
+                get message() {
+                    var wrapper = new ObjectSerializer_1.NoObject(testedValue);
+                    var newBuilder = check(wrapper.cast(), varName + "." + fieldName);
+                    return innerAssert(newBuilder).message;
+                },
+            };
+        }
+        var newBuilder = check(testedValue[fieldName], varName + "." + fieldName);
+        return innerAssert(newBuilder);
+    };
+    return FieldThatAssertion;
+}());
+exports.FieldThatAssertion = FieldThatAssertion;
+(function (FieldThatAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 2, '.fieldThat requires 2 arguments (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(typeof args[0] === 'string', 'fieldName must be a string (got ', (typeof args[0]), ')');
+        NoDsl_1.nodslArguments.check(typeof args[1] === 'function', 'assert must be a function (got ', (typeof args[1]), ')');
+        return new FieldThatAssertion(args[0], args[1]);
+    }
+    FieldThatAssertion.factory = factory;
+})(FieldThatAssertion = exports.FieldThatAssertion || (exports.FieldThatAssertion = {}));
+exports.FieldThatAssertion = FieldThatAssertion;
+exports.default = FieldThatAssertion;
+
+},{"../../NoDsl":22,"../../ObjectSerializer":23,"../../connectors":61,"../../operators/not":72,"../Empty":26}],45:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var FieldThatAssertion_1 = require("./FieldThatAssertion");
+exports.FieldThatAssertion = FieldThatAssertion_1.default;
+var Empty = require("../Empty");
+var not = require("../../operators/not");
+var connectors = require("../../connectors");
+exports.default = FieldThatAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    Empty.registerIn(registry);
+    not.registerIn(registry);
+    connectors.registerIn(registry);
+    registry.addAssertionFactory({
+        fieldThat: FieldThatAssertion_1.default.factory,
+        fieldWhich: FieldThatAssertion_1.default.factory,
+        propertyThat: FieldThatAssertion_1.default.factory,
+        propertyWhich: FieldThatAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"../../connectors":61,"../../operators/not":72,"../Empty":26,"./FieldThatAssertion":44}],46:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+var NoDsl_1 = require("../../NoDsl");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var GreaterThanOrEqualToAssertion = /** @class */ (function () {
+    function GreaterThanOrEqualToAssertion(comparedNumber) {
+        this.comparedNumber = comparedNumber;
+    }
+    GreaterThanOrEqualToAssertion.prototype.assert = function (testedValue, varName) {
+        var comparedNumber = this.comparedNumber;
+        return {
+            get success() {
+                return testedValue >= comparedNumber;
+            },
+            get message() {
+                return new model_1.StandardMessage(varName, "be \u2265 " + comparedNumber, testedValue);
+            },
+        };
+    };
+    return GreaterThanOrEqualToAssertion;
+}());
+exports.GreaterThanOrEqualToAssertion = GreaterThanOrEqualToAssertion;
+(function (GreaterThanOrEqualToAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 1, '.greaterThanEqual requires 1 argument (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(typeof args[0] === 'number', 'comparedNumber must be a number (got ', (typeof args[0]), ')');
+        return new GreaterThanOrEqualToAssertion(args[0]);
+    }
+    GreaterThanOrEqualToAssertion.factory = factory;
+})(GreaterThanOrEqualToAssertion = exports.GreaterThanOrEqualToAssertion || (exports.GreaterThanOrEqualToAssertion = {}));
+exports.GreaterThanOrEqualToAssertion = GreaterThanOrEqualToAssertion;
+exports.default = GreaterThanOrEqualToAssertion;
+
+},{"../../NoDsl":22,"../../model":67}],47:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var GreaterThanOrEqualToAssertion_1 = require("./GreaterThanOrEqualToAssertion");
+exports.GreaterThanOrEqualToAssertion = GreaterThanOrEqualToAssertion_1.default;
+exports.default = GreaterThanOrEqualToAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertionFactory({
+        greaterThanOrEqualTo: GreaterThanOrEqualToAssertion_1.default.factory,
+        greaterThanOrEqual: GreaterThanOrEqualToAssertion_1.default.factory,
+        greaterThanEqualTo: GreaterThanOrEqualToAssertion_1.default.factory,
+        greaterThanEqual: GreaterThanOrEqualToAssertion_1.default.factory,
+        greaterOrEqualTo: GreaterThanOrEqualToAssertion_1.default.factory,
+        greaterOrEqual: GreaterThanOrEqualToAssertion_1.default.factory,
+        gte: GreaterThanOrEqualToAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./GreaterThanOrEqualToAssertion":46}],48:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var NoDsl_1 = require("../../NoDsl");
+require("../greaterThanOrEqualTo");
+require("../lessThan");
+require("../../operators/and");
+require("../../connectors");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var InRangeAssertion = /** @class */ (function () {
+    function InRangeAssertion(lowerBounds, upperBounds) {
+        this.lowerBounds = lowerBounds;
+        this.upperBounds = upperBounds;
+    }
+    InRangeAssertion.prototype.assert = function (testedValue, varName, check) {
+        return check(testedValue, varName)
+            .is.greaterThanOrEqualTo(this.lowerBounds)
+            .and.lessThan(this.upperBounds);
+    };
+    return InRangeAssertion;
+}());
+exports.InRangeAssertion = InRangeAssertion;
+(function (InRangeAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 2, '.inRange requires 2 arguments (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(typeof args[0] === 'number', 'lowerBounds must be a number (got ', (typeof args[0]), ')');
+        NoDsl_1.nodslArguments.check(typeof args[1] === 'number', 'upperBounds must be a number (got ', (typeof args[1]), ')');
+        return new InRangeAssertion(args[0], args[1]);
+    }
+    InRangeAssertion.factory = factory;
+})(InRangeAssertion = exports.InRangeAssertion || (exports.InRangeAssertion = {}));
+exports.InRangeAssertion = InRangeAssertion;
+exports.default = InRangeAssertion;
+
+},{"../../NoDsl":22,"../../connectors":61,"../../operators/and":69,"../greaterThanOrEqualTo":47,"../lessThan":52}],49:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var InRangeAssertion_1 = require("./InRangeAssertion");
+exports.InRangeAssertion = InRangeAssertion_1.default;
+var greaterThanOrEqualTo = require("../greaterThanOrEqualTo");
+var lessThan = require("../lessThan");
+var and = require("../../operators/and");
+var connectors = require("../../connectors");
+exports.default = InRangeAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    greaterThanOrEqualTo.registerIn(registry);
+    lessThan.registerIn(registry);
+    and.registerIn(registry);
+    connectors.registerIn(registry);
+    registry.addAssertionFactory({
+        inRange: InRangeAssertion_1.default.factory,
+        between: InRangeAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"../../connectors":61,"../../operators/and":69,"../greaterThanOrEqualTo":47,"../lessThan":52,"./InRangeAssertion":48}],50:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var inRange = require(".");
+/**
+ * Register `.inRange` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+inRange.registerIn(Registry_1.default.instance);
+
+},{".":49,"../../Registry":24}],51:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+var NoDsl_1 = require("../../NoDsl");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var LessThanAssertion = /** @class */ (function () {
+    function LessThanAssertion(comparedNumber) {
+        this.comparedNumber = comparedNumber;
+    }
+    LessThanAssertion.prototype.assert = function (testedValue, varName) {
+        var comparedNumber = this.comparedNumber;
+        return {
+            get success() {
+                return testedValue < comparedNumber;
+            },
+            get message() {
+                return new model_1.StandardMessage(varName, "be < " + comparedNumber, testedValue);
+            },
+        };
+    };
+    return LessThanAssertion;
+}());
+exports.LessThanAssertion = LessThanAssertion;
+(function (LessThanAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 1, '.lessThan requires 1 argument (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(typeof args[0] === 'number', 'comparedNumber must be a number (got ', (typeof args[0]), ')');
+        return new LessThanAssertion(args[0]);
+    }
+    LessThanAssertion.factory = factory;
+})(LessThanAssertion = exports.LessThanAssertion || (exports.LessThanAssertion = {}));
+exports.LessThanAssertion = LessThanAssertion;
+exports.default = LessThanAssertion;
+
+},{"../../NoDsl":22,"../../model":67}],52:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var LessThanAssertion_1 = require("./LessThanAssertion");
+exports.LessThanAssertion = LessThanAssertion_1.default;
+exports.default = LessThanAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertionFactory({
+        lessThan: LessThanAssertion_1.default.factory,
+        less: LessThanAssertion_1.default.factory,
+        lt: LessThanAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./LessThanAssertion":51}],53:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var NoDsl_1 = require("../../NoDsl");
+require("../fieldThat");
+require("../aFunction");
+require("../../connectors");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var MethodAssertion = /** @class */ (function () {
+    function MethodAssertion(methodName) {
+        this.methodName = methodName;
+    }
+    MethodAssertion.prototype.assert = function (testedValue, varName, check) {
+        return check(testedValue, varName)
+            .has.fieldThat(this.methodName, function (field) { return field.is.aFunction; });
+    };
+    return MethodAssertion;
+}());
+exports.MethodAssertion = MethodAssertion;
+(function (MethodAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 1, '.method assertion requires 1 argument got (', args.length, ')');
+        NoDsl_1.nodslArguments.check(typeof args[0] === 'string', 'methodName must be a string (got ', (typeof args[0]), ')');
+        return new MethodAssertion(args[0]);
+    }
+    MethodAssertion.factory = factory;
+})(MethodAssertion = exports.MethodAssertion || (exports.MethodAssertion = {}));
+exports.MethodAssertion = MethodAssertion;
+exports.default = MethodAssertion;
+
+},{"../../NoDsl":22,"../../connectors":61,"../aFunction":34,"../fieldThat":45}],54:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var MethodAssertion_1 = require("./MethodAssertion");
+exports.MethodAssertion = MethodAssertion_1.default;
+var fieldThat = require("../fieldThat");
+var aFunction = require("../aFunction");
+var connectors = require("../../connectors");
+exports.default = MethodAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    fieldThat.registerIn(registry);
+    aFunction.registerIn(registry);
+    connectors.registerIn(registry);
+    registry.addAssertionFactory({
+        aMethod: MethodAssertion_1.default.factory,
+        method: MethodAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"../../connectors":61,"../aFunction":34,"../fieldThat":45,"./MethodAssertion":53}],55:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var method = require(".");
+/**
+ * Register `.method` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+method.registerIn(Registry_1.default.instance);
+
+},{".":54,"../../Registry":24}],56:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+var ObjectSerializer_1 = require("../../ObjectSerializer");
+var NoDsl_1 = require("../../NoDsl");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var OfTypeAssertion = /** @class */ (function () {
+    function OfTypeAssertion(requiredType) {
+        this.requiredType = requiredType;
+    }
+    OfTypeAssertion.prototype.assert = function (testedValue, varName) {
+        var requiredType = this.requiredType;
+        return {
+            get success() {
+                return typeof testedValue === requiredType;
+            },
+            get message() {
+                switch (requiredType) {
+                    case 'boolean':
+                    case 'number':
+                    case 'string':
+                    case 'function':
+                        return new model_1.StandardMessage(varName, "be a " + requiredType, testedValue);
+                    case 'object':
+                        return new model_1.StandardMessage(varName, "be an " + requiredType, testedValue);
+                    case 'undefined':
+                        return new model_1.StandardMessage(varName, "be " + requiredType, testedValue);
+                }
+            },
+        };
+    };
+    return OfTypeAssertion;
+}());
+exports.OfTypeAssertion = OfTypeAssertion;
+(function (OfTypeAssertion) {
+    var VALID_TYPES = /function|object|string|number|boolean|undefined/;
+    var serializer = new ObjectSerializer_1.ObjectSerializer();
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        NoDsl_1.nodslArguments.check(args.length === 1, '.ofType requires 1 argument (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(args[0].match(VALID_TYPES), 'requiredType must match /', VALID_TYPES.source, '/', ' (got ', serializer.serializeAny(args[0]), ')');
+        return new OfTypeAssertion(args[0]);
+    }
+    OfTypeAssertion.factory = factory;
+})(OfTypeAssertion = exports.OfTypeAssertion || (exports.OfTypeAssertion = {}));
+exports.OfTypeAssertion = OfTypeAssertion;
+exports.default = OfTypeAssertion;
+
+},{"../../NoDsl":22,"../../ObjectSerializer":23,"../../model":67}],57:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var OfTypeAssertion_1 = require("./OfTypeAssertion");
+exports.OfTypeAssertion = OfTypeAssertion_1.default;
+exports.default = OfTypeAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertionFactory({
+        ofType: OfTypeAssertion_1.default.factory,
+        type: OfTypeAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./OfTypeAssertion":56}],58:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+var ObjectSerializer_1 = require("../../ObjectSerializer");
+var NoDsl_1 = require("../../NoDsl");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var OneOfAssertion = /** @class */ (function () {
+    function OneOfAssertion(serializer, searchedSet, requirement) {
+        this.serializer = serializer;
+        this.searchedSet = searchedSet;
+        this.requirement = requirement;
+    }
+    OneOfAssertion.prototype.assert = function (testedValue, varName) {
+        var _a = this, searchedSet = _a.searchedSet, requirement = _a.requirement, serializer = _a.serializer;
+        return {
+            get success() {
+                return searchedSet.indexOf(testedValue) !== -1;
+            },
+            get message() {
+                if (requirement !== undefined) {
+                    return new model_1.StandardMessage(varName, requirement, testedValue);
+                }
+                return new model_1.StandardMessage(varName, "be one of " + serializer.serializeObject(searchedSet), testedValue);
+            },
+        };
+    };
+    return OneOfAssertion;
+}());
+exports.OneOfAssertion = OneOfAssertion;
+(function (OneOfAssertion) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function factory(args) {
+        var serializer = new ObjectSerializer_1.ObjectSerializer();
+        NoDsl_1.nodslArguments.check(args.length === 1 || args.length === 2, '.oneOf requires 1 or 2 arguments (got ', args.length, ')');
+        NoDsl_1.nodslArguments.check(Array.isArray(args[0]), 'searchedSet must be an array (got ', serializer.serializeAny(args[0]), ')');
+        if (args.length === 2) {
+            NoDsl_1.nodslArguments.check(typeof args[1] === 'string', 'requirement must be a string (got ', (typeof args[1]), ')');
+        }
+        return new OneOfAssertion(serializer, args[0], args[1]);
+    }
+    OneOfAssertion.factory = factory;
+})(OneOfAssertion = exports.OneOfAssertion || (exports.OneOfAssertion = {}));
+exports.OneOfAssertion = OneOfAssertion;
+exports.default = OneOfAssertion;
+
+},{"../../NoDsl":22,"../../ObjectSerializer":23,"../../model":67}],59:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var OneOfAssertion_1 = require("./OneOfAssertion");
+exports.OneOfAssertion = OneOfAssertion_1.default;
+exports.default = OneOfAssertion_1.default;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addAssertionFactory({
+        oneOf: OneOfAssertion_1.default.factory,
+        elementOf: OneOfAssertion_1.default.factory,
+        containedIn: OneOfAssertion_1.default.factory,
+        inSet: OneOfAssertion_1.default.factory,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./OneOfAssertion":58}],60:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../../Registry");
+var oneOf = require(".");
+/**
+ * Register `.oneOf` assertion in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+oneOf.registerIn(Registry_1.default.instance);
+
+},{".":59,"../../Registry":24}],61:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var noop = {};
+exports.connectors = {
+    is: noop,
+    be: noop,
+    being: noop,
+    to: noop,
+    from: noop,
+    under: noop,
+    over: noop,
+    has: noop,
+    have: noop,
+    defines: noop,
+    define: noop,
+    contains: noop,
+    contain: noop,
+    precondition: noop,
+    postcondition: noop,
+    invariant: noop,
+};
+exports.default = exports.connectors;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addConnectors(exports.connectors);
+}
+exports.registerIn = registerIn;
+
+},{}],62:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../Registry");
+var connectors = require(".");
+/**
+ * Register all connectors in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+connectors.registerIn(Registry_1.default.instance);
+
+},{".":61,"../Registry":24}],63:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var BuilderFactory_1 = require("./BuilderFactory");
+var Registry_1 = require("./Registry");
+require("./operators/register");
+require("./connectors/register");
+var _a = Registry_1.Registry.instance.contextProto, assertions = _a.assertions, operators = _a.operators;
+var factory = new BuilderFactory_1.BuilderFactory(assertions, operators);
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function check(testedValue, varName) {
+    return factory.create(testedValue, varName);
+}
+exports.check = check;
+exports.default = check;
+
+},{"./BuilderFactory":20,"./Registry":24,"./connectors/register":62,"./operators/register":75}],64:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ObjectSerializer_1 = require("../ObjectSerializer");
+var serializer = new ObjectSerializer_1.ObjectSerializer();
+var BinaryOperator;
+(function (BinaryOperator) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function message(separator, operands) {
+        var grouped = operands.reduce(groupByVarName(), [])
+            .map(function (messages) { return joinRequirements(separator, messages); });
+        if (grouped.length === 1) {
+            return grouped[0];
+        }
+        return joinMessages(separator, grouped);
+    }
+    BinaryOperator.message = message;
+})(BinaryOperator = exports.BinaryOperator || (exports.BinaryOperator = {}));
+exports.default = BinaryOperator;
+var objectNumber = 0;
+function groupByVarName() {
+    var previousName = {};
+    function newGroup(result) {
+        var group = [];
+        result.push(group);
+        return group;
+    }
+    return function (result, message) {
+        var group = previousName === message.varName
+            ? result[result.length - 1]
+            : newGroup(result);
+        group.push(message);
+        previousName = message.varName;
+        return result;
+    };
+}
+function joinRequirements(separator, messages) {
+    var head = messages[0];
+    var tail = messages.slice(1);
+    if (tail.length === 0) {
+        return head;
+    }
+    return {
+        get varName() {
+            return head.varName;
+        },
+        get requirement() {
+            var sharedRequirement = sharedStart.apply(null, messages.map(function (msg) { return msg.requirement; }));
+            var article = / an? ?$/.exec(sharedRequirement);
+            var cut = sharedRequirement.length - (article ? article[0].length - 1 : 0);
+            var tailRequitements = tail.map(function (msg) { return msg.requirement.substring(cut); });
+            return head.requirement + " " + separator + " " + tailRequitements.join(" " + separator + " ");
+        },
+        get actualValue() {
+            return head.actualValue;
+        },
+        toString: function () {
+            var actual = serializer.serializeAny(this.actualValue);
+            return this.varName + " must " + this.requirement + " (got " + actual + ")";
+        },
+    };
+}
+function joinMessages(separator, messages) {
+    return {
+        get varName() {
+            // just a unique name
+            return "\u00BBBinaryOperator-[" + messages.map(function (msg) { return msg.varName; }).join(', ') + "]";
+        },
+        get requirement() {
+            var head = messages[0];
+            // simple 'must' for a message is enough
+            var tail = messages.slice(1)
+                .map(function (msg) { return ("" + msg).replace(/ must/, ''); });
+            return head + " " + separator + " " + tail.join(" " + separator + " ");
+        },
+        get actualValue() {
+            // value doesn't make sence any more (there are multiple)
+            return undefined;
+        },
+        toString: function () {
+            return this.requirement;
+        },
+    };
+}
+function sharedStart() {
+    var strings = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        strings[_i] = arguments[_i];
+    }
+    var sorted = strings.concat().sort();
+    var first = sorted[0], last = sorted[sorted.length - 1];
+    var i = 0;
+    while (i < first.length && first.charAt(i) === last.charAt(i))
+        i++;
+    return first.substring(0, i);
+}
+
+},{"../ObjectSerializer":23}],65:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ObjectSerializer_1 = require("../ObjectSerializer");
+var serializer = new ObjectSerializer_1.ObjectSerializer();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var StandardMessage = /** @class */ (function () {
+    function StandardMessage(varName, requirement, actualValue) {
+        this.varName = varName;
+        this.requirement = requirement;
+        this.actualValue = actualValue;
+    }
+    StandardMessage.prototype.toString = function () {
+        var actual = serializer.serializeAny(this.actualValue);
+        return this.varName + " must " + this.requirement + " (got " + actual + ")";
+    };
+    return StandardMessage;
+}());
+exports.StandardMessage = StandardMessage;
+
+},{"../ObjectSerializer":23}],66:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Result_1 = require("./Result");
+var ObjectSerializer_1 = require("../ObjectSerializer");
+var serializer = new ObjectSerializer_1.ObjectSerializer();
+var UnaryOperator;
+(function (UnaryOperator) {
+    /**
+     * @author Maciej Chałapuk (maciej@chalapuk.pl)
+     */
+    function message(prefix, message) {
+        return new Result_1.StandardMessage(message.varName, prefix + " " + message.requirement, message.actualValue);
+    }
+    UnaryOperator.message = message;
+})(UnaryOperator = exports.UnaryOperator || (exports.UnaryOperator = {}));
+exports.default = UnaryOperator;
+
+},{"../ObjectSerializer":23,"./Result":65}],67:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Result_1 = require("./Result");
+exports.StandardMessage = Result_1.StandardMessage;
+var UnaryOperator_1 = require("./UnaryOperator");
+exports.UnaryOperator = UnaryOperator_1.UnaryOperator;
+var BinaryOperator_1 = require("./BinaryOperator");
+exports.BinaryOperator = BinaryOperator_1.BinaryOperator;
+
+},{"./BinaryOperator":64,"./Result":65,"./UnaryOperator":66}],68:[function(require,module,exports){
+"use strict";
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var AndOperator = /** @class */ (function () {
+    function AndOperator() {
+    }
+    AndOperator.prototype.apply = function (operands) {
+        return {
+            get success() {
+                var e_1, _a;
+                try {
+                    for (var operands_1 = __values(operands), operands_1_1 = operands_1.next(); !operands_1_1.done; operands_1_1 = operands_1.next()) {
+                        var operand = operands_1_1.value;
+                        if (!operand.success) {
+                            // First failure means that whole expression is false.
+                            return false;
+                        }
+                    }
+                }
+                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                finally {
+                    try {
+                        if (operands_1_1 && !operands_1_1.done && (_a = operands_1.return)) _a.call(operands_1);
+                    }
+                    finally { if (e_1) throw e_1.error; }
+                }
+                return true;
+            },
+            get message() {
+                // We want to report only on failures.
+                var failures = operands.filter(function (result) { return !result.success; });
+                return model_1.BinaryOperator.message('and', failures.map(function (o) { return o.message; }));
+            },
+        };
+    };
+    return AndOperator;
+}());
+exports.AndOperator = AndOperator;
+exports.default = AndOperator;
+
+},{"../../model":67}],69:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var AndOperator_1 = require("./AndOperator");
+exports.AndOperator = AndOperator_1.default;
+exports.default = AndOperator_1.default;
+exports.instance = new AndOperator_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addBinaryOperator({
+        and: exports.instance,
+        with: exports.instance,
+        of: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./AndOperator":68}],70:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var and = require("./and");
+var or = require("./or");
+var not = require("./not");
+var AndOperator = and.AndOperator;
+exports.AndOperator = AndOperator;
+var OrOperator = or.OrOperator;
+exports.OrOperator = OrOperator;
+var NotOperator = not.NotOperator;
+exports.NotOperator = NotOperator;
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    and.registerIn(registry);
+    or.registerIn(registry);
+    not.registerIn(registry);
+}
+exports.registerIn = registerIn;
+
+},{"./and":69,"./not":72,"./or":74}],71:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var NotOperator = /** @class */ (function () {
+    function NotOperator() {
+    }
+    NotOperator.prototype.apply = function (operand) {
+        return {
+            get success() {
+                return !operand.success;
+            },
+            get message() {
+                return model_1.UnaryOperator.message('not', operand.message);
+            },
+        };
+    };
+    return NotOperator;
+}());
+exports.NotOperator = NotOperator;
+exports.default = NotOperator;
+
+},{"../../model":67}],72:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var NotOperator_1 = require("./NotOperator");
+exports.NotOperator = NotOperator_1.default;
+exports.default = NotOperator_1.default;
+exports.instance = new NotOperator_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addUnaryOperator({
+        not: exports.instance,
+        no: exports.instance,
+        doesnt: exports.instance,
+        dont: exports.instance,
+        isnt: exports.instance,
+        arent: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./NotOperator":71}],73:[function(require,module,exports){
+"use strict";
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("../../model");
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+var OrOperator = /** @class */ (function () {
+    function OrOperator() {
+    }
+    OrOperator.prototype.apply = function (operands) {
+        return {
+            get success() {
+                var e_1, _a;
+                try {
+                    for (var operands_1 = __values(operands), operands_1_1 = operands_1.next(); !operands_1_1.done; operands_1_1 = operands_1.next()) {
+                        var operand = operands_1_1.value;
+                        if (operand.success) {
+                            // first success means that whole expression is true
+                            return true;
+                        }
+                    }
+                }
+                catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                finally {
+                    try {
+                        if (operands_1_1 && !operands_1_1.done && (_a = operands_1.return)) _a.call(operands_1);
+                    }
+                    finally { if (e_1) throw e_1.error; }
+                }
+                return false;
+            },
+            get message() {
+                return model_1.BinaryOperator.message('or', operands.map(function (o) { return o.message; }));
+            },
+        };
+    };
+    return OrOperator;
+}());
+exports.OrOperator = OrOperator;
+exports.default = OrOperator;
+
+},{"../../model":67}],74:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var OrOperator_1 = require("./OrOperator");
+exports.OrOperator = OrOperator_1.default;
+exports.default = OrOperator_1.default;
+exports.instance = new OrOperator_1.default();
+/**
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+function registerIn(registry) {
+    registry.addBinaryOperator({
+        or: exports.instance,
+    });
+}
+exports.registerIn = registerIn;
+
+},{"./OrOperator":73}],75:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry_1 = require("../Registry");
+var operators = require(".");
+/**
+ * Register all operators in default registry.
+ *
+ * @author Maciej Chałapuk (maciej@chalapuk.pl)
+ */
+operators.registerIn(Registry_1.default.instance);
+
+},{".":70,"../Registry":24}],76:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
 
 
-},{"./lib/built-ins/assertions":22,"./lib/built-ins/noops":27,"./lib/built-ins/operators":28,"./lib/check-factory":29,"./lib/registry/assertion":42,"./lib/registry/noop":43,"./lib/registry/operator":44}]},{},[1]);
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}]},{},[1]);

@@ -37,7 +37,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.8",
     "merge-stream": "^1.0.1",
-    "offensive": "^0.7.0",
+    "offensive": "^2.1.5",
     "stylelint-config-standard": "^18.3.0",
     "underscore": "^1.9.1",
     "vinyl-buffer": "^1.0.1",
