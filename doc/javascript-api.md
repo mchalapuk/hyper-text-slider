@@ -22,34 +22,40 @@ limitations under the License.
 
 **Table of Contents**
 
-1. [boot(containerElement)](javascript-api.md#bootcontainerelement)<ul></ul>
-2. [Slider](javascript-api.md#slider)<ul>
-<li>[.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem)
-<li>[.prototype.slides](javascript-api.md#sliderprototypeslides)
-<li>[.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex)
-<li>[.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide)
-<li>[.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback)
-<li>[.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext)
-<li>[.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious)
-<li>[.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex)
-<li>[.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
-<li>[.prototype.removeListener(eventName, listener)](javascript-api.md#sliderprototyperemovelistenereventname-listener)</ul>
-3. [SlideChangeEvent](javascript-api.md#slidechangeevent)<ul>
-<li>[.prototype.constructor(from, to)](javascript-api.md#slidechangeeventprototypeconstructorfrom-to)
-<li>[.prototype.fromIndex](javascript-api.md#slidechangeeventprototypefromindex)
-<li>[.prototype.toIndex](javascript-api.md#slidechangeeventprototypetoindex)
-<li>[.prototype.eventName](javascript-api.md#slidechangeeventprototypeeventname)
-<li>[.prototype.target](javascript-api.md#slidechangeeventprototypetarget)</ul>
-4. [Phaser](javascript-api.md#phaser)<ul>
-<li>[.prototype.constructor(element)](javascript-api.md#phaserprototypeconstructorelement)
-<li>[.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)
-<li>[.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase)
-<li>[.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase)
-<li>[.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname)
-<li>[.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener)
-<li>[.prototype.removePhaseTrigger(target, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty)
-<li>[.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener)
-<li>[.prototype.getPhase()](javascript-api.md#phaserprototypegetphase)</ul>
+<ol>
+
+<li><a href="javascript-api.md#bootcontainerelement">boot(containerElement)</a><ul></ul></li>
+
+<li><a href="javascript-api.md#slider">Slider</a><ul>
+<li><a href="javascript-api.md#sliderprototypeconstructorelem">.prototype.constructor(elem)</a>
+<li><a href="javascript-api.md#sliderprototypeslides">.prototype.slides</a>
+<li><a href="javascript-api.md#sliderprototypecurrentindex">.prototype.currentIndex</a>
+<li><a href="javascript-api.md#sliderprototypecurrentslide">.prototype.currentSlide</a>
+<li><a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a>
+<li><a href="javascript-api.md#sliderprototypemovetonext">.prototype.moveToNext()</a>
+<li><a href="javascript-api.md#sliderprototypemovetoprevious">.prototype.moveToPrevious()</a>
+<li><a href="javascript-api.md#sliderprototypemovetoindex">.prototype.moveTo(index)</a>
+<li><a href="javascript-api.md#sliderprototypeoneventname-listener">.prototype.on(eventName, listener)</a>
+<li><a href="javascript-api.md#sliderprototyperemovelistenereventname-listener">.prototype.removeListener(eventName, listener)</a></ul></li>
+
+<li><a href="javascript-api.md#slidechangeevent">SlideChangeEvent</a><ul>
+<li><a href="javascript-api.md#slidechangeeventprototypeconstructorfrom-to">.prototype.constructor(from, to)</a>
+<li><a href="javascript-api.md#slidechangeeventprototypefromindex">.prototype.fromIndex</a>
+<li><a href="javascript-api.md#slidechangeeventprototypetoindex">.prototype.toIndex</a>
+<li><a href="javascript-api.md#slidechangeeventprototypeeventname">.prototype.eventName</a>
+<li><a href="javascript-api.md#slidechangeeventprototypetarget">.prototype.target</a></ul></li>
+
+<li><a href="javascript-api.md#phaser">Phaser</a><ul>
+<li><a href="javascript-api.md#phaserprototypeconstructorelement">.prototype.constructor(element)</a>
+<li><a href="javascript-api.md#phaserprototypestarttransition">.prototype.startTransition()</a>
+<li><a href="javascript-api.md#phaserprototypenextphase">.prototype.nextPhase()</a>
+<li><a href="javascript-api.md#phaserprototypesetphasephase">.prototype.setPhase(phase)</a>
+<li><a href="javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname">.prototype.addPhaseTrigger(target, propertyName)</a>
+<li><a href="javascript-api.md#phaserprototypeaddphaselistenerlistener">.prototype.addPhaseListener(listener)</a>
+<li><a href="javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty">.prototype.removePhaseTrigger(target, transitionProperty)</a>
+<li><a href="javascript-api.md#phaserprototyperemovephaselistenerlistener">.prototype.removePhaseListener(listener)</a>
+<li><a href="javascript-api.md#phaserprototypegetphase">.prototype.getPhase()</a></ul></li>
+</ol>
 
 <!-- Start lib/core/boot.js -->
 
@@ -57,12 +63,12 @@ limitations under the License.
 
 Default HyperText Slider boot procedure.
 
-For each element with [ht-layout--slider](class-names.md#ht-layout--slider) class name found in passed container
+For each element with <a href="class-names.md#ht-layout--slider">ht-layout--slider</a> class name found in passed container
 (typically document's `<body>`):
 
  1. Adds [options class names](class-names.md#option-class-names) found on container element,
- 1. Creates [Slider](javascript-api.md#slider) object,
- 2. Invokes its [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) method.
+ 1. Creates <a href="javascript-api.md#slider">Slider</a> object,
+ 2. Invokes its <a href="javascript-api.md#sliderprototypestartcallback">Slider.prototype.start(callback)</a> method.
 
 If you are using browserify, you may want to call this function at some point...
 
@@ -75,9 +81,9 @@ htSlider.boot(document.body);
 
 *@param* {Element} **containerElement** - element that contains sliders in (not necessarily immediate) children
 
-*@return* - {Array<Slider>} array containing all created [Slider](javascript-api.md#slider) instances
+*@return* - {Array<Slider>} array containing all created <a href="javascript-api.md#slider">Slider</a> instances
 
-*@see* - [ht-autoboot](class-names.md#ht-autoboot)
+*@see* - <a href="class-names.md#ht-autoboot">ht-autoboot</a>
 
 <!-- End lib/core/boot.js -->
 
@@ -107,16 +113,16 @@ window.addEventListener('load', function() {
 
 Type | Name | Description
 --- | --- | ---
-Array | [Slider.prototype.slides](javascript-api.md#sliderprototypeslides) | Array containing all slide elements.
-Number | [Slider.prototype.currentIndex](javascript-api.md#sliderprototypecurrentindex) | Index of currently active slide.
-Element | [Slider.prototype.currentSlide](javascript-api.md#sliderprototypecurrentslide) | Currently active slide element.
-void | [Slider.prototype.constructor(elem)](javascript-api.md#sliderprototypeconstructorelem) | Constructs the slider.
-void | [Slider.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) | Upgrades DOM elements and shows the first slide.
-void | [Slider.prototype.moveToNext()](javascript-api.md#sliderprototypemovetonext) | Moves slider to next slide.
-void | [Slider.prototype.moveToPrevious()](javascript-api.md#sliderprototypemovetoprevious) | Moves slider previous slide.
-void | [Slider.prototype.moveTo(index)](javascript-api.md#sliderprototypemovetoindex) | Moves slider slide of given index.
-void | [Slider.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener) | Registers a listener on given eventName.
-void | [Slider.prototype.removeListener(eventName, listener)](javascript-api.md#sliderprototyperemovelistenereventname-listener) | Unregisters a listener from given eventName.
+Array | <a href="javascript-api.md#sliderprototypeslides">Slider.prototype.slides</a> | Array containing all slide elements.
+Number | <a href="javascript-api.md#sliderprototypecurrentindex">Slider.prototype.currentIndex</a> | Index of currently active slide.
+Element | <a href="javascript-api.md#sliderprototypecurrentslide">Slider.prototype.currentSlide</a> | Currently active slide element.
+void | <a href="javascript-api.md#sliderprototypeconstructorelem">Slider.prototype.constructor(elem)</a> | Constructs the slider.
+void | <a href="javascript-api.md#sliderprototypestartcallback">Slider.prototype.start(callback)</a> | Upgrades DOM elements and shows the first slide.
+void | <a href="javascript-api.md#sliderprototypemovetonext">Slider.prototype.moveToNext()</a> | Moves slider to next slide.
+void | <a href="javascript-api.md#sliderprototypemovetoprevious">Slider.prototype.moveToPrevious()</a> | Moves slider previous slide.
+void | <a href="javascript-api.md#sliderprototypemovetoindex">Slider.prototype.moveTo(index)</a> | Moves slider slide of given index.
+void | <a href="javascript-api.md#sliderprototypeoneventname-listener">Slider.prototype.on(eventName, listener)</a> | Registers a listener on given eventName.
+void | <a href="javascript-api.md#sliderprototyperemovelistenereventname-listener">Slider.prototype.removeListener(eventName, listener)</a> | Unregisters a listener from given eventName.
 
 ### Fields
 
@@ -132,7 +138,7 @@ Array containing all slide elements.
 
 Index of currently active slide.
 
-Set to `null` if [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was not called on this slider.
+Set to `null` if <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> was not called on this slider.
 
 *@type* - Number
 
@@ -142,7 +148,7 @@ Set to `null` if [.prototype.start(callback)](javascript-api.md#sliderprototypes
 
 Currently active slide element.
 
-Set to `null` if [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was not called on this slider.
+Set to `null` if <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> was not called on this slider.
 
 *@type* - Element
 
@@ -173,25 +179,25 @@ slider.start(function() {
 
 *@param* {Function} **callback** - that will be called after all slides are upgraded
 
-*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was not called on this slider
+*@precondition* - <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> was not called on this slider
 
-*@postcondition* - calling [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) again will throw exception
+*@postcondition* - calling <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> again will throw exception
 
-*@see* - [ht-autoboot](class-names.md#ht-autoboot)
+*@see* - <a href="class-names.md#ht-autoboot">ht-autoboot</a>
 
 #### Slider.prototype.moveToNext()
 
 Moves slider to next slide.
 
-*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
+*@precondition* - <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> was called on this slider
 
-*@see* - [ht-option--autoplay](class-names.md#ht-option--autoplay)
+*@see* - <a href="class-names.md#ht-option--autoplay">ht-option--autoplay</a>
 
 #### Slider.prototype.moveToPrevious()
 
 Moves slider previous slide.
 
-*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
+*@precondition* - <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> was called on this slider
 
 #### Slider.prototype.moveTo(index)
 
@@ -199,7 +205,7 @@ Moves slider slide of given index.
 
 *@param* {Number} **index** - index of the slide that slider will be moved to
 
-*@precondition* - [.prototype.start(callback)](javascript-api.md#sliderprototypestartcallback) was called on this slider
+*@precondition* - <a href="javascript-api.md#sliderprototypestartcallback">.prototype.start(callback)</a> was called on this slider
 
 #### Slider.prototype.on(eventName, listener)
 
@@ -219,7 +225,7 @@ Unregisters a listener from given eventName.
 
 *@param* {Function} **listener** - a function
 
-*@precondition* - given listener was previously passed to [.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
+*@precondition* - given listener was previously passed to <a href="javascript-api.md#sliderprototypeoneventname-listener">.prototype.on(eventName, listener)</a>
 
 *@postcondition* - given listener will no longer be notified about current slide changes
 
@@ -231,17 +237,17 @@ Unregisters a listener from given eventName.
 
 Fired by the slider when currently visible slide changes.
 
-*@see* - [Slider.prototype.on(eventName, listener)](javascript-api.md#sliderprototypeoneventname-listener)
+*@see* - <a href="javascript-api.md#sliderprototypeoneventname-listener">Slider.prototype.on(eventName, listener)</a>
 
 ### Summary
 
 Type | Name | Description
 --- | --- | ---
-Number | [SlideChangeEvent.prototype.fromIndex](javascript-api.md#slidechangeeventprototypefromindex) | Index of previous slide.
-Number | [SlideChangeEvent.prototype.toIndex](javascript-api.md#slidechangeeventprototypetoindex) | Index of current slide.
-String | [SlideChangeEvent.prototype.eventName](javascript-api.md#slidechangeeventprototypeeventname) | Always set to 'slideChange'.
-[Slider](javascript-api.md#slider) | [SlideChangeEvent.prototype.target](javascript-api.md#slidechangeeventprototypetarget) | Slider instance in which slide has changed.
-void | [SlideChangeEvent.prototype.constructor(from, to)](javascript-api.md#slidechangeeventprototypeconstructorfrom-to) | Creates SlideChangeEvent.
+Number | <a href="javascript-api.md#slidechangeeventprototypefromindex">SlideChangeEvent.prototype.fromIndex</a> | Index of previous slide.
+Number | <a href="javascript-api.md#slidechangeeventprototypetoindex">SlideChangeEvent.prototype.toIndex</a> | Index of current slide.
+String | <a href="javascript-api.md#slidechangeeventprototypeeventname">SlideChangeEvent.prototype.eventName</a> | Always set to 'slideChange'.
+<a href="javascript-api.md#slider">Slider</a> | <a href="javascript-api.md#slidechangeeventprototypetarget">SlideChangeEvent.prototype.target</a> | Slider instance in which slide has changed.
+void | <a href="javascript-api.md#slidechangeeventprototypeconstructorfrom-to">SlideChangeEvent.prototype.constructor(from, to)</a> | Creates SlideChangeEvent.
 
 ### Fields
 
@@ -273,7 +279,7 @@ Always set to 'slideChange'.
 
 Slider instance in which slide has changed.
 
-*@type* - [Slider](javascript-api.md#slider)
+*@type* - <a href="javascript-api.md#slider">Slider</a>
 
 *@access* - `read-only`
 
@@ -296,7 +302,7 @@ Creates SlideChangeEvent.
 This class controls phases of CSS transitions by setting proper
 [phase class names](class-names.md#transition-phase-class-names) on slider element.
 
-It is an internal used by the [Slider](javascript-api.md#slider), but it can be used on any other DOM element
+It is an internal used by the <a href="javascript-api.md#slider">Slider</a>, but it can be used on any other DOM element
 that require explicit control (from JavaScript) of CSS transitions.
 To better illustrate how Phaser works, contents of a slide with `zoom-in-out` transition
 will be used as an example throughout this documentation.
@@ -304,23 +310,23 @@ will be used as an example throughout this documentation.
 There are 3 phases of a transition. Each phase is identified by a [phase class name](class-names.md#transition-phase-class-names)
 that is set by the Phaser on the container DOM element. Transitions are as follows.
 
- 1. When transition is started, [ht-before-transition](class-names.md#ht-before-transition) class name is set on container
+ 1. When transition is started, <a href="class-names.md#ht-before-transition">ht-before-transition</a> class name is set on container
    DOM element. This phase is used to prepare all DOM elements inside a container element.
    In case of slide's content, `opacity` is set to `0` and `transform` is set to `scale(1.15)`.
    Slide is invisible and slightly zoomed-in. This phase lasts for 1 millisecond.
- 2. After 1 millisecond, next phase ([ht-during-transition](class-names.md#ht-during-transition)) is automatically started.
+ 2. After 1 millisecond, next phase (<a href="class-names.md#ht-during-transition">ht-during-transition</a>) is automatically started.
    This is when all animation happens. Contents of current slide fading away
    (`opacity:0; transform:scale(1);`) and next slide is fading-in
    (`opacity:1; transform:scale(1.35);`). This phase last long (typically seconds).
    Time varies depending on transition being used.
- 3. After animation is done, Phaser sets the phase to [ht-after-transition](class-names.md#ht-after-transition).
+ 3. After animation is done, Phaser sets the phase to <a href="class-names.md#ht-after-transition">ht-after-transition</a>.
    There is a possibility of altering CSS in this phase (e.g. slight change of font color),
    but in zoom-in-out there is no style change after transition.
 
 For all automatic phase changes to work, one of DOM elements that have transition specified
-must be added to the phaser as a phase trigger (see [.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname)).
-Each time a transition on a phase trigger ends, [.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) method
-is called. During its startup, [Slider](javascript-api.md#slider) sets phase change triggers on [layout elements](class-names.md#layout-class-names) (background and contents) of each slide and calls proper phase change methods
+must be added to the phaser as a phase trigger (see <a href="javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname">.prototype.addPhaseTrigger(target, propertyName)</a>).
+Each time a transition on a phase trigger ends, <a href="javascript-api.md#phaserprototypenextphase">.prototype.nextPhase()</a> method
+is called. During its startup, <a href="javascript-api.md#slider">Slider</a> sets phase change triggers on [layout elements](class-names.md#layout-class-names) (background and contents) of each slide and calls proper phase change methods
 when slider controls are being used.
 
 > **NOTE**
@@ -335,15 +341,15 @@ when slider controls are being used.
 
 Type | Name | Description
 --- | --- | ---
-void | [Phaser.prototype.constructor(element)](javascript-api.md#phaserprototypeconstructorelement) | Creates Phaser.
-void | [Phaser.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition) | A higher level method for starting a transition.
-void | [Phaser.prototype.nextPhase()](javascript-api.md#phaserprototypenextphase) | Switches phase to next one.
-void | [Phaser.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase) | Changes current phase.
-void | [Phaser.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname) | Adds passed target to phase triggers.
-void | [Phaser.prototype.addPhaseListener(listener)](javascript-api.md#phaserprototypeaddphaselistenerlistener) | Adds a listener that will be notified on phase changes.
-void | [Phaser.prototype.removePhaseTrigger(target, transitionProperty)](javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty) | Removes passed target from phase triggers.
-void | [Phaser.prototype.removePhaseListener(listener)](javascript-api.md#phaserprototyperemovephaselistenerlistener) | Removes passed listener from the phaser.
-String | [Phaser.prototype.getPhase()](javascript-api.md#phaserprototypegetphase) | Returns a class name of the current phase.
+void | <a href="javascript-api.md#phaserprototypeconstructorelement">Phaser.prototype.constructor(element)</a> | Creates Phaser.
+void | <a href="javascript-api.md#phaserprototypestarttransition">Phaser.prototype.startTransition()</a> | A higher level method for starting a transition.
+void | <a href="javascript-api.md#phaserprototypenextphase">Phaser.prototype.nextPhase()</a> | Switches phase to next one.
+void | <a href="javascript-api.md#phaserprototypesetphasephase">Phaser.prototype.setPhase(phase)</a> | Changes current phase.
+void | <a href="javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname">Phaser.prototype.addPhaseTrigger(target, propertyName)</a> | Adds passed target to phase triggers.
+void | <a href="javascript-api.md#phaserprototypeaddphaselistenerlistener">Phaser.prototype.addPhaseListener(listener)</a> | Adds a listener that will be notified on phase changes.
+void | <a href="javascript-api.md#phaserprototyperemovephasetriggertarget-transitionproperty">Phaser.prototype.removePhaseTrigger(target, transitionProperty)</a> | Removes passed target from phase triggers.
+void | <a href="javascript-api.md#phaserprototyperemovephaselistenerlistener">Phaser.prototype.removePhaseListener(listener)</a> | Removes passed listener from the phaser.
+String | <a href="javascript-api.md#phaserprototypegetphase">Phaser.prototype.getPhase()</a> | Returns a class name of the current phase.
 
 ### Methods
 
@@ -353,8 +359,8 @@ Creates Phaser.
 
 This constructor has no side-effects. This means that no [phase class name](class-names.md#transition-phase-class-names)
 is set on given **element** and no eventlistener is set after calling it. For phaser to start
-doing some work, [.prototype.setPhase(phase)](javascript-api.md#phaserprototypesetphasephase), [.prototype.startTransition()](javascript-api.md#phaserprototypestarttransition)
-or [.prototype.addPhaseTrigger(target, propertyName)](javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname) must be invoked.
+doing some work, <a href="javascript-api.md#phaserprototypesetphasephase">.prototype.setPhase(phase)</a>, <a href="javascript-api.md#phaserprototypestarttransition">.prototype.startTransition()</a>
+or <a href="javascript-api.md#phaserprototypeaddphasetriggertarget-propertyname">.prototype.addPhaseTrigger(target, propertyName)</a> must be invoked.
 
 *@param* {Element} **element** - container DOM element that will receive proper phase class names
 
@@ -394,7 +400,7 @@ Phase will be automatically set to next each time a `transitionend` event of mat
 
 *@param* {String} **propertyName** - will trigger next phase when matched (optional, defaults to 'transform')
 
-*@precondition* - **target** has container element as ancestor (see [.prototype.constructor(element)](javascript-api.md#phaserprototypeconstructorelement))
+*@precondition* - **target** has container element as ancestor (see <a href="javascript-api.md#phaserprototypeconstructorelement">.prototype.constructor(element)</a>)
 
 *@precondition* - given pair of **target** and **propertyName** is not already a phase trigger
 
@@ -402,7 +408,7 @@ Phase will be automatically set to next each time a `transitionend` event of mat
 
 Adds a listener that will be notified on phase changes.
 
-It is used by the [Slider](javascript-api.md#slider) to change styles of dots representing slides.
+It is used by the <a href="javascript-api.md#slider">Slider</a> to change styles of dots representing slides.
 
 *@param* {Function} **listener** - listener to be added
 
