@@ -1,15 +1,18 @@
 # HyperText Slider
 
-[![Build Status](https://travis-ci.org/mchalapuk/hyper-text-slider.svg?branch=master
-)](https://travis-ci.org/mchalapuk/hyper-text-slider)
-[![Dependency Status](https://david-dm.org/mchalapuk/hyper-text-slider.svg
-)](https://david-dm.org/mchalapuk/hyper-text-slider)
-[![devDependency Status](https://david-dm.org/mchalapuk/hyper-text-slider/dev-status.svg
-)](https://david-dm.org/mchalapuk/hyper-text-slider?type=dev)
-[![Documentation Status](https://inch-ci.org/github/mchalapuk/hyper-text-slider.svg?branch=master
-)](https://inch-ci.org/github/mchalapuk/hyper-text-slider)
-[![Code Climate](https://codeclimate.com/github/mchalapuk/hyper-text-slider/badges/gpa.svg
-)](https://codeclimate.com/github/mchalapuk/hyper-text-slider)
+[![Build Status][travis-image]][travis-url]
+[![Dependency Status][david-image]][david-url]
+[![devDependency Status][david-image-dev]][david-url-dev]
+[![Documentation Status][inch-image]][inch-url]
+
+[travis-url]: https://travis-ci.org/mchalapuk/hyper-text-slider
+[travis-image]: https://travis-ci.org/mchalapuk/hyper-text-slider.svg?branch=master
+[david-url]: https://david-dm.org/mchalapuk/hyper-text-slider
+[david-image]: https://david-dm.org/mchalapuk/hyper-text-slider.svg
+[david-url-dev]: https://david-dm.org/mchalapuk/hyper-text-slider?type=dev
+[david-image-dev]: https://david-dm.org/mchalapuk/hyper-text-slider/dev-status.svg
+[inch-url]: https://inch-ci.org/github/mchalapuk/hyper-text-slider
+[inch-image]: https://inch-ci.org/github/mchalapuk/hyper-text-slider.svg?branch=master
 
 Web slideshow component which comes with:
 
